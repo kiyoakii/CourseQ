@@ -124,21 +124,17 @@ Dropzone.js（http://www.dropzonejs.com ）是一个开源的 JavaScript 上传�
 
 注：reCAPTCHA 是 Google 开发的免费验证码服务，在国内无法使用。
 
-同时，博客管理后台会涉及对资源的局部更新和删除操作，这时我们就要考虑到 CSRF 保护问题。为了应对 CSRF 攻击，当需要创建、修改和删除数据时，我们需要将这类请求通过POST方法提交，同
-时在提交请求的表单中添加 CSRF 令牌。对于删除和某些修改操作来说，单独创建表单类的流程太过烦琐，我们就可以使用 Flask-WTF 内置的 CSRFProtect 扩展为这类操作实现更简单和完善的 CSRF 保护。
+同时，博客管理后台会涉及对资源的局部更新和删除操作，这时我们就要考虑到 CSRF 保护问题。为了应对 CSRF 攻击，当需要创建、修改和删除数据时，我们需要将这类请求通过 POST 方法提交，同时在提交请求的表单中添加 CSRF 令牌。对于删除和某些修改操作来说，单独创建表单类的流程太过烦琐，我们就可以使用 Flask-WTF 内置的 CSRFProtect 扩展为这类操作实现更简单和完善的 CSRF 保护。
 
 #### SendGrid
 
-在生产环境下，除了自己安装运行邮件服务器外，更方便的做法是使用
-事务邮件服务（Transactional Email Service），比如 Mailgun（https://www.mailgun.com/ ）、Sendgrid（https://sendgrid.com/ ）等。这两个邮件服务对免费账户分别提供每月 1 万封和 3000 封的免费额度，完全足够测试使用或在小型程序中使用。我们将使用 SendGrid 来发送电子邮件。
+在生产环境下，除了自己安装运行邮件服务器外，更方便的做法是使用事务邮件服务（Transactional Email Service），比如 Mailgun（https://www.mailgun.com/ ）、Sendgrid（https://sendgrid.com/ ）等。这两个邮件服务对免费账户分别提供每月 1 万封和 3000 封的免费额度，完全足够测试使用或在小型程序中使用。我们将使用 SendGrid 来发送电子邮件。
 
 除了提供 SMTP 转发，SendGrid 还支持通过它提供的 Web API 转发邮件。和使用 SMTP 服务器发送邮件相比，使用 Web API 发送邮件更安全，而且省去了建立 SMTP 连接的繁琐过程，因此速度更快，尤其是需要发送大批量邮件的情况下。尽管如此，如果你想让程序更容易迁移，更关注灵活性，那么也可以选择使用更通用的 SMTP，这时当需要更换邮件服务时只需要替换配置信息即可。
 
 #### Faker
 
-创建虚拟数据是编写 Web 程序时的常见需求。在简单的场景下，我们可
-以手动创建一些虚拟数据，但更方便的选择是使用第三方库实现。流行的
- Python 虚拟数据生成工具有 Mimesis（https://github.com/lk-geimfari/mimesis ）和 Faker，后者同时支持 Python2 和 Python3，而且文档中包含丰富的示例，所以这里将选用 Faker。
+创建虚拟数据是编写 Web 程序时的常见需求。在简单的场景下，我们可以手动创建一些虚拟数据，但更方便的选择是使用第三方库实现。流行的 Python 虚拟数据生成工具有 Mimesis（https://github.com/lk-geimfari/mimesis ）和 Faker，后者同时支持 Python2 和 Python3，而且文档中包含丰富的示例，所以这里将选用 Faker。
 
 #### Flask-DebugToolbar
 
