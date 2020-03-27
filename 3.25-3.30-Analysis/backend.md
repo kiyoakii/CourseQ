@@ -17,7 +17,7 @@ PHP 是一种广泛使用的开源通用脚本语言，特别适合于 Web 开�
 - Python 的包的管理更强大，引入新的依赖成本低。
 - Python 可用的库比 PHP 更多，开发成本更低。
 - PHP 可以非常方便地直接用来编写 HTML 模版，Python 需要借助其他的语言或库来实现。
-- Python的代码风格简洁易懂易于维护，而 PHP 代码在量大的情况容易混乱。
+- Python 的代码风格简洁易懂易于维护，而 PHP 代码在量大的情况容易混乱。
 
 #### 最终选择
 
@@ -63,9 +63,9 @@ MariaDB 是 MySQL 的分支版本。MariaDB 针对性能进行了优化，对于
 
 ##### Django
 
-Django 是一个开源的 Python Web 应用框架，最初是由在新闻发布公司工作的人设计的，采用了 MVT 的框架模式，即模型 M，视图 V 和模版 T，最早于 2005 年发布。Django 被认为是"大而全"的重量级Web框架，其自带大量的常用工具和组件（比如数据库ORM组件、用户认证、权限管理、分页、缓存), 甚至还自带了管理后台Admin，适合快速开发功能完善的企业级网站。Django 自带免费的数据SQLite，同时支持MySQL与PostgreSQL等多种数据库。用 Django 开发的著名网站包括 Pinterest， Disqus， Eventbrite,，Instagram 和 Bitbucket。
+Django 是一个开源的 Python Web 应用框架，最初是由在新闻发布公司工作的人设计的，采用了 MVT 的框架模式，即模型 M，视图 V 和模版 T，最早于 2005 年发布。Django 被认为是"大而全"的重量级 Web 框架，其自带大量的常用工具和组件（比如数据库 ORM 组件、用户认证、权限管理、分页、缓存), 甚至还自带了管理后台Admin，适合快速开发功能完善的企业级网站。Django 自带免费的数据 SQLite，同时支持 MySQL 与 PostgreSQL 等多种数据库。用 Django 开发的著名网站包括 Pinterest， Disqus， Eventbrite,，Instagram 和 Bitbucket。
 
-Django 的路由设计是采用集中处理的方法，利用正则匹配。项目的结构布局是刚性的，开发者可以清楚地知道在APP的相应文件夹内的对应文件（media 目录，static 目录， template 目录，views.py， models.py， forms.py等)。
+Django 的路由设计是采用集中处理的方法，利用正则匹配。项目的结构布局是刚性的，开发者可以清楚地知道在APP的相应文件夹内的对应文件（media 目录，static 目录， template 目录，views.py， models.py， forms.py 等)。
 
 ##### Flask
 
@@ -75,7 +75,7 @@ Flask 是一个由 Python 语言写成的轻量级 Web 框架，最早由奥地�
 
 ##### Flask
 
-Django 和 Flask 都是很优秀的框架，二者最大的区别在于设计哲学：Django 想尽量大而全，Flask追求小巧、灵活，作为有经验的程序员，我们对于自定义的需求会更高，比如 Flask 可以依据蓝图注册不同 errorhandler/beforerequest 等钩子，十分方便，而 Django就只能通过 middleware 勉强实现。
+Django 和 Flask 都是很优秀的框架，二者最大的区别在于设计哲学：Django 想尽量大而全，Flask 追求小巧、灵活，作为有经验的程序员，我们对于自定义的需求会更高，比如 Flask 可以依据蓝图注册不同 errorhandler/beforerequest 等钩子，十分方便，而 Django 就只能通过 middleware 勉强实现。
 
 Django 的模块化是集成在命令里的，也就是说一开始 Django 的目标就是为以后玩大了做准备的。每个都是一个独立的模块，为以后的复用提供了便利。而 Flask 通过 Blueprint 来提供模块化，自己对项目结构划分成不同的模块进行组织。
 
@@ -116,7 +116,7 @@ Flask-RESTful 拓展可以帮助我们快速搭建 RESTful 接口。它的优点
 
 我们可以借助 JavaScript 库实现在客户端实时显示文件上传状态，而且这些 JavaScript 上传库还提供了文件的客户端验证功能。常用的 JavaScript 文件上传库有 jQuery File Upload、Dropzone.js 和 Plupload 等。
 
-Dropzone.js（http://www.dropzonejs.com ）是一个开源的 JavaScript 上传插件，它几乎可以胜任我们上面设想的所有要求。除此之外，它还提供了拖拽上传功能，可以在客户端对文件的大小、类型进行过滤，而且有丰富的自定义选项，使用它可以让上传过程变得鲜活有趣，不至于让用户在这个过程中感到无聊。扩展 Flask-Dropzone 集成了 Dropzone.js，简化了大部分设置，并内置了对 CSRFPortect 扩展的支持。
+[Dropzone.js](http://www.dropzonejs.com) 是一个开源的 JavaScript 上传插件，它几乎可以胜任我们上面设想的所有要求。除此之外，它还提供了拖拽上传功能，可以在客户端对文件的大小、类型进行过滤，而且有丰富的自定义选项，使用它可以让上传过程变得鲜活有趣，不至于让用户在这个过程中感到无聊。扩展 Flask-Dropzone 集成了 Dropzone.js，简化了大部分设置，并内置了对 CSRFPortect 扩展的支持。
 
 #### Flask-WTF
 
@@ -128,13 +128,13 @@ Dropzone.js（http://www.dropzonejs.com ）是一个开源的 JavaScript 上传�
 
 #### SendGrid
 
-在生产环境下，除了自己安装运行邮件服务器外，更方便的做法是使用事务邮件服务（Transactional Email Service），比如 Mailgun（https://www.mailgun.com/ ）、Sendgrid（https://sendgrid.com/ ）等。这两个邮件服务对免费账户分别提供每月 1 万封和 3000 封的免费额度，完全足够测试使用或在小型程序中使用。我们将使用 SendGrid 来发送电子邮件。
+在生产环境下，除了自己安装运行邮件服务器外，更方便的做法是使用事务邮件服务（Transactional Email Service），比如 [Mailgun](https://www.mailgun.com/)、[Sendgrid](https://sendgrid.com/) 等。这两个邮件服务对免费账户分别提供每月 1 万封和 3000 封的免费额度，完全足够测试使用或在小型程序中使用。我们将使用 SendGrid 来发送电子邮件。
 
 除了提供 SMTP 转发，SendGrid 还支持通过它提供的 Web API 转发邮件。和使用 SMTP 服务器发送邮件相比，使用 Web API 发送邮件更安全，而且省去了建立 SMTP 连接的繁琐过程，因此速度更快，尤其是需要发送大批量邮件的情况下。尽管如此，如果你想让程序更容易迁移，更关注灵活性，那么也可以选择使用更通用的 SMTP，这时当需要更换邮件服务时只需要替换配置信息即可。
 
 #### Faker
 
-创建虚拟数据是编写 Web 程序时的常见需求。在简单的场景下，我们可以手动创建一些虚拟数据，但更方便的选择是使用第三方库实现。流行的 Python 虚拟数据生成工具有 Mimesis（https://github.com/lk-geimfari/mimesis ）和 Faker，后者同时支持 Python2 和 Python3，而且文档中包含丰富的示例，所以这里将选用 Faker。
+创建虚拟数据是编写 Web 程序时的常见需求。在简单的场景下，我们可以手动创建一些虚拟数据，但更方便的选择是使用第三方库实现。流行的 Python 虚拟数据生成工具有 [Mimesis](https://github.com/lk-geimfari/mimesis) 和 Faker，后者同时支持 Python2 和 Python3，而且文档中包含丰富的示例，所以这里将选用 Faker。
 
 #### Flask-DebugToolbar
 
@@ -142,7 +142,7 @@ Dropzone.js（http://www.dropzonejs.com ）是一个开源的 JavaScript 上传�
 
 #### Flask-Avatars
 
-在答疑社区中，用户需要有自己的头像，我们使用 Flask=Avatars 来实现用户头像的管理功能。
+在答疑社区中，用户需要有自己的头像，我们使用 Flask-Avatars 来实现用户头像的管理功能。
 
 #### Flask-Whooshee
 
@@ -160,7 +160,7 @@ WebSocket 的出现改变了这一切。WebSocket 是 HTML5 中定义的可以�
 
 #### Flask-Caching
 
-在 Web 程序中，加速程序响应时间的最简单和有效的方法就是使用缓存。如果没有设置缓存，那么用户访问某个页面 N 次，服务器就要调用对应的视图函数 N 次。这就意味着会执行N次数据库查询、N次函数计算和 N 次模板渲染。如果我们在用户第一次访问时把调用视图函数的返回值缓存起来，那么用户后续的访问会直接使用缓存的数据，这样我们就不需要重复执行数据库查询、函数计算和模板渲染等工作。我们使用 Flask-Caching 来实现缓存机制。
+在 Web 程序中，加速程序响应时间的最简单和有效的方法就是使用缓存。如果没有设置缓存，那么用户访问某个页面 N 次，服务器就要调用对应的视图函数 N 次。这就意味着会执行N次数据库查询、N 次函数计算和 N 次模板渲染。如果我们在用户第一次访问时把调用视图函数的返回值缓存起来，那么用户后续的访问会直接使用缓存的数据，这样我们就不需要重复执行数据库查询、函数计算和模板渲染等工作。我们使用 Flask-Caching 来实现缓存机制。
 
 #### Flask-Assets
 
@@ -170,7 +170,7 @@ WebSocket 的出现改变了这一切。WebSocket 是 HTML5 中定义的可以�
 
 Werkzeug 是 Flask 的主要依赖，是非常优秀的 WSGI 工具库，我们会在部署部分再提到它。
 
-在生产环节中，尽管对密码加密存储安全性很强，我们仍然需要使用安全的 HTTP 以加密传输数据，避免密码在传输过程中被截获。因为这些工作太过复杂，而且容易出错，所以我们还是把生成和验证密码散列值的工作交给第三方库，常用的计算密码散列值的 Python 库有 PassLib（http://bitbucket.org/ecollins/passlib ）、bcrybt（https://github.com/pyca/bcrypt ）等， Werkzeug 也提供了这一功能。
+在生产环节中，尽管对密码加密存储安全性很强，我们仍然需要使用安全的 HTTP 以加密传输数据，避免密码在传输过程中被截获。因为这些工作太过复杂，而且容易出错，所以我们还是把生成和验证密码散列值的工作交给第三方库，常用的计算密码散列值的 Python 库有 [PassLib](http://bitbucket.org/ecollins/passlib)、[bcrybt](https://github.com/pyca/bcrypt) 等， Werkzeug 也提供了这一功能。
 
 ## 部署
 
@@ -186,7 +186,7 @@ Web 软件对于请求的操作流程往往是分层处理的：从客户端发�
 2. 处理请求
 3. 返回响应
 
-Web 服务器是一类特殊的服务器，其作用是主要是接收 HTTP 请求并返回响应，常见的 Web服务器有 Nginx，Apache，IIS等。在三层结构中，Web服务器是最先接收用户请求的，并会在处理后将响应结果返回给用户。
+Web 服务器是一类特殊的服务器，其作用是主要是接收 HTTP 请求并返回响应，常见的 Web服务器有 Nginx，Apache，IIS 等。在三层结构中，Web 服务器是最先接收用户请求的，并会在处理后将响应结果返回给用户。
 
 ##### 代理服务
 
@@ -196,7 +196,7 @@ Web 服务器是一类特殊的服务器，其作用是主要是接收 HTTP 请�
 
 #### Web 开发框架层
 
-Web 框架的作用主要是方便我们开发 Web 应用程序，HTTP 请求的动态数据就是由 Web 框架层来提供的。常见的 Web 框架有 Flask，Django等，我们以将要使用的 Flask 框架为例，通过最简单的 Demo 展示 Web框架层的作用：
+Web 框架的作用主要是方便我们开发 Web 应用程序，HTTP 请求的动态数据就是由 Web 框架层来提供的。常见的 Web 框架有 Flask，Django 等，我们以将要使用的 Flask 框架为例，通过最简单的 Demo 展示 Web框架层的作用：
 
 ```python
 from flask import Flask
@@ -214,7 +214,7 @@ if __name__ == '__main__':
 
 #### WSGI层
 
-WSGI 不是服务器，也不是用于与程序交互的 API，它只是一种接口，且只适用于 Python 语言。其全称为 Web Server Gateway Interface，定义了 Web 服务器和 Web 应用之间的接口规范。也就是说，只要 Web服务器和 Web 应用都遵守 WSGI 协议，那么 Web 服务器和 Web 应用就可以随意组合。
+WSGI 不是服务器，也不是用于与程序交互的 API，它只是一种接口，且只适用于 Python 语言。其全称为 Web Server Gateway Interface，定义了 Web 服务器和 Web 应用之间的接口规范。也就是说，只要 Web 服务器和 Web 应用都遵守 WSGI 协议，那么 Web 服务器和 Web 应用就可以随意组合。
 下面的代码展示了 Web 服务器是如何与 Web 应用组合在一起的。
 
 ```Python
@@ -223,11 +223,11 @@ def application(env, start_response):
     return [b"Hello World"]
 ```
 
-方法 application由 Web 服务器调用，参数 env，start_response 由 Web 服务器传入。其中，env是一个字典，包含了类似 HTTP_HOST，HOST_USER_AGENT，SERVER_PROTOCO 等环境变量。
+方法 application 由 Web 服务器调用，参数 env，start_response 由 Web 服务器传入。其中，env 是一个字典，包含了类似 HTTP_HOST，HOST_USER_AGENT，SERVER_PROTOCO 等环境变量。
 
-start_response 则是一个方法，该方法接受两个参数，分别是status，response_headers。application方法的主要作用是，设置 http 响应的状态码和 Content-Type 等头部信息，并返回响应的具体结果。
+start_response 则是一个方法，该方法接受两个参数，分别是 status，response_headers。application 方法的主要作用是，设置 HTTP 响应的状态码和 Content-Type 等头部信息，并返回响应的具体结果。
 
-方法 application由 web服务器调用，参数env，start_response 由 web服务器实现并传入。其中，env是一个字典，包含了类似 HTTP_HOST，HOST_USER_AGENT，SERVER_PROTOCO 等环境变量。start_response则是一个方法，该方法接受两个参数，分别是status，response_headers。application方法的主要作用是，设置 http 响应的状态码和 Content-Type 等头部信息，并返回响应的具体结果。
+方法 application 由 Web 服务器调用，参数 env，start_response 由 Web 服务器实现并传入。其中，env 是一个字典，包含了类似 HTTP_HOST，HOST_USER_AGENT，SERVER_PROTOCO 等环境变量。start_response 则是一个方法，该方法接受两个参数，分别是 status，response_headers。application 方法的主要作用是，设置 HTTP 响应的状态码和 Content-Type 等头部信息，并返回响应的具体结果。
 
 上述代码就是一个完整的 WSGI 应用，当一个支持 WSGI 的 Web 服务器接收到客户端的请求后，便会调用这个 application 方法。WSGI 层并不需要关心 env，start_response 这两个变量是如何实现的，就像在 application 里面所做的，直接使用这两个变量即可。
 
