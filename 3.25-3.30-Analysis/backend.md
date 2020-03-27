@@ -227,8 +227,6 @@ def application(env, start_response):
 
 start_response 则是一个方法，该方法接受两个参数，分别是 status，response_headers。application 方法的主要作用是，设置 HTTP 响应的状态码和 Content-Type 等头部信息，并返回响应的具体结果。
 
-方法 application 由 Web 服务器调用，参数 env，start_response 由 Web 服务器实现并传入。其中，env 是一个字典，包含了类似 HTTP_HOST，HOST_USER_AGENT，SERVER_PROTOCO 等环境变量。start_response 则是一个方法，该方法接受两个参数，分别是 status，response_headers。application 方法的主要作用是，设置 HTTP 响应的状态码和 Content-Type 等头部信息，并返回响应的具体结果。
-
 上述代码就是一个完整的 WSGI 应用，当一个支持 WSGI 的 Web 服务器接收到客户端的请求后，便会调用这个 application 方法。WSGI 层并不需要关心 env，start_response 这两个变量是如何实现的，就像在 application 里面所做的，直接使用这两个变量即可。
 
 值得指出的是，WSGI 是一种协议，uwsgi 也一样是一种协议，而 uWSGI 是实现了 uwsgi 和 WSGI 两种协议的 Web 服务器。
