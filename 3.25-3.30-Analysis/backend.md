@@ -188,9 +188,11 @@ Web 软件对于请求的操作流程往往是分层处理的：从客户端发�
 
 Web 服务器是一类特殊的服务器，其作用是主要是接收 HTTP 请求并返回响应，常见的 Web服务器有 Nginx，Apache，IIS 等。在三层结构中，Web 服务器是最先接收用户请求的，并会在处理后将响应结果返回给用户。
 
+在开发时，我们使用 flask run 命令启动的开发服务器是由 Werkzeug 提供的。细分的话，Werkzeug 提供的这个开发服务器应该被称为 WSGI 服务器，而不是单纯意义上的 Web 服务器。在生产环境中，我们需要一个更强健、性能更高的 WSGI 服务器。这些 WSGI 服务器也被称为独立 WSGI 容器（Standalone WSGI Container），因为它们可以承载我们编写的 WSGI 程序，然后处理 HTTP 请求和响应。这通常有很多选择，比如 Gunicorn、uWSGI、Gevent、Waitress 等。通常我们会根据程序的特点来选择，比如，对于一个小型的个人博客，使用 Gevent 就足够了。主流的选择是使用 unicorn 和 uWSGI。在这里我们将使用 Gunicorn，它使用起来相对简单，容易配置，而且性能优秀。
+
 ##### 代理服务
 
-一个普通的个人网站，访问量不大的话，当然可以由 uWSGI 和 Django 构成。但是一旦访问量过大，客户端请求连接就要进行长时间的等待。这个时候就出来了分布式服务器，我们可以设置多台 Web 服务器，都能处理请求。这时候就需要 Nginx 来分配请求，达到负载均衡，也就是由 Nginx 实现反向代理，如下图所示。
+一个普通的个人网站，访问量不大的话，当然可以由 uWSGI 和 Django 构成。但是一旦访问量过大，客户端请求连接就要进行长时间的等待。这个时候就出来了分布式服务器，我们可以设置多台 Web 服务器，都能处理请求。这时候就需要 分配请求，达到负载均衡，因为我们上面使用了Gunicorn，所以这里选择使用和 Gunicorn 集成良好的 Nginx 实现反向代理，如下图所示。
 
 <img src="nginx.png" alt="nginx" style="zoom: 33%;" />
 
@@ -229,7 +231,7 @@ start_response 则是一个方法，该方法接受两个参数，分别是 stat
 
 上述代码就是一个完整的 WSGI 应用，当一个支持 WSGI 的 Web 服务器接收到客户端的请求后，便会调用这个 application 方法。WSGI 层并不需要关心 env，start_response 这两个变量是如何实现的，就像在 application 里面所做的，直接使用这两个变量即可。
 
-值得指出的是，WSGI 是一种协议，uwsgi 也一样是一种协议，而 uWSGI 是实现了 uwsgi 和 WSGI 两种协议的 Web 服务器。
+值得指出的是，WSGI 是一种协议，uWSGI 也一样是一种协议，而 uwsgi 是实现了 uWSGI 和 WSGI 两种协议的 Web 服务器。
 
 ##### CGI
 
