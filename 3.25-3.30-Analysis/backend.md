@@ -77,7 +77,7 @@ Flask 是一个由 Python 语言写成的轻量级 Web 框架，最早由奥地�
 
 Django 和 Flask 都是很优秀的框架，二者最大的区别在于设计哲学：Django 想尽量大而全，Flask 追求小巧、灵活，作为有经验的程序员，我们对于自定义的需求会更高，比如 Flask 可以依据蓝图注册不同 errorhandler/beforerequest 等钩子，十分方便，而 Django 就只能通过 middleware 勉强实现。
 
-Django 的模块化是集成在命令里的，也就是说一开始 Django 的目标就是为以后玩大了做准备的。每个都是一个独立的模块，为以后的复用提供了便利。而 Flask 通过 Blueprint 来提供模块化，自己对项目结构划分成不同的模块进行组织。
+Django 的模块化是集成在命令里的，也就是说一开始 Django 的目标就是为大项目做准备，独立的模块为以后的复用提供了便利。而相反的是， Flask 通过 Blueprint 来提供模块化，自己对项目结构划分成不同的模块进行组织。
 
 因此，我们选择使用更简洁优雅，凸显 Pythonic 风格的 Flask。
 
