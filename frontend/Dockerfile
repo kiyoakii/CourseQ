@@ -11,6 +11,8 @@ WORKDIR /app
 
 COPY ./app /app
 
-RUN yarn && yarn global add @vue/cli
+RUN yarn 
+
+RUN echo "PATH=$PATH:/app/node_modules" >> /etc/profile
 
 CMD ["yarn", "serve"]
