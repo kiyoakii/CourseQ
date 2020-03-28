@@ -11,6 +11,6 @@ WORKDIR /app
 
 COPY ./app /app
 
-RUN yarn
+RUN yarn && yarn global add @vue/cli
 
 CMD ["yarn", "serve"]
