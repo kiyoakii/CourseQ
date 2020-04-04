@@ -13,4 +13,7 @@ done
 echo "Starting frontend-dev ..."
 echo "Running on http://127.0.0.1:9000/"
 
-docker run -it --name frontend-dev -p 9000:8080 -v $(pwd)/app:/app frontend bash -c "yarn && yarn serve"
+# docker run -it --name frontend-dev -p 9000:8080 -v $(pwd)/app:/app frontend bash -c "yarn && yarn serve"
+
+# lastline in Dockerfile is `CMD ["yarn", "serve"]`
+docker container run -it --name frontend-dev -p 9000:8080 frontend
