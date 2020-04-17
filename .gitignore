@@ -1,3 +1,12 @@
 Normal Files/
 __pycache__
 database/data/
+
+# database temp file
+backend/app/app/db.sqlite
+
+# virtual enviroment
+venv
+# Editor directories and files
+.idea
+.vscode
