@@ -17,6 +17,16 @@ The `tests` are used to write some unit test files to check if our code is right
 Every one is assigned some components to finish. **You'd better not change the component belongs to others**.
 If a component can be divided into some small components, you should create a folder named `<TheComponentName>` using **Upper Camel Case**, and put the small components into the folder you have created.
 
+## Docker
+
+We can easily development & deployment our app with docker. Here is a shell batch `dockerrun.sh` that simplify our work. To start a docker container, just run the flowing commands:
+```shell
+chmod u+x dockerrun.sh
+dockerrun course-app
+```
+Now that we can visit `http://localhost:${port}` to do other work.
+> Different app has different port assigned, see detail in file `dockerrun.sh`.
+
 ## Bugs
 
 when you run `yarn` to init the apps, you will probably get following message:
