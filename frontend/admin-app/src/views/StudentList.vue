@@ -7,7 +7,7 @@
 <script>
 export default {
   name: 'StudentList',
-}
+};
 </script>
 
 <style>

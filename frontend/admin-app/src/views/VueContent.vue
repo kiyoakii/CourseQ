@@ -6,8 +6,8 @@
 
 <script>
 export default {
-  name: 'VueContent'
-}
+  name: 'VueContent',
+};
 </script>
 
 <style>
