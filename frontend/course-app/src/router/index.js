@@ -1,18 +1,14 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import CourseInfo from '../views/CourseInfo.vue';
+import Home from '../views/Home.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    redirect: '/course-info',
-  },
-  {
-    path: '/course-info',
-    name: 'CourseInfo',
-    component: CourseInfo,
+    name: 'Home',
+    component: Home,
   },
   {
     path: '/course-res',

@@ -1,6 +1,5 @@
 <template>
   <div class="vue-header">
-    <p>This is VueHeader component.</p>
     <nav-bar></nav-bar>
   </div>
 </template>
