@@ -7,7 +7,7 @@
 <script>
 export default {
   name: 'TeacherAssiList',
-}
+};
 </script>
 
 <style>

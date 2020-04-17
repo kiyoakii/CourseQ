@@ -7,7 +7,7 @@
 <script>
 export default {
   name: 'AdminCourseManage',
-}
+};
 </script>
 
 <style>

@@ -7,7 +7,7 @@
 <script>
 export default {
   name: 'CourseCalendar',
-}
+};
 </script>
 
 <style>
