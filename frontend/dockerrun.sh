@@ -20,7 +20,7 @@ docker build -t $project "./${project}"
 
 echo "Deleting former ${project}-dev ..."
 
-docker rm -f $(docker ps -a | grep "course-app-dev" | awk '{print $1}')
+docker rm -f $(docker ps -a | grep "${project}-dev" | awk '{print $1}')
 
 echo "Starting ${project}-dev ..."
 
