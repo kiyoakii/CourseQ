@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="header">
-      <vue-hedaer></vue-hedaer>
+      <vue-header></vue-header>
     </div>
     <div class="content">
       <vue-content></vue-content>
