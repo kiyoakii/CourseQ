@@ -1,25 +1,23 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <div>
-      <p>
-        If Element is successfully added to this project, you'll see an
-        <code v-text="'<el-button>'"></code>
-        below
-      </p>
-      <el-button>el-button</el-button>
+    <div class="header">
+      <vue-header></vue-header>
     </div>
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="content">
+      <vue-content></vue-content>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import VueHeader from './views/VueHeader.vue';
+import VueContent from './views/VueContent.vue';
 
 export default {
   name: 'app',
   components: {
-    HelloWorld,
+    VueHeader,
+    VueContent,
   },
 };
 </script>
@@ -31,6 +29,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
