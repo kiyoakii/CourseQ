@@ -1,11 +1,13 @@
 <template>
   <div id="app">
-    <div class="header">
-      <vue-header></vue-header>
-    </div>
-    <div class="content">
-      <router-view></router-view>
-    </div>
+    <el-container>
+      <el-header >
+        <vue-header></vue-header>
+      </el-header>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
+    </el-container>
   </div>
 </template>
 
@@ -21,12 +23,22 @@ export default {
 </script>
 
 <style>
+* {
+  margin: 0;
+  padding: 0;
+}
+
+
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC,
+               Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #3b5875;
-  /* margin-top: 60px; */
+  font-size: 16px;
 }
+
+.el-header, .el-main {
+  padding: 0 !important;
+}
+
 </style>
