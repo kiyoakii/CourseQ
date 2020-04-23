@@ -26,4 +26,4 @@ echo "Starting ${project}-dev ..."
 
 echo "Running on http://127.0.0.1:${port}/"
 
-docker container run -it --name "${project}-dev" -p "${port}:8080" $project
+docker container run -it --name "${project}-dev" -p "${port}:8080" -v $(pwd)/$project/src:/app/src $project
