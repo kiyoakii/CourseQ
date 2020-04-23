@@ -3,11 +3,11 @@
     <el-card class="box-card">
       <div id="course-info" >
         <div id="course-name">
-          <h1>{{ courseName }}</h1>
-          <p>{{ semester }}</p>
+          <h1>{{ courseInfo.name }}</h1>
+          <p>{{ courseInfo.semester }}</p>
         </div>
         <div id="course-intro">
-          <p>{{ introduction }}</p>
+          <p>{{ courseInfo.intro }}</p>
         </div>
       </div>
     </el-card>
@@ -18,17 +18,15 @@
 export default {
   name: 'CourseInfo',
   props: {
-    courseName: {
-      type: String,
-      default: 'CourseName',
-    },
-    semester: {
-      type: String,
-      default: '2020Spring',
-    },
-    introduction: {
-      type: String,
-      default: 'Introduction...',
+    courseInfo: {
+      type: Object,
+      default() {
+        return {
+          name: 'CourseName',
+          semester: '2020Spring',
+          intro: 'Introduction...',
+        };
+      },
     },
   },
 };
