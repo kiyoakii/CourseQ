@@ -1,11 +1,13 @@
 <template>
   <div id="app">
-    <div class="header">
-      <vue-header></vue-header>
-    </div>
-    <div class="content">
-      <router-view></router-view>
-    </div>
+    <el-container>
+      <el-header >
+        <vue-header></vue-header>
+      </el-header>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
+    </el-container>
   </div>
 </template>
 
@@ -33,6 +35,10 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
+}
+
+.el-header, .el-main {
+  padding: 0 !important;
 }
 
 </style>
