@@ -1,7 +1,6 @@
 <template>
   <div>
-    This is Home view.
-    <course-info></course-info>
+    <course-info :courseInfo="courseInfo"></course-info>
     <teacher-info></teacher-info>
     <course-announce></course-announce>
     <course-assigns></course-assigns>
@@ -16,6 +15,15 @@ import CourseAssigns from '@/components/CourseAssigns.vue';
 
 export default {
   name: 'Home',
+  data() {
+    return {
+      courseInfo: {
+        name: 'CourseName',
+        semester: '2020Spring',
+        intro: 'Introduction...',
+      },
+    };
+  },
   components: {
     CourseInfo,
     TeacherInfo,
