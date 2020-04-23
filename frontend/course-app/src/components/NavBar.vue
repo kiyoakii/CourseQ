@@ -4,7 +4,7 @@
       <el-menu-item index="/">课程名</el-menu-item>
       <el-menu-item index="/course-calendar">课程日历</el-menu-item>
       <el-menu-item index="/course-res">课程资源</el-menu-item>
-      <el-menu-item :index="$router.path"><el-link href="https://www.ele.me" target="_blank">答疑平台</el-link></el-menu-item>
+      <el-menu-item :index="$router.path"><el-link href="https://www.ele.me" target="_blank" :underline="false">答疑平台</el-link></el-menu-item>
       <el-submenu index="older">
         <template slot="title">过往学期</template>
         <el-menu-item :index="$router.path">
