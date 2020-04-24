@@ -14,6 +14,33 @@ The `tests` are used to write some unit test files to check if our code is right
 
 ## Collaboration
 
+### Git
+
+We are using **Git** to manage our code. To contribute your own code, you are supposed to obey the follwing requirements:
+
+1. First of all, fork the repo into your own repository. 
+2. Clone your repo forked just now and add remote repo named upstream
+    ```shell
+    git clone git@github.com:<username>/USTC-SE-2020.git
+    git remote add upstream https://github.com/L-JIN/USTC-SE-2020.git
+    ```
+3. You could create a **dev** branch locally to start your development. But before that, make sure your **master** branch is up to date with the **upstream's** frontend branch.
+    ```shell
+    (master) $ git pull upstream fronted
+    (master) $ git checkout dev
+    ```
+4. When you finish your tasks, merge **dev** into  **master** branch with no-fast-forward mode. 
+    ```shell
+    (master) $ git merge --no-ff dev
+    ```
+    Then, push it to your own remote repo:
+    ```shell
+    (master) $ git push origin master
+    ```
+5. After your code has been push *origin* master, click http://github.com/ to view your code. You can now make a **pull request** just by click the **new pull request** button. Have fun and make a difference. :)
+
+### Namespace
+
 Every one is assigned some components to finish. **You'd better not change the component belongs to others**.
 If a component can be divided into some small components, you should create a folder named `<TheComponentName>` using **Upper Camel Case**, and put the small components into the folder you have created.
 
