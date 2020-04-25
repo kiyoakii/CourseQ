@@ -43,7 +43,7 @@ We are using **Git** to manage our code. To contribute your own code, you are su
     ```
     Then, push it to your own remote repo:
     ```shell
-    (frontend) $ git push origin frontend
+    (frontend) $ git push -f origin frontend
     ```
 5. After your code has been pushed to *origin* master, click http://github.com/ to view your code. You can now make a **pull request** just by click the **new pull request** button. You should set both `base` and `compare` as *frontend*.
 
