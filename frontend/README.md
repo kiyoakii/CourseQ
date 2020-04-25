@@ -42,10 +42,12 @@ We are using **Git** to manage our code. To contribute your own code, you are su
     (master) $ git push origin master
     ```
 5. After your code has been push *origin* master, click http://github.com/ to view your code. You can now make a **pull request** just by click the **new pull request** button. If you think that your code has no negetive effects on frontend, click `Rebase and merge` button. 
+    
     ![pull_request](./README/pull_request.png)
 
 
 Have fun with Git and make a difference. :)
+
 
 ### Namespace
 
