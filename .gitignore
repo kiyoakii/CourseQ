@@ -7,6 +7,10 @@ backend/app/app/db.sqlite
 
 # virtual enviroment
 venv
+
 # Editor directories and files
 .idea
 .vscode
+
+# secure settings
+secure.py
