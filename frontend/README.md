@@ -32,7 +32,7 @@ We are using **Git** to manage our code. To contribute your own code, you are su
     (frontend) $ git pull --rebase upstream frontend
     (frontend) $ git checkout dev # suppose you have created dev branch
     ```
-4. When you finish your tasks, you may want to merge **dev** into  **frontend** branch with no-fast-forward mode. Before doing so, sync master with upstream barch.
+4. When you finish your tasks, you may want to merge **dev** into  **frontend** branch with *fast-forward* mode. Before doing so, sync master with upstream barch.
     ```shell
     (dev)      & git checkout frontend
     (frontend) $ git pull --rebase upstream frontend
