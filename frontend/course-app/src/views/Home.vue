@@ -3,7 +3,7 @@
     <course-info :courseInfo="courseInfo"></course-info>
     <teacher-info></teacher-info>
     <course-announce></course-announce>
-    <course-assigns></course-assigns>
+    <course-schedule></course-schedule>
   </div>
 </template>
 
@@ -11,7 +11,7 @@
 import CourseInfo from '@/components/CourseInfo.vue';
 import TeacherInfo from '@/components/TeacherInfo.vue';
 import CourseAnnounce from '@/components/CourseAnnounce.vue';
-import CourseAssigns from '@/components/CourseAssigns.vue';
+import CourseSchedule from '@/components/CourseSchedule.vue';
 
 export default {
   name: 'Home',
@@ -28,7 +28,7 @@ export default {
     CourseInfo,
     TeacherInfo,
     CourseAnnounce,
-    CourseAssigns,
+    CourseSchedule,
   },
 };
 </script>
