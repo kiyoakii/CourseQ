@@ -29,12 +29,12 @@ We are using **Git** to manage our code. To contribute your own code, you are su
 3. You could create a **dev** branch locally to start your development. But before that, make sure your **frontend** branch is up to date with the **upstream's** frontend branch.
     ```shell
     (master)   $ git checkout -b frontend
-    (frontend) $ git pull upstream frontend
+    (frontend) $ git pull --rebase upstream frontend
     (frontend) $ git checkout dev # suppose you have created dev branch
     ```
 4. When you finish your tasks, you may want to merge **dev** into  **frontend** branch with no-fast-forward mode. Before doing so, sync master with upstream barch.
     ```shell
-    (frontend) $ git pull upstream frontend
+    (frontend) $ git pull --rebase upstream frontend
     (frontend) $ git checkout dev
     (dev)      $ git rebase frontend
     (dev)      $ git checkout frontend
@@ -46,7 +46,7 @@ We are using **Git** to manage our code. To contribute your own code, you are su
     ```
 5. After your code has been pushed to *origin* master, click http://github.com/ to view your code. You can now make a **pull request** just by click the **new pull request** button. You should set both `base` and `compare` as *frontend*.
 
-    ![new_pull_request](./README/new_pull_request.png)
+    ![new_pull_request](./README/new_pull_request.jpg)
 
 6. If you think that your code has no negetive effects on frontend, click `Rebase and merge` button. 
     
