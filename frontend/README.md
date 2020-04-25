@@ -37,7 +37,7 @@ We are using **Git** to manage our code. To contribute your own code, you are su
     ```shell
     (master) $ git push origin master
     ```
-5. After your code has been push *origin* master, click http://github.com/ to view your code. You can now make a **pull request** just by click the **new pull request** button. Have fun and make a difference. :)
+5. After your code has been push *origin* master, click http://github.com/ to view your code. You can now make a **pull request** just by click the **new pull request** button. Have fun and make a difference. :) 
 
 ### Namespace
 
