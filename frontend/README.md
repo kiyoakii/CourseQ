@@ -26,18 +26,26 @@ We are using **Git** to manage our code. To contribute your own code, you are su
     ```
 3. You could create a **dev** branch locally to start your development. But before that, make sure your **master** branch is up to date with the **upstream's** frontend branch.
     ```shell
-    (master) $ git pull upstream fronted
-    (master) $ git checkout dev
+    (master) $ git pull upstream frontend
+    (master) $ git checkout dev # suppose you have created dev branch
     ```
-4. When you finish your tasks, merge **dev** into  **master** branch with no-fast-forward mode. 
+4. When you finish your tasks, you may want to merge **dev** into  **master** branch with no-fast-forward mode. Before doing so, sync master with upstream barch.
     ```shell
+    (master) $ git pull upstream frontend
+    (master) $ git checkout dev
+    (dev)    $ git rebase master
+    (dev)    $ git checkout master
     (master) $ git merge --no-ff dev
     ```
     Then, push it to your own remote repo:
     ```shell
     (master) $ git push origin master
     ```
-5. After your code has been push *origin* master, click http://github.com/ to view your code. You can now make a **pull request** just by click the **new pull request** button. Have fun and make a difference. :)
+5. After your code has been push *origin* master, click http://github.com/ to view your code. You can now make a **pull request** just by click the **new pull request** button. If you think that your code has no negetive effects on frontend, click `Rebase and merge` button. 
+    ![pull_request](./README/pull_request.png)
+
+
+Have fun with Git and make a difference. :)
 
 ### Namespace
 
