@@ -1,12 +1,21 @@
-from . import auth
-from ..models import User
+"""
+This file was first created by Huancheng and then edited by Jin. It is not finished yet.
+"""
+# newly imported
+from app.libs.redprint import Redprint
+from app.models.base import db
+from app.models.user import User
+
+# originally imported
 from flask import jsonify, request
 from flask_login import login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, gen_salt, check_password_hash
-from .. import db
 
 
-@auth.route('/login', methods=['POST'])
+api = Redprint('auth')
+
+
+@api.route('/login', methods=['POST'])
 def login():
     username = request.form.get('username')
     password = request.form.get('password')
@@ -17,7 +26,7 @@ def login():
     return jsonify({'msg': 'Successfully login!', 'code': 200})
 
 
-@auth.route('/register', methods=['POST'])
+@api.route('/register', methods=['POST'])
 def register():
     email = request.form.get('email')
     username = request.form.get('username')
@@ -34,8 +43,9 @@ def register():
     return jsonify({'msg': 'Successfully register', 'code': 200})
 
 
-@auth.route('/logout', methods=['POST'])
+@api.route('/logout', methods=['POST'])
 @login_required
 def logout():
     logout_user()
     return jsonify({'msg': 'Successfully logout', 'code': 200})
+
