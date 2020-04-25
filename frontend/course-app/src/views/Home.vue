@@ -23,8 +23,12 @@ export default {
         intro: 'Introduction...',
       },
       teacherInfo: {
-        name: 'TeacherName',
+        teacher: 'TeacherName',
+        teacherEmail: 'teacher@mail.com',
+        teacherPhone: '12312341234',
         assistant: ['Assistant1', 'Assistant2'],
+        assistantEmail: ['ta1@mail.com', 'ta2@mail.com'],
+        assistantPhone: ['12312341234', '12312341234'],
       },
       announce: [],
       schedule: {
