@@ -32,7 +32,7 @@ We are using **Git** to manage our code. To contribute your own code, you are su
     (frontend) $ git pull upstream frontend
     (frontend) $ git checkout dev # suppose you have created dev branch
     ```
-4. When you finish your tasks, you may want to merge **dev** into  **master** branch with no-fast-forward mode. Before doing so, sync master with upstream barch.
+4. When you finish your tasks, you may want to merge **dev** into  **frontend** branch with no-fast-forward mode. Before doing so, sync master with upstream barch.
     ```shell
     (frontend) $ git pull upstream frontend
     (frontend) $ git checkout dev
@@ -44,7 +44,11 @@ We are using **Git** to manage our code. To contribute your own code, you are su
     ```shell
     (frontend) $ git push origin frontend
     ```
-5. After your code has been push *origin* master, click http://github.com/ to view your code. You can now make a **pull request** just by click the **new pull request** button. If you think that your code has no negetive effects on frontend, click `Rebase and merge` button. 
+5. After your code has been pushed to *origin* master, click http://github.com/ to view your code. You can now make a **pull request** just by click the **new pull request** button. You should set `base` as *frontend*.
+
+    ![new_pull_request](./README/new_pull_request.png)
+
+6. If you think that your code has no negetive effects on frontend, click `Rebase and merge` button. 
     
     ![pull_request](./README/pull_request.png)
 
