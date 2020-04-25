@@ -2,8 +2,8 @@
   <div>
     <course-info :courseInfo="courseInfo"></course-info>
     <teacher-info :teacherInfo="teacherInfo"></teacher-info>
-    <course-announce></course-announce>
-    <course-schedule></course-schedule>
+    <course-announce :announce="announce"></course-announce>
+    <course-schedule :schedule="schedule"></course-schedule>
   </div>
 </template>
 
@@ -25,6 +25,10 @@ export default {
       teacherInfo: {
         name: 'TeacherName',
         assistant: ['Assistant1', 'Assistant2'],
+      },
+      announce: [],
+      schedule: {
+        week1: [],
       },
     };
   },
