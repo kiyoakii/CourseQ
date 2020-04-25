@@ -1,13 +1,31 @@
 <template>
   <div>
     <!-- This is CourseAnnounce view. -->
-    <el-collapse value='1'>
+    <el-card>
+      <div slot="header" class="announcement-info">
+        <h1>Announcements</h1>
+      </div>
+    <el-card  shadow="always" class="announcement-card">
+      <div slot="header" class="announcement-info">
+        <h3 class="announcement-title">{{ Announcements[0].title }}</h3>
+        <div class="announcement-publish-info">
+          发布者：{{ Announcements[0].publisher }}
+        </div>
+        <div class="announcement-publish-info">
+          发布时间：{{ Announcements[0].time }}
+        </div>
+      </div>
+      <div class="announcement-content">
+        {{ Announcements[0].content }}
+      </div>
+    </el-card>
+    <el-collapse>
       <el-collapse-item name="1">
         <template slot="title">
-          <h1 class="announcements-header">Announcements</h1>
+          <h1 class="more-announcements-header">More</h1>
         </template>
-        <el-scrollbar class="announcement-panel">
-          <el-card v-for="item in Announcements" :key="item.title"
+        <el-scrollbar class="announcements-panel">
+          <el-card v-for="item in Announcements.slice(1)" :key="item.title"
             shadow="always" class="announcement-card">
             <div slot="header" class="announcement-info">
               <h3 class="announcement-title">{{ item.title }}</h3>
@@ -25,6 +43,7 @@
         </el-scrollbar>
       </el-collapse-item>
     </el-collapse>
+    </el-card>
   </div>
 </template>
 
@@ -47,6 +66,24 @@ export default {
             time: '2020:04:25 20:00',
             content: 'Announcement 2 content ...',
           },
+          {
+            title: 'Announcement 3',
+            publisher: 'teacher 3',
+            time: '2020:04:25 20:00',
+            content: 'Announcement 3 content ...',
+          },
+          {
+            title: 'Announcement 4',
+            publisher: 'teacher 4',
+            time: '2020:04:25 20:00',
+            content: 'Announcement 4 content ...',
+          },
+          {
+            title: 'Announcement 5',
+            publisher: 'teacher 5',
+            time: '2020:04:25 20:00',
+            content: 'Announcement 5 content ...',
+          },
         ];
       },
     },
@@ -60,7 +97,7 @@ export default {
   margin-top: 1em;
 }
 
-.announcement-panel {
+.announcements-panel {
   width: 100%;
   height: 30em;
 }
@@ -72,7 +109,7 @@ export default {
   align-items: baseline
 }
 
-.announcements-header {
+.more-announcements-header {
   font-weight:700;
   margin-left: 1em;
 }
