@@ -42,7 +42,7 @@ We are using **Git** to manage our code. To contribute your own code, you are su
     ```shell
     (frontend) $ git push origin frontend
     ```
-5. After your code has been pushed to *origin* master, click http://github.com/ to view your code. You can now make a **pull request** just by click the **new pull request** button. You should set `base` as *frontend*.
+5. After your code has been pushed to *origin* master, click http://github.com/ to view your code. You can now make a **pull request** just by click the **new pull request** button. You should set both `base` and `compare` as *frontend*.
 
     ![new_pull_request](./README/new_pull_request.png)
 
