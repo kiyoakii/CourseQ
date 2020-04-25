@@ -1,7 +1,7 @@
 <template>
   <div>
     <course-info :courseInfo="courseInfo"></course-info>
-    <teacher-info></teacher-info>
+    <teacher-info :teacherInfo="teacherInfo"></teacher-info>
     <course-announce></course-announce>
     <course-schedule></course-schedule>
   </div>
@@ -21,6 +21,10 @@ export default {
         name: 'CourseName',
         semester: '2020Spring',
         intro: 'Introduction...',
+      },
+      teacherInfo: {
+        name: 'TeacherName',
+        assistant: ['Assistant1', 'Assistant2'],
       },
     };
   },
