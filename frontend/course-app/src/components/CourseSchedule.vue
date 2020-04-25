@@ -1,12 +1,12 @@
 <template>
   <div>
-    This is CourseAssigns view.
+    This is CourseSchedule component.
   </div>
 </template>
 
 <script>
 export default {
-  name: 'CourseAssigns',
+  name: 'CourseSchedule',
 };
 </script>
 
