@@ -5720,8 +5720,8 @@ map-visit@^1.0.0:
 
 mavon-editor@^2.9.0:
   version "2.9.0"
-  resolved "https://registry.yarnpkg.com/mavon-editor/-/mavon-editor-2.9.0.tgz#e51bbcdcde18b9236333a9ceb12fed2d84542900"
-  integrity sha512-eGEppkQwGg4Z9UOtCLwL5rcg1CQRw8HyaA8sWJeRJTjNJ4HwBMX6BH5XVnQeumUUVFqHr6cm7GjWgVkIxiSm+Q==
+  resolved "http://r.cnpmjs.org/mavon-editor/download/mavon-editor-2.9.0.tgz#e51bbcdcde18b9236333a9ceb12fed2d84542900"
+  integrity sha1-5Ru83N4YuSNjM6nOsS/tLYRUKQA=
   dependencies:
     highlight.js "^9.11.0"
     highlight.js-async-webpack "^1.0.4"
