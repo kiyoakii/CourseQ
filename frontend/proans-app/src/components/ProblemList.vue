@@ -62,6 +62,11 @@ export default {
 .box-card {
   font-weight: 600;
   margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.box-card:hover {
+  background: rgba(250, 250, 250, .8);
 }
 
 .text {
