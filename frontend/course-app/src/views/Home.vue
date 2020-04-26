@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="info">
     <course-info :courseInfo="courseInfo"></course-info>
     <teacher-info :teacherInfo="teacherInfo"></teacher-info>
     <course-announce :announcements="announcements"></course-announce>
@@ -62,6 +62,11 @@ export default {
 };
 </script>
 
-<style>
-
+<style scoped>
+#info {
+  padding: 30px;
+}
+#info > * {
+  margin-bottom: 30px;
+}
 </style>
