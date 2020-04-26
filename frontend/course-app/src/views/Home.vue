@@ -2,7 +2,7 @@
   <div>
     <course-info :courseInfo="courseInfo"></course-info>
     <teacher-info :teacherInfo="teacherInfo"></teacher-info>
-    <course-announce :announce="announce"></course-announce>
+    <course-announce :announcements="announcements"></course-announce>
     <course-schedule :schedule="schedule"></course-schedule>
   </div>
 </template>
@@ -30,10 +30,27 @@ export default {
         assistantEmail: ['ta1@mail.com', 'ta2@mail.com'],
         assistantPhone: ['12312341234', '12312341234'],
       },
-      announce: [],
-      schedule: {
-        week1: [],
-      },
+      announcements: [
+        {
+          title: 'Announcement 1',
+          publisher: 'teacher 1',
+          time: '2020.04.25 20:00',
+          content: 'Announcement 1 content ...',
+        },
+        {
+          title: 'Announcement 2',
+          publisher: 'teacher 2',
+          time: '2020:04:25 20:00',
+          content: 'Announcement 2 content ...',
+        },
+        {
+          title: 'Announcement 3',
+          publisher: 'teacher 3',
+          time: '2020:04:25 20:00',
+          content: 'Announcement 3 content ...',
+        },
+      ],
+      schedule: [],
     };
   },
   components: {
