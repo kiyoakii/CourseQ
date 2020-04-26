@@ -5,7 +5,11 @@
         <vue-header></vue-header>
       </el-header>
       <el-main>
-        <router-view></router-view>
+        <el-row type="flex" justify="center">
+          <el-col :xs="24" :sm="24" :md="22" :lg="18" :xl="18" >
+            <router-view></router-view>
+          </el-col>
+        </el-row>
       </el-main>
     </el-container>
   </div>
@@ -37,7 +41,7 @@ export default {
   font-size: 16px;
 }
 
-.el-header, .el-main {
+.el-header {
   padding: 0 !important;
 }
 
