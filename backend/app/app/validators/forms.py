@@ -7,16 +7,16 @@ from app.validators.base import BaseForm as Form
 
 
 class UserForm(Form):
-    account = StringField(validators=[
+    email = StringField(validators=[
         Email(message='invalid email')
     ])
     nickname = StringField(validators=[DataRequired(),
                                        length(min=4, max=22)])
 
-    def validate_account(self, value):
+    def validate_email(self, value):
         """ Used for validation before changing email"""
         if User.query.filter_by(email=value.data).first():
-            raise ValidationError()
+            raise ValidationError("Email already exists.")
 
 
 class TokenForm(Form):
