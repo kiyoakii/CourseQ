@@ -63,9 +63,6 @@ export default {
 </script>
 
 <style scoped>
-#info {
-  padding: 30px;
-}
 #info > * {
   margin-bottom: 30px;
 }
