@@ -29,11 +29,21 @@ export default {
 </script>
 
 <style>
+* {
+  margin: 0;
+  padding: 0;
+}
+
+
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC,
+               Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  font-size: 16px;
+}
+
+.el-header {
+  padding: 0 !important;
 }
 </style>
