@@ -40,4 +40,5 @@ class User(Base):
             else:
                 user.auth = UserTypeEnum.STUDENT
             # TA authentication has not been solved
+            db.add(user)
 
