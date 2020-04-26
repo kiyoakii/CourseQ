@@ -1,11 +1,17 @@
 <template>
   <div id="app">
-    <div class="header">
-      <vue-header></vue-header>
-    </div>
-    <div class="content">
-      <vue-content></vue-content>
-    </div>
+    <el-container>
+      <el-header>
+        <vue-header></vue-header>
+      </el-header>
+      <el-main>
+        <el-row type="flex" justify="center">
+          <el-col :xs="24" :sm="24" :md="22" :lg="18" :xl="18" >
+            <vue-content></vue-content>
+          </el-col>
+        </el-row>
+      </el-main>
+    </el-container>
   </div>
 </template>
 
