@@ -1,48 +1,49 @@
 <template>
   <div>
     <!-- This is CourseAnnounce view. -->
-    <el-card>
+    <el-card shadow="always">
       <div slot="header" class="announcement-info">
         <h1>Announcements</h1>
       </div>
-    <el-card  shadow="always" class="announcement-card">
-      <div slot="header" class="announcement-info">
-        <h3 class="announcement-title">{{ Announcements[0].title }}</h3>
-        <div class="announcement-publish-info">
-          发布者：{{ Announcements[0].publisher }}
+      <el-card v-if="announcements.length > 0" shadow="always" class="announcement-card">
+        <div slot="header" class="announcement-info">
+          <h3 class="announcement-title">{{ announcements[0].title }}</h3>
+          <div class="announcement-publish-info">
+            发布者：{{ announcements[0].publisher }}
+          </div>
+          <div class="announcement-publish-info">
+            发布时间：{{ announcements[0].time }}
+          </div>
         </div>
-        <div class="announcement-publish-info">
-          发布时间：{{ Announcements[0].time }}
+        <div class="announcement-content">
+          {{ announcements[0].content }}
         </div>
-      </div>
-      <div class="announcement-content">
-        {{ Announcements[0].content }}
-      </div>
-    </el-card>
-    <el-collapse>
-      <el-collapse-item name="1">
-        <template slot="title">
-          <h1 class="more-announcements-header">More</h1>
-        </template>
-        <el-scrollbar class="announcements-panel">
-          <el-card v-for="item in Announcements.slice(1)" :key="item.title"
-            shadow="always" class="announcement-card">
-            <div slot="header" class="announcement-info">
-              <h3 class="announcement-title">{{ item.title }}</h3>
-              <div class="announcement-publish-info">
-                发布者：{{ item.publisher }}
+      </el-card>
+      <div v-else>暂时没有公告哦(*^__^*)</div>
+      <el-collapse v-if="announcements.length > 1">
+        <el-collapse-item name="1">
+          <template slot="title">
+            <h1 class="more-announcements-header">More</h1>
+          </template>
+          <el-scrollbar class="announcements-panel">
+            <el-card v-for="item in announcements.slice(1)" :key="item.title"
+              shadow="always" class="announcement-card">
+              <div slot="header" class="announcement-info">
+                <h3 class="announcement-title">{{ item.title }}</h3>
+                <div class="announcement-publish-info">
+                  发布者：{{ item.publisher }}
+                </div>
+                <div class="announcement-publish-info">
+                  发布时间：{{ item.time }}
+                </div>
               </div>
-              <div class="announcement-publish-info">
-                发布时间：{{ item.time }}
+              <div class="announcement-content">
+                {{ item.content }}
               </div>
-            </div>
-            <div class="announcement-content">
-              {{ item.content }}
-            </div>
-          </el-card>
-        </el-scrollbar>
-      </el-collapse-item>
-    </el-collapse>
+            </el-card>
+          </el-scrollbar>
+        </el-collapse-item>
+      </el-collapse>
     </el-card>
   </div>
 </template>
@@ -51,40 +52,10 @@
 export default {
   name: 'CourseAnnounce',
   props: {
-    Announcements: {
+    announcements: {
+      type: Array,
       default() {
-        return [
-          {
-            title: 'Announcement 1',
-            publisher: 'teacher 1',
-            time: '2020.04.25 20:00',
-            content: 'Announcement 1 content ...',
-          },
-          {
-            title: 'Announcement 2',
-            publisher: 'teacher 2',
-            time: '2020:04:25 20:00',
-            content: 'Announcement 2 content ...',
-          },
-          {
-            title: 'Announcement 3',
-            publisher: 'teacher 3',
-            time: '2020:04:25 20:00',
-            content: 'Announcement 3 content ...',
-          },
-          {
-            title: 'Announcement 4',
-            publisher: 'teacher 4',
-            time: '2020:04:25 20:00',
-            content: 'Announcement 4 content ...',
-          },
-          {
-            title: 'Announcement 5',
-            publisher: 'teacher 5',
-            time: '2020:04:25 20:00',
-            content: 'Announcement 5 content ...',
-          },
-        ];
+        return [];
       },
     },
   },
