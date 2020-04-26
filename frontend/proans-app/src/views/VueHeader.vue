@@ -1,6 +1,5 @@
 <template>
-  <div>
-    This is VueHeader view.
+  <div class="header">
     <problem-categories></problem-categories>
   </div>
 </template>
@@ -16,6 +15,6 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 
 </style>
