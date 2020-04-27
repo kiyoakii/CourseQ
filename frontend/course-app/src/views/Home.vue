@@ -50,7 +50,45 @@ export default {
           content: 'Announcement 3 content ...',
         },
       ],
-      schedule: [],
+      schedule: [
+        {
+          week: 'Week1',
+          courseOne: null,
+          courseTwo: {
+            lecture: 'Lec1',
+            describe: 'Introduction',
+            reference: 'Chapter 1',
+          },
+          assignments: 'Homework 1',
+        },
+        {
+          week: 'Week2',
+          courseOne: {
+            lecture: 'Lec2',
+            topic: 'Langrange Formula',
+            reference: 'Chapter2',
+            link: 'https://www.wolframalpha.com/',
+          },
+          courseTwo: {
+            lecture: 'Lec3',
+            topic: 'Newton Formula',
+            describe: 'Several means to find the root',
+            reference: 'Chapter3',
+          },
+          assignments: 'Homework 2, Lab 1',
+        },
+        {
+          week: 'Week3',
+          courseOne: {
+            notification: 'Class suspended due to holiday',
+          },
+          courseTwo: {
+            lecture: 'Lec4',
+            describe: 'exercise lesson',
+          },
+          assignments: null,
+        },
+      ],
     };
   },
   components: {
