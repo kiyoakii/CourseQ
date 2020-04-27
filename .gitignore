@@ -14,3 +14,6 @@ venv
 
 # secure settings
 secure.py
+
+# virtualenv
+backend/se2020
