@@ -15,7 +15,7 @@ class APIException(HTTPException):
             self.error_code = error_code
         if msg:
             self.msg = msg
-        super(APIException, self).__init__(msg, None)
+        super().__init__(msg, None)
 
     def get_body(self, environ=None):
         body = dict(
