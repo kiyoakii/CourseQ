@@ -18,6 +18,5 @@ class UserForm(Form):
         if User.query.filter_by(email=value.data).first():
             raise ValidationError("Email already exists.")
 
-
 class TokenForm(Form):
     token = StringField(validators=[DataRequired()])
