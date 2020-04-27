@@ -16,6 +16,8 @@ The `tests` are used to write some unit test files to check if our code is right
 
 ### Git
 
+** 前端组请看 frontend 中的文档进行操作 **
+
 We are using **Git** to manage our code. To contribute your own code, you are supposed to obey the follwing requirements:
 
 1. First of all, fork the repo into your own repository. 
