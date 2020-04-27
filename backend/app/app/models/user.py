@@ -27,6 +27,26 @@ class User(Base):
     def auth(self, status):
         self._auth = status.value
 
+    @property
+    def keys(self):
+        return 'gid', 'email', 'nickname', 'auth'
+
+    @staticmethod
+    def verify(ticket, service):
+        gid, uid = User.check_ticket(ticket, service)
+        # uid can be used to identify the grade of users
+        if not gid:
+            raise AuthFailed()
+        user = User.query.filter_by(gid=gid).first_or_404()
+        if user.auth == UserTypeEnum.MANAGER:
+            scope = 'AdminScope'
+        if user.auth == UserTypeEnum.TEACHER:
+            scope = 'TeacherScope'
+        if user.auth == UserTypeEnum.STUDENT:
+            scope = 'StudentScope'
+        return {'gid': user.gid, 'scope': scope}
+
+
     @staticmethod
     def register(nickname, email, gid, uid):
         """
@@ -41,10 +61,22 @@ class User(Base):
             user.nickname = nickname
             # email authentication
             user.email = email
-            if(len(uid) != 10):
+            user.uid = uid
+            if len(uid) != 10:
                 user.auth = UserTypeEnum.TEACHER
             else:
                 user.auth = UserTypeEnum.STUDENT
-            # TA authentication has not been solved
-            db.add(user)
+            db.session.add(user)
 
+    @staticmethod
+    def check_ticket(ticket, service):
+        validate = (current_app.config['VALIDATE_URL'] + "?" +
+                    urlencode({"service": service, "ticket": ticket}))
+        with urlopen(validate) as req:
+            tree = ElementTree.fromstring(req.read())[0]
+        cas = "{http://www.yale.edu/tp/cas}"
+        if tree.tag != cas + "authenticationSuccess":
+            return None
+        gid = tree.find("attributes").find(cas + "gid").text.strip()
+        uid = tree.find(cas + "user").text.strip()
+        return gid, uid
