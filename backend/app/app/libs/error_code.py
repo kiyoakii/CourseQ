@@ -52,3 +52,11 @@ class Duplicate(APIException):
     code = 400
     error_code = 2001
     msg = 'duplicate error'
+
+
+class Redirect(APIException):
+    code = 303
+    error_code = 2
+
+    def __init__(self, url):
+        super().__init__(msg=url)
