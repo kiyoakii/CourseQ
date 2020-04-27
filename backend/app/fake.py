@@ -1,4 +1,5 @@
 from app import create_app
+from app.libs.enums import UserTypeEnum
 from app.models.base import db
 from app.models.user import User
 
@@ -9,6 +10,6 @@ with app.app_context():
         user = User()
         user.nickname = 'Super'
         user.GID = '0000000000'
-        user.email = '999@mail.ustc.edu.cn'
-        user.auth = 4
+        user.email = '999@ustc.edu.cn'
+        user.auth = UserTypeEnum.MANAGER
         db.session.add(user)
