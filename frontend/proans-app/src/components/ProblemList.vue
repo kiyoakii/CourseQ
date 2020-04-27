@@ -1,15 +1,75 @@
 <template>
   <div>
-    This is ProblemList component.
+    <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
+      <li v-for="problem in plist" :key=" problem.title " class="infinite-list-item">
+        <el-card class="box-card" shadow="hover">
+          <div slot="header" class="clearfix">
+            <span>{{ problem.title }}</span>
+          </div>
+          <div class="text item">
+            {{ problem.desc }}
+          </div>
+        </el-card>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
 export default {
   name: 'ProblemList',
+  data() {
+    return {
+      count: 0,
+      plist: [
+        {
+          title: '动态规划',
+          desc: `动态规划相信大家都知道，但是动态规划到底是什么呢，下面小编给大家介绍一下吧。动态
+                 规划就是一种算法，怎么样，大家有什么想法可以在评论区写下来一起分享。`,
+        },
+        {
+          title: '贪心算法',
+          desc: `动态规划相信大家都知道，但是动态规划到底是什么呢，下面小编给大家介绍一下吧。动态
+                 规划就是一种算法，怎么样，大家有什么想法可以在评论区写下来一起分享。`,
+        },
+        {
+          title: '贪心算法1',
+          desc: `动态规划相信大家都知道，但是动态规划到底是什么呢，下面小编给大家介绍一下吧。动态
+                 规划就是一种算法，怎么样，大家有什么想法可以在评论区写下来一起分享。`,
+        },
+        {
+          title: '贪心算法2',
+          desc: `动态规划相信大家都知道，但是动态规划到底是什么呢，下面小编给大家介绍一下吧。动态
+                 规划就是一种算法，怎么样，大家有什么想法可以在评论区写下来一起分享。`,
+        },
+        {
+          title: '贪心算法3',
+          desc: `动态规划相信大家都知道，但是动态规划到底是什么呢，下面小编给大家介绍一下吧。动态
+                 规划就是一种算法，怎么样，大家有什么想法可以在评论区写下来一起分享。`,
+        },
+      ],
+    };
+  },
+  methods: {
+    load() {
+      this.count += 2;
+    },
+  },
 };
 </script>
 
-<style>
+<style scoped>
+.box-card {
+  font-weight: 600;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
 
+.box-card:hover {
+  background: rgba(250, 250, 250, .8);
+}
+
+.text {
+  font-size: 14px;
+}
 </style>
