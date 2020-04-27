@@ -1,17 +1,23 @@
+from urllib.parse import urlencode
+from urllib.request import urlopen
+from xml.etree import ElementTree
+
+from flask import current_app
 from sqlalchemy import Column, String, SmallInteger
 from sqlalchemy.orm import relationship
 
+from app.libs.error_code import AuthFailed
 from app.models.base import Base, db
 from app.libs.enums import UserTypeEnum
 from app.models.enroll import enroll_table
 
 
 class User(Base):
-    GID = Column(String(10), primary_key=True)
+    gid = Column(String(10), primary_key=True)
     email = Column(String(24), unique=True, nullable=False)
     nickname = Column(String(24), unique=True)
-    _auth = Column("auth", SmallInteger, default=1)
-    courses = relationship('Course', secondary=enroll_table, back_populates='users')
+    _auth = Column("auth", SmallInteger)
+    # courses = relationship('Course', secondary=enroll_table, back_populates='users')
 
     @property
     def auth(self):
