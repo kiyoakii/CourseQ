@@ -15,7 +15,7 @@ def register_plugin(app):
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object('app.config.setting')
+    app.config.from_object('app.config.settings')
     app.config.from_object('app.config.secure')
 
     register_blueprints(app)
