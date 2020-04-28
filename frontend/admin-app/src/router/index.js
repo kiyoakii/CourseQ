@@ -8,6 +8,27 @@ const routes = [
   {
     path: '/teacher',
     name: 'Teacher',
+    redirect: '/teacher/course-list',
+  },
+  {
+    path: '/teacher/course-list',
+    name: 'CourseList',
+    components: {
+      header: () => import('../components/TeacherNavBar.vue'),
+      content: () => import('../components/TeacherCourseList.vue'),
+    },
+  },
+  {
+    path: '/teacher/semester-list',
+    name: 'SemesterList',
+    components: {
+      header: () => import('../components/TeacherNavBar.vue'),
+      content: () => import('../components/TeacherSemesterList.vue'),
+    },
+  },
+  {
+    path: '/teacher/course',
+    name: 'CourseList',
     components: {
       header: () => import('../components/TeacherNavBar.vue'),
       content: () => import('../components/TeacherCourseList.vue'),
