@@ -1,0 +1,5 @@
+"""This is a template for .flaskenv, please create your .flaskenv this way."""
+
+FLASK_APP = course
+FLASK_ENV = development
+FLASK_DEBUG = 0
