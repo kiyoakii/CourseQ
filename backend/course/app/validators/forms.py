@@ -12,8 +12,6 @@ class UserForm(Form):
     ])
     nickname = StringField(validators=[DataRequired(),
                                        length(min=4, max=22)])
-    ticket = StringField(validators=[DataRequired()])
-    service = StringField(validators=[DataRequired()])
 
     def validate_email(self, value):
         """ Used for validation before changing email"""
