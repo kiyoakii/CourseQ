@@ -1,6 +1,6 @@
 
 class Scope:
-    allow_api = []
+    allow_api = ['v1.user+register']
     allow_module = []
     forbidden = []
 

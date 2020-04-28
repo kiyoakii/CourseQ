@@ -18,25 +18,22 @@ api = Redprint('token')
 def get_token():
     ticket = request.args.get("ticket")
     service = request.args.get("service")
-    id = request.args.get("id")
     identity = User.verify(ticket, service)
 
     expiration = current_app.config['TOKEN_EXPIRATION']
-    token = generate_auto_token(identity['gid'],
-                                identity['scope'],
-                                expiration)
+    token = generate_auto_token(identity['scope'],
+                                expiration,
+                                gid=identity['gid'],
+                                uid=identity['uid'])
     t = {
         'token': token.decode('ascii')
     }
     return jsonify(t), 201
 
 
-def generate_auto_token(gid, scope=None, expiration=7200):
+def generate_auto_token(scope=None, expiration=7200, **kwargs):
     """generate token"""
     s = Serializer(current_app.config['SECRET_KEY'],
                    expires_in=expiration)
-    return s.dumps({
-        'GID': gid,
-        'scope': scope
-    })
+    return s.dumps(dict({'scope': scope}, **kwargs))
 
