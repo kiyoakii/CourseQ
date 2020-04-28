@@ -124,6 +124,7 @@ export default {
       this.initSchedule(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
     },
     pickYear(year, month) {
+      // eslint-disable-next-line
       alert(`${year.toString()}-${month.toString()}`);
     },
   },
