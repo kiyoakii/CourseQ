@@ -8,7 +8,7 @@ from app.libs.error_code import AuthFailed, Forbidden
 from app.libs.scope import is_in_scope
 
 auth = HTTPBasicAuth()
-User = namedtuple('User', ['gid', 'scope'])
+User = namedtuple('User', ['gid', 'scope', 'uid'])
 
 
 @auth.verify_password
@@ -31,7 +31,8 @@ def verify_auth_token(token):
         raise AuthFailed(msg='token is expired', error_code=1003)
     gid = data['gid']
     scope = data['scope']
+    uid = data['uid']
     allow = is_in_scope(scope, request.endpoint)
     if not allow:
         raise Forbidden()
-    return User(gid, scope)
+    return User(gid, scope, uid)

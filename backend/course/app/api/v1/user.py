@@ -6,7 +6,8 @@ from app.models.base import db
 from app.models.user import User
 from app.validators.forms import UserForm
 from app.libs.token_auth import auth
-api = Redprint('User')
+
+api = Redprint('user')
 
 
 @api.route('/<string:gid>', methods=['GET'])
@@ -35,10 +36,12 @@ def delete_user():
 
 
 @api.route('/register', methods=['POST'])
+@auth.login_required
 def register():
     form = UserForm().validate_for_api()
     user = User()
-    gid, uid = user.check_ticket(form.ticket.data, form.service.data)
-    user.register(form.nickname.data, form.email.data,
-                  gid, uid)
+    user.register(form.nickname.data,
+                  form.email.data,
+                  g.user.gid,
+                  g.user.uid)
     return Success()
