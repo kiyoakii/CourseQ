@@ -1,6 +1,9 @@
 <template>
   <div>
-    This is VueContent component.
+    <el-container>
+      <router-view name="sidebar"></router-view>
+      <router-view name="content"></router-view>
+    </el-container>
   </div>
 </template>
 
