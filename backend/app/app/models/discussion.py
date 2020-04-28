@@ -2,10 +2,10 @@ from sqlalchemy import Column, String, Boolean, Integer, ForeignKey
 
 from app.models.base import Base
 
+
 class Discussion(Base):
     did = Column(Integer, primary_key=True)
-    qid = Column(Integer, ForeignKey('question.id'))
+    qid = Column(Integer, ForeignKey('question.qid'))
     content = Column(String(500), nullable=False)
     author = Column(String(10), ForeignKey('user.gid'))
     stars = Column(Integer, default=0)
-
