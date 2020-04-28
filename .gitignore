@@ -17,3 +17,4 @@ secure.py
 
 # virtualenv
 backend/se2020
+backend/course/.flaskenv
