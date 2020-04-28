@@ -8,10 +8,11 @@
 <script>
 export default {
   name: 'Editor',
-  data() {
-    return {
-      value: '',
-    };
+  props: {
+    value: {
+      type: String,
+      default: '',
+    },
   },
 };
 </script>
