@@ -6,7 +6,7 @@
       </el-header>
       <el-main>
         <el-row type="flex" justify="center">
-          <el-col :xs="24" :sm="24" :md="22" :lg="18" :xl="18" >
+          <el-col :xs="24" :sm="24" :md="22" :lg="22" :xl="22" >
             <vue-content></vue-content>
           </el-col>
         </el-row>
