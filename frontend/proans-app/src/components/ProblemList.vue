@@ -5,7 +5,7 @@
         <el-card class="box-card" shadow="hover">
           <div slot="header" class="clearfix">
             <router-link :to="'/HW01/' + index" class="link">
-              <span>{{ problem.title }} {{ index }}</span>
+              <span>{{ problem.title }}</span>
             </router-link>
           </div>
           <div class="text item">
