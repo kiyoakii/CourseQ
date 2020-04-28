@@ -17,7 +17,7 @@ class User(Base):
     email = Column(String(24), unique=True, nullable=False)
     nickname = Column(String(24), unique=True)
     _auth = Column("auth", SmallInteger)
-    # courses = relationship('Course', secondary=enroll_table, back_populates='users')
+    courses = relationship('Course', secondary=enroll_table, back_populates='users')
 
     @property
     def auth(self):
@@ -37,6 +37,7 @@ class User(Base):
         # uid can be used to identify the grade of users
         if not gid:
             raise AuthFailed()
+
         user = User.query.filter_by(gid=gid).first_or_404()
         if user.auth == UserTypeEnum.MANAGER:
             scope = 'AdminScope'
@@ -75,8 +76,8 @@ class User(Base):
         with urlopen(validate) as req:
             tree = ElementTree.fromstring(req.read())[0]
         cas = "{http://www.yale.edu/tp/cas}"
-        if tree.tag != cas + "authenticationSuccess":
-            return None
+        if tree.tag == cas + "authenticationFailure":
+            return AuthFailed()
         gid = tree.find("attributes").find(cas + "gid").text.strip()
         uid = tree.find(cas + "user").text.strip()
         return gid, uid
