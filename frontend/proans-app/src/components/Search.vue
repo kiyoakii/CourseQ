@@ -36,4 +36,7 @@ export default {
   width: 100px;
   font-size: 12px;
 }
+.el-select-dropdown__item {
+  font-size: 12px;
+}
 </style>
