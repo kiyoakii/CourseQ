@@ -3,7 +3,7 @@
     <el-card>
       <el-collapse accordion v-model="isShow">
         <el-collapse-item title="讨论区" name="1">
-          <div v-for="com in commentList" :key="com.time">
+          <div v-for="(com, index) in commentList" :key="index">
             <card-comment class="comment"
               :username="com.username"
               :time="com.time"
