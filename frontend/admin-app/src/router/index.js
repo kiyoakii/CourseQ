@@ -11,6 +11,7 @@ const routes = [
     redirect: '/teacher/course-list',
   },
   {
+    // just for development, we are using dynamic route soon
     path: '/teacher/course-list',
     name: 'CourseList',
     components: {
@@ -30,8 +31,9 @@ const routes = [
     path: '/teacher/course',
     name: 'CourseList',
     components: {
+      sidebar: () => import('../components/SideBar.vue'),
       header: () => import('../components/TeacherNavBar.vue'),
-      content: () => import('../components/TeacherCourseList.vue'),
+      content: () => import('../views/CourseIntro.vue'),
     },
   },
   {
