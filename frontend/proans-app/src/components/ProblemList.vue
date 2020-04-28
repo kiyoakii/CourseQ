@@ -1,11 +1,11 @@
 <template>
   <div>
     <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
-      <li v-for="problem in plist" :key=" problem.id " class="infinite-list-item">
+      <li v-for="(problem, index) in plist" :key=" problem.id " class="infinite-list-item">
         <el-card class="box-card" shadow="hover">
           <div slot="header" class="clearfix">
-            <router-link to="/HW01/123" class="link">
-              <span>{{ problem.title }}</span>
+            <router-link :to="'/HW01/' + index" class="link">
+              <span>{{ problem.title }} {{ index }}</span>
             </router-link>
           </div>
           <div class="text item">
