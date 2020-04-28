@@ -17,9 +17,9 @@ api = Redprint('token')
 @api.route('', methods=['GET'])
 def get_token():
     ticket = request.args.get("ticket")
-    service = ''
+    service = request.args.get("service")
+    id = request.args.get("id")
     identity = User.verify(ticket, service)
-
 
     expiration = current_app.config['TOKEN_EXPIRATION']
     token = generate_auto_token(identity['gid'],
