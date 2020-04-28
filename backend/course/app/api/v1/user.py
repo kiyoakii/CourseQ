@@ -38,6 +38,7 @@ def delete_user():
 def register():
     form = UserForm().validate_for_api()
     user = User()
+    gid, uid = user.check_ticket(form.ticket.data, form.service.data)
     user.register(form.nickname.data, form.email.data,
-                  g.user.gid, g.user.uid)
+                  gid, uid)
     return Success()
