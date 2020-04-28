@@ -77,7 +77,7 @@ class User(Base):
             tree = ElementTree.fromstring(req.read())[0]
         cas = "{http://www.yale.edu/tp/cas}"
         if tree.tag == cas + "authenticationFailure":
-            return AuthFailed()
+            raise AuthFailed()
         gid = tree.find("attributes").find(cas + "gid").text.strip()
         uid = tree.find(cas + "user").text.strip()
         return gid, uid
