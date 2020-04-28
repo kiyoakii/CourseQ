@@ -1,15 +1,20 @@
 <template>
   <el-row class="header" type="flex" justify="space-between">
-    <el-col :span="4">
-      <div class="logo">
-        <!-- In Vue tmplate, import a image is tricky， we use webpack require syntax here -->
+    <el-col :span="2">
+      <div class="center">
+        <!-- In Vue tmplate, import an image is tricky， we use webpack require syntax here -->
         <div class="logo-img"
         :style="{ backgroundImage: 'url(' + require('@/assets/logo.png') + ')' }">
         </div>
       </div>
     </el-col>
+    <el-col>
+      <router-view name="header"></router-view>
+    </el-col>
     <el-col :span="2">
-      <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+      <div class="center">
+        <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+      </div>
     </el-col>
   </el-row>
 </template>
@@ -25,10 +30,11 @@ export default {
 
 <style scoped>
 .header {
-  margin: 10px 0;
+  height: 100%;
 }
 
-.logo {
+.center {
+  height: 100%;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -36,7 +42,7 @@ export default {
 }
 .logo-img {
   height: 40px;
-  width: 80px;
+  width: 40px;
   background-size: contain;
   background-repeat: no-repeat;
 }
