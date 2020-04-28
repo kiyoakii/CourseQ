@@ -7,7 +7,7 @@
             <span>{{ problem.title }}</span>
           </div>
           <div class="text item">
-            {{ problem.desc }}
+            {{ problem.desc | formatDesc }}
           </div>
         </el-card>
       </li>
@@ -55,6 +55,11 @@ export default {
       this.count += 2;
     },
   },
+  filters: {
+    formatDesc(value) {
+      return value.length <= 50 ? value : `${value.slice(0, 50)}...`;
+    },
+  },
 };
 </script>
 
@@ -70,6 +75,6 @@ export default {
 }
 
 .text {
-  font-size: 14px;
+  font-size: 12px;
 }
 </style>
