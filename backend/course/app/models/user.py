@@ -38,14 +38,16 @@ class User(Base):
         if not gid:
             raise AuthFailed()
 
-        user = User.query.filter_by(gid=gid).first_or_404()
-        if user.auth == UserTypeEnum.MANAGER:
+        user = User.query.filter_by(gid=gid).first()
+        if not user:
+            scope = 'Scope'
+        elif user.auth == UserTypeEnum.MANAGER:
             scope = 'AdminScope'
-        if user.auth == UserTypeEnum.TEACHER:
+        elif user.auth == UserTypeEnum.TEACHER:
             scope = 'TeacherScope'
-        if user.auth == UserTypeEnum.STUDENT:
+        elif user.auth == UserTypeEnum.STUDENT:
             scope = 'StudentScope'
-        return {'gid': user.gid, 'scope': scope}
+        return {'gid': gid, 'scope': scope, 'uid': uid}
 
 
     @staticmethod
@@ -58,7 +60,7 @@ class User(Base):
         """
         with db.auto_commit():
             user = User()
-            user.GID = gid
+            user.gid = gid
             user.nickname = nickname
             # email authentication
             user.email = email
