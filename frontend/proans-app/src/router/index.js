@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import SignIn from '@/views/SignIn.vue';
+import Profile from '@/views/Profile.vue';
 
 Vue.use(VueRouter);
 
@@ -16,6 +18,16 @@ const routes = [
     path: '/:c_id/:p_id/timeline',
     name: 'TimeLine',
     component: () => import('../views/TimeLine.vue'),
+  },
+  {
+    path: '/signin',
+    name: 'SignIn',
+    component: SignIn,
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
   },
 ];
 
