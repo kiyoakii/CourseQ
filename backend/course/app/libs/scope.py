@@ -10,9 +10,6 @@ class Scope:
 
         self.allow_module = self.allow_module + other.allow_module
         self.allow_module = list(set(self.allow_module))
-
-        self.forbidden = self.forbidden + other.forbidden
-        self.forbidden = list(set(self.forbidden))
         return self
 
 
