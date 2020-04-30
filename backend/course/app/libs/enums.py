@@ -14,3 +14,4 @@ class UserTypeEnum(Enum):
             cls.MANAGER: '管理员'
         }
         return key_map[status]
+
