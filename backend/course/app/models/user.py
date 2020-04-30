@@ -6,9 +6,9 @@ from flask import current_app
 from sqlalchemy import Column, String, SmallInteger
 from sqlalchemy.orm import relationship
 
+from app.libs.enums import UserTypeEnum
 from app.libs.error_code import AuthFailed
 from app.models.base import Base, db
-from app.libs.enums import UserTypeEnum
 from app.models.enroll import enroll_table
 
 
@@ -27,7 +27,6 @@ class User(Base):
     def auth(self, status):
         self._auth = status.value
 
-    @property
     def keys(self):
         return 'gid', 'email', 'nickname', 'auth'
 
