@@ -9,7 +9,6 @@ from sqlalchemy.orm import relationship
 from app.libs.enums import UserTypeEnum
 from app.libs.error_code import AuthFailed
 from app.models.base import Base, db
-from app.models.enroll import enroll_table
 
 
 class User(Base):
@@ -17,7 +16,6 @@ class User(Base):
     email = Column(String(24), unique=True, nullable=False)
     nickname = Column(String(24), unique=True)
     _auth = Column("auth", SmallInteger)
-    courses = relationship('Course', secondary=enroll_table, back_populates='users')
 
     @orm.reconstructor
     def __init__(self):
@@ -48,7 +46,6 @@ class User(Base):
         elif user.auth == UserTypeEnum.STUDENT:
             scope = 'StudentScope'
         return {'gid': gid, 'scope': scope, 'uid': uid}
-
 
     @staticmethod
     def register(nickname, email, gid, uid):
