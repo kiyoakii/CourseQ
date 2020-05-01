@@ -3,7 +3,7 @@ from urllib.request import urlopen
 from xml.etree import ElementTree
 
 from flask import current_app
-from sqlalchemy import Column, String, SmallInteger
+from sqlalchemy import Column, String, SmallInteger, orm
 from sqlalchemy.orm import relationship
 
 from app.libs.enums import UserTypeEnum
@@ -19,7 +19,9 @@ class User(Base):
     _auth = Column("auth", SmallInteger)
     courses = relationship('Course', secondary=enroll_table, back_populates='users')
 
-    fields = ['gid', 'email', 'nickname', 'auth']
+    @orm.reconstructor
+    def __init__(self):
+        self.fields = ['gid', 'email', 'nickname', 'auth']
 
     @property
     def auth(self):
