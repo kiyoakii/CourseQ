@@ -1,4 +1,4 @@
-from wtforms import StringField
+from wtforms import StringField, IntegerField, FieldList
 from wtforms.validators import DataRequired, length, Email
 from wtforms import ValidationError
 
@@ -21,3 +21,30 @@ class UserForm(Form):
 
 class TokenForm(Form):
     token = StringField(validators=[DataRequired()])
+
+
+class CourseCreateForm(Form):
+    name_zh = StringField(validators=[DataRequired(), length(max=40)])
+    name_en = StringField(validators=[DataRequired(), length(max=40)])
+    intro = StringField(validators=[DataRequired(), length(max=200)])
+    pre_Course = StringField(validators=[DataRequired(), length(max=50)])
+    textbooks = StringField(validators=[DataRequired(), length(max=50)])
+    semester = StringField(validators=[DataRequired(), length(max=50)])
+    teachers_gid = FieldList(StringField('gid', validators=[DataRequired()]))
+    students_gid = FieldList(StringField('gid', validators=[DataRequired()]))
+    TAs_gid = FieldList(StringField('gid', validators=[DataRequired()]))
+
+
+class CourseUpdateForm(Form):
+    name_zh = StringField(validators=[length(max=40)])
+    name_en = StringField(validators=[length(max=40)])
+    intro = StringField(validators=[length(max=200)])
+    pre_Course = StringField(validators=[length(max=50)])
+    textbooks = StringField(validators=[length(max=50)])
+    semester = StringField(validators=[length(max=50)])
+    new_teachers_gid = FieldList(StringField('gid', validators=[DataRequired()]))
+    new_students_gid = FieldList(StringField('gid', validators=[DataRequired()]))
+    new_TAs_gid = FieldList(StringField('gid', validators=[DataRequired()]))
+    del_teachers_gid = FieldList(StringField('gid', validators=[DataRequired()]))
+    del_students_gid = FieldList(StringField('gid', validators=[DataRequired()]))
+    del_TAs_gid = FieldList(StringField('gid', validators=[DataRequired()]))
