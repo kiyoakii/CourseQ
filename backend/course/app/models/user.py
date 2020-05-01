@@ -19,6 +19,8 @@ class User(Base):
     _auth = Column("auth", SmallInteger)
     courses = relationship('Course', secondary=enroll_table, back_populates='users')
 
+    fields = ['gid', 'email', 'nickname', 'auth']
+
     @property
     def auth(self):
         return UserTypeEnum(self._auth)
@@ -26,9 +28,6 @@ class User(Base):
     @auth.setter
     def auth(self, status):
         self._auth = status.value
-
-    def keys(self):
-        return 'gid', 'email', 'nickname', 'auth'
 
     @staticmethod
     def verify(ticket, service):
