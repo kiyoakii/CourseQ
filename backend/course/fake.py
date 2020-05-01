@@ -9,7 +9,7 @@ with app.app_context():
         # 创建一个超级管理员
         user = User()
         user.nickname = 'Super'
-        user.GID = '0000000000'
+        user.gid = '0000000000'
         user.email = '999@ustc.edu.cn'
         user.auth = UserTypeEnum.MANAGER
         db.session.add(user)
