@@ -35,11 +35,11 @@ const routes = [
       header: () => import('../components/TeacherNavBar.vue'),
       content: () => import('../views/TeacherCourseManage.vue'),
     },
+    redirect: '/teacher/course/assistants',
     children: [
       {
         path: 'assistants',
         component: () => import('../views/TeacherAssiList.vue'),
-        alias: '',
       },
       {
         path: 'students',
