@@ -29,12 +29,47 @@ const routes = [
   },
   {
     path: '/teacher/course',
-    name: 'CourseList',
+    name: 'TeacherCourseManage',
     components: {
       sidebar: () => import('../components/SideBar.vue'),
       header: () => import('../components/TeacherNavBar.vue'),
-      content: () => import('../views/CourseIntro.vue'),
+      content: () => import('../views/TeacherCourseManage.vue'),
     },
+    children: [
+      {
+        path: 'assistants',
+        component: () => import('../views/TeacherAssiList.vue'),
+        alias: '',
+      },
+      {
+        path: 'students',
+        component: () => import('../views/StudentList.vue'),
+      },
+      {
+        path: 'intro',
+        component: () => import('../views/CourseIntro.vue'),
+      },
+      {
+        path: 'announce',
+        component: () => import('../views/CourseAnnounce.vue'),
+      },
+      {
+        path: 'assignment',
+        component: () => import('../views/CourseAssignment.vue'),
+      },
+      {
+        path: 'resource',
+        component: () => import('../views/CourseRes.vue'),
+      },
+      {
+        path: 'schedule',
+        component: () => import('../views/CourseSchedule.vue'),
+      },
+      {
+        path: 'teacher',
+        component: () => import('../views/TeacherInfo.vue'),
+      },
+    ],
   },
   {
     path: '/admin',
@@ -43,7 +78,7 @@ const routes = [
   },
   {
     path: '/admin/course-manage',
-    name: 'CourseManage',
+    name: 'AdminCourseManage',
     components: {
       header: () => import('../components/AdminNavBar.vue'),
       content: () => import('../views/AdminCourseManage.vue'),
@@ -51,7 +86,7 @@ const routes = [
   },
   {
     path: '/admin/teacher-manage',
-    name: 'TeacherManage',
+    name: 'AdminTeacherManage',
     components: {
       header: () => import('../components/AdminNavBar.vue'),
       content: () => import('../views/AdminTeacherManage.vue'),
@@ -59,7 +94,7 @@ const routes = [
   },
   {
     path: '/admin/student-manage',
-    name: 'StudentManage',
+    name: 'AdminStudentManage',
     components: {
       header: () => import('../components/AdminNavBar.vue'),
       content: () => import('../views/AdminStudentManage.vue'),
