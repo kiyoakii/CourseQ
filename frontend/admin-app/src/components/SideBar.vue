@@ -1,7 +1,7 @@
 <template>
   <div class="list">
     <el-card class="list-item" v-for="item in list" :key="item.name" align="center" shadow="hover">
-      <router-link :to="'/teacher/course/' + item.link" class="link">
+      <router-link :to="item.link" class="link">
         {{ item.name }}
       </router-link>
     </el-card>
