@@ -3,25 +3,37 @@
     <!-- This is TeacherInfo view. -->
     <el-card class="box-card">
       <div id="teacher-info">
-        <el-row>
+        <el-row class="teacher-list">
           <el-col :span="8">
             <div class="grid-content bg-purple info-label">
               <h3>Teacher:</h3>
             </div>
           </el-col>
           <el-col :span="4">
-            <div class="grid-content bg-purple-light">
-              <p>{{teacherInfo.teacher}}</p>
+            <div v-for="(item, i) in teacherInfo.teacher" :key="i">
+              <el-row>
+                <div class="grid-content bg-purple-light">
+                  <p>{{item}}</p>
+                </div>
+              </el-row>
             </div>
           </el-col>
           <el-col :span="4">
-            <div class="grid-content bg-purple-light">
-              <p>{{teacherInfo.teacherEmail}}</p>
+            <div v-for="(item, i) in teacherInfo.teacherEmail" :key="i">
+              <el-row>
+                <div class="grid-content bg-purple-light">
+                  <p>{{item}}</p>
+                </div>
+              </el-row>
             </div>
           </el-col>
           <el-col :span="4">
-            <div class="grid-content bg-purple-light">
-              <p>{{teacherInfo.teacherPhone}}</p>
+            <div v-for="(item, i) in teacherInfo.teacherPhone" :key="i">
+              <el-row>
+                <div class="grid-content bg-purple-light">
+                  <p>{{item}}</p>
+                </div>
+              </el-row>
             </div>
           </el-col>
         </el-row>
@@ -72,9 +84,9 @@ export default {
       type: Object,
       default() {
         return {
-          teacher: 'TeacherName',
-          teacherEmail: 'teacher@mail.com',
-          teacherPhone: '12312341234',
+          teacher: ['Teacher1', 'Teacher2'],
+          teacherEmail: ['teacher@mail.com', 'teacher2@mail.com'],
+          teacherPhone: ['12312341234', '12341234'],
           assistant: ['Assistant1', 'Assistant2'],
           assistantEmail: ['ta1@mail.com', 'ta2@mail.com'],
           assistantPhone: ['12312341234', '12312341234'],
@@ -95,5 +107,7 @@ export default {
   /* align-items: center; */
   justify-content:center;
 }
-
+.teacher-list {
+  margin-bottom: 10px;
+}
 </style>
