@@ -5,3 +5,4 @@ SQLALCHEMY_DATABASE_URI = \
     'mysql+pymysql://root:123456@localhost/name'
 
 SECRET_KEY = 'Lin Huancheng wudi'
+MAX_CONTENT_LENGTH = 16 * 1024 * 1024

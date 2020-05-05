@@ -1,12 +1,14 @@
-from flask import jsonify, g, request
-from app.models.course import Course
+from flask import jsonify, g, request, send_file
+from app.models.course import Course, CourseResource
 from app.models.user import User
 from app.models.enroll import Enroll
-from app.libs.error_code import Success, DeleteSuccess, Forbidden
+from app.libs.error_code import Success, DeleteSuccess, Forbidden, ParameterException
 from app.libs.redprint import Redprint
 from app.validators.forms import CourseCreateForm, CourseUpdateForm
 from app.models.base import db
 from sqlalchemy.orm.exc import NoResultFound
+from werkzeug.utils import secure_filename
+from io import BytesIO
 
 api = Redprint('course')
 
@@ -50,4 +52,30 @@ def delete_course(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     with db.auto_commit():
         course.delete()
+    return DeleteSuccess()
+
+
+@api.route('/<int:cid>/file', methods=['POST'])
+def upload(cid):
+    try:
+        file = request.files['file']
+    except ValueError:
+        return ParameterException
+    with db.auto_commit():
+        filename = secure_filename(file.filename)
+        data = file.read()
+        resource = CourseResource()
+        resource.name = filename
+        resource.data = data
+        db.session.add(resource)
     return Success()
+
+
+@api.route('/<int:cid>/file', methods=['GET'])
+def get_file_list(cid):
+    pass
+
+
+@api.route('<int:cid>/file/<int:fid>', methods=['GET'])
+def download(cid, fid):
+    pass
