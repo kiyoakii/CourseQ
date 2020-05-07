@@ -12,7 +12,7 @@ class Enroll(Base):
     course_cid = Column(Integer, ForeignKey('course.cid'))
     user = relationship(User, backref='Enroll')
     course = relationship(Course, backref='Enroll')
-    enroll_type = Column('enum', SmallInteger)
+    enroll_type = Column('enroll_type', SmallInteger)
 
     @staticmethod
     def add_user(course, teachers_gid, students_gid, TAs_gid, db):
@@ -49,7 +49,6 @@ class Enroll(Base):
             for student_gid in students_gid:
                 enroll = Enroll.query.filter_by(user_gid=student_gid, course_cid=course.cid)
                 enroll.delete()
-                db.session.add(enroll)
             for TA_gid in TAs_gid:
                 enroll = Enroll.query.filter_by(user_gid=TA_gid, course_cid=course.gid)
                 enroll.delete()
