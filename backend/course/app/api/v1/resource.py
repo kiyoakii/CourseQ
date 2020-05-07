@@ -14,6 +14,7 @@ from io import BytesIO
 api = Redprint('resource')
 
 
+# TODO scope & maybe there are better ways to handle files
 @api.route('/', methods=['POST'])
 def create():
     form = ResourceForm().validate_for_api()
