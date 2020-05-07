@@ -20,10 +20,3 @@ class Course(Base):
         super().__init__()
         self.fields = ['cid', 'name_zh', 'name_en', 'intro',
                        'pre_Course', 'textbooks', 'semester']
-
-
-class CourseResource(Base):
-    id = Column(Integer, primary_key=True)
-    name = Column(String(100))
-    data = Column(LargeBinary)
-    course_id = Column(Integer, ForeignKey('course.cid'))
