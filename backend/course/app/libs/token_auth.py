@@ -36,3 +36,19 @@ def verify_auth_token(token):
     if not allow:
         raise Forbidden()
     return User(gid, scope, uid)
+
+
+def generate_email_auth_token(gid, expiration=7200):
+    """generate token"""
+    s = Serializer(current_app.config['SECRET_KEY'],
+                   expires_in=expiration)
+    return s.dumps(dict(gid=gid))
+
+
+def verify_email_auth_token(token):
+    s = Serializer(current_app.config['SECRET_KEY'])
+    try:
+        data = s.loads(token)
+    except:
+        return None
+    return data['gid']

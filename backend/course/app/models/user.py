@@ -8,12 +8,16 @@ from sqlalchemy.orm import relationship
 
 from app.libs.enums import UserTypeEnum
 from app.libs.error_code import AuthFailed
+from app.libs.token_auth import generate_email_auth_token, verify_email_auth_token
+from app.libs.email import send_email
 from app.models.base import Base, db
 
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 
 class User(Base):
     gid = Column(String(10), primary_key=True)
-    email = Column(String(24), unique=True, nullable=False)
+    email = Column(String(64), unique=True, nullable=False)
     nickname = Column(String(24), unique=True)
     _auth = Column("auth", SmallInteger)
 
@@ -61,6 +65,9 @@ class User(Base):
             user.gid = gid
             user.nickname = nickname
             # email authentication
+            email_auth_token = generate_email_auth_token(gid=gid, expiration=600)
+            send_email(email, 'Email Authentication', 'email_auth.html', \
+                       token=email_auth_token, nickname=nickname)
             user.email = email
             user.uid = uid
             if len(uid) != 10:
