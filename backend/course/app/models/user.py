@@ -12,8 +12,10 @@ from app.libs.token_auth import generate_email_auth_token, verify_email_auth_tok
 from app.libs.email import send_email
 from app.models.base import Base, db
 
-import ssl
-ssl._create_default_https_context = ssl._create_unverified_context
+# Uncomment the following 2 lines to fix ssl problem when developing on macOS
+# ** Never do that in a deployment environment **
+# import ssl
+# ssl._create_default_https_context = ssl._create_unverified_context
 
 class User(Base):
     gid = Column(String(10), primary_key=True)
