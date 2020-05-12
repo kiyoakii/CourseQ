@@ -1,7 +1,9 @@
 <template>
   <div class="course-manage">
     <!-- This is AdminCourseManage component. -->
-    <h2>课程列表</h2>
+    <div class="course-manage-header">
+      <h2>课程列表</h2>
+    </div>
     <div class="course-manage-content">
       <div id="flex-bar">
         <div class="flex-item">
@@ -28,7 +30,7 @@
       ref="drawer"
       >
       <div slot="title">
-        <span>课程信息修改</span>
+        <h1>课程信息修改</h1>
       </div>
       <div class="drawer__content">
         <el-form ref="form" :model="form">
@@ -57,7 +59,7 @@
       ref="drawer"
       >
       <div slot="title">
-        <span>开设新课程</span>
+        <h1>开设新课程</h1>
       </div>
       <div class="drawer__content">
         <el-form ref="form" :model="form">
@@ -194,6 +196,9 @@ export default {
   flex: 1;
   padding: 30px;
 }
+.course-manage-header {
+  padding: 0 100px;
+}
 .course-manage-content {
   flex: 1;
   display: flex;
@@ -205,6 +210,7 @@ export default {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 20px;
 }
 #course-search {
   margin: 10px 0;
