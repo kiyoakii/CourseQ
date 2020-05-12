@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Boolean, Integer, ForeignKey, Sequence, LargeBinary
+from sqlalchemy import Column, String, Integer, Sequence
 from sqlalchemy.orm import reconstructor, relationship
 
 from app.models.base import Base
@@ -20,10 +20,3 @@ class Course(Base):
         super().__init__()
         self.fields = ['cid', 'name_zh', 'name_en', 'intro',
                        'pre_Course', 'textbooks', 'semester']
-
-
-class CourseResource(Base):
-    id = Column(Integer, primary_key=True)
-    name = Column(String(100))
-    data = Column(LargeBinary)
-    course_id = Column(Integer, ForeignKey('course.cid'))

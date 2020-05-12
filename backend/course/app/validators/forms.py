@@ -1,6 +1,6 @@
-from wtforms import StringField, IntegerField, FieldList
-from wtforms.validators import DataRequired, length, Email
+from wtforms import StringField, FieldList
 from wtforms import ValidationError
+from wtforms.validators import DataRequired, length, Email
 
 from app.models.user import User
 from app.validators.base import BaseForm as Form
@@ -48,3 +48,8 @@ class CourseUpdateForm(Form):
     del_teachers_gid = FieldList(StringField('gid', validators=[DataRequired()]))
     del_students_gid = FieldList(StringField('gid', validators=[DataRequired()]))
     del_TAs_gid = FieldList(StringField('gid', validators=[DataRequired()]))
+
+
+class ResourceForm(Form):
+    filename = StringField(validators=[DataRequired()])
+    course_id = StringField(validators=[DataRequired()])

@@ -7,6 +7,16 @@ class Success(APIException):
     error_code = 0
 
 
+class RegisterSuccess(Success):
+    def __init__(self, token):
+        super().__init__(msg=token)
+
+
+class FileSuccess(Success):
+    def __init__(self, url):
+        super().__init__(msg=url)
+
+
 class DeleteSuccess(Success):
     code = 202
     error_code = 1

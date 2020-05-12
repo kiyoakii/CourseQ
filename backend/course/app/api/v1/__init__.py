@@ -1,5 +1,6 @@
 from flask import Blueprint
-from app.api.v1 import user, token, course
+
+from app.api.v1 import user, token, course, resource
 
 
 def create_blueprint_v1():
@@ -7,4 +8,5 @@ def create_blueprint_v1():
     user.api.register(bp_v1, url_prefix='/user')
     token.api.register(bp_v1, url_prefix='/token')
     course.api.register(bp_v1, url_prefix='/courses')
+    resource.api.register(bp_v1,url_prefix='/resources')
     return bp_v1

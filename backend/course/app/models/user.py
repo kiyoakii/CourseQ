@@ -4,7 +4,6 @@ from xml.etree import ElementTree
 
 from flask import current_app
 from sqlalchemy import Column, String, SmallInteger, orm
-from sqlalchemy.orm import relationship
 
 from app.libs.enums import UserTypeEnum
 from app.libs.error_code import AuthFailed
@@ -44,6 +43,11 @@ class User(Base):
             raise AuthFailed()
 
         user = User.query.filter_by(gid=gid).first()
+        scope = User.assign_scope(user)
+        return {'gid': gid, 'scope': scope, 'uid': uid}
+
+    @staticmethod
+    def assign_scope(user):
         if not user:
             scope = 'Scope'
         elif user.auth == UserTypeEnum.MANAGER:
@@ -52,7 +56,7 @@ class User(Base):
             scope = 'TeacherScope'
         elif user.auth == UserTypeEnum.STUDENT:
             scope = 'StudentScope'
-        return {'gid': gid, 'scope': scope, 'uid': uid}
+        return scope
 
     @staticmethod
     def register(nickname, email, gid, uid):
@@ -77,6 +81,7 @@ class User(Base):
             else:
                 user.auth = UserTypeEnum.STUDENT
             db.session.add(user)
+            return user
 
     @staticmethod
     def check_ticket(ticket, service):

@@ -1,19 +1,21 @@
-from flask import jsonify, g, request, send_file
-from app.models.course import Course, CourseResource
-from app.models.user import User
-from app.models.enroll import Enroll
-from app.libs.error_code import Success, DeleteSuccess, Forbidden, ParameterException
-from app.libs.redprint import Redprint
-from app.validators.forms import CourseCreateForm, CourseUpdateForm
-from app.models.base import db
+from flask import jsonify
 from sqlalchemy.orm.exc import NoResultFound
-from werkzeug.utils import secure_filename
-from io import BytesIO
+
+from app.libs.error_code import Success, DeleteSuccess, Forbidden
+from app.libs.redprint import Redprint
+from app.models.base import db
+from app.models.course import Course
+from app.models.enroll import Enroll
+from app.validators.forms import CourseCreateForm, CourseUpdateForm
 
 api = Redprint('course')
 
 
 # TODO gid check and scope
+@api.route('', methods=['GET'])
+def get_course_list():
+    return jsonify(courses=Course.query.all())
+
 
 @api.route('/create', methods=['POST'])
 def create_course():
@@ -55,27 +57,6 @@ def delete_course(cid):
     return DeleteSuccess()
 
 
-@api.route('/<int:cid>/file', methods=['POST'])
-def upload(cid):
-    try:
-        file = request.files['file']
-    except ValueError:
-        return ParameterException
-    with db.auto_commit():
-        filename = secure_filename(file.filename)
-        data = file.read()
-        resource = CourseResource()
-        resource.name = filename
-        resource.data = data
-        db.session.add(resource)
-    return Success()
-
-
-@api.route('/<int:cid>/file', methods=['GET'])
-def get_file_list(cid):
-    pass
-
-
-@api.route('<int:cid>/file/<int:fid>', methods=['GET'])
-def download(cid, fid):
+@api.route('/<int:cid>/files', methods=['GET'])
+def get_files_list(cid):
     pass
