@@ -1,9 +1,10 @@
+from contextlib import contextmanager
 from datetime import datetime
-from app.libs.error_code import NotFound
 
 from flask_sqlalchemy import SQLAlchemy as _SQLAlchemy, BaseQuery
-from sqlalchemy import inspect, Column, Integer, SmallInteger, orm
-from contextlib import contextmanager
+from sqlalchemy import Column, Integer, SmallInteger
+
+from app.libs.error_code import NotFound
 
 
 class SQLAlchemy(_SQLAlchemy):
