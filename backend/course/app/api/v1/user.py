@@ -1,11 +1,12 @@
-from flask import request, json, jsonify, g
+from flask import jsonify, g, current_app
 
-from app.libs.error_code import Success, DeleteSuccess
+from app.api.v1.token import generate_auto_token
+from app.libs.error_code import DeleteSuccess, RegisterSuccess
 from app.libs.redprint import Redprint
+from app.libs.token_auth import auth
 from app.models.base import db
 from app.models.user import User
 from app.validators.forms import UserForm
-from app.libs.token_auth import auth
 
 api = Redprint('user')
 
@@ -39,9 +40,14 @@ def delete_user():
 @auth.login_required
 def register():
     form = UserForm().validate_for_api()
-    user = User()
-    user.register(form.nickname.data,
-                  form.email.data,
-                  g.user.gid,
-                  g.user.uid)
-    return Success()
+    user = User().register(form.nickname.data,
+                           form.email.data,
+                           g.user.gid,
+                           g.user.uid)
+    scope = User.assign_scope(user)
+    expiration = current_app.config['TOKEN_EXPIRATION']
+    token = generate_auto_token(scope,
+                                expiration,
+                                gid=g.user.gid,
+                                uid=g.user.uid)
+    return RegisterSuccess(token.decode('ascii'))
