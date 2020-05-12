@@ -1,4 +1,3 @@
-
 class Scope:
     allow_api = ['v1.user+register']
     allow_module = []
@@ -23,7 +22,7 @@ class TeacherScope(Scope):
     # exclusive method, view function level
     forbidden = ['v1.user+super_get_user']
 
-    def __init(self):
+    def __init__(self):
         self + StudentScope()
 
 
