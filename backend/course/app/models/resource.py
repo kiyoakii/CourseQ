@@ -1,6 +1,7 @@
-from app.models.base import Base
-from sqlalchemy import Column, String, Boolean, Integer, ForeignKey, Sequence, LargeBinary
+from sqlalchemy import Column, String, Integer, ForeignKey, LargeBinary
 from sqlalchemy.orm import reconstructor
+
+from app.models.base import Base
 
 
 class CourseResource(Base):

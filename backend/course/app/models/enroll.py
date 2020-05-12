@@ -1,9 +1,10 @@
-from sqlalchemy import Column, String, ForeignKey, Table, Integer, SmallInteger
+from sqlalchemy import Column, ForeignKey, Integer, SmallInteger
 from sqlalchemy.orm import relationship
-from .user import User
+
+from app.libs.enums import UserTypeEnum
 from .base import Base
 from .course import Course
-from app.libs.enums import UserTypeEnum
+from .user import User
 
 
 class Enroll(Base):

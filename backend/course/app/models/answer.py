@@ -1,6 +1,7 @@
-from sqlalchemy import Column, String, Boolean, Integer, ForeignKey
+from sqlalchemy import Column, String, Integer, ForeignKey
 
 from app.models.base import Base
+
 
 class Answer(Base):
     ansid = Column(Integer, primary_key=True)
