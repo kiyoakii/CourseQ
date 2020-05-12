@@ -1,15 +1,8 @@
-from urllib.parse import urlencode
-from urllib.request import urlopen
-from xml.etree import ElementTree
+from flask import current_app, jsonify, request
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
-from flask import current_app, jsonify, url_for, request
-
-from app.libs.error_code import Redirect
 from app.libs.redprint import Redprint
 from app.models.user import User
-from app.validators.forms import UserForm
-
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 api = Redprint('token')
 

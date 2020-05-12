@@ -1,15 +1,12 @@
-from flask import jsonify, g, request, send_file
-from app.models.course import Course
-from app.models.user import User
-from app.models.resource import CourseResource
-from app.models.enroll import Enroll
-from app.libs.error_code import Success, DeleteSuccess, Forbidden, ParameterException
-from app.libs.redprint import Redprint
-from app.validators.forms import CourseCreateForm, CourseUpdateForm
-from app.models.base import db
+from flask import jsonify
 from sqlalchemy.orm.exc import NoResultFound
-from werkzeug.utils import secure_filename
-from io import BytesIO
+
+from app.libs.error_code import Success, DeleteSuccess, Forbidden
+from app.libs.redprint import Redprint
+from app.models.base import db
+from app.models.course import Course
+from app.models.enroll import Enroll
+from app.validators.forms import CourseCreateForm, CourseUpdateForm
 
 api = Redprint('course')
 

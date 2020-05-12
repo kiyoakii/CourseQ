@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Boolean, Integer, ForeignKey, Sequence, LargeBinary
+from sqlalchemy import Column, String, Integer, Sequence
 from sqlalchemy.orm import reconstructor, relationship
 
 from app.models.base import Base
