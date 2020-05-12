@@ -61,6 +61,6 @@ export default {
 
 <style scoped>
 #member-table {
-  width: 1000px;
+  flex: 1;
 }
 </style>
