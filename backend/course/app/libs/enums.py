@@ -3,9 +3,9 @@ from enum import Enum
 
 class UserTypeEnum(Enum):
     STUDENT = 1
-    TEACHER = 2
-    MANAGER = 3
-    TA = 4
+    TA = 2
+    TEACHER = 3
+    MANAGER = 4
 
     @classmethod
     def user_str(cls, status):
