@@ -4,6 +4,7 @@ from xml.etree import ElementTree
 
 from flask import current_app
 from sqlalchemy import Column, String, SmallInteger, orm
+from sqlalchemy.orm import relationship
 
 from app.libs.enums import UserTypeEnum
 from app.libs.error_code import AuthFailed
@@ -15,6 +16,7 @@ class User(Base):
     email = Column(String(24), unique=True, nullable=False)
     nickname = Column(String(24), unique=True)
     _auth = Column("auth", SmallInteger)
+    favorite_question = relationship('Question', backref='user')
 
     @orm.reconstructor
     def __init__(self):
