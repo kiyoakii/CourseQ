@@ -1,18 +1,19 @@
-from sqlalchemy import Column, ForeignKey, Integer, SmallInteger
+from sqlalchemy import Column, ForeignKey, Integer, SmallInteger, String
 from sqlalchemy.orm import relationship
 
 from app.libs.enums import UserTypeEnum
 from .base import Base
 from .course import Course
 from .user import User
+from .tag import Tag
 
 
 class Enroll(Base):
     id = Column('id', Integer, primary_key=True)
-    user_gid = Column(Integer, ForeignKey('user.gid'))
+    user_gid = Column(String(10), ForeignKey('user.gid'))
     course_cid = Column(Integer, ForeignKey('course.cid'))
-    user = relationship(User, backref='Enroll')
-    course = relationship(Course, backref='Enroll')
+    user = relationship(User, backref='enroll')
+    course = relationship(Course, backref='enroll')
     enroll_type = Column('enroll_type', SmallInteger)
 
     @staticmethod
@@ -53,3 +54,8 @@ class Enroll(Base):
             for TA_gid in TAs_gid:
                 enroll = Enroll.query.filter_by(user_gid=TA_gid, course_cid=course.gid)
                 enroll.delete()
+
+
+class QuestionTag(Base):
+    tag_id = Column(Integer, ForeignKey('tag.id'), primary_key=True)
+    question = Column(Integer, ForeignKey('question.qid'), primary_key=True)
