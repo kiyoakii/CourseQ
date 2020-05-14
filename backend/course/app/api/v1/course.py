@@ -5,10 +5,11 @@ from app.libs.error_code import Success, DeleteSuccess, Forbidden
 from app.libs.redprint import Redprint
 from app.models.base import db
 from app.models.course import Course
-from app.models.enroll import Enroll
+from app.models.relation import Enroll
 from app.validators.forms import CourseCreateForm, CourseUpdateForm
 from app.libs.token_auth import auth
 from app.libs.enums import UserTypeEnum
+from app.models.resource import CourseResource
 
 api = Redprint('course')
 
@@ -67,4 +68,5 @@ def delete_course(cid):
 
 @api.route('/<int:cid>/files', methods=['GET'])
 def get_files_list(cid):
-    pass
+    course = Course.query.filter_by(cid=cid).first_or_404()
+    return jsonify(files=course.resource)
