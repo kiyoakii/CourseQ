@@ -13,4 +13,4 @@ class CourseResource(Base):
     @reconstructor
     def __init__(self):
         super().__init__()
-        self.fields = ['name']
+        self.fields = ['id', 'name']
