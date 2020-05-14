@@ -29,7 +29,7 @@ class Course(Base):
         def decorator(func):
             @functools.wraps(func)
             def wrapper(*args, **kwargs):
-                from app.models.enroll import Enroll
+                from app.models.relation import Enroll
                 try:
                     enroll = Enroll.query.filter_by(course_cid=args[0]).filter_by(user_id=g.user.gid)
                 except NoResultFound:
