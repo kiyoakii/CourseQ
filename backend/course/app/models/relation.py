@@ -1,11 +1,10 @@
-from sqlalchemy import Column, ForeignKey, Integer, SmallInteger, String
+from sqlalchemy import Column, ForeignKey, Integer, SmallInteger, String, Table
 from sqlalchemy.orm import relationship
 
 from app.libs.enums import UserTypeEnum
 from .base import Base
 from .course import Course
 from .user import User
-from .tag import Tag
 
 
 class Enroll(Base):
@@ -56,6 +55,9 @@ class Enroll(Base):
                 enroll.delete()
 
 
-class QuestionTag(Base):
-    tag_id = Column(Integer, ForeignKey('tag.id'), primary_key=True)
-    question = Column(Integer, ForeignKey('question.qid'), primary_key=True)
+question_tag_table = Table(
+    'question_tag_table',
+    Base.metadata,
+    Column('tag_id', Integer, ForeignKey('tag.id')),
+    Column('question_id', Integer, ForeignKey('question.id'))
+)
