@@ -1,4 +1,4 @@
-from wtforms import StringField, FieldList
+from wtforms import StringField, FieldList, TextAreaField
 from wtforms import ValidationError
 from wtforms.validators import DataRequired, length, Email
 
@@ -53,3 +53,9 @@ class CourseUpdateForm(Form):
 class ResourceForm(Form):
     filename = StringField(validators=[DataRequired()])
     course_id = StringField(validators=[DataRequired()])
+
+
+class QuestionForm(Form):
+    title = StringField(validators=[length(max=127), DataRequired()])
+    content = TextAreaField(validators=[DataRequired()])
+    tags = FieldList(StringField('tag', validators=[DataRequired()]))
