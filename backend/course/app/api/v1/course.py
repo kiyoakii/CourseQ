@@ -4,12 +4,13 @@ from sqlalchemy.orm.exc import NoResultFound
 from app.libs.error_code import Success, DeleteSuccess, Forbidden
 from app.libs.redprint import Redprint
 from app.models.base import db
+from app.models.question import Question
 from app.models.course import Course
 from app.models.relation import Enroll
-from app.validators.forms import CourseCreateForm, CourseUpdateForm
+from app.validators.forms import CourseCreateForm, CourseUpdateForm, QuestionForm
 from app.libs.token_auth import auth
 from app.libs.enums import UserTypeEnum
-from app.models.resource import CourseResource
+from app.models.tag import Tag
 
 api = Redprint('course')
 
@@ -45,9 +46,8 @@ def get_course(cid):
 def update_course(cid):
     form = CourseUpdateForm().validate_for_api()
     course = Course.query.filter_by(cid=cid).first_or_404()
-    try:
-        Enroll.query.filter_by(course_cid=cid).filter_by(user_gid=g.gid)
-    except NoResultFound:
+    enroll_set = Enroll.query.filter_by(course_cid=cid).filter_by(user_gid=g.gid)
+    if enroll_set.count() == 0:
         return Forbidden()
     with db.auto_commit():
         form.populate_obj(course)
@@ -70,3 +70,27 @@ def delete_course(cid):
 def get_files_list(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     return jsonify(files=course.resource)
+
+
+@api.route('/<int:cid>/questions', methods=['POST'])
+@auth.login_required
+def create_question(cid):
+    course = Course.query.filter_by(cid=cid).first_or_404()
+    form = QuestionForm().validate_for_api()
+    with db.auto_commit():
+        question = Question()
+        question.content = form.content.data
+        question.title = form.title.data
+        question.course_id = cid
+        question.author_id = g.user.gid
+        for tag_name in form.tags.data:
+            tag_set = Tag.query.filter_by(name=tag_name)
+            if tag_set.count() == 0:
+                tag = Tag()
+                tag.name = tag_name
+                db.session.add(tag)
+            else:
+                tag = tag_set.first()
+            question.tags.append(tag)
+        db.session.add(question)
+    return Success()
