@@ -6,5 +6,4 @@ from app.models.base import Base
 
 class Tag(Base):
     id = Column(Integer, primary_key=True)
-    name = Column(String(20))
-    questions = relationship('Question', backref='tag', secondary='QuestionTag')
+    name = Column(String(20), unique=True)
