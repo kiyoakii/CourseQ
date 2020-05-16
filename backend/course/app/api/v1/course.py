@@ -7,7 +7,7 @@ from app.models.base import db
 from app.models.question import Question
 from app.models.course import Course
 from app.models.relation import Enroll
-from app.validators.forms import CourseCreateForm, CourseUpdateForm, QuestionForm
+from app.validators.forms import CourseCreateForm, CourseUpdateForm, QuestionCreateForm
 from app.libs.token_auth import auth
 from app.libs.enums import UserTypeEnum
 from app.models.tag import Tag
@@ -76,21 +76,21 @@ def get_files_list(cid):
 @auth.login_required
 def create_question(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
-    form = QuestionForm().validate_for_api()
+    form = QuestionCreateForm().validate_for_api()
     with db.auto_commit():
-        question = Question()
-        question.content = form.content.data
-        question.title = form.title.data
-        question.course_id = cid
-        question.author_id = g.user.gid
+        question = Question(title=form.title.data,
+                            content=form.content.data,
+                            course_id=cid,
+                            author_id=g.user.gid
+                            )
         for tag_name in form.tags.data:
-            tag_set = Tag.query.filter_by(name=tag_name)
-            if tag_set.count() == 0:
-                tag = Tag()
-                tag.name = tag_name
-                db.session.add(tag)
-            else:
-                tag = tag_set.first()
+            tag = Tag.get_or_create_tag(tag_name)
             question.tags.append(tag)
         db.session.add(question)
     return Success()
+
+
+@api.route('/<int:cid>/questions', methods=['GET'])
+def get_question_list(cid):
+    Course.query.filter_by(cid=cid).first_or_404()
+    return jsonify(Question.query.filter_by(course_id=cid).all())
