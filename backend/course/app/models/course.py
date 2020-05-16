@@ -19,8 +19,8 @@ class Course(Base):
     resource = relationship("CourseResource")
 
     @reconstructor
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.fields = ['cid', 'name_zh', 'name_en', 'intro',
                        'pre_Course', 'textbooks', 'semester']
 
