@@ -45,7 +45,8 @@ class Base(db.Model):
     create_time = Column(Integer)
     status = Column(SmallInteger, default=1)
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super(Base, self).__init__(*args, **kwargs)
         self.create_time = int(datetime.now().timestamp())
 
     def __getitem__(self, item):
