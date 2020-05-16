@@ -55,7 +55,14 @@ class ResourceForm(Form):
     course_id = StringField(validators=[DataRequired()])
 
 
-class QuestionForm(Form):
+class QuestionCreateForm(Form):
     title = StringField(validators=[length(max=127), DataRequired()])
     content = TextAreaField(validators=[DataRequired()])
     tags = FieldList(StringField('tag', validators=[DataRequired()]))
+
+
+class QuestionUpdateForm(Form):
+    title = StringField(validators=[length(max=127)])
+    content = TextAreaField(validators=[])
+    new_tags = FieldList(StringField('tag', validators=[]))
+    del_tags = FieldList(StringField('tag', validators=[]))
