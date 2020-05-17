@@ -80,8 +80,8 @@ def create_question(cid):
     with db.auto_commit():
         question = Question(title=form.title.data,
                             content=form.content.data,
-                            course_id=cid,
-                            author_id=g.user.gid
+                            course=course,
+
                             )
         for tag_name in form.tags.data:
             tag = Tag.get_or_create_tag(tag_name)
@@ -92,5 +92,5 @@ def create_question(cid):
 
 @api.route('/<int:cid>/questions', methods=['GET'])
 def get_question_list(cid):
-    Course.query.filter_by(cid=cid).first_or_404()
-    return jsonify(Question.query.filter_by(course_id=cid).all())
+    course = Course.query.filter_by(cid=cid).first_or_404()
+    return jsonify(Question.query.filter_by(course=course).all())
