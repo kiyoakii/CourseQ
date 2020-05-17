@@ -9,7 +9,7 @@ class Question(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String(127), nullable=False)
     content = Column(Text, nullable=False)
-    author_id = Column(String(10), ForeignKey('user.gid'))
+    author = Column(String(10), ForeignKey('user.gid'))
     stars = Column(Integer, default=0)
     answer = relationship('Answer', backref='question')
     discussions = relationship('Discussion', backref='question')
@@ -19,4 +19,4 @@ class Question(Base):
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields = ['id', 'title']
+        self.fields = ['id', 'title', 'starts', 'tags']
