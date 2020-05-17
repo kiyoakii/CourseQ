@@ -1,10 +1,11 @@
 from app.libs.redprint import Redprint
 from app.models.question import Question
+from app.models.answer import Answer
 from app.models.tag import Tag
-from app.validators.forms import QuestionUpdateForm
+from app.validators.forms import QuestionUpdateForm, AnswerCreateForm
 from app.models.base import db
 from app.libs.error_code import Success, DeleteSuccess
-from flask import jsonify
+from flask import jsonify, g
 
 api = Redprint('question')
 
@@ -42,7 +43,22 @@ def get_question(qid):
     return jsonify(question)
 
 
-@api.route('/<int:qid>', methods=['POST'])
+@api.route('/<int:qid>/star', methods=['POST'])
+def star_question(qid):
+    pass
+
+
+@api.route('/<int:qid>/answers', methods=['POST'])
 def create_answer(qid):
     question = Question.query.get_or_404(qid)
-    pass
+    form = AnswerCreateForm().validate_for_api()
+    with db.auto_commit():
+        answer = Answer(content=form.content.data, question=question, author=g.user)
+        db.session.add(answer)
+    return Success()
+
+
+@api.route('/<int:qid>/answers', methods=['GET'])
+def list_answer(qid):
+    question = Question.query.get_or_404(qid)
+    return jsonify(Answer.query.filter_by(question=question).all())
