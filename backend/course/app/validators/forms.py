@@ -66,3 +66,11 @@ class QuestionUpdateForm(Form):
     content = TextAreaField(validators=[])
     new_tags = FieldList(StringField('tag', validators=[]))
     del_tags = FieldList(StringField('tag', validators=[]))
+
+
+class AnswerCreateForm(Form):
+    content = TextAreaField(validators=[DataRequired()])
+
+
+class AnswerUpdateForm(Form):
+    content = TextAreaField(validators=[DataRequired()])
