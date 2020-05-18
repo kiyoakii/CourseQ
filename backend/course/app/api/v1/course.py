@@ -80,7 +80,7 @@ def create_question(cid):
     with db.auto_commit():
         question = Question(title=form.title.data,
                             content=form.content.data,
-                            course_id=cid,
+                            course_id=course.cid,
                             )
         for tag_name in form.tags.data:
             tag = Tag.get_or_create_tag(tag_name)
