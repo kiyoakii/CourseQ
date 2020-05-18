@@ -1,4 +1,4 @@
-from wtforms import StringField, FieldList, TextAreaField
+from wtforms import StringField, FieldList, TextAreaField, IntegerField
 from wtforms import ValidationError
 from wtforms.validators import DataRequired, length, Email
 
@@ -68,9 +68,20 @@ class QuestionUpdateForm(Form):
     del_tags = FieldList(StringField('tag', validators=[]))
 
 
-class AnswerCreateForm(Form):
+class AnswerForm(Form):
     content = TextAreaField(validators=[DataRequired()])
 
 
-class AnswerUpdateForm(Form):
+class TopicCreateForm(Form):
+    title = StringField(validators=[length(max=127), DataRequired()])
+    content = TextAreaField(validators=[DataRequired()])
+
+
+class TopicUpdateForm(Form):
+    title = StringField(validators=[length(max=127)])
+    content = TextAreaField(validators=[])
+
+
+class TopicAnswerForm(Form):
+    reply_id = IntegerField(validators=[])
     content = TextAreaField(validators=[DataRequired()])
