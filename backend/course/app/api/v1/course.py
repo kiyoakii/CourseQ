@@ -21,7 +21,7 @@ def get_course_list():
     return jsonify(courses=Course.query.all())
 
 
-@api.route('/create', methods=['POST'])
+@api.route('', methods=['POST'])
 @auth.login_required
 @Course.access_scope(UserTypeEnum.MANAGER)
 def create_course():
@@ -80,8 +80,7 @@ def create_question(cid):
     with db.auto_commit():
         question = Question(title=form.title.data,
                             content=form.content.data,
-                            course=course,
-
+                            course_id=cid,
                             )
         for tag_name in form.tags.data:
             tag = Tag.get_or_create_tag(tag_name)
@@ -93,4 +92,4 @@ def create_question(cid):
 @api.route('/<int:cid>/questions', methods=['GET'])
 def get_question_list(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
-    return jsonify(Question.query.filter_by(course=course).all())
+    return jsonify(Question.query.filter_by(course_id=course.cid).all())

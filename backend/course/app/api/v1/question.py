@@ -53,7 +53,7 @@ def create_answer(qid):
     question = Question.query.get_or_404(qid)
     form = AnswerCreateForm().validate_for_api()
     with db.auto_commit():
-        answer = Answer(content=form.content.data, question=question, author=g.user)
+        answer = Answer(content=form.content.data, question_id=question.id, author_gid="0000000000")
         db.session.add(answer)
     return Success()
 
@@ -61,4 +61,4 @@ def create_answer(qid):
 @api.route('/<int:qid>/answers', methods=['GET'])
 def list_answer(qid):
     question = Question.query.get_or_404(qid)
-    return jsonify(Answer.query.filter_by(question=question).all())
+    return jsonify(Answer.query.filter_by(question_id=question.id).all())
