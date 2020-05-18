@@ -12,9 +12,9 @@ class Question(Base):
     author_gid = Column(String(10), ForeignKey('user.gid'))
     stars = Column(Integer, default=0)
     answer = relationship('Answer')
-    discussions = relationship('Discussion')
+    discussions = relationship('DiscussionTopic')
     course_id = Column(Integer, ForeignKey('course.cid'))
-    tags = relationship('Tag', backref='question', secondary=question_tag_table)
+    tags = relationship('Tag', secondary=question_tag_table)
 
     @reconstructor
     def __init__(self, *args, **kwargs):
