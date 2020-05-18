@@ -2,8 +2,9 @@ from app.libs.redprint import Redprint
 from app.models.question import Question
 from app.models.answer import Answer
 from app.models.tag import Tag
-from app.validators.forms import QuestionUpdateForm, AnswerCreateForm
+from app.validators.forms import QuestionUpdateForm, AnswerForm, TopicCreateForm
 from app.models.base import db
+from app.models.discussion import DiscussionTopic
 from app.libs.error_code import Success, DeleteSuccess
 from flask import jsonify, g
 
@@ -51,9 +52,9 @@ def star_question(qid):
 @api.route('/<int:qid>/answers', methods=['POST'])
 def create_answer(qid):
     question = Question.query.get_or_404(qid)
-    form = AnswerCreateForm().validate_for_api()
+    form = AnswerForm().validate_for_api()
     with db.auto_commit():
-        answer = Answer(content=form.content.data, question_id=question.id, author_gid="0000000000")
+        answer = Answer(content=form.content.data, question_id=question.id, author_gid=g.user.gid)
         db.session.add(answer)
     return Success()
 
@@ -62,3 +63,23 @@ def create_answer(qid):
 def list_answer(qid):
     question = Question.query.get_or_404(qid)
     return jsonify(Answer.query.filter_by(question_id=question.id).all())
+
+
+@api.route('/<int:qid>/discussions', methods=['POST'])
+def create_topic(qid):
+    question = Question.query.get_or_404(qid)
+    form = TopicCreateForm().validate_for_api()
+    with db.auto_commit():
+        topic = DiscussionTopic(
+            question_id=question.id,
+            author_gid="0000000000"
+        )
+        form.populate_obj(topic)
+        db.session.add(topic)
+    return Success()
+
+
+@api.route('/<int:qid>/discussions', methods=['GET'])
+def list_topic(qid):
+    question = Question.query.get_or_404(qid)
+    return jsonify(DiscussionTopic.query.filter_by(question_id=question.id).all())
