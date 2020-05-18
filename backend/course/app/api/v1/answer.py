@@ -1,5 +1,5 @@
 from app.libs.redprint import Redprint
-from app.validators.forms import AnswerUpdateForm
+from app.validators.forms import AnswerForm
 from app.models.answer import Answer
 from app.models.base import db
 from app.libs.error_code import Success, DeleteSuccess
@@ -11,7 +11,7 @@ api = Redprint('answer')
 @api.route('/<int:aid>/update', methods=['PUT'])
 def update_answer(aid):
     answer = Answer.query.get_or_404(aid)
-    form = AnswerUpdateForm().validate_for_api()
+    form = AnswerForm().validate_for_api()
     with db.auto_commit():
         form.populate_obj(answer)
     return Success()
