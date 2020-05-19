@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, Integer, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, reconstructor
 from app.models.base import Base
 
 
@@ -12,6 +12,11 @@ class DiscussionTopic(Base):
     stars = Column(Integer, default=0)
     topic_answer = relationship('DiscussionAnswer')
 
+    @reconstructor
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields = ['id', 'question_id', 'stars', 'title', 'content', 'author_gid', 'stars']
+
 
 class DiscussionAnswer(Base):
     id = Column(Integer, primary_key=True)
@@ -19,3 +24,8 @@ class DiscussionAnswer(Base):
     content = Column(String(500), nullable=False)
     author_gid = Column(String(10), ForeignKey('user.gid'))
     reply_id = Column(Integer, default=0)
+
+    @reconstructor
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields = ['id', 'topic_id', 'content', 'author_gid', 'reply_id']

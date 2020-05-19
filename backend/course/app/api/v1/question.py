@@ -72,7 +72,7 @@ def create_topic(qid):
     with db.auto_commit():
         topic = DiscussionTopic(
             question_id=question.id,
-            author_gid="0000000000"
+            author_gid=g.user.gid
         )
         form.populate_obj(topic)
         db.session.add(topic)
