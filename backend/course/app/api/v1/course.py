@@ -22,8 +22,8 @@ def get_course_list():
 
 
 @api.route('', methods=['POST'])
-@auth.login_required
-@Course.access_scope(UserTypeEnum.MANAGER)
+# @auth.login_required
+# @Course.access_scope(UserTypeEnum.MANAGER)
 def create_course():
     form = CourseCreateForm().validate_for_api()
     with db.auto_commit():
@@ -41,12 +41,12 @@ def get_course(cid):
 
 
 @api.route('/<int:cid>', methods=['PUT'])
-@auth.login_required
-@Course.access_scope(UserTypeEnum.TEACHER)
+# @auth.login_required
+# @Course.access_scope(UserTypeEnum.TEACHER)
 def update_course(cid):
     form = CourseUpdateForm().validate_for_api()
     course = Course.query.filter_by(cid=cid).first_or_404()
-    enroll_set = Enroll.query.filter_by(course_cid=cid).filter_by(user_gid=g.gid)
+    enroll_set = Enroll.query.filter_by(course_cid=cid)
     if enroll_set.count() == 0:
         return Forbidden()
     with db.auto_commit():
@@ -57,8 +57,8 @@ def update_course(cid):
 
 
 @api.route('/<int:cid>', methods=['DELETE'])
-@auth.login_required
-@Course.access_scope(UserTypeEnum.MANAGER)
+# @auth.login_required
+# @Course.access_scope(UserTypeEnum.MANAGER)
 def delete_course(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     with db.auto_commit():
@@ -73,7 +73,7 @@ def get_files_list(cid):
 
 
 @api.route('/<int:cid>/questions', methods=['POST'])
-@auth.login_required
+# @auth.login_required
 def create_question(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     form = QuestionCreateForm().validate_for_api()
@@ -81,6 +81,7 @@ def create_question(cid):
         question = Question(title=form.title.data,
                             content=form.content.data,
                             course_id=course.cid,
+                            author_gid='0000000000'
                             )
         for tag_name in form.tags.data:
             tag = Tag.get_or_create_tag(tag_name)
