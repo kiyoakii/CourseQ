@@ -34,7 +34,7 @@ class Enroll(Base):
                 enroll.enroll_type = UserTypeEnum.STUDENT.value
                 db.session.add(enroll)
             for TA_gid in TAs_gid:
-                TA = User.query.get(gid=TA_gid).first_or_404()
+                TA = User.query.filter_by(gid=TA_gid).first_or_404()
                 enroll = Enroll()
                 enroll.course = course
                 enroll.user = TA
