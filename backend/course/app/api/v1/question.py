@@ -1,5 +1,5 @@
 from app.libs.redprint import Redprint
-from app.models.question import Question
+from app.models.question import Question, HistoryQuestion
 from app.models.answer import Answer
 from app.models.tag import Tag
 from app.validators.forms import QuestionUpdateForm, AnswerForm, TopicCreateForm
@@ -27,6 +27,12 @@ def update_question(qid):
                     question.tags.remove(tag_set.first())
                 except ValueError:
                     continue
+        if form.content.data or form.title.data:
+            history_question = HistoryQuestion()
+            form.populate_obj(history_question)
+            history_question.create_time = question.update_time
+            question.history_questions.append(history_question)
+            db.session.add(history_question)
     return Success()
 
 
@@ -54,7 +60,12 @@ def create_answer(qid):
     question = Question.query.get_or_404(qid)
     form = AnswerForm().validate_for_api()
     with db.auto_commit():
-        answer = Answer(content=form.content.data, question_id=question.id, author_gid=g.user.gid)
+        answer = Answer(
+            content=form.content.data,
+            question_id=question.id,
+            author_gid='0000000000',
+            # author_gid=g.user.gid
+        )
         db.session.add(answer)
     return Success()
 
@@ -72,7 +83,8 @@ def create_topic(qid):
     with db.auto_commit():
         topic = DiscussionTopic(
             question_id=question.id,
-            author_gid=g.user.gid
+            # author_gid=g.user.gid,
+            author_gid='0000000000'
         )
         form.populate_obj(topic)
         db.session.add(topic)
@@ -83,3 +95,9 @@ def create_topic(qid):
 def list_topic(qid):
     question = Question.query.get_or_404(qid)
     return jsonify(DiscussionTopic.query.filter_by(question_id=question.id).all())
+
+
+@api.route('/<int:qid>/history', methods=['GET'])
+def list_history(qid):
+    question = Question.query.get_or_404(qid)
+    return jsonify(question.history_questions)
