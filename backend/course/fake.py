@@ -6,10 +6,11 @@ from app.models.user import User
 app = create_app()
 with app.app_context():
     with db.auto_commit():
-        # 创建一个超级管理员
-        user = User()
-        user.nickname = 'Super'
-        user.gid = '0000000000'
-        user.email = '999@ustc.edu.cn'
-        user.auth = UserTypeEnum.MANAGER
-        db.session.add(user)
+        for i in range(100):
+            # 创建亿个超级管理员
+            user = User()
+            user.nickname = 'Super' + str(i)
+            user.gid = '%010d' % i
+            user.email = '999{0}@ustc.edu.cn'.format(i)
+            user.auth = UserTypeEnum.MANAGER
+            db.session.add(user)
