@@ -17,13 +17,13 @@ class Question(Base):
     course_id = Column(Integer, ForeignKey('course.cid'))
     tags = relationship('Tag', secondary=question_tag_table)
     update_time = Column(Integer)
-
+    answers = relationship('Answer')
     up_votes = relationship('QuestionUpVote')
 
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields = ['id', 'title', 'stars', 'tags', 'content']
+        self.fields = ['id', 'title', 'tags', 'content']
         self.update_time = self.create_time
 
     @property
