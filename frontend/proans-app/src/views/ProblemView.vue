@@ -12,7 +12,7 @@ import AnswerCard from '@/components/AnswerCard.vue';
 import Discussion from '@/components/Discussion.vue';
 
 export default {
-  name: 'AnswerView',
+  name: 'ProblemView',
   components: {
     ProblemCard,
     AnswerCard,
