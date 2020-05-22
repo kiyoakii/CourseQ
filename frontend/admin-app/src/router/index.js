@@ -9,6 +9,7 @@ const routes = [
     path: '/teacher/:tid',
     name: 'TeacherView',
     component: () => import('@/views/teacher/TeacherView.vue'),
+    redirect: '/teacher/:tid/courses',
     children: [
       {
         path: 'courses',
@@ -62,35 +63,29 @@ const routes = [
       },
     ],
   },
-  // {
-  //   path: '/admin',
-  //   name: 'Admin',
-  //   redirect: '/admin/course-manage',
-  // },
-  // {
-  //   path: '/admin/course-manage',
-  //   name: 'AdminCourseManage',
-  //   components: {
-  //     header: () => import('../components/AdminNavBar.vue'),
-  //     content: () => import('../views/AdminCourseManage.vue'),
-  //   },
-  // },
-  // {
-  //   path: '/admin/teacher-manage',
-  //   name: 'AdminTeacherManage',
-  //   components: {
-  //     header: () => import('../components/AdminNavBar.vue'),
-  //     content: () => import('../views/AdminTeacherManage.vue'),
-  //   },
-  // },
-  // {
-  //   path: '/admin/student-manage',
-  //   name: 'AdminStudentManage',
-  //   components: {
-  //     header: () => import('../components/AdminNavBar.vue'),
-  //     content: () => import('../views/AdminStudentManage.vue'),
-  //   },
-  // },
+  {
+    path: '/admin/:aid',
+    name: 'AdminView',
+    component: () => import('@/views/admin/AdminView.vue'),
+    redirect: '/admin/:aid/courses',
+    children: [
+      {
+        path: 'courses',
+        name: 'AdminCourseManage',
+        component: () => import('@/views/admin/CourseManage.vue'),
+      },
+      {
+        path: 'teachers',
+        name: 'AdminTeacherManage',
+        component: () => import('@/views/admin/TeacherManage.vue'),
+      },
+      {
+        path: 'students',
+        name: 'AdminStudentManage',
+        component: () => import('@/views/admin/StudentManage.vue'),
+      },
+    ],
+  },
 ];
 
 const router = new VueRouter({
