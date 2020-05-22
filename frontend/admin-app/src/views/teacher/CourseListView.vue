@@ -3,7 +3,7 @@
     <!-- This is TeacherCourseList component. -->
     <el-row :gutter="40">
       <el-col :span="8" v-for="(item, i) in courses" :key="i">
-        <router-link :to="'/teacher/semester-list'">
+        <router-link :to="'/teacher/1/course/1/semesters'">
           <el-button type="primary" plain>
               {{item.name}}
           </el-button>
@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: 'TeacherCourseList',
+  name: 'CourseListView',
   props: {
     courses: {
       type: Array,
