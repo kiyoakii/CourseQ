@@ -5,7 +5,7 @@
       <ul class="category-list">
         <li v-for="(item, i) in categories" :key="i"
         style="display: block;">
-           <router-link :to="'/' + item.id">
+           <router-link :to="'/proans/1/category/' + item.id + '/problem/0'">
             <el-button :icon="activeCategory === item.id ? 'el-icon-folder-opened':'el-icon-folder'"
             :class="item.type" class="category-item"
             @click="chooseCategory(item.id)">
