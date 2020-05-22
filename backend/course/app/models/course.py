@@ -8,7 +8,6 @@ from sqlalchemy.orm.exc import NoResultFound
 
 
 class Course(Base):
-    # todo return users json
     cid = Column(Integer, Sequence('course_id_seq'), primary_key=True)
     name_zh = Column(String(40), nullable=False)
     name_en = Column(String(40), nullable=False)
@@ -17,12 +16,14 @@ class Course(Base):
     textbooks = Column(String(50))
     semester = Column(String(50))
     resource = relationship("CourseResource")
+    questions = relationship('Question')
+    enroll = relationship('Enroll')
 
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields = ['cid', 'name_zh', 'name_en', 'intro',
-                       'pre_Course', 'textbooks', 'semester']
+                       'pre_Course', 'textbooks', 'semester', 'enroll']
 
     @staticmethod
     def access_scope(scope):
