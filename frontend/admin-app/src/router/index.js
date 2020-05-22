@@ -6,100 +6,91 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/teacher',
-    name: 'Teacher',
-    redirect: '/teacher/course-list',
-  },
-  {
-    // just for development, we are using dynamic route soon
-    path: '/teacher/course-list',
-    name: 'CourseList',
-    components: {
-      header: () => import('../components/TeacherNavBar.vue'),
-      content: () => import('../components/TeacherCourseList.vue'),
-    },
-  },
-  {
-    path: '/teacher/semester-list',
-    name: 'SemesterList',
-    components: {
-      header: () => import('../components/TeacherNavBar.vue'),
-      content: () => import('../components/TeacherSemesterList.vue'),
-    },
-  },
-  {
-    path: '/teacher/course',
-    name: 'TeacherCourseManage',
-    components: {
-      sidebar: () => import('../components/SideBar.vue'),
-      header: () => import('../components/TeacherNavBar.vue'),
-      content: () => import('../views/TeacherCourseManage.vue'),
-    },
-    redirect: '/teacher/course/assistants',
+    path: '/teacher/:tid',
+    name: 'TeacherView',
+    component: () => import('@/views/teacher/TeacherView.vue'),
     children: [
       {
-        path: 'assistants',
-        component: () => import('../views/TeacherAssiList.vue'),
+        path: 'courses',
+        name: 'TeacherCourseList',
+        component: () => import('@/views/teacher/CourseListView.vue'),
       },
       {
-        path: 'students',
-        component: () => import('../views/StudentList.vue'),
+        path: 'course/:cid/semesters',
+        name: 'TeacherSemesterList',
+        component: () => import('@/views/teacher/SemesterListView.vue'),
       },
       {
-        path: 'intro',
-        component: () => import('../views/CourseIntro.vue'),
-      },
-      {
-        path: 'announce',
-        component: () => import('../views/CourseAnnounce.vue'),
-      },
-      {
-        path: 'assignment',
-        component: () => import('../views/CourseAssignment.vue'),
-      },
-      {
-        path: 'resource',
-        component: () => import('../views/CourseRes.vue'),
-      },
-      {
-        path: 'schedule',
-        component: () => import('../views/CourseSchedule.vue'),
-      },
-      {
-        path: 'teacher',
-        component: () => import('../views/TeacherInfo.vue'),
+        path: '/teacher/:tid/course/:cid/semester/:sid/manage',
+        name: 'TeacherCourseManage',
+        component: () => import('@/views/teacher/ManageView.vue'),
+        redirect: '/teacher/:tid/course/:cid/semester/:sid/manage/assistants',
+        children: [
+          {
+            path: 'assistants',
+            component: () => import('@/views/teacher/manage/TeacherAssiList.vue'),
+          },
+          {
+            path: 'students',
+            component: () => import('@/views/teacher/manage/StudentList.vue'),
+          },
+          {
+            path: 'intro',
+            component: () => import('@/views/teacher/manage/CourseIntro.vue'),
+          },
+          {
+            path: 'announce',
+            component: () => import('@/views/teacher/manage/CourseAnnounce.vue'),
+          },
+          {
+            path: 'assignment',
+            component: () => import('@/views/teacher/manage/CourseAssignment.vue'),
+          },
+          {
+            path: 'resource',
+            component: () => import('@/views/teacher/manage/CourseRes.vue'),
+          },
+          {
+            path: 'schedule',
+            component: () => import('@/views/teacher/manage/CourseSchedule.vue'),
+          },
+          {
+            path: 'teacher',
+            component: () => import('@/views/teacher/manage/TeacherInfo.vue'),
+          },
+        ],
       },
     ],
   },
-  {
-    path: '/admin',
-    name: 'Admin',
-    redirect: '/admin/course-manage',
-  },
-  {
-    path: '/admin/course-manage',
-    name: 'AdminCourseManage',
-    components: {
-      header: () => import('../components/AdminNavBar.vue'),
-      content: () => import('../views/AdminCourseManage.vue'),
-    },
-  },
-  {
-    path: '/admin/teacher-manage',
-    name: 'AdminTeacherManage',
-    components: {
-      header: () => import('../components/AdminNavBar.vue'),
-      content: () => import('../views/AdminTeacherManage.vue'),
-    },
-  },
-  {
-    path: '/admin/student-manage',
-    name: 'AdminStudentManage',
-    components: {
-      header: () => import('../components/AdminNavBar.vue'),
-      content: () => import('../views/AdminStudentManage.vue'),
-    },
-  },
+  // {
+  //   path: '/admin',
+  //   name: 'Admin',
+  //   redirect: '/admin/course-manage',
+  // },
+  // {
+  //   path: '/admin/course-manage',
+  //   name: 'AdminCourseManage',
+  //   components: {
+  //     header: () => import('../components/AdminNavBar.vue'),
+  //     content: () => import('../views/AdminCourseManage.vue'),
+  //   },
+  // },
+  // {
+  //   path: '/admin/teacher-manage',
+  //   name: 'AdminTeacherManage',
+  //   components: {
+  //     header: () => import('../components/AdminNavBar.vue'),
+  //     content: () => import('../views/AdminTeacherManage.vue'),
+  //   },
+  // },
+  // {
+  //   path: '/admin/student-manage',
+  //   name: 'AdminStudentManage',
+  //   components: {
+  //     header: () => import('../components/AdminNavBar.vue'),
+  //     content: () => import('../views/AdminStudentManage.vue'),
+  //   },
+  // },
 ];
 
 const router = new VueRouter({
