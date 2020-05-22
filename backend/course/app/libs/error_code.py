@@ -22,6 +22,14 @@ class DeleteSuccess(Success):
     error_code = 1
 
 
+class UpVoteSuccess(Success):
+    msg = 'up vote successfully'
+
+
+class CancelUpVoteSuccess(Success):
+    msg = 'up vote cancelled'
+
+
 class ServerError(APIException):
     code = 500
     msg = 'ServerError'
