@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, Integer
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, reconstructor
 
 from app.models.base import Base, db
 
@@ -16,3 +16,8 @@ class Tag(Base):
         else:
             tag = tag_set.first()
         return tag
+
+    @reconstructor
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields = ['id', 'name']
