@@ -5,8 +5,9 @@ from app.models.tag import Tag
 from app.validators.forms import QuestionUpdateForm, AnswerForm, TopicCreateForm
 from app.models.base import db
 from app.models.discussion import DiscussionTopic
-from app.libs.error_code import Success, DeleteSuccess
+from app.libs.error_code import Success, DeleteSuccess, UpVoteSuccess, CancelUpVoteSuccess
 from flask import jsonify, g
+from app.models.upvote import QuestionUpVote
 
 api = Redprint('question')
 
@@ -73,7 +74,7 @@ def create_answer(qid):
 @api.route('/<int:qid>/answers', methods=['GET'])
 def list_answer(qid):
     question = Question.query.get_or_404(qid)
-    return jsonify(Answer.query.filter_by(question_id=question.id).all())
+    return jsonify(question.answers)
 
 
 @api.route('/<int:qid>/discussions', methods=['POST'])
@@ -94,10 +95,36 @@ def create_topic(qid):
 @api.route('/<int:qid>/discussions', methods=['GET'])
 def list_topic(qid):
     question = Question.query.get_or_404(qid)
-    return jsonify(DiscussionTopic.query.filter_by(question_id=question.id).all())
+    return jsonify(question.discussions)
 
 
 @api.route('/<int:qid>/history', methods=['GET'])
 def list_history(qid):
     question = Question.query.get_or_404(qid)
     return jsonify(question.history_questions)
+
+
+@api.route('/<int:qid>/like', methods=['POST'])
+def up_vote(qid):
+    question = Question.query.get_or_404(qid)
+    question_up_vote = QuestionUpVote.query \
+        .filter_by(question_id=question.id) \
+        .filter_by(user_gid='0000000000')
+    if question_up_vote.count():
+        with db.auto_commit():
+            question_up_vote.first().delete()
+        return CancelUpVoteSuccess()
+    else:
+        with db.auto_commit():
+            question_up_vote = QuestionUpVote(
+                question_id=question.id,
+                user_gid='0000000000'
+            )
+            db.session.add(question_up_vote)
+        return UpVoteSuccess()
+
+
+@api.route('/<int:qid>/like', methods=['GET'])
+def get_vote_num(qid):
+    question = Question.query.get_or_404(qid)
+    return jsonify({'likes': sum(map(lambda vote: vote.status == 1, question.up_votes))})
