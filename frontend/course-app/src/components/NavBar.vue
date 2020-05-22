@@ -1,9 +1,9 @@
 <template>
   <div class="nav-bar">
-    <el-menu default-active="/" mode="horizontal" router>
-      <el-menu-item index="/">课程名</el-menu-item>
-      <el-menu-item index="/course-calendar">课程日历</el-menu-item>
-      <el-menu-item index="/course-res">课程资源</el-menu-item>
+    <el-menu default-active="//course/:cid/semester/:sid/home" mode="horizontal" router>
+      <el-menu-item index="/course/:cid/semester/:sid/home">课程名</el-menu-item>
+      <el-menu-item index="/course/:cid/semester/:sid/course-calendar">课程日历</el-menu-item>
+      <el-menu-item index="/course/:cid/semester/:sid/course-res">课程资源</el-menu-item>
       <el-menu-item :index="$router.path"><el-link href="https://www.ele.me" target="_blank" :underline="false">答疑平台</el-link></el-menu-item>
       <el-submenu index="older">
         <template slot="title">过往学期</template>
