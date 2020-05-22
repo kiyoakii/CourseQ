@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import ProblemCategories from '../components/ProblemCategories.vue';
+import ProblemCategories from '@/components/ProblemCategories.vue';
 
 export default {
   name: 'VueHeader',
