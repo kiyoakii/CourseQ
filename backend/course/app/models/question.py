@@ -18,6 +18,8 @@ class Question(Base):
     tags = relationship('Tag', secondary=question_tag_table)
     update_time = Column(Integer)
 
+    up_votes = relationship('QuestionUpVote')
+
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
