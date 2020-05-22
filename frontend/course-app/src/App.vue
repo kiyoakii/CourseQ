@@ -7,7 +7,7 @@
       <el-main>
         <el-row type="flex" justify="center">
           <el-col :xs="24" :sm="24" :md="22" :lg="18" :xl="18" >
-            <router-view></router-view>
+            <vue-content></vue-content>
           </el-col>
         </el-row>
       </el-main>
@@ -16,12 +16,14 @@
 </template>
 
 <script>
-import VueHeader from './views/VueHeader.vue';
+import VueHeader from '@/views/VueHeader.vue';
+import VueContent from '@/views/VueContent.vue';
 
 export default {
   name: 'app',
   components: {
     VueHeader,
+    VueContent,
   },
 };
 </script>
@@ -31,7 +33,6 @@ export default {
   margin: 0;
   padding: 0;
 }
-
 
 #app {
   font-family: BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC,
@@ -44,5 +45,4 @@ export default {
 .el-header {
   padding: 0 !important;
 }
-
 </style>
