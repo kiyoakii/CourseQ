@@ -1,30 +1,12 @@
 <template>
   <div id="app">
-    <el-container>
-      <el-header>
-        <vue-header></vue-header>
-      </el-header>
-      <el-main>
-        <el-row type="flex" justify="center">
-          <el-col :xs="24" :sm="24" :md="22" :lg="22" :xl="22" >
-            <vue-content></vue-content>
-          </el-col>
-        </el-row>
-      </el-main>
-    </el-container>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import VueHeader from './views/VueHeader.vue';
-import VueContent from './views/VueContent.vue';
-
 export default {
   name: 'app',
-  components: {
-    VueHeader,
-    VueContent,
-  },
 };
 </script>
 
@@ -33,7 +15,6 @@ export default {
   margin: 0;
   padding: 0;
 }
-
 
 #app {
   font-family: BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC,
