@@ -1,27 +1,27 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
+import Home from '@/views/Home.vue';
+import CourseRes from '@/views/CourseRes.vue';
+import CourseCalendar from '@/views/CourseCalendar.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
+    path: '/course/:cid/semester/:sid/home',
     name: 'Home',
     component: Home,
+    alias: '/course/:cid/semester/:sid',
   },
   {
-    path: '/course-res',
+    path: '/course/:cid/semester/:sid/course-res',
     name: 'CourseRes',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/CourseRes.vue'),
+    component: CourseRes,
   },
   {
-    path: '/course-calendar',
+    path: '/course/:cid/semester/:sid/course-calendar',
     name: 'CourseCalendar',
-    component: () => import('../views/CourseCalendar.vue'),
+    component: CourseCalendar,
   },
 ];
 
