@@ -1,5 +1,5 @@
 from sqlalchemy import Column, ForeignKey, Integer, SmallInteger, String, Table
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, reconstructor
 
 from app.libs.enums import UserTypeEnum
 from .base import Base
@@ -11,8 +11,6 @@ class Enroll(Base):
     id = Column('id', Integer, primary_key=True)
     user_gid = Column(String(10), ForeignKey('user.gid'))
     course_cid = Column(Integer, ForeignKey('course.cid'))
-    user = relationship(User, backref='enroll')
-    course = relationship(Course, backref='enroll')
     enroll_type = Column('enroll_type', SmallInteger)
 
     @staticmethod
@@ -21,24 +19,27 @@ class Enroll(Base):
         with db.auto_commit():
             for teacher_gid in teachers_gid:
                 teacher = User.query.filter_by(gid=teacher_gid).first_or_404()
-                enroll = Enroll()
-                enroll.course = course
-                enroll.user = teacher
-                enroll.enroll_type = UserTypeEnum.TEACHER.value
+                enroll = Enroll(
+                    course_cid=course.cid,
+                    user_gid=teacher.gid,
+                    enroll_type=UserTypeEnum.TEACHER.value
+                )
                 db.session.add(enroll)
             for student_gid in students_gid:
                 student = User.query.filter_by(gid=student_gid).first_or_404()
-                enroll = Enroll()
-                enroll.course = course
-                enroll.user = student
-                enroll.enroll_type = UserTypeEnum.STUDENT.value
+                enroll = Enroll(
+                    course_cid=course.cid,
+                    user_gid=student.gid,
+                    enroll_type=UserTypeEnum.STUDENT.value
+                )
                 db.session.add(enroll)
             for TA_gid in TAs_gid:
                 TA = User.query.filter_by(gid=TA_gid).first_or_404()
-                enroll = Enroll()
-                enroll.course = course
-                enroll.user = TA
-                enroll.enroll_type = UserTypeEnum.TA.value
+                enroll = Enroll(
+                    course_cid=course.cid,
+                    user_gid=TA.gid,
+                    enroll_type=UserTypeEnum.TA.value
+                )
                 db.session.add(enroll)
 
     @staticmethod
@@ -53,6 +54,11 @@ class Enroll(Base):
             for TA_gid in TAs_gid:
                 enroll = Enroll.query.filter_by(user_gid=TA_gid, course_cid=course.gid)
                 enroll.delete()
+
+    @reconstructor
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields = ['user_gid', 'course_cid', 'enroll_type']
 
 
 question_tag_table = Table(
