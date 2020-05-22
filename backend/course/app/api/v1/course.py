@@ -29,8 +29,8 @@ def create_course():
     with db.auto_commit():
         course = Course()
         form.populate_obj(course)
-        Enroll.add_user(course, form.teachers_gid.data, form.students_gid.data, form.TAs_gid.data, db)
         db.session.add(course)
+        Enroll.add_user(course, form.teachers_gid.data, form.students_gid.data, form.TAs_gid.data, db)
     return Success()
 
 
