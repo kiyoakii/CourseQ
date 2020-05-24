@@ -2,42 +2,40 @@
   <div class="course-announcement">
     <!-- This is CourseAnnounce view. -->
     <el-scrollbar>
-        <el-card v-if="announcements.length > 0"
-          shadow="always" class="announcement-card">
-          <div slot="header" class="announcement-info">
-            <h3 class="announcement-title">{{ announcements[0].title }}</h3>
-            <div class="announcement-publish-info">
-              发布者：{{ announcements[0].publisher }}
-            </div>
-            <div class="announcement-publish-info">
-              发布时间：{{ announcements[0].date }}
-            </div>
+      <div v-if="announcements.length > 0"
+        shadow="always" class="announcement-card">
+        <div class="announcement-info">
+          <h3 class="announcement-title">{{ announcements[0].title }}</h3>
+          <div class="announcement-publish-info">
+            发布者：{{ announcements[0].publisher }}
           </div>
-          <div class="announcement-content">
-            {{ announcements[0].content }}
+          <div class="announcement-publish-info">
+            发布时间：{{ announcements[0].time }}
           </div>
-        </el-card>
+        </div>
+        <div class="announcement-content">
+          {{ announcements[0].content }}
+        </div>
+      </div>
       <div v-else>暂时没有公告哦(*^__^*)</div>
       <div v-if="announcements.length > 1"
         v-bind:class="{'announcements-panel-active': this.isActive,
         'announcements-panel-close': !this.isActive}">
-        <transition-group name="fade">
-          <el-card v-show="isActive" v-for="item in announcements.slice(1)" :key="item.title"
-            shadow="always" class="announcement-card">
-            <div slot="header" class="announcement-info">
-              <h3 class="announcement-title">{{ item.title }}</h3>
-              <div class="announcement-publish-info">
-                发布者：{{ item.publisher }}
-              </div>
-              <div class="announcement-publish-info">
-                发布时间：{{ item.date }}
-              </div>
+        <div v-show="isActive" v-for="item in announcements.slice(1)" :key="item.title"
+          shadow="always" class="announcement-card">
+          <div slot="header" class="announcement-info">
+            <h3 class="announcement-title">{{ item.title }}</h3>
+            <div class="announcement-publish-info">
+              发布者：{{ item.publisher }}
             </div>
-            <div class="announcement-content">
-              {{ item.content }}
+            <div class="announcement-publish-info">
+              发布时间：{{ item.time }}
             </div>
-          </el-card>
-        </transition-group>
+          </div>
+          <div class="announcement-content">
+            {{ item.content }}
+          </div>
+        </div>
       </div>
     </el-scrollbar>
     <el-button v-if="announcements.length > 1" @click="onClick" class="btn-more">
@@ -89,21 +87,6 @@ export default {
   height: 100%;
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: all 1s;
-}
-.fade-enter {
-  opacity: 0;
-  transform: translate(-20em, -60em);
-}
-.fade-leave-to {
-  transform: translate(20em, 10em);
-}
-
-.fade-move {
-  transition: transform 1s;
-}
-
 .course-announcement {
   display: flex;
   flex-direction: column;
@@ -116,11 +99,7 @@ export default {
   width: 100%;
   margin: 0;
   background-color: #f9fafc;
-}
-
-.btn-more:hover {
-  color: #409eff;
-  background-color: #f9fafc;
+  border: 0px;
 }
 
 .announcements-panel-active {
@@ -139,9 +118,11 @@ export default {
 
 .announcement-info {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: flex-start;
-  align-items: baseline
+  align-items: center;
+  margin-bottom: 30px;
+  width: 250px;
 }
 
 .more-announcements-header {
@@ -150,9 +131,11 @@ export default {
 }
 
 .announcement-card {
-  margin: 1em 0;
+  margin: 2em 1em 0 1em;
   height: auto;
   border: 0;
+  display: flex;
+  flex-direction: row;
 }
 
 .announcement-title {
@@ -161,10 +144,13 @@ export default {
 
 .announcement-publish-info {
  font-weight:200;
- margin:0 1em;
+ font-size: 14px;
+ display: flex;
 }
 
 .announcement-content {
+  display: flex;
+  font-size: 1em;
   margin:0 1em;
 }
 
