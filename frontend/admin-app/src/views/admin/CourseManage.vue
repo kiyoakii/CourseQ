@@ -42,13 +42,13 @@
           </el-form-item>
         </el-form>
         <div class="drawer__footer">
-        <div class="drawer-control">
-          <el-button type="primary" @click="onSubmit"
-            :loading="loading">{{ loading ? '提交中 ...' : '提 交' }}</el-button>
-          <el-button @click="cancelForm">取 消</el-button>
+          <div class="drawer-control">
+            <el-button type="primary" @click="onSubmit"
+              :loading="loading">{{ loading ? '提交中 ...' : '提 交' }}</el-button>
+            <el-button @click="cancelForm">取 消</el-button>
+          </div>
+          <el-button type="danger" class="btn-delete-course">删除课程</el-button>
         </div>
-        <el-button type="danger" class="btn-delete-course">删除课程</el-button>
-      </div>
       </div>
     </el-drawer>
     <el-drawer
