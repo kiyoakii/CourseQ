@@ -87,7 +87,7 @@
 import AdminCourseListSearch from '@/components/AdminCourseListSearch.vue';
 
 export default {
-  name: 'AdminCourseManage',
+  name: 'CourseManage',
   components: {
     AdminCourseListSearch,
   },
