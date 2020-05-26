@@ -22,7 +22,7 @@ import AdminMemberListSearch from '@/components/AdminMemberListSearch.vue';
 import AdminMemberList from '@/components/AdminMemberList.vue';
 
 export default {
-  name: 'AdminStudentManage',
+  name: 'StudentManage',
   components: {
     AdminMemberListSearch,
     AdminMemberList,
