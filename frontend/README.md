@@ -71,6 +71,35 @@ dockerrun course-app
 Now that we can visit `http://localhost:${port}` to do other work.
 > Different app has different port assigned, see detail in file `dockerrun.sh`.
 
+## Mock Data
+
+We are using mockjs for our developemnt since the api provided by backend has not been finished yet. For a quick start, please check the official document: http://mockjs.com/examples.html.
+
+After learning the basical grammar of mockjs, go to the `admin-app/src/mock/` folder and read files carefully. After that, you will know how to intercept the ajax request and send mock data to client.
+
+Genally speaking, you will run two steps:
+
+1. add template
+```js
+// admin-app/src/mock/index/admin/course-list.js
+const courses = {
+  'courses|2-7': [
+    {
+      'courseName|+1': ['计算方法', '体系结构', '信息安全', '微积分', '算法基础', '代数结构', '图论'],
+      'teacherName|1': () => Mock.Random.cname(),
+      id: () => Mock.Random.id(),
+    },
+  ],
+};
+```
+
+2. intercept request and mock data
+```js
+Mock.mock('/v1/admin/admin/course-list', 'get', courses.courses);
+```
+
+That's all of it. By the way, **our api document now is in minutes**.
+
 ## Bugs
 
 when you run `yarn` to init the apps, you will probably get following message:
