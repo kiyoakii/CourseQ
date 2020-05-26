@@ -14,10 +14,10 @@
         </div>
       </div>
       <el-row :gutter="40">
-        <el-col :span="6" v-for="(item, i) in courses" :key="i">
+        <el-col :span="6" v-for="course in courses" :key="course.id">
             <el-button type="primary" class="course-button" plain
-              @click="openModify(item)">
-                {{item.courseName}}
+              @click="openModify(course)">
+                {{course.courseName}}
             </el-button>
         </el-col>
       </el-row>
@@ -38,7 +38,7 @@
             <el-input v-model="form.courseName"></el-input>
           </el-form-item>
           <el-form-item label="主讲教师">
-            <el-input v-model="form.lecturerName"></el-input>
+            <el-input v-model="form.teacherName"></el-input>
           </el-form-item>
         </el-form>
         <div class="drawer__footer">
@@ -67,7 +67,7 @@
             <el-input v-model="form.courseName"></el-input>
           </el-form-item>
           <el-form-item label="主讲教师">
-            <el-input v-model="form.lecturerName"></el-input>
+            <el-input v-model="form.teacherName"></el-input>
           </el-form-item>
         </el-form>
         <div class="drawer__footer">
@@ -91,45 +91,28 @@ export default {
   components: {
     AdminCourseListSearch,
   },
-  props: {
-    courses: {
-      type: Array,
-      default() {
-        return [
-          {
-            courseName: '软件工程',
-            lecturerName: '李京',
-            link: '1',
-          },
-          {
-            courseName: '计算方法',
-            lecturerName: '陈先进',
-            link: '2',
-          },
-          {
-            courseName: '人工智能',
-            lecturerName: '吉建民',
-            link: '3',
-          },
-          {
-            courseName: '体系结构',
-            lecturerName: '张燕咏',
-            link: '4',
-          },
-        ];
-      },
-    },
-  },
   data() {
     return {
       infoManageActive: false,
       newCourseActive: false,
       form: {
         courseName: '软件工程',
-        lecturerName: '李京',
+        teacherName: '李京',
       },
       loading: false,
+      courses: [],
     };
+  },
+  mounted() {
+    this.axios.get('/v1/admin/admin/course-list')
+      .then((res) => {
+        console.log(res);
+        if (res.status !== 200) {
+          console.log(JSON.stringify(res.data));
+          return;
+        }
+        this.courses = res.data.courses;
+      });
   },
   methods: {
     onSubmit() {
@@ -157,7 +140,7 @@ export default {
     openModify(course) {
       this.infoManageActive = true;
       this.form.courseName = course.courseName;
-      this.form.lecturerName = course.lecturerName;
+      this.form.teacherName = course.teacherName;
     },
     handleClose(done) {
       if (this.loading) {
