@@ -14,7 +14,7 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'import/no-extraneous-dependencies': ['warn', {
-      'optionalDependencies': ['src/mock/index.js'],
+      optionalDependencies: ['src/mock/index.js'],
     }],
   },
   overrides: [
