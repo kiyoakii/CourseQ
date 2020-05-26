@@ -6,6 +6,7 @@ import router from './router';
 import store from './store';
 import './plugins/element';
 import './mock';
+import './plugins/vue-mavon-editor';
 
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
