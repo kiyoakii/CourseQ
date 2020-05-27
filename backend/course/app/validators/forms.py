@@ -85,3 +85,15 @@ class TopicUpdateForm(Form):
 class TopicAnswerForm(Form):
     reply_id = IntegerField(validators=[])
     content = TextAreaField(validators=[DataRequired()])
+
+
+class ScheduleCreateForm(Form):
+    week_id = IntegerField(validators=[DataRequired()])
+    topic = StringField(validators=[length(max=255), DataRequired()])
+    reference = StringField(validators=[length(max=255), DataRequired()])
+
+
+class ScheduleUpdateForm(Form):
+    week_id = IntegerField(validators=[])
+    topic = StringField(validators=[length(max=255)])
+    reference = StringField(validators=[length(max=255)])
