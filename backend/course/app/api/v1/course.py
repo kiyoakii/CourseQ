@@ -6,8 +6,10 @@ from app.libs.redprint import Redprint
 from app.models.base import db
 from app.models.question import Question
 from app.models.course import Course
+from app.models.schedule import Schedule
 from app.models.relation import Enroll
-from app.validators.forms import CourseCreateForm, CourseUpdateForm, QuestionCreateForm
+from app.validators.forms import CourseCreateForm, CourseUpdateForm, QuestionCreateForm, ScheduleCreateForm, \
+    ScheduleUpdateForm
 from app.libs.token_auth import auth
 from app.libs.enums import UserTypeEnum
 from app.models.tag import Tag
@@ -94,3 +96,18 @@ def create_question(cid):
 def get_question_list(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     return jsonify(Question.query.filter_by(course_id=course.cid).all())
+
+
+@api.route('/<int:cid>/schedules', methods=['POST'])
+def create_schedule(cid):
+    course = Course.query.filter_by(cid=cid).first_or_404()
+    form = ScheduleCreateForm().validate_for_api()
+    with db.auto_commit():
+        schedule = Schedule(week_id=form.week_id.data,
+                            topic=form.topic.data,
+                            reference=form.reference.data,
+                            course_id=course.cid,
+                            author_gid='0000000000'
+                            )
+        db.session.add(schedule)
+    return Success()
