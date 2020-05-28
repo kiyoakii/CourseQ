@@ -18,6 +18,7 @@ class Course(Base):
     resource = relationship("CourseResource")
     questions = relationship('Question')
     enroll = relationship('Enroll')
+    schedules = relationship('Schedule')
 
     @reconstructor
     def __init__(self, *args, **kwargs):
