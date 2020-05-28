@@ -95,7 +95,7 @@ def create_question(cid):
 @api.route('/<int:cid>/questions', methods=['GET'])
 def get_question_list(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
-    return jsonify(Question.query.filter_by(course_id=course.cid).all())
+    return jsonify(course.questions)
 
 
 @api.route('/<int:cid>/schedules', methods=['POST'])
@@ -106,8 +106,14 @@ def create_schedule(cid):
         schedule = Schedule(week_id=form.week_id.data,
                             topic=form.topic.data,
                             reference=form.reference.data,
-                            course_id=course.cid,
-                            author_gid='0000000000'
+                            course_id=course.cid
                             )
+
         db.session.add(schedule)
     return Success()
+
+
+@api.route('/<int:cid>/schedules', methods=['GET'])
+def list_schedules(cid):
+    course = Course.query.filter_by(cid=cid).first_or_404()
+    return jsonify(course.schedules)
