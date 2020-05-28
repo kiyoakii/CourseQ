@@ -4,4 +4,5 @@ from .discussion import DiscussionTopic, DiscussionAnswer
 from .user import User
 from .tag import Tag
 from .resource import CourseResource
+from .assignment import Assignment
 import app.models.relation
