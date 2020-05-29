@@ -2,7 +2,7 @@
   <div>
     <el-table :data="memberData" border id="member-table">
       <el-table-column prop="name" label="姓名"></el-table-column>
-      <el-table-column prop="id" label="学号"></el-table-column>
+      <el-table-column prop="id" label="ID"></el-table-column>
       <el-table-column prop="email" label="邮箱"></el-table-column>
       <el-table-column prop="phone" label="电话"></el-table-column>
       <el-table-column prop="academy" label="所属院系"></el-table-column>
