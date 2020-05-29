@@ -12,7 +12,7 @@
           <el-button type="primary" @click="onSubmit">注册新学生</el-button>
         </div>
       </div>
-      <admin-member-list id="stu-list"></admin-member-list>
+      <admin-member-list id="stu-list" :memberData="students"></admin-member-list>
     </div>
   </div>
 </template>
@@ -26,6 +26,22 @@ export default {
   components: {
     AdminMemberListSearch,
     AdminMemberList,
+  },
+  data() {
+    return {
+      students: [],
+    };
+  },
+  mounted() {
+    this.axios.get('/v1/admin/admin/student-list')
+      .then((res) => {
+        console.log(res);
+        if (res.status !== 200) {
+          console.log(JSON.stringify(res.data));
+          return;
+        }
+        this.students = res.data.students;
+      });
   },
   methods: {
     onSubmit() {
