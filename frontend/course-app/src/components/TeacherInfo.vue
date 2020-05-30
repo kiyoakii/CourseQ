@@ -10,28 +10,28 @@
             </div>
           </el-col>
           <el-col :span="4">
-            <div v-for="(item, i) in teacherInfo.teacher" :key="i">
+            <div v-for="(item, i) in teacherInfo.teachers" :key="i">
               <el-row>
                 <div class="grid-content bg-purple-light">
-                  <p>{{item}}</p>
+                  <p>{{ item.name }}</p>
                 </div>
               </el-row>
             </div>
           </el-col>
           <el-col :span="4">
-            <div v-for="(item, i) in teacherInfo.teacherEmail" :key="i">
+            <div v-for="(item, i) in teacherInfo.teachers" :key="i">
               <el-row>
                 <div class="grid-content bg-purple-light">
-                  <p>{{item}}</p>
+                  <p>{{ item.email }}</p>
                 </div>
               </el-row>
             </div>
           </el-col>
           <el-col :span="4">
-            <div v-for="(item, i) in teacherInfo.teacherPhone" :key="i">
+            <div v-for="(item, i) in teacherInfo.teachers" :key="i">
               <el-row>
                 <div class="grid-content bg-purple-light">
-                  <p>{{item}}</p>
+                  <p>{{ item.phone }}</p>
                 </div>
               </el-row>
             </div>
@@ -44,28 +44,28 @@
             </div>
           </el-col>
           <el-col :span="4">
-            <div v-for="(item, i) in teacherInfo.assistant" :key="i">
+            <div v-for="(item, i) in teacherInfo.assistants" :key="i">
               <el-row>
                 <div class="grid-content bg-purple-light">
-                  <p>{{item}}</p>
+                  <p>{{ item.name }}</p>
                 </div>
               </el-row>
             </div>
           </el-col>
           <el-col :span="4">
-            <div v-for="(item, i) in teacherInfo.assistantEmail" :key="i">
+            <div v-for="(item, i) in teacherInfo.assistants" :key="i">
               <el-row>
                 <div class="grid-content bg-purple-light">
-                  <p>{{item}}</p>
+                  <p>{{ item.email }}</p>
                 </div>
               </el-row>
             </div>
           </el-col>
           <el-col :span="4">
-            <div v-for="(item, i) in teacherInfo.assistantPhone" :key="i">
+            <div v-for="(item, i) in teacherInfo.assistants" :key="i">
               <el-row>
                 <div class="grid-content bg-purple-light">
-                  <p>{{item}}</p>
+                  <p>{{ item.phone }}</p>
                 </div>
               </el-row>
             </div>
@@ -84,12 +84,8 @@ export default {
       type: Object,
       default() {
         return {
-          teacher: ['Teacher1', 'Teacher2'],
-          teacherEmail: ['teacher@mail.com', 'teacher2@mail.com'],
-          teacherPhone: ['12312341234', '12341234'],
-          assistant: ['Assistant1', 'Assistant2'],
-          assistantEmail: ['ta1@mail.com', 'ta2@mail.com'],
-          assistantPhone: ['12312341234', '12312341234'],
+          teachers: [],
+          assistants: [],
         };
       },
     },

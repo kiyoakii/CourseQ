@@ -1,3 +1,4 @@
-// import Mock from 'mockjs';
+import Mock from 'mockjs';
+import allinfo from './allinfo';
 
-// TODO: write your own code here, please split the template as admin/src/mock/index.js do
+Mock.mock('/v1/course/allinfo?id=1', 'get', allinfo);
