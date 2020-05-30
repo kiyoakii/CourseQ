@@ -10,7 +10,7 @@
               发布者：{{ announcements[0].publisher }}
             </div>
             <div class="announcement-publish-info">
-              发布时间：{{ announcements[0].time }}
+              发布时间：{{ announcements[0].date }}
             </div>
           </div>
           <div class="announcement-content">
@@ -30,7 +30,7 @@
                 发布者：{{ item.publisher }}
               </div>
               <div class="announcement-publish-info">
-                发布时间：{{ item.time }}
+                发布时间：{{ item.date }}
               </div>
             </div>
             <div class="announcement-content">
