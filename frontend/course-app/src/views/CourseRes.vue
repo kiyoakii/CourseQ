@@ -4,15 +4,15 @@
     <div class="header">
       <h1>Resourses</h1>
     </div>
-    <el-card v-for="(item, i) in resourses" :key="i">
+    <el-card v-for="(item, i) in allinfo.resourses" :key="i">
       <div slot="header" class="res-header">
-        <h3 class="title">{{item.title}}</h3>
-        <div class="time">
-          {{item.time}}
+        <h3 class="title">{{ item.title }}</h3>
+        <div class="date">
+          {{ item.date }}
         </div>
       </div>
-      <div class="resourse-content" v-for="(content, j) in item.content" :key="j">
-        <el-link :href="content.link">{{content.name}}</el-link>
+      <div class="resourse-content" v-for="(attachment, j) in item.attachments" :key="j">
+        <el-link :href="attachment.downloadLink">{{ attachment.name }}</el-link>
       </div>
     </el-card>
     <div v-if="resourses.length == 0">
@@ -24,53 +24,8 @@
 <script>
 export default {
   name: 'CourseRes',
-  data() {
-    return {
-      resourses: [
-        {
-          title: 'Resourse 1',
-          time: '2020.04.27 20:00',
-          content: [
-            {
-              name: 'resourse1.1',
-              link: 'https://element.eleme.cn/#/zh-CN/component/link',
-            },
-            {
-              name: 'resourse1.2',
-              link: 'https://element.eleme.cn/#/zh-CN/component/link',
-            },
-          ],
-        },
-        {
-          title: 'Resourse 2',
-          time: '2020.04.27 20:00',
-          content: [
-            {
-              name: 'resourse2.1',
-              link: 'https://element.eleme.cn/#/zh-CN/component/link',
-            },
-            {
-              name: 'resourse2.2',
-              link: 'https://element.eleme.cn/#/zh-CN/component/link',
-            },
-          ],
-        },
-        {
-          title: 'Resourse 3',
-          time: '2020.04.27 20:00',
-          content: [
-            {
-              name: 'resourse3.1',
-              link: 'https://element.eleme.cn/#/zh-CN/component/link',
-            },
-            {
-              name: 'resourse3.2',
-              link: 'https://element.eleme.cn/#/zh-CN/component/link',
-            },
-          ],
-        },
-      ],
-    };
+  props: {
+    allinfo: {},
   },
 };
 </script>
@@ -88,7 +43,7 @@ export default {
 .title {
   margin: 0 1em;
 }
-.time {
+.date {
    margin: 0 1em;
    color: #909399;
 }
