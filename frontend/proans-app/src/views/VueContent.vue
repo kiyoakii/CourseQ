@@ -2,8 +2,7 @@
   <div>
     <el-container>
       <el-aside>
-        <search></search>
-        <problem-list></problem-list>
+        <side-bar></side-bar>
       </el-aside>
       <el-main>
         <router-view></router-view>
@@ -13,14 +12,12 @@
 </template>
 
 <script>
-import ProblemList from '@/components/ProblemList.vue';
-import Search from '@/components/Search.vue';
+import SideBar from '@/components/SideBar.vue';
 
 export default {
   name: 'VueContent',
   components: {
-    ProblemList,
-    Search,
+    SideBar,
   },
 };
 </script>
