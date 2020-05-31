@@ -21,7 +21,7 @@
 export default {
   name: 'ProblemList',
   props: {
-    problems: [],
+    problems: Array,
   },
   data() {
     return {
