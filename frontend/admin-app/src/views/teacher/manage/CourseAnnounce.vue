@@ -1,6 +1,6 @@
 <template>
   <div class="course-announce">
-    <el-row class="announce" v-for="anno in announceList" :key="anno.id">
+    <el-row class="announce" v-for="anno in allInfo.announces" :key="anno.id">
       <el-card class="card-box">
         <div slot="header" class="clearfix card-header">
           <span>{{ anno.title }}</span>
@@ -22,26 +22,8 @@
 <script>
 export default {
   name: 'CourseAnnounce',
-  data() {
-    return {
-      announceList: [
-        {
-          title: 'Announcement1',
-          content: 'This is Announcement1, This is Announcement1, This is Announcement1, This is Announcement1',
-          id: 1,
-        },
-        {
-          title: 'Announcement2',
-          content: 'This is Announcement1, This is Announcement1, This is Announcement1, This is Announcement1',
-          id: 2,
-        },
-        {
-          title: 'Announcement2',
-          content: 'This is Announcement1, This is Announcement1, This is Announcement1, This is Announcement1',
-          id: 3,
-        },
-      ],
-    };
+  props: {
+    allInfo: {},
   },
 };
 </script>

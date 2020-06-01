@@ -2,13 +2,13 @@
   <div class="intro">
     <el-card class="box-card" shadow="hover">
       <div slot="header" class="clearfix">
-        <span class="title">{{courseName}}</span>
+        <span class="title">{{ allInfo.name }}</span>
         <div class="footer">
           {{courseTerm}}
         </div>
       </div>
       <div class="text item">
-        {{ courseIntroduction }}
+        {{ allInfo.intro }}
       </div>
     </el-card>
     <el-card class="message-card">
@@ -37,14 +37,12 @@
 <script>
 export default {
   name: 'CourseIntro',
+  props: {
+    allInfo: {},
+  },
   data() {
     return {
-      courseName: '人工智能导论',
       courseTerm: '2020 Spring',
-      courseIntroduction: `人工智能是一个庞杂的学科体系，从概念上讲，
-                          一切为复制生物智能而做出的努力都可纳入其中。
-                          如何能够系统、全面、简洁地描述人工智能的全貌而不显得凌乱，
-                          绝非易事。主要教授如何选购扫地机器人`,
       courseTutor: 'Jianmin Ji',
       courseTime: '15:55-17:30 Monday, 9:45-11:20 Wednesday',
       courseReference: '周志华 《西瓜书》',

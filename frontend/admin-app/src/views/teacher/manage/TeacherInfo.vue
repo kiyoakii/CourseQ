@@ -17,7 +17,7 @@
         <el-button type="primary" @click="onSubmit">添加教师</el-button>
       </div>
     </div>
-    <el-table :data="teacherInfo" border id="teacher-table">
+    <el-table :data="allInfo.teachers" border id="teacher-table">
       <el-table-column prop="name" label="姓名"></el-table-column>
       <el-table-column prop="email" label="邮箱"></el-table-column>
       <el-table-column prop="phone" label="电话"></el-table-column>
@@ -39,6 +39,9 @@
 <script>
 export default {
   name: 'TeacherInfo',
+  props: {
+    allInfo: {},
+  },
   data() {
     return {
       teacherInfo: [
@@ -64,6 +67,9 @@ export default {
     },
     handleDelete(index, row) {
       console.log(index, row);
+    },
+    onSearch() {
+      console.log('search!');
     },
     onSubmit() {
       console.log('submit!');
