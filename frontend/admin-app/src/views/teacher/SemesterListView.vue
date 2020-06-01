@@ -41,6 +41,17 @@ export default {
       },
     },
   },
+  mounted() {
+    this.axios.get('/v1/admin/teacher/semester-list?course=1')
+      .then((res) => {
+        console.log(res);
+        if (res.status !== 200) {
+          console.log(JSON.stringify(res.data));
+          return;
+        }
+        this.semesters = res.data.semesters;
+      });
+  },
 };
 </script>
 
