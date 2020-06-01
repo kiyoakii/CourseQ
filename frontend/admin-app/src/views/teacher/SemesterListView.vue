@@ -16,30 +16,10 @@
 <script>
 export default {
   name: 'SemesterListView',
-  props: {
-    semesters: {
-      type: Array,
-      default() {
-        return [
-          {
-            name: '2019年春',
-            link: 'course',
-          },
-          {
-            name: '2018年春',
-            link: '2',
-          },
-          {
-            name: '2017年春',
-            link: '3',
-          },
-          {
-            name: '2016年春',
-            link: '4',
-          },
-        ];
-      },
-    },
+  data() {
+    return {
+      semesters: [],
+    };
   },
   mounted() {
     this.axios.get('/v1/admin/teacher/semester-list?course=1')
