@@ -16,30 +16,10 @@
 <script>
 export default {
   name: 'CourseListView',
-  props: {
-    courses: {
-      type: Array,
-      default() {
-        return [
-          {
-            name: '计算方法',
-            link: 'course',
-          },
-          {
-            name: '计算方法',
-            link: '2',
-          },
-          {
-            name: '计算方法',
-            link: '3',
-          },
-          {
-            name: '计算方法',
-            link: '4',
-          },
-        ];
-      },
-    },
+  data() {
+    return {
+      courses: [],
+    };
   },
   mounted() {
     this.axios.get('/v1/admin/teacher/course-list')

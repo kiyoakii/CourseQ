@@ -9,7 +9,7 @@
         <el-button type="primary" @click="onSubmit">添加学生</el-button>
       </div>
     </div>
-    <member-list id="ta-list"></member-list>
+    <member-list id="ta-list" :memberData="allInfo.students"></member-list>
   </div>
 </template>
 
@@ -22,6 +22,9 @@ export default {
   components: {
     MemberListSearch,
     MemberList,
+  },
+  props: {
+    allInfo: {},
   },
   methods: {
     onSubmit() {
