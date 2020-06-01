@@ -41,6 +41,17 @@ export default {
       },
     },
   },
+  mounted() {
+    this.axios.get('/v1/admin/teacher/course-list')
+      .then((res) => {
+        console.log(res);
+        if (res.status !== 200) {
+          console.log(JSON.stringify(res.data));
+          return;
+        }
+        this.courses = res.data.courses;
+      });
+  },
 };
 </script>
 
