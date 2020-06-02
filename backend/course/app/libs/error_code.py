@@ -54,6 +54,24 @@ class AuthFailed(APIException):
     msg = 'authorization failed'
 
 
+class TokenInvalid(APIException):
+    code = 401
+    error_code = 1002
+    msg = 'Token invalid'
+
+
+class TokenExpired(APIException):
+    code = 401
+    error_code = 1003
+    msg = 'Token expired'
+
+
+class TokenMissing(APIException):
+    code = 401
+    error_code = 1004
+    msg = 'Token missing'
+
+
 class Forbidden(APIException):
     code = 403
     error_code = 1004
