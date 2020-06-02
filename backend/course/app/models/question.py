@@ -1,6 +1,8 @@
+import datetime
+
 from sqlalchemy import Column, String, Integer, ForeignKey, Text
 from sqlalchemy.orm import relationship, reconstructor
-import datetime
+
 from app.models.base import Base
 from app.models.relation import question_tag_table
 

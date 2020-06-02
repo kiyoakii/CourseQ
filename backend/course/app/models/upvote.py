@@ -1,5 +1,4 @@
-from sqlalchemy import Column, String, Integer, ForeignKey, LargeBinary
-from sqlalchemy.orm import reconstructor
+from sqlalchemy import Column, String, Integer, ForeignKey
 
 from app.models.base import Base
 

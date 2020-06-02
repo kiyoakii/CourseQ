@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, Integer
-from sqlalchemy.orm import relationship, reconstructor
+from sqlalchemy.orm import reconstructor
 
-from app.models.base import Base, db
+from app.models.base import Base
 
 
 class Tag(Base):

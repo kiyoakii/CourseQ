@@ -1,13 +1,14 @@
+from flask import jsonify
+
+from app.libs.error_code import Success, DeleteSuccess, UpVoteSuccess, CancelUpVoteSuccess
 from app.libs.redprint import Redprint
-from app.models.question import Question, HistoryQuestion
 from app.models.answer import Answer
-from app.models.tag import Tag
-from app.validators.forms import QuestionUpdateForm, AnswerForm, TopicCreateForm
 from app.models.base import db
 from app.models.discussion import DiscussionTopic
-from app.libs.error_code import Success, DeleteSuccess, UpVoteSuccess, CancelUpVoteSuccess
-from flask import jsonify, g
+from app.models.question import Question, HistoryQuestion
+from app.models.tag import Tag
 from app.models.upvote import QuestionUpVote
+from app.validators.forms import QuestionUpdateForm, AnswerForm, TopicCreateForm
 
 api = Redprint('question')
 

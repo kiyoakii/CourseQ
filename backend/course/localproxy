@@ -1,0 +1,22 @@
+from werkzeug.local import LocalStack
+
+user_stack = LocalStack()
+user_stack.push({'name': 'Bob'})
+user_stack.push({'name': 'John'})
+
+
+def get_user():
+    # do something to get User object and return it
+    return user_stack.pop()
+
+
+# 直接调用函数获取 user 对象
+user = get_user()
+print(user['name'])
+print(user['name'])
+
+
+# # 通过 LocalProxy 使用 user 对象
+# user = LocalProxy(get_user)
+# print(user['name'])
+# print(user['name'])

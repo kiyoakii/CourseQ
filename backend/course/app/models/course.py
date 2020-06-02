@@ -1,10 +1,7 @@
 from sqlalchemy import Column, String, Integer, Sequence
 from sqlalchemy.orm import reconstructor, relationship
-import functools
+
 from app.models.base import Base
-from app.libs.error_code import Forbidden
-from flask import g
-from sqlalchemy.orm.exc import NoResultFound
 
 
 class Course(Base):
@@ -26,21 +23,3 @@ class Course(Base):
         self.fields = ['cid', 'name_zh', 'name_en', 'intro',
                        'pre_Course', 'textbooks', 'semester', 'enroll']
 
-    @staticmethod
-    def access_scope(scope):
-        def decorator(func):
-            @functools.wraps(func)
-            def wrapper(*args, **kwargs):
-                from app.models.relation import Enroll
-                try:
-                    enroll = Enroll.query.filter_by(course_cid=args[0]).filter_by(user_id=g.user.gid)
-                except NoResultFound:
-                    return Forbidden()
-                if enroll.enroll_type < scope:
-                    return Forbidden()
-
-                return func(*args, **kwargs)
-
-            return wrapper
-
-        return decorator

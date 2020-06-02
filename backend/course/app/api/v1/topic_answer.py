@@ -1,9 +1,10 @@
-from app.libs.redprint import Redprint
-from app.validators.forms import TopicUpdateForm, TopicAnswerForm
-from app.models.discussion import DiscussionTopic, DiscussionAnswer
-from app.models.base import db
-from app.libs.error_code import Success, DeleteSuccess
 from flask import jsonify, g
+
+from app.libs.error_code import Success, DeleteSuccess
+from app.libs.redprint import Redprint
+from app.models.base import db
+from app.models.discussion import DiscussionAnswer
+from app.validators.forms import TopicAnswerForm
 
 api = Redprint('topic_answer')
 
