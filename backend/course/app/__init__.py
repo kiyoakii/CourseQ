@@ -1,3 +1,5 @@
+from flask_jwt_extended import JWTManager
+
 from .app import Flask
 
 
@@ -7,6 +9,8 @@ def register_blueprints(app):
 
 
 def register_plugin(app):
+    from app.libs.token_auth import jwt
+    jwt.init_app(app)
     from app.models.base import db
     db.init_app(app)
     with app.app_context():
@@ -21,4 +25,5 @@ def create_app():
     register_blueprints(app)
     register_plugin(app)
 
+    jwt = JWTManager(app)
     return app
