@@ -45,9 +45,11 @@ def register():
                            g.user.gid,
                            g.user.uid)
     scope = User.assign_scope(user)
-    expiration = current_app.config['TOKEN_EXPIRATION']
-    token = generate_auto_token(scope,
-                                expiration,
-                                gid=g.user.gid,
-                                uid=g.user.uid)
-    return RegisterSuccess(token.decode('ascii'))
+    identity = {
+        'scope': scope,
+        'uid': g.user.uid,
+        'gid': g.user.gid
+    }
+    access_token = create_access_token(identity)
+
+    return RegisterSuccess(access_token)
