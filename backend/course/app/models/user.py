@@ -40,7 +40,11 @@ class User(Base):
 
         user = User.query.filter_by(gid=gid).first()
         scope = User.assign_scope(user)
-        return {'gid': gid, 'scope': scope, 'uid': uid}
+        return {
+            'gid': gid,
+            'scope': scope,
+            'uid': uid
+        }
 
     @staticmethod
     def assign_scope(user):
