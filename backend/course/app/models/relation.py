@@ -1,9 +1,8 @@
 from sqlalchemy import Column, ForeignKey, Integer, SmallInteger, String, Table
-from sqlalchemy.orm import relationship, reconstructor
+from sqlalchemy.orm import reconstructor
 
 from app.libs.enums import UserTypeEnum
 from .base import Base
-from .course import Course
 from .user import User
 
 
@@ -52,8 +51,15 @@ class Enroll(Base):
                 enroll = Enroll.query.filter_by(user_gid=student_gid, course_cid=course.cid)
                 enroll.delete()
             for TA_gid in TAs_gid:
-                enroll = Enroll.query.filter_by(user_gid=TA_gid, course_cid=course.gid)
+                enroll = Enroll.query.filter_by(user_gid=TA_gid, course_cid=course.cid)
                 enroll.delete()
+
+    @staticmethod
+    def user_to_role(user_gid, course_cid):
+        enroll = Enroll.query.filter_by(user_gid=user_gid, course_cid=course_cid).first()
+        if not enroll:
+            return None
+        return UserTypeEnum(enroll.enroll_type)
 
     @reconstructor
     def __init__(self, *args, **kwargs):
@@ -67,3 +73,5 @@ question_tag_table = Table(
     Column('tag_id', Integer, ForeignKey('tag.id')),
     Column('question_id', Integer, ForeignKey('question.id'))
 )
+
+

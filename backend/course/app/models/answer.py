@@ -1,5 +1,6 @@
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import reconstructor, relationship
+
 from app.models.base import Base
 
 
