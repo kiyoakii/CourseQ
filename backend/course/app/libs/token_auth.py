@@ -1,38 +1,54 @@
-from collections import namedtuple
+import wrapt
+from flask import g, request
+from flask_jwt_extended import JWTManager, get_jwt_identity, verify_jwt_in_request
 
-from flask import current_app, g, request
-from flask_httpauth import HTTPBasicAuth
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired
-
-from app.libs.error_code import AuthFailed, Forbidden
+from app.libs.error_code import Forbidden, TokenExpired, TokenInvalid, TokenMissing
 from app.libs.scope import is_in_scope
+from app.models.relation import Enroll
 
-auth = HTTPBasicAuth()
-User = namedtuple('User', ['gid', 'scope', 'uid'])
+jwt = JWTManager()
 
 
-@auth.verify_password
-def verify_password(token, password):
-    user = verify_auth_token(token)
-    if not user:
-        return False
-    else:
+# Endpoint-based
+@wrapt.decorator
+def login_required(wrapped, instance, args, kwargs):
+    verify_jwt_in_request()
+    user = get_jwt_identity()
+    if not is_in_scope(user['scope'], request.endpoint):
+        raise Forbidden
+    g.user = user
+    return wrapped(*args, **kwargs)
+
+
+# Object-based
+def role_required(required_role):
+    @wrapt.decorator
+    def wrapper(wrapped, instance, args, kwargs):
+        verify_jwt_in_request()
+        user = get_jwt_identity()
+        course_cid = kwargs['cid']
+        role = Enroll.user_to_role(user['gid'], course_cid)
+        if not role or role.value < required_role.value:
+            raise Forbidden
         g.user = user
-        return True
+        return wrapped(*args, **kwargs)
+    return wrapper
 
 
-def verify_auth_token(token):
-    s = Serializer(current_app.config['SECRET_KEY'])
-    try:
-        data = s.loads(token)
-    except BadSignature:
-        raise AuthFailed(msg='token is invalid', error_code=1002)
-    except SignatureExpired:
-        raise AuthFailed(msg='token is expired', error_code=1003)
-    gid = data['gid']
-    scope = data['scope']
-    uid = data['uid']
-    allow = is_in_scope(scope, request.endpoint)
-    if not allow:
-        raise Forbidden()
-    return User(gid, scope, uid)
+@jwt.user_loader_callback_loader
+def user_loader_callback(user):
+    g.user = user
+    return True
+
+
+@jwt.expired_token_loader
+def expired_token_callback(expired_token):
+    return TokenExpired
+
+
+@jwt.invalid_token_loader
+def invalid_token_callback(invalid_token):
+    if invalid_token == '':
+        return TokenMissing
+    else:
+        return TokenInvalid

@@ -4,5 +4,6 @@ This is the template for secure.py, please created your own secure.py this way.
 SQLALCHEMY_DATABASE_URI = \
     'mysql+pymysql://root:123456@localhost/name'
 
-SECRET_KEY = 'Lin Huancheng wudi'
+# SECRET_KEY = 'Lin Huancheng wudi'
 MAX_CONTENT_LENGTH = 16 * 1024 * 1024
+JWT_SECRET_KEY = 'Lin Huancheng zuishuai'
