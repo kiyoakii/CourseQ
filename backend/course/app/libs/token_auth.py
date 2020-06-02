@@ -32,6 +32,7 @@ def role_required(required_role):
             raise Forbidden
         g.user = user
         return wrapped(*args, **kwargs)
+
     return wrapper
 
 
@@ -43,12 +44,12 @@ def user_loader_callback(user):
 
 @jwt.expired_token_loader
 def expired_token_callback(expired_token):
-    return TokenExpired
+    return TokenExpired()
 
 
 @jwt.invalid_token_loader
 def invalid_token_callback(invalid_token):
     if invalid_token == '':
-        return TokenMissing
+        return TokenMissing()
     else:
-        return TokenInvalid
+        return TokenInvalid()

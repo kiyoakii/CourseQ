@@ -1,5 +1,4 @@
 from flask_jwt_extended import JWTManager
-
 from .app import Flask
 
 
@@ -25,5 +24,4 @@ def create_app():
     register_blueprints(app)
     register_plugin(app)
 
-    jwt = JWTManager(app)
     return app
