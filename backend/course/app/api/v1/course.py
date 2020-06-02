@@ -1,18 +1,20 @@
-from flask import jsonify, g
-from sqlalchemy.orm.exc import NoResultFound
+from flask import jsonify
+from flask_jwt_extended import jwt_required
 
+from app.libs.enums import UserTypeEnum
 from app.libs.error_code import Success, DeleteSuccess, Forbidden
 from app.libs.redprint import Redprint
+from app.libs.token_auth import role_required
 from app.models.base import db
-from app.models.question import Question
 from app.models.course import Course
 from app.models.schedule import Schedule
 from app.models.relation import Enroll
 from app.validators.forms import CourseCreateForm, CourseUpdateForm, QuestionCreateForm, ScheduleCreateForm, \
     ScheduleUpdateForm
-from app.libs.token_auth import auth
 from app.libs.enums import UserTypeEnum
+from app.models.question import Question
 from app.models.tag import Tag
+from app.validators.forms import CourseCreateForm, CourseUpdateForm, QuestionCreateForm
 
 api = Redprint('course')
 
@@ -24,8 +26,8 @@ def get_course_list():
 
 
 @api.route('', methods=['POST'])
-# @auth.login_required
-# @Course.access_scope(UserTypeEnum.MANAGER)
+@jwt_required
+@role_required(UserTypeEnum.MANAGER)
 def create_course():
     form = CourseCreateForm().validate_for_api()
     with db.auto_commit():
@@ -37,14 +39,14 @@ def create_course():
 
 
 @api.route('/<int:cid>', methods=['GET'])
+@jwt_required
+@role_required(UserTypeEnum.TEACHER)
 def get_course(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     return jsonify(course)
 
 
 @api.route('/<int:cid>', methods=['PUT'])
-# @auth.login_required
-# @Course.access_scope(UserTypeEnum.TEACHER)
 def update_course(cid):
     form = CourseUpdateForm().validate_for_api()
     course = Course.query.filter_by(cid=cid).first_or_404()
@@ -59,8 +61,6 @@ def update_course(cid):
 
 
 @api.route('/<int:cid>', methods=['DELETE'])
-# @auth.login_required
-# @Course.access_scope(UserTypeEnum.MANAGER)
 def delete_course(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     with db.auto_commit():
@@ -75,16 +75,16 @@ def get_files_list(cid):
 
 
 @api.route('/<int:cid>/questions', methods=['POST'])
-# @auth.login_required
 def create_question(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     form = QuestionCreateForm().validate_for_api()
     with db.auto_commit():
-        question = Question(title=form.title.data,
-                            content=form.content.data,
-                            course_id=course.cid,
-                            author_gid='0000000000'
-                            )
+        question = Question(
+            title=form.title.data,
+            content=form.content.data,
+            course_id=course.cid,
+            author_gid='0000000000'
+        )
         for tag_name in form.tags.data:
             tag = Tag.get_or_create_tag(tag_name)
             question.tags.append(tag)
