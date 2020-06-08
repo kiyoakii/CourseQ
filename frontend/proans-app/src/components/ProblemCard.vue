@@ -8,7 +8,7 @@
         </span>
       </div>
       <div class="text item">
-        {{ problem.desc }}
+        {{ problem.content }}
       </div>
       <div class="footer">
         <el-button size="medium">历史版本</el-button>
@@ -25,13 +25,19 @@ export default {
   name: 'ProblemCard',
   data() {
     return {
-      problem: {
-        title: '动态规划',
-        tags: ['标签一', '标签二', '标签三'],
-        desc: `动态规划相信大家都知道，但是动态规划到底是什么呢，下面小编给大家介绍一下吧。动态
-               规划就是一种算法，怎么样，大家有什么想法可以在评论区写下来一起分享。`,
-      },
+      problem: {},
     };
+  },
+  mounted() {
+    this.axios.get('/v1/proans/problem/detail?id=1&problem=1')
+      .then((res) => {
+        console.log(res);
+        if (res.status !== 200) {
+          console.log(JSON.stringify(res.data));
+          return;
+        }
+        this.problem = res.data.data.problem;
+      });
   },
 };
 </script>
