@@ -6,8 +6,8 @@
           <div v-for="(com, index) in commentList" :key="index">
             <card-comment class="comment"
               :username="com.username"
-              :time="com.time"
-              :comment="com.comment">
+              :time="com.date"
+              :comment="com.content">
             </card-comment>
           </div>
           <div class="new-discussion">
@@ -37,57 +37,19 @@ export default {
     return {
       isShow: '',
       editorShow: false,
-      commentList: [
-        {
-          username: '小王',
-          time: '2019/12/12',
-          comment: `
-              动态规划相信大家都知道，但是动态规划到底是什么呢，下面小编给大家介绍一下吧。
-              动态 规划就是一种算法，怎么样，大家有什么想法可以在评论区写下来一起分享。
-          `,
-        },
-        {
-          username: '小王',
-          time: '2019/12/12',
-          comment: `
-              动态规划相信大家都知道，但是动态规划到底是什么呢，下面小编给大家介绍一下吧。
-              动态 规划就是一种算法，怎么样，大家有什么想法可以在评论区写下来一起分享。
-          `,
-        },
-        {
-          username: '小王',
-          time: '2019/12/12',
-          comment: `
-              动态规划相信大家都知道，但是动态规划到底是什么呢，下面小编给大家介绍一下吧。
-              动态 规划就是一种算法，怎么样，大家有什么想法可以在评论区写下来一起分享。
-          `,
-        },
-        {
-          username: '小王',
-          time: '2019/12/12',
-          comment: `
-              动态规划相信大家都知道，但是动态规划到底是什么呢，下面小编给大家介绍一下吧。
-              动态 规划就是一种算法，怎么样，大家有什么想法可以在评论区写下来一起分享。
-          `,
-        },
-        {
-          username: '小王',
-          time: '2019/12/12',
-          comment: `
-              动态规划相信大家都知道，但是动态规划到底是什么呢，下面小编给大家介绍一下吧。
-              动态 规划就是一种算法，怎么样，大家有什么想法可以在评论区写下来一起分享。
-          `,
-        },
-        {
-          username: '小王',
-          time: '2019/12/12',
-          comment: `
-              动态规划相信大家都知道，但是动态规划到底是什么呢，下面小编给大家介绍一下吧。
-              动态 规划就是一种算法，怎么样，大家有什么想法可以在评论区写下来一起分享。
-          `,
-        },
-      ],
+      commentList: [],
     };
+  },
+  mounted() {
+    this.axios.get('/v1/proans/discussions?id=1&problem=1')
+      .then((res) => {
+        console.log(res);
+        if (res.status !== 200) {
+          console.log(JSON.stringify(res.data));
+          return;
+        }
+        this.commentList = res.data.data.discussions;
+      });
   },
 };
 </script>
