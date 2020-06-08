@@ -21,54 +21,27 @@
 <script>
 export default {
   name: 'ProblemCategories',
-  props: {
-    categories: {
-      type: Array,
-      default() {
-        return [
-          {
-            id: '1',
-            name: 'HW1',
-            type: 'homework',
-          },
-          {
-            id: '2',
-            name: 'HW2',
-            type: 'homework',
-          },
-          {
-            id: '3',
-            name: 'HW3',
-            type: 'homework',
-          },
-          {
-            id: '4',
-            name: 'Exam1',
-            type: 'exam',
-          },
-          {
-            id: '5',
-            name: 'Exam2',
-            type: 'exam',
-          },
-          {
-            id: '6',
-            name: 'Exam3',
-            type: 'exam',
-          },
-        ];
-      },
-    },
-  },
   data() {
     return {
       activeCategory: '0',
+      categories: [],
     };
   },
   methods: {
     chooseCategory(id) {
       this.activeCategory = id;
     },
+  },
+  mounted() {
+    this.axios.get('/v1/proans/categories?id=1')
+      .then((res) => {
+        console.log(res);
+        if (res.status !== 200) {
+          console.log(JSON.stringify(res.data));
+          return;
+        }
+        this.categories = res.data.data.categories;
+      });
   },
 };
 </script>
