@@ -1,41 +1,34 @@
 <template>
   <div>
     <!-- This is CourseSchedule view. -->
-    <el-card shadow="always">
+    <el-card shadow="always" class="box-card">
       <div slot="header">
         <h1>Schedule</h1>
       </div>
-      <el-card>
-        <el-table :data="schedule" highlight-current-row size="medium">
-          <el-table-column prop="week" label="Week" width="100" align="center"
-            style="font-weight:bold"></el-table-column>
-          <el-table-column label="Course 1st" width="260" align="left"
-            :show-overflow-tooltip="true">
-            <template slot-scope="scope">
-              <div>
-                <ul>
-                  <li v-for="(value, index) in scope.row.courseOne" :key="index">
-                    {{`${index}:${value}`}}
-                  </li>
-                </ul>
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column label="Course 2nd" width="260" align="left"
-            :show-overflow-tooltip="true">
-            <template slot-scope="scope">
-              <div>
-                <ul>
-                  <li v-for="(value, index) in scope.row.courseTwo" :key="index">
-                    {{`${index}:${value}`}}
-                  </li>
-                </ul>
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="assignments" label="Assignments" align="left"></el-table-column>
-        </el-table>
-      </el-card>
+
+      <el-table :data="schedule" header-row-class-name="tableHead" highlight-current-row>
+        <el-table-column prop="week" label="Week" width="100" align="center"
+          style="font-weight:bold"></el-table-column>
+        <!-- <el-table-column label="Date" width="260" align="center"
+          :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <div>
+              <ul>
+                <li v-for="(value, index) in scope.row.courseOne" :key="index">
+                  {{`${index}:${value}`}}
+                </li>
+              </ul>
+            </div>
+          </template>
+        </el-table-column> -->
+        <el-table-column prop="date" label="Date" width="100" align="center"
+          style="font-weight:bold"></el-table-column>
+        <el-table-column prop="lecture" label="Lecture" width="100" align="center"
+          style="font-weight:bold"></el-table-column>
+        <el-table-column prop="homework" label="Homework" align="center"></el-table-column>
+        <el-table-column prop="resource" label="Resource" width="100" align="center"
+          style="font-weight:bold"></el-table-column>
+      </el-table>
     </el-card>
   </div>
 </template>
@@ -50,13 +43,17 @@ export default {
         return [
           {
             week: 'Week1',
-            courseOne: null,
-            courseTwo: {
-              lecture: 'Lec1',
-              describe: 'Introduction',
-              reference: 'xxx',
-            },
-            assignments: 'Homework 1',
+            date: '2020-2-17',
+            lecture: '',
+            homework: 'Homework 1',
+            resource: '',
+          },
+          {
+            week: 'Week1',
+            date: '2020-2-19',
+            lecture: '',
+            homework: 'Homework 2',
+            resource: '',
           },
         ];
       },
@@ -66,5 +63,7 @@ export default {
 </script>
 
 <style scoped>
-
+.tableHead {
+  font-size: 40px;
+}
 </style>
