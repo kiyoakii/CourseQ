@@ -22,3 +22,6 @@ def framework_error(e):
         else:
             raise e
 
+
+if __name__ == '__main__':
+    app.run(debug=True)
