@@ -67,9 +67,9 @@
 | pre_Course   | 预修课程信息 | String            |                 | 是       |
 | textbooks    | 课本信息     | String            |                 | 是       |
 | semester     | 开课学期信息 | String            |                 | 是       |
-| teachers_gid | 教师gid列表  | String组成的Array | 缺省默认值'gid' | 是       |
-| students_gid | 学生gid列表  | String组成的Array | 缺省默认值'gid' | 是       |
-| TAs_gid      | 助教gid列表  | String组成的Array | 缺省默认值'gid' | 是       |
+| teachers_gid | 教师gid列表  | String组成的Array |  | 是       |
+| students_gid | 学生gid列表  | String组成的Array | | 是       |
+| TAs_gid      | 助教gid列表  | String组成的Array | | 是       |
 
 成功返回：
 
@@ -200,12 +200,12 @@
 | pre_Course       | 预修课程信息            | String            | 缺省时不做改动  | 否       |
 | textbooks        | 课本信息                | String            | 缺省时不做改动  | 否       |
 | semester         | 开课学期信息            | String            | 缺省时不做改动  | 否       |
-| new_teachers_gid | 新增的教师gid列表       | String组成的Array | 缺省默认值'gid' | 是       |
-| new_students_gid | 新增的学生gid列表       | String组成的Array | 缺省默认值'gid' | 是       |
-| TAs_gid          | 新增的助教gid列表       | String组成的Array | 缺省默认值'gid' | 是       |
-| del_teachers_gid | 需要删除的教师gid列表   | String组成的Array | 缺省默认值'gid' | 是       |
-| new_students_gid | 需要删除的的学生gid列表 | String组成的Array | 缺省默认值'gid' | 是       |
-| del_TAs_gid      | 需要删除的助教gid列表   | String组成的Array | 缺省默认值'gid' | 是       |
+| new_teachers_gid | 新增的教师gid列表       | String组成的Array |  | 是       |
+| new_students_gid | 新增的学生gid列表       | String组成的Array |  | 是       |
+| TAs_gid          | 新增的助教gid列表       | String组成的Array |  | 是       |
+| del_teachers_gid | 需要删除的教师gid列表   | String组成的Array |  | 是       |
+| new_students_gid | 需要删除的的学生gid列表 | String组成的Array |  | 是       |
+| del_TAs_gid      | 需要删除的助教gid列表   | String组成的Array |  | 是       |
 
 成功返回：
 
