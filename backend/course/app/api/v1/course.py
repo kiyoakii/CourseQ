@@ -26,8 +26,8 @@ def get_course_list():
 
 
 @api.route('', methods=['POST'])
-@jwt_required
-@role_required(UserTypeEnum.MANAGER)
+# @jwt_required
+# @role_required(UserTypeEnum.MANAGER)
 def create_course():
     form = CourseCreateForm().validate_for_api()
     with db.auto_commit():
@@ -39,8 +39,8 @@ def create_course():
 
 
 @api.route('/<int:cid>', methods=['GET'])
-@jwt_required
-@role_required(UserTypeEnum.TEACHER)
+# @jwt_required
+# @role_required(UserTypeEnum.TEACHER)
 def get_course(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     return jsonify(course)
