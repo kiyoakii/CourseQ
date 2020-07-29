@@ -1,4 +1,5 @@
-from flask_jwt_extended import JWTManager
+from flask_cors import CORS
+
 from .app import Flask
 
 
@@ -23,5 +24,5 @@ def create_app():
 
     register_blueprints(app)
     register_plugin(app)
-
+    CORS(app)
     return app
