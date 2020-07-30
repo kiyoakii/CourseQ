@@ -16,6 +16,7 @@ module.exports = {
     'import/no-extraneous-dependencies': ['warn', {
       optionalDependencies: ['src/mock/index.js'],
     }],
+    'linebreak-style': 'off'
   },
   overrides: [
     {
