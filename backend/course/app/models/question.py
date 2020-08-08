@@ -1,7 +1,7 @@
 import datetime
 
 from sqlalchemy import Column, String, Integer, ForeignKey, Text
-from sqlalchemy.orm import relationship, reconstructor
+from sqlalchemy.orm import relationship, reconstructor, backref
 
 from app.models.base import Base
 from app.models.relation import question_tag_table
@@ -12,20 +12,26 @@ class Question(Base):
     title = Column(String(127), nullable=False)
     content = Column(Text, nullable=False)
     author_gid = Column(String(10), ForeignKey('user.gid'))
-    # stars = Column(Integer, default=0)
-    root_qid = Column(Integer)
-    answer = relationship('Answer')
+    teacher_aid = Column(Integer, ForeignKey('answer.id'))
+    student_aid = Column(Integer, ForeignKey('answer.id'))
     discussions = relationship('DiscussionTopic')
     course_id = Column(Integer, ForeignKey('course.cid'))
     tags = relationship('Tag', secondary=question_tag_table)
     update_time = Column(Integer)
-    answers = relationship('Answer')
+    teacher_answer = relationship('Answer', foreign_keys=teacher_aid,
+                                  backref=backref('question_from_teacher', uselist=False))
+    student_answer = relationship('Answer', foreign_keys=student_aid,
+                                  backref=backref('question_from_student', uselist=False))
     up_votes = relationship('QuestionUpVote')
+    # history = relationship('History', foreign_keys='History.root_qid')
+    dump_fields = ['title', 'content']
+
+
 
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields = ['id', 'title', 'tags', 'content']
+        self.fields = ['id', 'title', 'tags', 'content', 'student_answer', 'teacher_answer', 'history']
         self.update_time = self.create_time
 
     @property
