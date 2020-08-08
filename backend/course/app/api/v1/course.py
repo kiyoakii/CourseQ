@@ -4,6 +4,7 @@ from app.libs.error_code import Success, DeleteSuccess, Forbidden
 from app.libs.redprint import Redprint
 from app.models.base import db
 from app.models.course import Course
+from app.models.history import History
 from app.models.question import Question
 from app.models.relation import Enroll
 from app.models.schedule import Schedule
@@ -80,11 +81,11 @@ def create_question(cid):
             course_id=course.cid,
             author_gid='0000000000'
         )
-        question.root_qid = question.id
+        history = History(root_question=question)
         for tag_name in form.tags.data:
             tag = Tag.get_or_create_tag(tag_name)
             question.tags.append(tag)
-        db.session.add(question)
+        db.session.add(question, history)
     return Success()
 
 
