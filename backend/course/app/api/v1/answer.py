@@ -16,6 +16,7 @@ def update_answer(aid):
     answer = Answer.query.get_or_404(aid)
     form = AnswerForm().validate_for_api()
     with db.auto_commit():
+
         form.populate_obj(answer)
     return Success()
 

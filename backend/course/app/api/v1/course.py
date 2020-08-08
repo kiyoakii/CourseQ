@@ -1,20 +1,15 @@
 from flask import jsonify
-from flask_jwt_extended import jwt_required
 
-from app.libs.enums import UserTypeEnum
 from app.libs.error_code import Success, DeleteSuccess, Forbidden
 from app.libs.redprint import Redprint
-from app.libs.token_auth import role_required
 from app.models.base import db
 from app.models.course import Course
-from app.models.schedule import Schedule
-from app.models.relation import Enroll
-from app.validators.forms import CourseCreateForm, CourseUpdateForm, QuestionCreateForm, ScheduleCreateForm, \
-    ScheduleUpdateForm
-from app.libs.enums import UserTypeEnum
 from app.models.question import Question
+from app.models.relation import Enroll
+from app.models.schedule import Schedule
 from app.models.tag import Tag
 from app.validators.forms import CourseCreateForm, CourseUpdateForm, QuestionCreateForm
+from app.validators.forms import ScheduleCreateForm
 
 api = Redprint('course')
 
@@ -85,6 +80,7 @@ def create_question(cid):
             course_id=course.cid,
             author_gid='0000000000'
         )
+        question.root_qid = question.id
         for tag_name in form.tags.data:
             tag = Tag.get_or_create_tag(tag_name)
             question.tags.append(tag)
