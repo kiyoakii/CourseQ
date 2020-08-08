@@ -13,7 +13,7 @@ class Question(Base):
     content = Column(Text, nullable=False)
     author_gid = Column(String(10), ForeignKey('user.gid'))
     # stars = Column(Integer, default=0)
-    history_questions = relationship("HistoryQuestion", back_populates='question')
+    root_qid = Column(Integer)
     answer = relationship('Answer')
     discussions = relationship('DiscussionTopic')
     course_id = Column(Integer, ForeignKey('course.cid'))
@@ -34,16 +34,3 @@ class Question(Base):
             return datetime.fromtimestamp(self.update_time)
         else:
             return None
-
-
-class HistoryQuestion(Base):
-    id = Column(Integer, primary_key=True)
-    title = Column(String(127), nullable=False)
-    content = Column(Text, nullable=False)
-    question = relationship("Question", back_populates='history_questions')
-    question_id = Column(Integer, ForeignKey('question.id'))
-
-    @reconstructor
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields = ['id', 'title', 'content', 'create_time']

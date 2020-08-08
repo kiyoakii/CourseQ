@@ -5,7 +5,7 @@ from app.libs.redprint import Redprint
 from app.models.answer import Answer
 from app.models.base import db
 from app.models.discussion import DiscussionTopic
-from app.models.question import Question, HistoryQuestion
+from app.models.question import Question
 from app.models.tag import Tag
 from app.models.upvote import QuestionUpVote
 from app.validators.forms import QuestionUpdateForm, AnswerForm, TopicCreateForm
@@ -30,10 +30,10 @@ def update_question(qid):
                 except ValueError:
                     continue
         if form.content.data or form.title.data:
-            history_question = HistoryQuestion()
+            history_question = Question()
             form.populate_obj(history_question)
             history_question.create_time = question.update_time
-            question.history_questions.append(history_question)
+            history_question.root_qid = question.id
             db.session.add(history_question)
     return Success()
 
