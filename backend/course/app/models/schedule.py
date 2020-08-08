@@ -10,7 +10,7 @@ from sqlalchemy.orm.exc import NoResultFound
 class Schedule(Base):
     id = Column(Integer, primary_key=True)
     course_id = Column(Integer, ForeignKey('course.cid'))
-    week_id = Column(Integer)
+    week = Column(Integer)
     topic = Column(String(255))
     reference = Column(String(255))
     assignments = relationship('Assignment')
@@ -18,4 +18,4 @@ class Schedule(Base):
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields = ['id', 'week_id', 'topic', 'reference', 'assignments']
+        self.fields = ['id', 'week', 'topic', 'reference', 'assignments']
