@@ -1,4 +1,4 @@
-from wtforms import StringField, FieldList, TextAreaField, IntegerField, DateTimeField
+from wtforms import StringField, FieldList, TextAreaField, IntegerField, DateTimeField,BooleanField
 from wtforms import ValidationError
 from wtforms.validators import DataRequired, length, Email
 
@@ -69,6 +69,7 @@ class QuestionUpdateForm(Form):
 
 
 class AnswerForm(Form):
+    is_teacher = BooleanField()
     content = TextAreaField(validators=[DataRequired()])
 
 
