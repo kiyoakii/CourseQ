@@ -1,10 +1,11 @@
 from flask import jsonify
 
-from app.libs.error_code import Success, DeleteSuccess, UpVoteSuccess, CancelUpVoteSuccess
+from app.libs.error_code import Success, DeleteSuccess, UpVoteSuccess, CancelUpVoteSuccess, Duplicate
 from app.libs.redprint import Redprint
 from app.models.answer import Answer
 from app.models.base import db
 from app.models.discussion import DiscussionTopic
+from app.models.history import History
 from app.models.question import Question
 from app.models.tag import Tag
 from app.models.upvote import QuestionUpVote
@@ -18,7 +19,6 @@ def update_question(qid):
     question = Question.query.get_or_404(qid)
     form = QuestionUpdateForm().validate_for_api()
     with db.auto_commit():
-        form.populate_obj(question)
         for new_tag_name in form.new_tags.data:
             tag = Tag.get_or_create_tag(new_tag_name)
             question.tags.append(tag)
@@ -30,11 +30,10 @@ def update_question(qid):
                 except ValueError:
                     continue
         if form.content.data or form.title.data:
-            history_question = Question()
-            form.populate_obj(history_question)
-            history_question.create_time = question.update_time
-            history_question.root_qid = question.id
-            db.session.add(history_question)
+            # history_question.author_gid=??
+            history = History.create_from_question(question)
+            form.populate_obj(question)
+            db.session.add(history)
     return Success()
 
 
@@ -64,10 +63,19 @@ def create_answer(qid):
     with db.auto_commit():
         answer = Answer(
             content=form.content.data,
-            question_id=question.id,
             author_gid='0000000000',
             # author_gid=g.user.gid
         )
+        if form.is_teacher.data:
+            if not question.teacher_aid:
+                question.teacher_answer = answer
+            else:
+                return Duplicate()
+        else:
+            if not question.student_aid:
+                question.student_answer = answer
+            else:
+                return Duplicate()
         db.session.add(answer)
     return Success()
 
