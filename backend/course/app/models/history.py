@@ -60,6 +60,7 @@ class HistoryQuestion(Base):
     title = Column(String(127), nullable=False)
     content = Column(Text, nullable=False)
     author_gid = Column(String(10), ForeignKey('user.gid'))
+    author = relationship('User')
 
     @staticmethod
     def copy_from(question):
@@ -71,7 +72,7 @@ class HistoryQuestion(Base):
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields = ['title', 'content']
+        self.fields = ['id', 'title', 'content', 'author']
         self.update_time = self.create_time
 
 
@@ -79,6 +80,7 @@ class HistoryAnswer(Base):
     id = Column(Integer, primary_key=True)
     content = Column(String(500), nullable=False)
     author_gid = Column(String(10), ForeignKey('user.gid'))
+    author = relationship('User')
 
     @staticmethod
     def copy_from(answer):
@@ -90,5 +92,5 @@ class HistoryAnswer(Base):
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields = ['content']
+        self.fields = ['id', 'content', 'author']
         self.update_time = self.create_time
