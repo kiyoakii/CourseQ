@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 
 from sqlalchemy import Column, String, Integer, ForeignKey, Text
 from sqlalchemy.orm import relationship, reconstructor, backref
@@ -23,15 +23,15 @@ class Question(Base):
     student_answer = relationship('Answer', foreign_keys=student_aid,
                                   backref=backref('question_from_student', uselist=False))
     up_votes = relationship('QuestionUpVote')
+    author = relationship('User')
     # history = relationship('History', foreign_keys='History.root_qid')
     dump_fields = ['title', 'content']
-
-
 
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields = ['id', 'title', 'tags', 'content', 'student_answer', 'teacher_answer', 'history']
+        self.fields = ['id', 'title', 'tags', 'content', 'student_answer', 'teacher_answer', 'history', 'stars',
+                       'update_datetime', 'create_datetime', 'author']
         self.update_time = self.create_time
 
     @property
@@ -40,3 +40,8 @@ class Question(Base):
             return datetime.fromtimestamp(self.update_time)
         else:
             return None
+
+    @property
+    def stars(self):
+        # todo: count()
+        return len(self.up_votes)
