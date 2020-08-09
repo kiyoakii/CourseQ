@@ -27,25 +27,33 @@ class History(Base):
 
     #
     @staticmethod
-    def create_from_student_answer(history_answer):
+    def create_from_student_answer(history_answer, create_answer=False):
         lastHistory = History.query.order_by(-History.id).filter_by(
             root_question=history_answer.question_from_student).first()
         history = History()
+        if not lastHistory.question:
+            history.question = HistoryQuestion.copy_from(history_answer.question_from_student)
+        else:
+            history.question = lastHistory.question
         history.root_question = history_answer.question_from_student
-        history.question = lastHistory.question if lastHistory else None
-        history.student_answer = HistoryAnswer.copy_from(history_answer)
-        history.teacher_answer = lastHistory.teacher_answer if lastHistory else None
+        if not create_answer:
+            history.student_answer = HistoryAnswer.copy_from(history_answer)
+        history.teacher_answer = lastHistory.teacher_answer
         return history
 
     @staticmethod
-    def create_from_teacher_answer(history_answer):
+    def create_from_teacher_answer(history_answer, create_answer=False):
         lastHistory = History.query.order_by(-History.id).filter_by(
             root_question=history_answer.question_from_teacher).first()
         history = History()
+        if not lastHistory.question:
+            history.question = HistoryQuestion.copy_from(history_answer.question_from_teacher)
+        else:
+            history.question = lastHistory.question
         history.root_question = history_answer.question_from_teacher
-        history.question = lastHistory.question if lastHistory else None
-        history.student_answer = lastHistory.student_answer if lastHistory else None
-        history.teacher_answer = HistoryAnswer.copy_from(history_answer)
+        history.student_answer = lastHistory.student_answer
+        if not create_answer:
+            history.teacher_answer = HistoryAnswer.copy_from(history_answer)
         return history
 
     @reconstructor
@@ -65,6 +73,7 @@ class HistoryQuestion(Base):
     @staticmethod
     def copy_from(question):
         historyQuestion = HistoryQuestion()
+        historyQuestion.author_gid = '0000000000'
         for field in question.dump_fields:
             setattr(historyQuestion, field, getattr(question, field))
         return historyQuestion
@@ -85,6 +94,7 @@ class HistoryAnswer(Base):
     @staticmethod
     def copy_from(answer):
         historyAnswer = HistoryAnswer()
+        historyAnswer.author_gid = '0000000000'
         for field in answer.dump_fields:
             setattr(historyAnswer, field, getattr(answer, field))
         return historyAnswer
