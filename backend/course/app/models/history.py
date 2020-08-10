@@ -1,6 +1,8 @@
+from datetime import datetime
+
 from sqlalchemy import Column, Integer, ForeignKey, String, Text
 from sqlalchemy.orm import reconstructor, relationship
-from datetime import datetime
+
 from app.models.base import Base
 
 
@@ -73,7 +75,7 @@ class HistoryQuestion(Base):
     @staticmethod
     def copy_from(question):
         historyQuestion = HistoryQuestion()
-        historyQuestion.author_gid = '0000000000'
+        historyQuestion.author_gid = question.author_gid
         for field in question.dump_fields:
             setattr(historyQuestion, field, getattr(question, field))
         return historyQuestion
@@ -98,7 +100,7 @@ class HistoryAnswer(Base):
     @staticmethod
     def copy_from(answer):
         historyAnswer = HistoryAnswer()
-        historyAnswer.author_gid = '0000000000'
+        historyAnswer.author_gid = answer.author_gid
         for field in answer.dump_fields:
             setattr(historyAnswer, field, getattr(answer, field))
         return historyAnswer
