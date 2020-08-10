@@ -4,7 +4,7 @@
       <li v-for="(problem, index) in problems" :key="index " class="infinite-list-item">
         <el-card class="box-card" shadow="hover">
           <div slot="header" class="clearfix">
-            <router-link :to="'/proans/1/problem/' + problem.id" class="link">
+            <router-link :to="'/proans/problem/' + problem.id" class="link">
               <span>{{ problem.title }}</span>
             </router-link>
           </div>
