@@ -5,12 +5,12 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/proans/:paid/problem/:pid',
+    path: '/proans/problem/:pid',
     name: 'ProblemView',
     component: () => import('@/views/ProblemView.vue'),
   },
   {
-    path: '/proans/:paid/category/:cid/problem/:pid',
+    path: '/proans/category/:cid/problem/:pid',
     name: 'CategoryView',
     component: () => import('@/views/ProblemView.vue'),
   },
