@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, ForeignKey, String, Text
 from sqlalchemy.orm import reconstructor, relationship
-
+from datetime import datetime
 from app.models.base import Base
 
 
@@ -81,8 +81,12 @@ class HistoryQuestion(Base):
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields = ['id', 'title', 'content', 'author']
+        self.fields = ['id', 'title', 'content', 'author', 'update_datetime']
         self.update_time = self.create_time
+
+    @property
+    def update_datetime(self):
+        return datetime.fromtimestamp(self.create_time)
 
 
 class HistoryAnswer(Base):
@@ -102,5 +106,9 @@ class HistoryAnswer(Base):
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields = ['id', 'content', 'author']
+        self.fields = ['id', 'content', 'author', 'update_datetime']
         self.update_time = self.create_time
+
+    @property
+    def update_datetime(self):
+        return datetime.fromtimestamp(self.create_time)

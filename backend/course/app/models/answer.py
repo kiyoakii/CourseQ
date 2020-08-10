@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, Integer, ForeignKey
-from sqlalchemy.orm import reconstructor
-
+from sqlalchemy.orm import reconstructor, relationship
+from datetime import datetime
 from app.models.base import Base
 
 
@@ -9,8 +9,13 @@ class Answer(Base):
     content = Column(String(500), nullable=False)
     author_gid = Column(String(10), ForeignKey('user.gid'))
     dump_fields = ['content']
+    author = relationship('User')
 
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields = ['id', 'content']
+        self.fields = ['id', 'content', 'author', 'update_datetime']
+
+    @property
+    def update_datetime(self):
+        return datetime.fromtimestamp(self.create_time)
