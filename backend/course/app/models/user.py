@@ -17,6 +17,9 @@ class User(Base):
     nickname = Column(String(24), unique=True)
     _auth = Column("auth", SmallInteger)
     favorite_question = relationship('Question', backref='user')
+    courses = relationship('Course',
+                           secondary='join(Enroll, Course, and_(Enroll.course_cid == Course.cid, Course.status == 1))',
+                           primaryjoin='and_(User.gid == Enroll.user_gid)')
 
     @orm.reconstructor
     def __init__(self):
