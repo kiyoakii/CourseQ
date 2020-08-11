@@ -1,7 +1,8 @@
-from flask import jsonify
+from flask import jsonify, request
 
 from app.libs.error_code import Success, DeleteSuccess, Forbidden
 from app.libs.redprint import Redprint
+from app.models import Announce
 from app.models.base import db
 from app.models.course import Course
 from app.models.history import History
@@ -9,7 +10,7 @@ from app.models.question import Question
 from app.models.relation import Enroll
 from app.models.schedule import Schedule
 from app.models.tag import Tag
-from app.validators.forms import CourseCreateForm, CourseUpdateForm, QuestionCreateForm
+from app.validators.forms import CourseCreateForm, CourseUpdateForm, QuestionCreateForm, AnnounceForm
 from app.validators.forms import ScheduleCreateForm
 
 api = Redprint('course')
@@ -42,15 +43,21 @@ def get_course(cid):
     return jsonify(course)
 
 
-@api.route('/<int:cid>', methods=['PUT'])
+@api.route('/<int:cid>', methods=['PUT', 'PATCH'])
 def update_course(cid):
+    # todo: put
     form = CourseUpdateForm().validate_for_api()
     course = Course.query.filter_by(cid=cid).first_or_404()
     enroll_set = Enroll.query.filter_by(course_cid=cid)
     if enroll_set.count() == 0:
         return Forbidden()
     with db.auto_commit():
-        form.populate_obj(course)
+        if request.method == 'PATCH':
+            for field, value in form.data.items():
+                if value:
+                    setattr(course, field, value)
+        else:
+            form.populate_obj(course)
         Enroll.add_user(course, form.new_teachers_gid.data, form.new_students_gid.data, form.new_TAs_gid.data, db)
         Enroll.del_user(course, form.del_teachers_gid.data, form.del_students_gid.data, form.del_TAs_gid.data, db)
     return Success()
@@ -114,3 +121,15 @@ def create_schedule(cid):
 def list_schedules(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     return jsonify(course.schedules)
+
+
+@api.route('/<int:cid>/announces', methods=['POST'])
+def create_announce(cid):
+    course = Course.query.filter_by(cid=cid).first_or_404()
+    form = AnnounceForm().validate_for_api()
+    with db.auto_commit():
+        announce = Announce()
+        form.populate_obj(announce)
+        announce.course = course
+        db.session.add(announce)
+    return Success()
