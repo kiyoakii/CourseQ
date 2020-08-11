@@ -18,7 +18,7 @@ api = Redprint('course')
 # TODO gid check and scope
 @api.route('', methods=['GET'])
 def get_course_list():
-    return jsonify(Course.query.all())
+    return jsonify(Course.query.filter_by().all())
 
 
 @api.route('', methods=['POST'])
