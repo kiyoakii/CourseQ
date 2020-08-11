@@ -1,5 +1,5 @@
-from flask import jsonify, g, current_app, Request
-from flask_jwt_extended import jwt_required, create_access_token
+from flask import jsonify, g
+from flask_jwt_extended import create_access_token
 
 from app.libs.enums import UserTypeEnum
 from app.libs.error_code import DeleteSuccess, RegisterSuccess
@@ -10,6 +10,18 @@ from app.models.user import User
 from app.validators.forms import UserForm
 
 api = Redprint('user')
+
+
+@api.route('/teachers', methods=['GET'])
+def get_teachers():
+    users = User.query.filter_by(_auth=UserTypeEnum.TEACHER.value).all()
+    return jsonify(users)
+
+
+@api.route('/students', methods=['GET'])
+def get_students():
+    users = User.query.filter_by(_auth=UserTypeEnum.STUDENT.value).all()
+    return jsonify(users)
 
 
 @api.route('/<string:gid>', methods=['GET'])
@@ -53,3 +65,10 @@ def register():
     access_token = create_access_token(identity)
 
     return RegisterSuccess(access_token)
+
+
+@api.route('/<string:gid>/courses', methods=['GET'])
+def get_courses(gid):
+    user = User.query.filter_by(gid=gid).first_or_404()
+    courses = user.courses
+    return jsonify(courses)
