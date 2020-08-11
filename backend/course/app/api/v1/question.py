@@ -69,11 +69,15 @@ def create_answer(qid):
         if form.is_teacher.data:
             if not question.teacher_aid:
                 question.teacher_answer = answer
+                # todo: history
+                # history = History.create_from_teacher_answer(answer, create_answer=True)
             else:
                 return Duplicate()
         else:
             if not question.student_aid:
                 question.student_answer = answer
+                # todo: history
+                # history = History.create_from_student_answer(answer, create_answer=True)
             else:
                 return Duplicate()
         db.session.add(answer)

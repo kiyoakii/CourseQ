@@ -34,7 +34,7 @@
 | name_zh    | 课程中文名       | String | 不会缺省 |
 | name_en    | 课程英文名       | String | 不会缺省 |
 | intro      | 课程简介         | String |          |
-| pre_Course | 预修课程         | String |          |
+| pre_course | 预修课程         | String |          |
 | textbooks  | 课本             | String |          |
 | semester   | 开课学期         | String |          |
 | enroll     | 课程注册人员列表 | Array  |          |
@@ -64,7 +64,7 @@
 | name_zh      | 课程中文名   | String            |                 | 是       |
 | name_en      | 课程英文名   | String            |                 | 是       |
 | intro        | 课程简介     | String            |                 | 是       |
-| pre_Course   | 预修课程信息 | String            |                 | 是       |
+| pre_course   | 预修课程信息 | String            |                 | 是       |
 | textbooks    | 课本信息     | String            |                 | 是       |
 | semester     | 开课学期信息 | String            |                 | 是       |
 | teachers_gid | 教师gid列表  | String组成的Array |  | 是       |
@@ -135,7 +135,7 @@
 | name_zh    | 课程中文名       | String | 不会缺省 |
 | name_en    | 课程英文名       | String | 不会缺省 |
 | intro      | 课程简介         | String |          |
-| pre_Course | 预修课程         | String |          |
+| pre_course | 预修课程         | String |          |
 | textbooks  | 课本             | String |          |
 | semester   | 开课学期         | String |          |
 | enroll     | 课程注册人员列表 | Array  |          |
@@ -197,7 +197,7 @@
 | name_zh          | 课程中文名              | String            | 缺省时不做改动  | 否       |
 | name_en          | 课程英文名              | String            | 缺省时不做改动  | 否       |
 | intro            | 课程简介                | String            | 缺省时不做改动  | 否       |
-| pre_Course       | 预修课程信息            | String            | 缺省时不做改动  | 否       |
+| pre_course       | 预修课程信息            | String            | 缺省时不做改动  | 否       |
 | textbooks        | 课本信息                | String            | 缺省时不做改动  | 否       |
 | semester         | 开课学期信息            | String            | 缺省时不做改动  | 否       |
 | new_teachers_gid | 新增的教师gid列表       | String组成的Array |  | 是       |
