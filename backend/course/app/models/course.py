@@ -9,7 +9,7 @@ class Course(Base):
     name_zh = Column(String(40), nullable=False)
     name_en = Column(String(40), nullable=False)
     intro = Column(String(200))
-    pre_Course = Column(String(50))
+    pre_course = Column(String(50))
     textbooks = Column(String(50))
     semester = Column(String(50))
     resource = relationship("CourseResource")
@@ -21,5 +21,8 @@ class Course(Base):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields = ['cid', 'name_zh', 'name_en', 'intro',
-                       'pre_Course', 'textbooks', 'semester', 'enroll']
+                       'pre_course', 'textbooks', 'semester', 'enroll']
 
+
+    # def teachers(self):
+    #     teacher =

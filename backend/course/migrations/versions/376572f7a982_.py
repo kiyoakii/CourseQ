@@ -25,7 +25,7 @@ def upgrade():
     sa.Column('name_zh', sa.String(length=40), nullable=False),
     sa.Column('name_en', sa.String(length=40), nullable=False),
     sa.Column('intro', sa.String(length=200), nullable=True),
-    sa.Column('pre_Course', sa.String(length=50), nullable=True),
+    sa.Column('pre_course', sa.String(length=50), nullable=True),
     sa.Column('textbooks', sa.String(length=50), nullable=True),
     sa.Column('semester', sa.String(length=50), nullable=True),
     sa.PrimaryKeyConstraint('cid')
