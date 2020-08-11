@@ -1,8 +1,14 @@
 from app.libs.errors import APIException
 
 
-class Success(APIException):
+class CreateSuccess(APIException):
     code = 201
+    msg = 'created'
+    error_code = 0
+
+
+class Success(APIException):
+    code = 200
     msg = 'ok'
     error_code = 0
 
@@ -18,7 +24,7 @@ class FileSuccess(Success):
 
 
 class DeleteSuccess(Success):
-    code = 202
+    code = 204
     error_code = 1
 
 
