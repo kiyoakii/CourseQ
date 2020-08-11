@@ -5,7 +5,7 @@ course_fields = {
     'name_zh': fields.String,
     'name_en': fields.String,
     'intro': fields.String,
-    'pre_Course': fields.String,
+    'pre_course': fields.String,
     'textbooks': fields.String,
     'semester': fields.String,
     # 'resource': fields.String

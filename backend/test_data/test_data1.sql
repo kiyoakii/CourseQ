@@ -121,7 +121,7 @@ CREATE TABLE `course` (
   `name_zh` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name_en` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
   `intro` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `pre_Course` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pre_course` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `textbooks` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `semester` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`cid`)
