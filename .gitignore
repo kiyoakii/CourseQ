@@ -12,6 +12,9 @@ venv
 .idea
 .vscode
 
+# uwsgi settings
+backend/course/uwsgi.ini
+
 # secure settings
 secure.py
 
