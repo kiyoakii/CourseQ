@@ -1,5 +1,5 @@
 from sqlalchemy import Column, ForeignKey, Integer, SmallInteger, String, Table
-from sqlalchemy.orm import reconstructor
+from sqlalchemy.orm import reconstructor, relationship
 
 from app.libs.enums import UserTypeEnum
 from .base import Base
@@ -11,6 +11,7 @@ class Enroll(Base):
     user_gid = Column(String(10), ForeignKey('user.gid'))
     course_cid = Column(Integer, ForeignKey('course.cid'))
     enroll_type = Column('enroll_type', SmallInteger)
+    user = relationship('User')
 
     @staticmethod
     def add_user(course, teachers_gid, students_gid, TAs_gid, db):
@@ -60,6 +61,9 @@ class Enroll(Base):
         if not enroll:
             return None
         return UserTypeEnum(enroll.enroll_type)
+
+    def serialize(self):
+        return self.user
 
     @reconstructor
     def __init__(self, *args, **kwargs):
