@@ -10,9 +10,10 @@ class Announce(Base):
     author_gid = Column(String(10), ForeignKey('user.gid'))
     title = Column(String(63))
     content = Column(Text, nullable=False)
+    course = relationship('Course')
     author = relationship('User')
 
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields = ['id', 'create_time', 'title', 'content', 'author']
+        self.fields = ['id', 'create_datetime', 'title', 'content', 'author']
