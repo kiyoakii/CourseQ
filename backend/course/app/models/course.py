@@ -23,10 +23,11 @@ class Course(Base):
                               primaryjoin='and_(Enroll.enroll_type=={0}, Enroll.course_cid==Course.cid)'.format(
                                   UserTypeEnum.TA.value))
     schedules = relationship('Schedule')
+    announces = relationship('Announce')
 
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields = ['cid', 'name_zh', 'name_en', 'intro',
                        'pre_course', 'textbooks', 'semester', 'teachers', 'assistants', 'students', 'schedules',
-                       'resources']
+                       'resources', 'announces']

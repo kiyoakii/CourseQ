@@ -1,5 +1,6 @@
 import app.models.relation
 import app.models.relation
+from .announce import Announce
 from .answer import Answer
 from .assignment import Assignment
 from .course import Course
