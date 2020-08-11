@@ -17,7 +17,7 @@ class JSONEncoder(_JSONEncoder):
         if isinstance(o, UserTypeEnum):
             return o.user_str(o)
         if isinstance(o, date):
-            return o.strftime('%Y-%m-%d')
+            return o.isoformat()
         raise ServerError()
 
 
