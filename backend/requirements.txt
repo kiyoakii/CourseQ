@@ -24,3 +24,4 @@ flask_jwt_extended==3.24.1
 wrapt==1.12.1
 Flask_Cors==3.0.8
 Flask-RESTful==0.3.8
+flask-scrpit==2.0.6
