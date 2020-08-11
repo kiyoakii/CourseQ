@@ -12,6 +12,7 @@ class Enroll(Base):
     course_cid = Column(Integer, ForeignKey('course.cid'))
     enroll_type = Column('enroll_type', SmallInteger)
     user = relationship('User')
+    course = relationship('Course')
 
     @staticmethod
     def add_user(course, teachers_gid, students_gid, TAs_gid, db):
