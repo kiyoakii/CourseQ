@@ -14,10 +14,10 @@
         </div>
       </div>
       <el-row :gutter="40">
-        <el-col :span="6" v-for="course in courses" :key="course.id">
+        <el-col :span="6" v-for="course in filteredCourses" :key="course.id">
             <el-button type="primary" class="course-button" plain
               @click="openModify(course)">
-                {{course.courseName}}
+                {{course.name_zh}}
             </el-button>
         </el-col>
       </el-row>
@@ -34,11 +34,33 @@
       </div>
       <div class="drawer__content">
         <el-form ref="form" :model="form">
-          <el-form-item label="课程标题">
-            <el-input v-model="form.courseName"></el-input>
+          <el-form-item label="课程中文名称">
+            <el-input v-model="form.name_zh"></el-input>
           </el-form-item>
-          <el-form-item label="主讲教师">
-            <el-input v-model="form.teacherName"></el-input>
+          <el-form-item label="课程英文名称">
+            <el-input v-model="form.name_en"></el-input>
+          </el-form-item>
+          <el-form-item label="授课教师">
+              <el-select v-model="form.teachers" multiple placeholder="请选择">
+              <el-option
+                v-for="teacher in teachers"
+                :key="teacher.gid"
+                :label="teacher.nickname"
+                :value="teacher.gid">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="课程学期">
+            <el-input v-model="form.semester"></el-input>
+          </el-form-item>
+          <el-form-item label="课程介绍">
+            <el-input v-model="form.intro"></el-input>
+          </el-form-item>
+          <el-form-item label="预修课程">
+            <el-input v-model="form.pre_course"></el-input>
+          </el-form-item>
+          <el-form-item label="课程书籍">
+            <el-input v-model="form.textbooks"></el-input>
           </el-form-item>
         </el-form>
         <div class="drawer__footer">
@@ -96,23 +118,26 @@ export default {
       infoManageActive: false,
       newCourseActive: false,
       form: {
-        courseName: '软件工程',
-        teacherName: '李京',
+        name_zh: '',
+        semester: '',
+        teachers: [],
+        name_en: '',
+        intro: '',
+        pre_course: '',
+        textbooks: '',
       },
       loading: false,
       courses: [],
     };
   },
-  mounted() {
-    this.axios.get('/v1/admin/admin/course-list')
-      .then((res) => {
-        console.log(res);
-        if (res.status !== 200) {
-          console.log(JSON.stringify(res.data));
-          return;
-        }
-        this.courses = res.data.courses;
-      });
+  computed: {
+    filteredCourses() {
+      return this.$store.getters.adminAllCourses;
+    },
+  },
+  beforeCreate() {
+    this.$store.dispatch('initAllCourses');
+    this.$store.dispatch('initAllTeachers');
   },
   methods: {
     onSubmit() {
@@ -139,8 +164,7 @@ export default {
     },
     openModify(course) {
       this.infoManageActive = true;
-      this.form.courseName = course.courseName;
-      this.form.teacherName = course.teacherName;
+      this.form = course;
     },
     handleClose(done) {
       if (this.loading) {
