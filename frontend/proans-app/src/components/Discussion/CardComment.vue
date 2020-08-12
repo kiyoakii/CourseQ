@@ -2,11 +2,11 @@
   <el-card>
     <div class="comment-header">
       <el-row type="flex" justify="space-between">
-        <div class="comment-user">{{ username }}@{{ time }}：</div>
+        <div class="comment-title">{{ title }}</div>
         <div>
           <div v-show="!editorShow">
             <el-button type="primary" icon="el-icon-edit" size="small"
-              @click="editorShow = true"></el-button>
+              @click="editorShow = true">回复</el-button>
           </div>
           <div v-show="editorShow">
             <el-button type="primary" icon="el-icon-close" size="small"
@@ -18,42 +18,81 @@
       </el-row>
     </div>
     <div class="comment-body">
-      {{ comment }}
+      {{ content }}
     </div>
     <div class="comment-editor" v-show="editorShow">
       <editor></editor>
     </div>
+    <el-collapse accordion v-model="isShow">
+      <el-collapse-item>
+        <template slot="title">
+          <i class="header-icon el-icon-chat-dot-round"></i>
+          <span class="reply-header">查看回复</span>
+        </template>
+        <div v-for="(com, index) in replyList" :key="index">
+          <card-reply class="reply"
+            :content="com.content">
+          </card-reply>
+        </div>
+        <div v-if="replyList.length == 0">暂时没有回复噢</div>
+      </el-collapse-item>
+    </el-collapse>
   </el-card>
 </template>
 
 <script>
 import Editor from '@/components/Editor.vue';
+import CardReply from '@/components/Discussion/CardReply.vue';
 
 export default {
   name: 'CardComment',
   components: {
     Editor,
+    CardReply,
   },
   props: {
-    username: {
+    title: {
       type: String,
     },
-    time: {
+    author_gid: {
       type: String,
     },
-    comment: {
+    stars: {
+      type: Number,
+    },
+    content: {
       type: String,
     },
   },
   data() {
     return {
       editorShow: false,
+      isShow: '',
+      replyList: [
+        {
+          title: '1',
+          content: 'askdjfhas',
+          author_gid: '1',
+          reply_id: '0',
+        },
+      ],
     };
   },
   computed: {
     userAndTime() {
       return `${this.username}@${this.time}：`;
     },
+  },
+  mounted() {
+    this.axios.get('/api/v1/discussions/1/answer')
+      .then((res) => {
+        console.log(res);
+        if (res.status !== 200) {
+          console.log(JSON.stringify(res.data));
+          return;
+        }
+        this.replyList = res.data;
+      });
   },
 };
 </script>
@@ -68,8 +107,16 @@ export default {
   margin-bottom: 10px;
 }
 
-.comment-user {
+.comment-title {
   line-height: 30px;
-  font-size: 15px;
+  font-size: 18px;
+}
+
+.reply {
+  margin-bottom: 10px;
+}
+
+.reply-header {
+  font-size: 14px;
 }
 </style>

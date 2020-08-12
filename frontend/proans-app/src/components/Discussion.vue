@@ -1,23 +1,17 @@
 <template>
   <div>
     <el-card>
-      <el-collapse accordion v-model="isShow">
-        <el-collapse-item title="讨论区" name="1">
-          <div v-for="(com, index) in commentList" :key="index">
-            <card-comment class="comment"
-              :username="com.username"
-              :time="com.date"
-              :comment="com.content">
-            </card-comment>
-          </div>
-          <div class="new-discussion">
-            <new-discussion></new-discussion>
-          </div>
-        </el-collapse-item>
-      </el-collapse>
-      <div class="last-comment" v-show="isShow == ''">
-        我觉得应该这样。<br>
-        不要你觉得，我要我觉得。
+      <div slot="header" class="clearfix">
+        <span class="title">讨论区</span>
+      </div>
+      <div v-for="(com, index) in commentList" :key="index">
+        <card-comment class="comment"
+          :title="com.title"
+          :content="com.content">
+        </card-comment>
+      </div>
+      <div class="new-discussion">
+        <new-discussion></new-discussion>
       </div>
     </el-card>
   </div>
@@ -33,6 +27,14 @@ export default {
     CardComment,
     NewDiscussion,
   },
+  props: {
+    qid: {
+      type: String,
+      default() {
+        return '2';
+      },
+    },
+  },
   data() {
     return {
       isShow: '',
@@ -41,14 +43,14 @@ export default {
     };
   },
   mounted() {
-    this.axios.get('/v1/proans/discussions?id=1&problem=1')
+    this.axios.get(`/api/v1/questions/${this.qid}/discussions`)
       .then((res) => {
         console.log(res);
         if (res.status !== 200) {
           console.log(JSON.stringify(res.data));
           return;
         }
-        this.commentList = res.data.data.discussions;
+        this.commentList = res.data;
       });
   },
 };
