@@ -20,11 +20,14 @@ class User(Base):
     courses = relationship('Course',
                            secondary='join(Enroll, Course, and_(Enroll.course_cid == Course.cid, Course.status == 1))',
                            primaryjoin='and_(User.gid == Enroll.user_gid)')
+    name = Column(String(24))
+    phone = Column(String(24))
+    school = Column(String(63))
 
     @orm.reconstructor
     def __init__(self):
         super().__init__()
-        self.fields = ['gid', 'email', 'nickname', 'auth']
+        self.fields = ['gid', 'email', 'nickname', 'auth', 'name', 'phone', 'school']
 
     @property
     def auth(self):
