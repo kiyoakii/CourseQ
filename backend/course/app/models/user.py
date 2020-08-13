@@ -18,7 +18,7 @@ class User(Base):
     _auth = Column("auth", SmallInteger)
     favorite_question = relationship('Question', backref='user')
     courses = relationship('Course',
-                           secondary='join(Enroll, Course, and_(Enroll.course_cid == Course.cid, Course.status == 1))',
+                           secondary='join(Enroll, Course, Enroll.course_cid == Course.cid)',
                            primaryjoin='and_(User.gid == Enroll.user_gid)')
     name = Column(String(24))
     phone = Column(String(24))
