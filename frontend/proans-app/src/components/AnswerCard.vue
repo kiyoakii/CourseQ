@@ -19,7 +19,20 @@
           </div>
           <div v-else></div>
           <div class="buttons">
-            <el-button size="medium">编辑</el-button>
+            <div v-show="!teacherEditorShow">
+              <el-button type="primary" icon="el-icon-edit" size="small"
+                @click="teacherEditorShow = true;
+                tAnswer = teacherAnswer !== null ? teacherAnswer.content:''">编辑</el-button>
+            </div>
+          </div>
+        </div>
+        <div class="editor" v-show="teacherEditorShow">
+          <mavon-editor v-model="tAnswer"></mavon-editor>
+          <div class="buttons">
+            <el-button type="primary" icon="el-icon-close" size="small"
+              @click="teacherEditorShow = false"></el-button>
+            <el-button type="primary" icon="el-icon-position" size="small"
+              @click="handleTeacherEdit"></el-button>
           </div>
         </div>
       </el-card>
@@ -43,7 +56,20 @@
           </div>
           <div v-else></div>
           <div class="buttons">
-            <el-button size="medium">编辑</el-button>
+            <div v-show="!studentEditorShow">
+              <el-button type="primary" icon="el-icon-edit" size="small"
+                @click="studentEditorShow = true;
+                tAnswer = studentAnswer !== null ?studentAnswer.content:''">编辑</el-button>
+            </div>
+          </div>
+        </div>
+        <div class="editor" v-show="studentEditorShow">
+          <mavon-editor v-model="sAnswer"></mavon-editor>
+          <div class="buttons">
+            <el-button type="primary" icon="el-icon-close" size="small"
+              @click="studentEditorShow = false"></el-button>
+            <el-button type="primary" icon="el-icon-position" size="small"
+              @click="handleStudentEdit"></el-button>
           </div>
         </div>
       </el-card>
@@ -60,6 +86,35 @@ export default {
     },
     studentAnswer: {
       type: Object,
+    },
+  },
+  data() {
+    return {
+      teacherEditorShow: false,
+      studentEditorShow: false,
+      value: '',
+      tAnswer: '',
+      sAnswer: '',
+    };
+  },
+  methods: {
+    handleTeacherEdit() {
+      if (this.teacherAnswer !== null) {
+        this.axios.put(`/api/v1/answers/${this.teacherAnswer.id}`,
+          { content: this.tAnswer })
+          .then((res) => {
+            console.log(res);
+          });
+      }
+    },
+    handleStudentEdit() {
+      if (this.studentAnswer !== null) {
+        this.axios.put(`/api/v1/answers/${this.studentAnswer.id}`,
+          { content: this.sAnswer })
+          .then((res) => {
+            console.log(res);
+          });
+      }
     },
   },
 };
@@ -85,4 +140,13 @@ export default {
   font-size: 12px;
   color: #606266;
 }
+.editor {
+  margin-top: 20px;
+}
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
 </style>
