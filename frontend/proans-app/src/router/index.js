@@ -10,9 +10,12 @@ const routes = [
     component: () => import('@/views/ProblemView.vue'),
   },
   {
-    path: '/proans/category/:cid/problem/:pid',
+    path: '/proans/',
     name: 'CategoryView',
-    component: () => import('@/views/ProblemView.vue'),
+    components: {
+      default: () => import('@/views/ProblemView.vue'),
+      sidebar: () => import('@/components/SideBar.vue'),
+    },
   },
 ];
 

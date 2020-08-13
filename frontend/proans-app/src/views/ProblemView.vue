@@ -1,7 +1,8 @@
 <template>
   <div>
-    <problem-card></problem-card>
-    <answer-card></answer-card>
+    <problem-card :problem="problem"></problem-card>
+    <answer-card :studentAnswer="studentAnswer"
+      :teacherAnswer="teacherAnswer"></answer-card>
     <discussion></discussion>
   </div>
 </template>
@@ -17,6 +18,22 @@ export default {
     ProblemCard,
     AnswerCard,
     Discussion,
+  },
+  data() {
+    return {
+      problem: {},
+      studentAnswer: {},
+      teacherAnswer: {},
+    };
+  },
+  beforeRouteUpdate(to, from, next) {
+    console.log(to, from);
+    next();
+    if (this.$route.query.pid !== undefined) {
+      this.problem = this.$store.getters.problem(this.$route.query.pid);
+      this.studentAnswer = this.problem.student_answer;
+      this.teacherAnswer = this.problem.teacher_answer;
+    }
   },
 };
 </script>
