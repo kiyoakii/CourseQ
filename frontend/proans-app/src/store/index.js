@@ -52,7 +52,7 @@ export default new Vuex.Store({
       };
     },
     problem(state) {
-      return (pid) => state.problems.find((p) => String(p.id) === pid);
+      return (pid) => state.problems.find((p) => p.id === pid);
     },
 
   },
@@ -63,7 +63,8 @@ export default new Vuex.Store({
       const tags = [];
       state.problems.forEach((p) => {
         p.tags.forEach((t) => {
-          if (!tags.includes(t)) {
+          if (tags.find((ta) => ta.name === t.name) === undefined) {
+            console.log(t, tags, tags.includes(t));
             tags.push(t);
           }
         });
