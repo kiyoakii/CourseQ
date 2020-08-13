@@ -4,11 +4,11 @@
         <div class="comment-title" v-show="!editEditorShow">{{ com.title }}</div>
         <div class="buttons" v-show="!editEditorShow">
           <el-button type="primary" size="small"
-          @click="beforeEdit">编辑</el-button>
-          <el-button type="primary" icon="el-icon-edit" size="small"
-            @click="replyEditorShow = true">回复</el-button>
+          @click="beforeEdit" icon="el-icon-edit">编辑</el-button>
+          <el-button type="primary" icon="el-icon-chat-dot-round" size="small"
+            @click="replyEditorShow = true" >回复</el-button>
           <el-button type="danger" size="small"
-              @click="handleDelete">删除</el-button>
+              @click="handleDelete" icon="el-icon-delete">删除</el-button>
         </div>
     </div>
     <div class="comment-body" v-show="!editEditorShow">
