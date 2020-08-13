@@ -26,7 +26,6 @@ export default {
   beforeRouteUpdate(to, from, next) {
     console.log(to, from);
     next();
-    console.log(this.$route.query.tid);
     this.problems = this.$store.getters.problemsByTag(this.$route.query.tid);
   },
   watch: {

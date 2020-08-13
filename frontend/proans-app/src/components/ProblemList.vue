@@ -2,9 +2,9 @@
   <div>
     <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
       <li v-for="(problem, index) in problems" :key="index " class="infinite-list-item"
-        @click="getProblem(index)" >
+        @click="getProblem(problem.id)" >
         <el-card class="box-card" shadow="hover"
-        :class="{selected:selectedProblem === index}">
+        :class="{selected:selectedProblem === problem.id}">
           <div slot="header" class="clearfix">
             <span>{{ problem.title }}</span>
           </div>
@@ -13,7 +13,48 @@
           </div>
         </el-card>
       </li>
+      <li @click="dialogFormVisible = true">
+        <el-card class="box-card center" shadow="hover">
+          <img src="@/assets/add.png" class="add-img">
+        </el-card>
+      </li>
     </ul>
+    <el-dialog title="新建问题" :visible.sync="dialogFormVisible">
+      <el-form :model="form">
+        <el-form-item label="标题" :label-width="formLabelWidth">
+          <el-input v-model="form.title" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="问题标签" :label-width="formLabelWidth">
+          <el-tag
+          :key="tag"
+          v-for="tag in form.tags"
+          closable
+          :disable-transitions="false"
+          @close="handleClose(tag)">
+          {{tag}}
+        </el-tag>
+        <el-input
+          class="input-new-tag"
+          v-if="inputVisible"
+          v-model="inputValue"
+          ref="saveTagInput"
+          size="small"
+          @keyup.enter.native="handleInputConfirm"
+          @blur="handleInputConfirm"
+        >
+        </el-input>
+        <el-button v-else class="button-new-tag" size="small"
+        @click="showInput">+ New Tag</el-button>
+        </el-form-item>
+        <el-form-item label="问题描述" :label-width="formLabelWidth">
+          <el-input v-model="form.content" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="onSubmit">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -27,22 +68,61 @@ export default {
     return {
       count: 0,
       selectedProblem: -1,
+      dialogFormVisible: false,
+      form: {
+        title: '',
+        content: '',
+        tags: ['标签1'],
+      },
+      formLabelWidth: '120px',
+      inputVisible: false,
+      inputValue: '',
     };
   },
   methods: {
     load() {
       this.count += 2;
     },
-    getProblem(index) {
-      this.selectedProblem = index;
+    getProblem(proid) {
+      this.selectedProblem = proid;
       this.$router.push({
         path: '/proans/',
         name: 'CategoryView',
         query: {
           tid: this.$route.query.tid,
-          pid: '2',
+          pid: proid,
         },
       });
+    },
+    handleClose(tag) {
+      this.form.tags.splice(this.form.tags.indexOf(tag), 1);
+    },
+    showInput() {
+      this.inputVisible = true;
+      this.$nextTick((_) => {
+        console.log(_);
+        this.$refs.saveTagInput.$refs.input.focus();
+      });
+    },
+    handleInputConfirm() {
+      if (this.inputValue) {
+        this.form.tags.push(this.inputValue);
+      }
+      this.inputVisible = false;
+      this.inputValue = '';
+    },
+    onSubmit() {
+      this.axios.post('/api/v1/courses/3/questions',
+        this.form)
+        .then((res) => {
+          console.log(res);
+          if (res.status !== 200) {
+            console.log(JSON.stringify(res.data));
+            return;
+          }
+          console.log('成功');
+          this.dialogFormVisible = false;
+        });
     },
   },
   filters: {
@@ -76,5 +156,27 @@ export default {
 .selected {
   background-color: #ecf5ff;
 }
+.center {
+  display: flex;
+  justify-content: center;
+}
+.add-img {
+  width: 40px;
+}
+.el-tag + .el-tag {
+    margin-left: 10px;
+  }
+  .button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .input-new-tag {
+    width: 90px;
+    margin-left: 10px;
+    vertical-align: bottom;
+  }
 
 </style>
