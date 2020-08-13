@@ -5,6 +5,7 @@ from sqlalchemy.orm import relationship, reconstructor, backref
 
 from app.models.base import Base
 from app.models.relation import question_tag_table
+from app.models.upvote import QuestionUpVote
 
 
 class Question(Base):
@@ -44,4 +45,4 @@ class Question(Base):
     @property
     def stars(self):
         # todo: count()
-        return len(self.up_votes)
+        return QuestionUpVote.query.filter_by(question_id=self.id).count()
