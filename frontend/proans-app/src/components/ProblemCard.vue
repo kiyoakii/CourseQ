@@ -25,8 +25,8 @@
             .toLocaleString('zh-CN', { timeZone: 'UTC'}) }} 修改</span>
         </div>
         <div class="buttons">
-          <el-button size="medium"
-          @click="handleEdit">编辑</el-button>
+          <el-button size="small" type="primary"
+          @click="handleEdit" icon="el-icon-edit">编辑</el-button>
           <el-popover
           placement="top"
           width="160"
@@ -36,7 +36,8 @@
             <el-button size="mini" type="text" @click="popoverVisible = false">取消</el-button>
             <el-button type="primary" size="mini" @click="handleDelete">确定</el-button>
           </div>
-          <el-button slot="reference">删除</el-button>
+          <el-button slot="reference" size="small" type="danger"
+          icon="el-icon-delete">删除</el-button>
         </el-popover>
         </div>
       </div>
@@ -147,5 +148,9 @@ export default {
   width: 20px;
   margin-right: 5px;
   margin-left: 20px;
+}
+
+.el-button {
+  margin-left: 5px;
 }
 </style>
