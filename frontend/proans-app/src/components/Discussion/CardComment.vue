@@ -1,27 +1,40 @@
 <template>
   <el-card>
     <div class="comment-header">
-      <el-row type="flex" justify="space-between">
-        <div class="comment-title">{{ com.title }}</div>
-        <div>
-          <div v-show="!editorShow">
-            <el-button type="primary" icon="el-icon-edit" size="small"
-              @click="editorShow = true">回复</el-button>
-          </div>
-          <div v-show="editorShow">
-            <el-button type="primary" icon="el-icon-close" size="small"
-              @click="editorShow = false"></el-button>
-            <el-button type="primary" icon="el-icon-position" size="small"
-              ></el-button>
-          </div>
+        <div class="comment-title" v-show="!editEditorShow">{{ com.title }}</div>
+        <div class="buttons" v-show="!editEditorShow">
+          <el-button type="primary" size="small"
+          @click="beforeEdit">编辑</el-button>
+          <el-button type="primary" icon="el-icon-edit" size="small"
+            @click="replyEditorShow = true">回复</el-button>
+          <el-button type="danger" size="small"
+              @click="handleDelete">删除</el-button>
         </div>
-      </el-row>
     </div>
-    <div class="comment-body">
+    <div class="comment-body" v-show="!editEditorShow">
       {{ com.content }}
     </div>
-    <div class="comment-editor" v-show="editorShow">
-      <editor></editor>
+    <div class="editor" v-show="editEditorShow">
+      <el-input v-model="form.title"
+        placeholder="标题"></el-input>
+      <mavon-editor v-model="form.content"></mavon-editor>
+      <div class="buttons">
+        <el-button type="primary" icon="el-icon-close" size="small"
+          @click="editEditorShow = false"></el-button>
+        <el-button type="primary" icon="el-icon-position" size="small"
+          @click="handleEdit"></el-button>
+      </div>
+    </div>
+    <div class="editor" v-show="replyEditorShow">
+      <el-input v-model="form.title"
+      placeholder="标题"></el-input>
+      <mavon-editor v-model="form.content"></mavon-editor>
+      <div class="buttons">
+        <el-button type="primary" icon="el-icon-close" size="small"
+          @click="replyEditorShow = false"></el-button>
+        <el-button type="primary" icon="el-icon-position" size="small"
+          @click="handleReply"></el-button>
+      </div>
     </div>
     <el-collapse accordion v-model="isShow">
       <el-collapse-item>
@@ -41,13 +54,11 @@
 </template>
 
 <script>
-import Editor from '@/components/Editor.vue';
 import CardReply from '@/components/Discussion/CardReply.vue';
 
 export default {
   name: 'CardComment',
   components: {
-    Editor,
     CardReply,
   },
   props: {
@@ -55,7 +66,8 @@ export default {
   },
   data() {
     return {
-      editorShow: false,
+      replyEditorShow: false,
+      editEditorShow: false,
       isShow: '',
       replyList: [
         {
@@ -65,7 +77,37 @@ export default {
           reply_id: '0',
         },
       ],
+      form: {
+        title: '',
+        content: '',
+      },
     };
+  },
+  methods: {
+    beforeEdit() {
+      this.form.title = this.com.title;
+      this.form.content = this.com.content;
+      this.editEditorShow = true;
+    },
+    handleEdit() {
+      this.axios.put(`/api/v1/discussions/${this.com.id}`, this.form)
+        .then((res) => {
+          console.log(res);
+        });
+    },
+    handleReply() {
+      console.log(this.form);
+      this.axios.post(`/api/v1/discussions/${this.com.id}/answer`, this.form)
+        .then((res) => {
+          console.log(res);
+        });
+    },
+    handleDelete() {
+      this.axios.delete(`/api/v1/discussions/${this.com.id}`)
+        .then((res) => {
+          console.log(res);
+        });
+    },
   },
   computed: {
     userAndTime() {
@@ -81,6 +123,7 @@ export default {
           return;
         }
         this.replyList = res.data;
+        console.log(this.replyList);
       });
   },
 };
@@ -94,6 +137,9 @@ export default {
 .comment-header {
   height: 30px;
   margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .comment-title {
@@ -107,5 +153,9 @@ export default {
 
 .reply-header {
   font-size: 14px;
+}
+
+.el-button {
+  margin-left: 5px;
 }
 </style>
