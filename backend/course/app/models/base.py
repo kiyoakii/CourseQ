@@ -42,7 +42,7 @@ class QueryWithSoftDelete(BaseQuery):
         # the query.get method does not like it if there is a filter clause
         # pre-loaded, so we need to implement it using a workaround
         obj = self.with_deleted()._get(*args, **kwargs)
-        return obj if obj is None or self._with_deleted or not obj.deleted else None
+        return obj if obj is None or self._with_deleted or not obj.status == 0 else None
 
 
 db = SQLAlchemy()
