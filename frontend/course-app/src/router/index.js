@@ -8,18 +8,18 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/course/:cid/semester/:sid/home',
+    path: '/course/:cid/home',
     name: 'Home',
     component: Home,
-    alias: '/course/:cid/semester/:sid',
+    alias: '/course/:cid',
   },
   {
-    path: '/course/:cid/semester/:sid/course-res',
+    path: '/course/:cid/resourse',
     name: 'CourseRes',
     component: CourseRes,
   },
   {
-    path: '/course/:cid/semester/:sid/course-calendar',
+    path: '/course/:cid/calendar',
     name: 'CourseCalendar',
     component: CourseCalendar,
   },
