@@ -30,6 +30,7 @@ export default {
     console.log(to, from);
     next();
     if (this.$route.query.pid !== undefined) {
+      console.log(this.$route.query.pid);
       this.problem = this.$store.getters.problem(this.$route.query.pid);
       this.studentAnswer = this.problem.student_answer;
       this.teacherAnswer = this.problem.teacher_answer;

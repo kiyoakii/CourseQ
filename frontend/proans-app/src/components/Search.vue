@@ -20,9 +20,8 @@ export default {
     event: 'search',
   },
   props: {
-    searchInfo: Object,
     tags: {
-      type: Object,
+      type: Array,
       default() {
         return [];
       },
