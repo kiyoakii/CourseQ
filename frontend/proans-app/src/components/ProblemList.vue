@@ -20,12 +20,12 @@
       </li>
     </ul>
     <el-dialog title="新建问题" :visible.sync="dialogFormVisible">
-      <el-form :model="form">
-        <el-form-item label="标题" :label-width="formLabelWidth">
-          <el-input v-model="form.title" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="问题标签" :label-width="formLabelWidth">
-          <el-tag
+      <div class="editor">
+        <div class="title">
+          <el-input placeholder="主题"
+          v-model="form.title"></el-input>
+        </div>
+        <el-tag
           :key="tag"
           v-for="tag in form.tags"
           closable
@@ -45,11 +45,8 @@
         </el-input>
         <el-button v-else class="button-new-tag" size="small"
         @click="showInput">+ New Tag</el-button>
-        </el-form-item>
-        <el-form-item label="问题描述" :label-width="formLabelWidth">
-          <el-input v-model="form.content" autocomplete="off"></el-input>
-        </el-form-item>
-      </el-form>
+        <mavon-editor class="mavon-editor" v-model="form.content"></mavon-editor>
+      </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="onSubmit">确 定</el-button>
@@ -90,7 +87,7 @@ export default {
         name: 'CategoryView',
         query: {
           tid: this.$route.query.tid,
-          pid: proid,
+          qid: proid,
         },
       });
     },
@@ -179,4 +176,10 @@ export default {
     vertical-align: bottom;
   }
 
+.title {
+  margin: 10px 0;
+}
+.mavon-editor {
+  margin: 20px 0;
+}
 </style>

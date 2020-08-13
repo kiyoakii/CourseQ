@@ -17,7 +17,9 @@
       </div>
       <div class="footer">
         <div class="edit-info">
-          <span>{{ problem.author.nickname }} 于 {{ problem.update_datetime }} 修改</span>
+          <span>{{ problem.author.nickname }} 于
+            {{ (new Date(problem.update_datetime))
+            .toLocaleString('zh-CN', { timeZone: 'UTC'}) }} 修改</span>
         </div>
         <div class="buttons">
           <el-button size="medium"
@@ -82,14 +84,15 @@ export default {
   },
   methods: {
     handleDelete() {
-      this.axios.delete(`/api/v1/questions/${this.problem.id}`)
-        .then((res) => {
-          console.log(res);
-          this.popoverVisible = false;
-          if (res.status !== 200) {
-            console.log(JSON.stringify(res.data));
-          }
-        });
+      // this.axios.delete(`/api/v1/questions/${this.problem.id}`)
+      //   .then((res) => {
+      //     console.log(res);
+      //     this.popoverVisible = false;
+      //     if (res.status !== 200) {
+      //       console.log(JSON.stringify(res.data));
+      //     }
+      //   });
+      console.log((new Date(this.problem.update_datetime)).toLocaleString());
     },
   },
 };
