@@ -10,6 +10,9 @@
           :content="com.content">
         </card-comment>
       </div>
+      <div v-if="commentList.length == 0" class="comment">
+        暂时没有讨论哦，快来发起第一个讨论吧
+      </div>
       <div class="new-discussion">
         <new-discussion></new-discussion>
       </div>

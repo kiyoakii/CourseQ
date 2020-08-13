@@ -5,8 +5,11 @@
         <div slot="header" class="clearfix">
           <span class="title">教师/助教回答</span>
         </div>
-        <div class="text item">
+        <div v-if="teacherAnswer != null" class="text item">
           {{ teacherAnswer.content }}
+        </div>
+        <div v-else class="text item">
+          暂时没有回答噢
         </div>
         <div class="footer">
           <el-button size="medium">历史版本</el-button>
@@ -19,8 +22,11 @@
         <div slot="header" class="clearfix">
           <span class="title">学生回答</span>
         </div>
-        <div class="text item">
+        <div v-if="studentAnswer != null" class="text item">
           {{ studentAnswer.content }}
+        </div>
+        <div v-else>
+          暂时没有回答噢
         </div>
         <div class="footer">
           <el-button size="medium">历史版本</el-button>
@@ -35,31 +41,13 @@
 <script>
 export default {
   name: 'AnswerCard',
-  data() {
-    return {
-      teacherAnswer: {},
-      studentAnswer: {},
-    };
-  },
-  mounted() {
-    this.axios.get('/v1/proans/answer/teacher?id=1&problem=1')
-      .then((res) => {
-        console.log(res);
-        if (res.status !== 200) {
-          console.log(JSON.stringify(res.data));
-          return;
-        }
-        this.teacherAnswer = res.data.data.answer;
-      });
-    this.axios.get('/v1/proans/answer/student?id=1&problem=1')
-      .then((res) => {
-        console.log(res);
-        if (res.status !== 200) {
-          console.log(JSON.stringify(res.data));
-          return;
-        }
-        this.studentAnswer = res.data.data.answer;
-      });
+  props: {
+    teacherAnswer: {
+      type: Object,
+    },
+    studentAnswer: {
+      type: Object,
+    },
   },
 };
 </script>

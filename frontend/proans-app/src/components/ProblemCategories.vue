@@ -5,13 +5,11 @@
       <ul class="category-list">
         <li v-for="(item, i) in categories" :key="i"
         style="display: block;">
-           <router-link :to="'/proans/1/category/' + item.id + '/problem/0'">
-            <el-button :icon="activeCategory === item.id ? 'el-icon-folder-opened':'el-icon-folder'"
-            :class="item.type" class="category-item"
-            @click="chooseCategory(item.id)">
-              {{ item.name }}
-            </el-button>
-           </router-link>
+          <el-button :icon="activeCategory === item.id ? 'el-icon-folder-opened':'el-icon-folder'"
+          :class="item.type" class="category-item"
+          @click="chooseCategory(item.id)">
+            {{ item.name }}
+          </el-button>
         </li>
       </ul>
     </el-scrollbar>
@@ -29,19 +27,23 @@ export default {
   },
   methods: {
     chooseCategory(id) {
-      this.activeCategory = id;
+      if (this.activeCategory !== id) {
+        this.activeCategory = id;
+        this.$router.push({
+          path: '/proans/',
+          name: 'CategoryView',
+          query: {
+            tid: id,
+          },
+        });
+      }
     },
   },
   mounted() {
-    this.axios.get('/v1/proans/categories?id=1')
-      .then((res) => {
-        console.log(res);
-        if (res.status !== 200) {
-          console.log(JSON.stringify(res.data));
-          return;
-        }
-        this.categories = res.data.data.categories;
-      });
+    const self = this;
+    setTimeout(() => {
+      this.categories = self.$store.getters.allTags;
+    }, 2000);
   },
 };
 </script>

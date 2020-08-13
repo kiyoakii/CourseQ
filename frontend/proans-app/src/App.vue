@@ -32,6 +32,7 @@ export default {
     const self = this;
     setTimeout(() => {
       console.log(self.$store.getters.allProblems);
+      console.log(self.$store.getters.allTags);
     }, 2000);
   },
 };
