@@ -3,8 +3,8 @@
     <el-card class="box-card" shadow="hover">
       <div slot="header" class="clearfix">
         <span class="title">{{ problem.title }}</span>
-        <span class="tags" v-for="tag in problem.tags" :key="tag">
-          <el-tag class="success" size="mini">{{ tag }}</el-tag>
+        <span class="tags" v-for="tag in problem.tags" :key="tag.id">
+          <el-tag class="success" size="mini">{{ tag.name }}</el-tag>
         </span>
       </div>
       <div class="text item">
@@ -23,21 +23,17 @@
 <script>
 export default {
   name: 'ProblemCard',
-  data() {
-    return {
-      problem: {},
-    };
-  },
-  mounted() {
-    this.axios.get('/v1/proans/problem/detail?id=1&problem=1')
-      .then((res) => {
-        console.log(res);
-        if (res.status !== 200) {
-          console.log(JSON.stringify(res.data));
-          return;
-        }
-        this.problem = res.data.data.problem;
-      });
+  props: {
+    problem: {
+      type: Object,
+      default() {
+        return {
+          title: '',
+          tags: [],
+          content: '',
+        };
+      },
+    },
   },
 };
 </script>

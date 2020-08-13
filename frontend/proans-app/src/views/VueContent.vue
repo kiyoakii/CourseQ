@@ -2,22 +2,20 @@
   <div>
     <el-container>
       <el-aside>
-        <side-bar></side-bar>
+        <router-view name="sidebar"></router-view>
       </el-aside>
       <el-main>
-        <router-view></router-view>
+        <router-view ></router-view>
       </el-main>
     </el-container>
   </div>
 </template>
 
 <script>
-import SideBar from '@/components/SideBar.vue';
 
 export default {
   name: 'VueContent',
   components: {
-    SideBar,
   },
 };
 </script>

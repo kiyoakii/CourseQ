@@ -1,6 +1,7 @@
 <template>
   <div>
-    <search></search>
+    <search :tags="tags"
+    v-model="searchInfo"></search>
     <problem-list :problems="problems"></problem-list>
   </div>
 </template>
@@ -18,18 +19,26 @@ export default {
   data() {
     return {
       problems: [],
+      tags: [],
+      searchInfo: '',
     };
   },
+  beforeRouteUpdate(to, from, next) {
+    console.log(to, from);
+    next();
+    console.log(this.$route.query.tid);
+    this.problems = this.$store.getters.problemsByTag(this.$route.query.tid);
+  },
+  watch: {
+    searchInfo(newInfo) {
+      this.problems = this.$store.getters.problemsBySearch(newInfo);
+    },
+  },
   mounted() {
-    this.axios.get('/v1/proans/problems?id=1')
-      .then((res) => {
-        console.log(res);
-        if (res.status !== 200) {
-          console.log(JSON.stringify(res.data));
-          return;
-        }
-        this.problems = res.data.data.problems;
-      });
+    const self = this;
+    setTimeout(() => {
+      this.tags = self.$store.getters.allTags;
+    }, 2000);
   },
 };
 </script>
