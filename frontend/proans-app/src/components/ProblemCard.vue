@@ -7,7 +7,10 @@
           <el-tag class="success" size="mini">{{ tag.name }}</el-tag>
         </span>
         <div class="stars">
-          <img src="../assets/star-off.png" class="star">
+          <img src="../assets/star-off.png" class="star"
+          @click="handleStar" v-show="!starOn">
+          <img src="../assets/star-on.png" class="star"
+          @click="handleStar" v-show="starOn">
           <span >{{ problem.stars }}</span>
           <i class="el-icon-star-off star"></i>
         </div>
@@ -60,6 +63,7 @@ export default {
   data() {
     return {
       popoverVisible: false,
+      starOn: false,
     };
   },
   methods: {
@@ -85,6 +89,29 @@ export default {
           tid: this.$route.query.tid,
         },
       });
+    },
+    handleStar() {
+      if (this.starOn) {
+        this.starOn = false;
+        this.axios.post(`/api/v1/questions/${this.problem.id}/like`)
+          .then((res) => {
+            console.log(res);
+            this.popoverVisible = false;
+            if (res.status !== 200) {
+              console.log(JSON.stringify(res.data));
+            }
+          });
+      } else {
+        this.starOn = true;
+        this.axios.post(`/api/v1/questions/${this.problem.id}/like`)
+          .then((res) => {
+            console.log(res);
+            this.popoverVisible = false;
+            if (res.status !== 200) {
+              console.log(JSON.stringify(res.data));
+            }
+          });
+      }
     },
   },
 };
