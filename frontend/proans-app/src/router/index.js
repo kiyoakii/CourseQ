@@ -17,6 +17,22 @@ const routes = [
       sidebar: () => import('@/components/SideBar.vue'),
     },
   },
+  {
+    path: '/proans/editProblem',
+    name: 'EditView',
+    components: {
+      default: () => import('@/components/ProblemEdit.vue'),
+      sidebar: () => import('@/components/SideBar.vue'),
+    },
+  },
+  {
+    path: '/proans/addProblem',
+    name: 'AddProblemView',
+    components: {
+      default: () => import('@/components/ProblemEdit.vue'),
+      sidebar: () => import('@/components/SideBar.vue'),
+    },
+  },
 ];
 
 const router = new VueRouter({
