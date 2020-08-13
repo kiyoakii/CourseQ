@@ -2,12 +2,11 @@ from flask import jsonify, g
 from flask_jwt_extended import create_access_token
 
 from app.libs.enums import UserTypeEnum
-from app.libs.error_code import DeleteSuccess, RegisterSuccess
+from app.libs.error_code import DeleteSuccess, RegisterSuccess, Success
 from app.libs.redprint import Redprint
-from app.libs.token_auth import role_required, login_required
 from app.models.base import db
 from app.models.user import User
-from app.validators.forms import UserForm
+from app.validators.forms import UserForm, UserUpdateForm
 
 api = Redprint('user')
 
@@ -25,14 +24,23 @@ def get_students():
 
 
 @api.route('/<string:gid>', methods=['GET'])
-@role_required(UserTypeEnum.MANAGER)
+# @role_required(UserTypeEnum.MANAGER)
 def super_get_user(gid):
     user = User.query.filter_by(gid=gid).first_or_404()
     return jsonify(user)
 
 
+@api.route('/<string:gid>', methods=['PUT'])
+def update_user(gid):
+    user = User.query.filter_by(gid=gid).first_or_404()
+    form = UserUpdateForm().validate_for_api()
+    with db.auto_commit():
+        form.populate_obj(user)
+    return Success()
+
+
 @api.route('', methods=['GET'])
-@login_required
+# @login_required
 def get_user():
     gid = g.user.gid
     user = User.query.filter_by(gid=gid).first_or_404()
@@ -49,7 +57,7 @@ def delete_user():
 
 
 @api.route('/register', methods=['POST'])
-@login_required
+# @login_required
 def register():
     form = UserForm().validate_for_api()
     user = User().register(form.nickname.data,
