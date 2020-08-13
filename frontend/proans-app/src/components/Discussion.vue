@@ -6,8 +6,7 @@
       </div>
       <div v-for="(com, index) in commentList" :key="index">
         <card-comment class="comment"
-          :title="com.title"
-          :content="com.content">
+          :com="com">
         </card-comment>
       </div>
       <div v-if="commentList.length == 0" class="comment">
@@ -31,30 +30,13 @@ export default {
     NewDiscussion,
   },
   props: {
-    qid: {
-      type: String,
-      default() {
-        return '2';
-      },
-    },
+    commentList: Array,
   },
   data() {
     return {
       isShow: '',
       editorShow: false,
-      commentList: [],
     };
-  },
-  mounted() {
-    this.axios.get(`/api/v1/questions/${this.qid}/discussions`)
-      .then((res) => {
-        console.log(res);
-        if (res.status !== 200) {
-          console.log(JSON.stringify(res.data));
-          return;
-        }
-        this.commentList = res.data;
-      });
   },
 };
 </script>

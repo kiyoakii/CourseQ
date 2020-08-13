@@ -2,7 +2,7 @@
   <el-card>
     <div class="comment-header">
       <el-row type="flex" justify="space-between">
-        <div class="comment-title">{{ title }}</div>
+        <div class="comment-title">{{ com.title }}</div>
         <div>
           <div v-show="!editorShow">
             <el-button type="primary" icon="el-icon-edit" size="small"
@@ -18,7 +18,7 @@
       </el-row>
     </div>
     <div class="comment-body">
-      {{ content }}
+      {{ com.content }}
     </div>
     <div class="comment-editor" v-show="editorShow">
       <editor></editor>
@@ -29,9 +29,9 @@
           <i class="header-icon el-icon-chat-dot-round"></i>
           <span class="reply-header">查看回复</span>
         </template>
-        <div v-for="(com, index) in replyList" :key="index">
+        <div v-for="(rep, index) in replyList" :key="index">
           <card-reply class="reply"
-            :content="com.content">
+            :content="rep.content">
           </card-reply>
         </div>
         <div v-if="replyList.length == 0">暂时没有回复噢</div>
@@ -51,18 +51,7 @@ export default {
     CardReply,
   },
   props: {
-    title: {
-      type: String,
-    },
-    author_gid: {
-      type: String,
-    },
-    stars: {
-      type: Number,
-    },
-    content: {
-      type: String,
-    },
+    com: Object,
   },
   data() {
     return {
@@ -84,7 +73,7 @@ export default {
     },
   },
   mounted() {
-    this.axios.get('/api/v1/discussions/1/answer')
+    this.axios.get(`/api/v1/discussions/${this.com.id}/answer`)
       .then((res) => {
         console.log(res);
         if (res.status !== 200) {
