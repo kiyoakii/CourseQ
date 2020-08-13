@@ -13,6 +13,7 @@ class Course(Base):
     pre_course = Column(String(50))
     textbooks = Column(String(50))
     semester = Column(String(50))
+    series = Column(String(50))
     resources = relationship("CourseResource")
     questions = relationship('Question')
     teachers = relationship('Enroll', primaryjoin='and_(Enroll.enroll_type=={0}, Enroll.course_cid==Course.cid)'.format(
@@ -30,4 +31,8 @@ class Course(Base):
         super().__init__(*args, **kwargs)
         self.fields = ['cid', 'name_zh', 'name_en', 'intro',
                        'pre_course', 'textbooks', 'semester', 'teachers', 'assistants', 'students', 'schedules',
-                       'resources', 'announces']
+                       'resources', 'announces', 'series']
+
+    @property
+    def series_courses(self):
+        return Course.query.filter(Course.series == self.series).filter(Course.cid != self.cid).all()

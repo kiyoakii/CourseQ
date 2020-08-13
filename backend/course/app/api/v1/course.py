@@ -40,6 +40,7 @@ def create_course():
 # @role_required(UserTypeEnum.TEACHER)
 def get_course(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
+    course.fields.append('series_courses')
     return jsonify(course)
 
 
