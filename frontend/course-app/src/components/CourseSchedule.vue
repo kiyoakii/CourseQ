@@ -2,10 +2,6 @@
   <div>
     <!-- This is CourseSchedule view. -->
     <el-card shadow="always" class="box-card">
-      <div slot="header">
-        <h1>Schedule</h1>
-      </div>
-
       <el-table :data="schedule" header-row-class-name="tableHead" highlight-current-row>
         <el-table-column prop="week" label="Week" width="100" align="center"
           style="font-weight:bold"></el-table-column>

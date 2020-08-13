@@ -9,7 +9,7 @@
       </div>
     </el-col>
     <el-col :span="20">
-      <nav-bar></nav-bar>
+      <nav-bar :allinfo="allinfo"></nav-bar>
     </el-col>
   </el-row>
 </template>
@@ -19,6 +19,9 @@ import NavBar from '@/components/NavBar.vue';
 
 export default {
   name: 'VueHeader',
+  props: {
+    allinfo: {},
+  },
   components: {
     NavBar,
   },
