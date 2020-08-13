@@ -1,12 +1,12 @@
 <template>
   <div>
     <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
-      <li v-for="(problem, index) in problems" :key="index " class="infinite-list-item">
-        <el-card class="box-card" shadow="hover">
+      <li v-for="(problem, index) in problems" :key="index " class="infinite-list-item"
+        @click="getProblem(index)" >
+        <el-card class="box-card" shadow="hover"
+        :class="{selected:selectedProblem === index}">
           <div slot="header" class="clearfix">
-            <router-link :to="'/proans/problem/' + problem.id" class="link">
-              <span>{{ problem.title }}</span>
-            </router-link>
+            <span>{{ problem.title }}</span>
           </div>
           <div class="text item">
             {{ problem.content | formatDesc }}
@@ -26,11 +26,23 @@ export default {
   data() {
     return {
       count: 0,
+      selectedProblem: -1,
     };
   },
   methods: {
     load() {
       this.count += 2;
+    },
+    getProblem(index) {
+      this.selectedProblem = index;
+      this.$router.push({
+        path: '/proans/',
+        name: 'CategoryView',
+        query: {
+          tid: this.$route.query.tid,
+          pid: '2',
+        },
+      });
     },
   },
   filters: {
@@ -61,4 +73,8 @@ export default {
   color: #303133;
   display: block;
 }
+.selected {
+  background-color: #ecf5ff;
+}
+
 </style>
