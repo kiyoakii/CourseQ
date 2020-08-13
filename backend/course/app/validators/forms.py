@@ -19,6 +19,15 @@ class UserForm(Form):
             raise ValidationError("Email already exists.")
 
 
+class UserUpdateForm(Form):
+    email = StringField(validators=[
+        Email(message='invalid email')
+    ])
+    name = StringField(validators=[length(max=24)])
+    phone = StringField(validators=[length(max=24)])
+    school = StringField(validators=[length(max=63)])
+
+
 class TokenForm(Form):
     token = StringField(validators=[DataRequired()])
 
