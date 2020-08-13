@@ -14,7 +14,8 @@
         <div class="footer">
           <div v-if="teacherAnswer != null" class="edit-info">
             <span>{{ teacherAnswer.author.nickname }} 于
-              {{ teacherAnswer.update_datetime }} 修改</span>
+              {{ (new Date(teacherAnswer.update_datetime))
+            .toLocaleString('zh-CN', { timeZone: 'UTC'}) }} 修改</span>
           </div>
           <div v-else></div>
           <div class="buttons">
@@ -37,7 +38,8 @@
         <div class="footer">
           <div v-if="studentAnswer != null" class="edit-info">
             <span>{{ studentAnswer.author.nickname }} 于
-              {{ studentAnswer.update_datetime }} 修改</span>
+              {{ (new Date(studentAnswer.update_datetime))
+            .toLocaleString('zh-CN', { timeZone: 'UTC'}) }} 修改</span>
           </div>
           <div v-else></div>
           <div class="buttons">
