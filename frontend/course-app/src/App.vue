@@ -2,12 +2,12 @@
   <div id="app">
     <el-container>
       <el-header >
-        <vue-header></vue-header>
+        <vue-header :allinfo="allinfo"></vue-header>
       </el-header>
       <el-main>
         <el-row type="flex" justify="center">
           <el-col :xs="24" :sm="24" :md="22" :lg="18" :xl="18" >
-            <vue-content></vue-content>
+            <vue-content :allinfo="allinfo"></vue-content>
           </el-col>
         </el-row>
       </el-main>
@@ -24,6 +24,32 @@ export default {
   components: {
     VueHeader,
     VueContent,
+  },
+  data() {
+    return {
+      allinfo: {},
+    };
+  },
+  mounted() {
+    this.updateAllInfo();
+  },
+  watch: {
+    $route() {
+      this.updateAllInfo();
+    },
+  },
+  methods: {
+    updateAllInfo() {
+      this.axios.get(`/api/v1/courses/${this.$route.params.cid}`)
+        .then((res) => {
+          console.log(res);
+          if (res.status !== 200) {
+            console.log(JSON.stringify(res.data));
+            return;
+          }
+          this.allinfo = res.data;
+        });
+    },
   },
 };
 </script>
