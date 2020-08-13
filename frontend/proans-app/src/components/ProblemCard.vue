@@ -23,7 +23,7 @@
         </div>
         <div class="buttons">
           <el-button size="medium"
-          @click="dialogFormVisible = true">编辑</el-button>
+          @click="handleEdit">编辑</el-button>
           <el-popover
           placement="top"
           width="160"
@@ -38,20 +38,6 @@
         </div>
       </div>
     </el-card>
-    <el-dialog title="编辑问题描述" :visible.sync="dialogFormVisible">
-      <el-form :model="form">
-        <el-form-item label="标题" :label-width="formLabelWidth">
-          <el-input v-model="form.title" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="问题描述" :label-width="formLabelWidth">
-          <el-input v-model="form.content" autocomplete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -73,26 +59,32 @@ export default {
   },
   data() {
     return {
-      dialogFormVisible: false,
-      form: {
-        title: '',
-        content: '',
-      },
-      formLabelWidth: '120px',
       popoverVisible: false,
     };
   },
   methods: {
     handleDelete() {
-      // this.axios.delete(`/api/v1/questions/${this.problem.id}`)
-      //   .then((res) => {
-      //     console.log(res);
-      //     this.popoverVisible = false;
-      //     if (res.status !== 200) {
-      //       console.log(JSON.stringify(res.data));
-      //     }
-      //   });
-      console.log((new Date(this.problem.update_datetime)).toLocaleString());
+      this.axios.delete(`/api/v1/questions/${this.problem.id}`)
+        .then((res) => {
+          console.log(res);
+          this.popoverVisible = false;
+          if (res.status !== 200) {
+            console.log(JSON.stringify(res.data));
+          }
+        });
+    },
+    handleEdit() {
+      this.$router.push({
+        path: '/proans/',
+        name: 'EditView',
+        params: {
+          problem: this.problem,
+          edit: true,
+        },
+        query: {
+          tid: this.$route.query.tid,
+        },
+      });
     },
   },
 };

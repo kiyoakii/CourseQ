@@ -54,7 +54,9 @@ export default new Vuex.Store({
     problem(state) {
       return (pid) => state.problems.find((p) => p.id === pid);
     },
-
+    tag(state) {
+      return (tid) => state.tags.find((t) => t.id === tid);
+    },
   },
   mutations: {
     initProblems(state, problems) {

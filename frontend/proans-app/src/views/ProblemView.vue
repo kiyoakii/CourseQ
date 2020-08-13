@@ -35,6 +35,25 @@ export default {
       this.problem = this.$store.getters.problem(this.$route.query.qid);
       this.studentAnswer = this.problem.student_answer;
       this.teacherAnswer = this.problem.teacher_answer;
+      console.log(this.problem);
+      this.axios.get(`/api/v1/questions/${this.$route.query.qid}/discussions`)
+        .then((res) => {
+          console.log(res);
+          if (res.status !== 200) {
+            console.log(JSON.stringify(res.data));
+            return;
+          }
+          this.commentList = res.data;
+        });
+    }
+  },
+  beforeMount() {
+    if (this.$route.query.qid !== undefined) {
+      console.log(this.$route.query.qid);
+      this.problem = this.$store.getters.problem(this.$route.query.qid);
+      this.studentAnswer = this.problem.student_answer;
+      this.teacherAnswer = this.problem.teacher_answer;
+      console.log(this.problem);
       this.axios.get(`/api/v1/questions/${this.$route.query.qid}/discussions`)
         .then((res) => {
           console.log(res);
