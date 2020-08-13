@@ -1,21 +1,24 @@
 <template>
   <div class="nav-bar">
-    <el-menu default-active="//course/:cid/semester/:sid/home" mode="horizontal" router>
-      <el-menu-item index="/course/:cid/semester/:sid/home">课程名</el-menu-item>
-      <el-menu-item index="/course/:cid/semester/:sid/course-calendar">课程日历</el-menu-item>
-      <el-menu-item index="/course/:cid/semester/:sid/course-res">课程资源</el-menu-item>
-      <el-menu-item :index="$router.path"><el-link href="https://www.ele.me" target="_blank" :underline="false">答疑平台</el-link></el-menu-item>
-      <el-submenu index="older">
+    <el-menu mode="horizontal" router>
+      <el-menu-item :index="'/course/' + $route.params.cid + '/home'">课程主页</el-menu-item>
+      <!-- <el-menu-item :index="'/course/' + $route.params.cid + '/calendar'">课程日历</el-menu-item>
+      <el-menu-item :index="'/course/' + $route.params.cid + '/resourse'">课程资源</el-menu-item> -->
+      <el-menu-item :index="$router.path">
+        <el-link :index="'/proans/course/' + $route.params.cid" target="_blank" :underline="false">
+          答疑平台
+        </el-link>
+      </el-menu-item>
+      <el-submenu index="older" router>
         <template slot="title">过往学期</template>
-        <el-menu-item :index="$router.path">
-          <el-link href="https://www.ele.me" target="_blank" type="info" :underline="false" style="display:block;text-align:center;">过往学期1</el-link>
-        </el-menu-item>
-        <el-menu-item :index="$router.path">
-          <el-link href="https://www.ele.me" target="_blank" type="info" :underline="false" style="display:block;text-align:center;">过往学期2</el-link>
-        </el-menu-item>
-        <el-menu-item :index="$router.path">
-          <el-link href="https://www.ele.me" target="_blank" type="info" :underline="false" style="display:block;text-align:center;">过往学期3</el-link>
-        </el-menu-item>
+        <div v-for="(course, i) in allinfo.series_courses" :key="i">
+          <el-menu-item :index="$router.path">
+            <el-link :href="'/#/course/' + course.cid + '/home'" :underline="false"
+              style="display:block;text-align:center;">
+              {{ course.name_zh + course.semester }}
+            </el-link>
+          </el-menu-item>
+        </div>
       </el-submenu>
     </el-menu>
   </div>
@@ -24,6 +27,9 @@
 <script>
 export default {
   name: 'NavBar',
+  props: {
+    allinfo: {},
+  },
 };
 </script>
 

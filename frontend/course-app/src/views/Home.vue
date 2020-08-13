@@ -1,9 +1,9 @@
 <template>
   <div id="info">
-    <course-info :courseInfo="courseInfo"></course-info>
-    <teacher-info :teacherInfo="teacherInfo"></teacher-info>
-    <course-announce :announcements="announcements"></course-announce>
-    <course-schedule :schedule="schedule"></course-schedule>
+    <course-info :allinfo="allinfo"></course-info>
+    <teacher-info :allinfo="allinfo"></teacher-info>
+    <course-announce :allinfo="allinfo"></course-announce>
+    <course-schedule :allinfo="allinfo"></course-schedule>
   </div>
 </template>
 
@@ -17,27 +17,6 @@ export default {
   name: 'Home',
   props: {
     allinfo: {},
-  },
-  computed: {
-    courseInfo() {
-      return {
-        name: this.allinfo.name,
-        semester: this.allinfo.semester,
-        intro: this.allinfo.intro,
-      };
-    },
-    teacherInfo() {
-      return {
-        teachers: this.allinfo.teachers,
-        assistants: this.allinfo.assistants,
-      };
-    },
-    announcements() {
-      return this.allinfo.announces;
-    },
-    schedule() {
-      return [];
-    },
   },
   components: {
     CourseInfo,

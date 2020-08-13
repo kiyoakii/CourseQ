@@ -2,34 +2,38 @@
   <div class="course-announcement">
     <!-- This is CourseAnnounce view. -->
     <el-scrollbar>
-      <div v-if="announcements.length > 0"
+      <div v-if="allinfo.announces && allinfo.announces.length > 0"
         shadow="always" class="announcement-card">
         <div class="announcement-info">
-          <h3 class="announcement-title">{{ announcements[0].title }}</h3>
+          <h3 class="announcement-title">{{ allinfo.announces[0].title }}</h3>
           <div class="announcement-publish-info">
-            发布者：{{ announcements[0].publisher }}
+            发布者：{{ allinfo.announces[0].author }}
           </div>
           <div class="announcement-publish-info">
-            发布时间：{{ announcements[0].date }}
+            发布时间：{{ allinfo.announces[0].create_time }}
           </div>
         </div>
         <div class="announcement-content">
-          {{ announcements[0].content }}
+          {{ allinfo.announces[0].content }}
         </div>
       </div>
-      <div v-else>暂时没有公告哦(*^__^*)</div>
-      <div v-if="announcements.length > 1"
+      <div v-else>    
+        <el-card class="box-card" shadow="hover">
+        暂时还没有公告哦～
+        </el-card>
+      </div>
+      <div v-if="allinfo.announces && allinfo.announces.length > 1"
         v-bind:class="{'announcements-panel-active': this.isActive,
         'announcements-panel-close': !this.isActive}">
-        <div v-show="isActive" v-for="item in announcements.slice(1)" :key="item.title"
+        <div v-show="isActive" v-for="item in allinfo.announces.slice(1)" :key="item.title"
           shadow="always" class="announcement-card">
           <div slot="header" class="announcement-info">
             <h3 class="announcement-title">{{ item.title }}</h3>
             <div class="announcement-publish-info">
-              发布者：{{ item.publisher }}
+              发布者：{{ item.author }}
             </div>
             <div class="announcement-publish-info">
-              发布时间：{{ item.date }}
+              发布时间：{{ item.create_time }}
             </div>
           </div>
           <div class="announcement-content">
@@ -38,7 +42,7 @@
         </div>
       </div>
     </el-scrollbar>
-    <el-button v-if="announcements.length > 1" @click="onClick" class="btn-more">
+    <el-button v-if="allinfo.announces && allinfo.announces.length > 1" @click="onClick" class="btn-more">
       <i :class="isActive ? 'el-icon-caret-top' : 'el-icon-caret-bottom'"></i>
       <span>{{ btnMassage }}</span>
     </el-button>
@@ -49,12 +53,7 @@
 export default {
   name: 'CourseAnnounce',
   props: {
-    announcements: {
-      type: Array,
-      default() {
-        return [];
-      },
-    },
+    allinfo: {},
   },
   data() {
     return {

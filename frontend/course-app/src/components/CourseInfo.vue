@@ -3,11 +3,12 @@
     <el-card class="box-card">
       <div id="course-info" >
         <div id="course-name">
-          <h1>{{ courseInfo.name }}</h1>
-          <p>{{ courseInfo.semester }}</p>
+          <h1>{{ allinfo.name_zh }}</h1>
+          <p>{{ allinfo.name_en }}</p>
+          <p>{{ allinfo.semester }}</p>
         </div>
         <div id="course-intro">
-          <p>{{ courseInfo.intro }}</p>
+          <p>{{ allinfo.intro }}</p>
         </div>
       </div>
     </el-card>
@@ -18,16 +19,7 @@
 export default {
   name: 'CourseInfo',
   props: {
-    courseInfo: {
-      type: Object,
-      default() {
-        return {
-          name: 'CourseName',
-          semester: '2020Spring',
-          intro: 'Introduction...',
-        };
-      },
-    },
+    allinfo: {},
   },
 };
 </script>
@@ -37,6 +29,7 @@ export default {
   display: flex;
   flex-direction: row;
   height: 200px;
+  align-items: center;
 }
 #course-name {
   flex: 2;
