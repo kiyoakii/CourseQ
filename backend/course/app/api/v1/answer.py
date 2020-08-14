@@ -35,7 +35,7 @@ def get_answer(aid):
 def delete_answer(aid):
     answer = Answer.query.get_or_404(aid)
     with db.auto_commit():
-        answer.delete()
+        db.session.delete(answer)
     return DeleteSuccess()
 
 

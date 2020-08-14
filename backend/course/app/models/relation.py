@@ -48,13 +48,13 @@ class Enroll(Base):
         with db.auto_commit():
             for teacher_gid in teachers_gid:
                 enroll = Enroll.query.filter_by(user_gid=teacher_gid, course_cid=course.cid)
-                enroll.delete()
+                db.session.delete(enroll)
             for student_gid in students_gid:
                 enroll = Enroll.query.filter_by(user_gid=student_gid, course_cid=course.cid)
-                enroll.delete()
+                db.session.delete(enroll)
             for TA_gid in TAs_gid:
                 enroll = Enroll.query.filter_by(user_gid=TA_gid, course_cid=course.cid)
-                enroll.delete()
+                db.session.delete(enroll)
 
     @staticmethod
     def user_to_role(user_gid, course_cid):

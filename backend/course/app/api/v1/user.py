@@ -52,7 +52,7 @@ def delete_user():
     gid = g.user.gid
     with db.auto_commit():
         user = User.query.filter_by(gid=gid).first_or_404()
-        user.delete()
+        db.session.delete(user)
     return DeleteSuccess()
 
 

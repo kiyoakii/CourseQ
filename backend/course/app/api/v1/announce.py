@@ -11,7 +11,7 @@ api = Redprint('announce')
 def delete_announce(pk):
     announce = Announce.query.get_or_404(pk)
     with db.auto_commit():
-        announce.delete()
+        db.session.delete(announce)
     return DeleteSuccess()
 
 
