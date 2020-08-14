@@ -5,21 +5,32 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/proans/problem/:pid',
-    name: 'ProblemView',
-    component: () => import('@/views/ProblemView.vue'),
+    path: '/proans/',
+    name: 'IntroView',
+    components: {
+      default: () => import('@/views/GuideView.vue'),
+      sidebar: () => import('@/components/SideBar.vue'),
+    },
   },
   {
     path: '/proans/',
-    name: 'CategoryView',
+    name: 'ProblemView',
     components: {
       default: () => import('@/views/ProblemView.vue'),
       sidebar: () => import('@/components/SideBar.vue'),
     },
   },
   {
+    path: '/proans/',
+    name: 'CategoryView',
+    components: {
+      default: () => import('@/views/GuideView.vue'),
+      sidebar: () => import('@/components/SideBar.vue'),
+    },
+  },
+  {
     path: '/proans/editProblem',
-    name: 'EditView',
+    name: 'EditProblemView',
     components: {
       default: () => import('@/components/ProblemEdit.vue'),
       sidebar: () => import('@/components/SideBar.vue'),

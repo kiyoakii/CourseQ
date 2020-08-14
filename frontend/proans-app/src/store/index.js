@@ -22,7 +22,7 @@ export default new Vuex.Store({
         const problems = [];
         state.problems.forEach((p) => {
           p.tags.forEach((t) => {
-            if (t.id === tid) {
+            if (String(t.id) === String(tid)) {
               problems.push(p);
             }
           });
@@ -52,10 +52,10 @@ export default new Vuex.Store({
       };
     },
     problem(state) {
-      return (pid) => state.problems.find((p) => p.id === pid);
+      return (pid) => state.problems.find((p) => String(p.id) === String(pid));
     },
     tag(state) {
-      return (tid) => state.tags.find((t) => t.id === tid);
+      return (tid) => state.tags.find((t) => String(t.id) === String(tid));
     },
   },
   mutations: {
@@ -66,7 +66,40 @@ export default new Vuex.Store({
       state.problems.forEach((p) => {
         p.tags.forEach((t) => {
           if (tags.find((ta) => ta.name === t.name) === undefined) {
-            console.log(t, tags, tags.includes(t));
+            tags.push(t);
+          }
+        });
+      });
+      state.tags.splice(0, state.tags.length);
+      state.tags.push(...tags);
+    },
+    updateProblem(state, problem) {
+      axios.get(`/api/v1/questions/${problem.id}`)
+        .then((res) => {
+          console.log(res);
+          if (res.status === 200) {
+            const i = state.problems.findIndex((p) => String(p.id) === String(problem.id));
+            state.problems[i] = res.data;
+            const tags = [];
+            state.problems.forEach((p) => {
+              p.tags.forEach((t) => {
+                if (tags.find((ta) => ta.name === t.name) === undefined) {
+                  tags.push(t);
+                }
+              });
+            });
+            state.tags.splice(0, state.tags.length);
+            state.tags.push(...tags);
+          }
+        });
+    },
+    deleteProblem(state, problem) {
+      const i = state.problems.findIndex((p) => String(p.id) === String(problem.id));
+      state.problems.splice(i, 1);
+      const tags = [];
+      state.problems.forEach((p) => {
+        p.tags.forEach((t) => {
+          if (tags.find((ta) => ta.name === t.name) === undefined) {
             tags.push(t);
           }
         });
@@ -77,7 +110,7 @@ export default new Vuex.Store({
   },
   actions: {
     initProblems(context) {
-      axios.get('/api/v1/courses/3/questions')
+      axios.get('/api/v1/courses/6/questions')
         .then((res) => {
           if (res.status === 200) {
             context.commit('initProblems', res.data);
