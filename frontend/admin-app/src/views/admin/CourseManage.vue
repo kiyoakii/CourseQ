@@ -1,138 +1,137 @@
 <template>
-  <div class="course-manage">
-    <!-- This is AdminCourseManage component. -->
-    <div class="course-manage-header">
-      <h2>课程列表</h2>
-    </div>
-    <div class="course-manage-content">
-      <div id="flex-bar">
-        <div class="flex-item">
-          <admin-course-list-search id="course-search"></admin-course-list-search>
+  <el-row class="course-manage" type="flex" justify="center">
+    <el-col :md="24" :lg="23">
+      <el-row type="flex" justify="space-between" class="mb-4">
+        <div style="width: 250px">
+          <data-table-search-bar
+            v-model="searchText">
+            </data-table-search-bar>
         </div>
-        <div class="flex-item">
-            <el-button type="primary" @click="newCourseActive = true">开设课程</el-button>
+        <div>
+          <el-button type="primary" @click="create">开设新课程</el-button>
         </div>
-      </div>
-      <el-row :gutter="40">
-        <el-col :span="6" v-for="course in filteredCourses" :key="course.id">
-            <el-button type="primary" class="course-button" plain
-              @click="openModify(course)">
-                {{course.name_zh}}
-            </el-button>
+      </el-row>
+      <el-row>
+        <data-table
+          :memberData="allCourses"
+          :tableFormat="courseTable"
+          @delete="deleteRow"
+          @edit="editRow"
+          :searchText="searchText">
+        </data-table>
+      </el-row>
+    </el-col>
+    <el-dialog
+      :title="form.id === '' ? '添加' : '编辑'"
+      :visible.sync="dialogVisible"
+      width="720px">
+      <el-row type="flex" justify="center">
+        <el-col :span="20">
+          <el-form label-position="left" label-width="140px"
+            :model="form" :rules="rules" ref="form">
+            <el-form-item label="ID" v-show="form.id !== ''">
+              <el-input v-model="form.id" :disabled="true"></el-input>
+            </el-form-item>
+            <el-form-item label="课程名称(中)" prop="name_zh">
+              <el-input v-model="form.name_zh"></el-input>
+            </el-form-item>
+            <el-form-item label="课程名称(英)" prop="name_en">
+              <el-input v-model="form.name_en"></el-input>
+            </el-form-item>
+            <el-form-item label="课程介绍" prop="intro">
+              <el-input v-model="form.intro"></el-input>
+            </el-form-item>
+            <el-form-item label="学期" prop="semester">
+              <el-input v-model="form.semester"></el-input>
+            </el-form-item>
+            <el-form-item label="系列" prop="series">
+              <el-input v-model="form.series"></el-input>
+            </el-form-item>
+            <el-form-item label="预修课程" prop="pre_course">
+              <el-input v-model="form.pre_course"></el-input>
+            </el-form-item>
+            <el-form-item label="教科书" prop="textbooks">
+              <el-input v-model="form.textbooks"></el-input>
+            </el-form-item>
+            <el-form-item label="授课教师" prop="teachers_gid">
+              <el-select v-model="form.teachers_gid" filterable multiple
+                placeholder="请选择"
+                style="width: 100%;">
+                <el-option
+                  v-for="item in teacherOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-form>
         </el-col>
       </el-row>
-    </div>
-    <el-drawer
-      :before-close="handleClose"
-      :visible.sync="infoManageActive"
-      direction="rtl"
-      class="drawer"
-      ref="drawer"
-      >
-      <div slot="title">
-        <h1>课程信息修改</h1>
-      </div>
-      <div class="drawer__content">
-        <el-form ref="form" :model="form">
-          <el-form-item label="课程中文名称">
-            <el-input v-model="form.name_zh"></el-input>
-          </el-form-item>
-          <el-form-item label="课程英文名称">
-            <el-input v-model="form.name_en"></el-input>
-          </el-form-item>
-          <el-form-item label="授课教师">
-              <el-select v-model="form.teachers" multiple placeholder="请选择">
-              <el-option
-                v-for="teacher in teachers"
-                :key="teacher.gid"
-                :label="teacher.nickname"
-                :value="teacher.gid">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="课程学期">
-            <el-input v-model="form.semester"></el-input>
-          </el-form-item>
-          <el-form-item label="课程介绍">
-            <el-input v-model="form.intro"></el-input>
-          </el-form-item>
-          <el-form-item label="预修课程">
-            <el-input v-model="form.pre_course"></el-input>
-          </el-form-item>
-          <el-form-item label="课程书籍">
-            <el-input v-model="form.textbooks"></el-input>
-          </el-form-item>
-        </el-form>
-        <div class="drawer__footer">
-          <div class="drawer-control">
-            <el-button type="primary" @click="onSubmit"
-              :loading="loading">{{ loading ? '提交中 ...' : '提 交' }}</el-button>
-            <el-button @click="cancelForm">取 消</el-button>
-          </div>
-          <el-button type="danger" class="btn-delete-course">删除课程</el-button>
-        </div>
-      </div>
-    </el-drawer>
-    <el-drawer
-      :before-close="handleClose"
-      :visible.sync="newCourseActive"
-      direction="rtl"
-      class="drawer"
-      ref="drawer"
-      >
-      <div slot="title">
-        <h1>开设新课程</h1>
-      </div>
-      <div class="drawer__content">
-        <el-form ref="form" :model="form">
-          <el-form-item label="课程标题">
-            <el-input v-model="form.courseName"></el-input>
-          </el-form-item>
-          <el-form-item label="主讲教师">
-            <el-input v-model="form.teacherName"></el-input>
-          </el-form-item>
-        </el-form>
-        <div class="drawer__footer">
-          <div class="drawer-control">
-            <el-button type="primary" @click="onSubmit"
-              :loading="loading">{{ loading ? '提交中 ...' : '提 交' }}</el-button>
-            <el-button @click="cancelForm">取 消</el-button>
-          </div>
-      </div>
-      </div>
-    </el-drawer>
-
-  </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submit(form.id)">确 定</el-button>
+      </span>
+    </el-dialog>
+  </el-row>
 </template>
 
 <script>
-import AdminCourseListSearch from '@/components/AdminCourseListSearch.vue';
+import DataTableSearchBar from '@/components/DataTableSearchBar.vue';
+import DataTable from '../../components/DataTable.vue';
+import { courseTable } from '../../helpers/table';
 
 export default {
   name: 'CourseManage',
   components: {
-    AdminCourseListSearch,
+    DataTableSearchBar,
+    DataTable,
   },
   data() {
     return {
-      infoManageActive: false,
-      newCourseActive: false,
+      searchText: '',
+      originalTeachersGid: [],
+      courseTable,
       form: {
+        id: '',
         name_zh: '',
-        semester: '',
-        teachers: [],
         name_en: '',
         intro: '',
         pre_course: '',
         textbooks: '',
+        semester: '',
+        series: '',
+        teachers_gid: [],
       },
-      loading: false,
-      courses: [],
+      dialogVisible: false,
+      rules: {
+        name_zh: [
+          { required: true, message: '请输入课程名称（中）', trigger: ['change', 'blur'] },
+        ],
+        name_en: [
+          { required: true, message: '请输入课程名称（英）', trigger: ['change', 'blur'] },
+        ],
+        textbooks: [
+          { required: true, message: '请输入教科书名称', trigger: ['change', 'blur'] },
+        ],
+        semester: [
+          { required: true, message: '请输入学期', trigger: ['change', 'blur'] },
+        ],
+        series: [
+          { required: true, message: '请输入系列', trigger: ['change', 'blur'] },
+        ],
+        teachers_gid: [
+          { required: true, message: '请选择至少一位教师', trigger: ['change', 'blur'] },
+        ],
+      },
     };
   },
   computed: {
-    filteredCourses() {
+    allCourses() {
       return this.$store.getters.adminAllCourses;
+    },
+    teacherOptions() {
+      return this.$store.getters.teacherOptions;
     },
   },
   beforeCreate() {
@@ -140,59 +139,119 @@ export default {
     this.$store.dispatch('initAllTeachers');
   },
   methods: {
-    onSubmit() {
-      if (this.loading) {
-        return;
-      }
-      this.$confirm('确定要提交表单吗？')
-        .then(() => {
-          this.loading = true;
-          this.timer = setTimeout(() => {
-            // 动画关闭需要一定的时间
-            setTimeout(() => {
-              this.loading = false;
-              this.infoManageActive = false;
-              this.newCourseActive = false;
-            }, 400);
-          }, 2000);
-        })
-        .catch(() => {
+    diff(oldArray, newArray) {
+      const newItems = [];
+      const delItems = [];
+      newArray.forEach((item) => {
+        if (!oldArray.includes(item)) {
+          newItems.push(item);
+        }
+      });
+      oldArray.forEach((item) => {
+        if (!newArray.includes(item)) {
+          delItems.push(item);
+        }
+      });
+      return { newItems, delItems };
+    },
+    submit(id) {
+      this.$refs.form.validate((valid) => {
+        if (!valid) {
+          this.$message.error('请正确填写完表格再提交！');
+          return;
+        }
+        let options = {};
+        if (id === '') {
+          options = {
+            url: '/api/v1/courses',
+            method: 'post',
+            data: {
+              ...this.form,
+            },
+          };
+        } else {
+          const { newItems, delItems } = this.diff(this.originalTeachersGid,
+            this.form.teachers_gid);
+          console.log(111, newItems);
+          options = {
+            url: `/api/v1/courses/${id}`,
+            method: 'patch',
+            data: {
+              ...this.form,
+              new_teachers_gid: newItems,
+              del_teachers_gid: delItems,
+            },
+          };
+        }
+        this.axios(options).then((res) => {
+          if (res.status !== 200) {
+            return;
+          }
+          this.$store.dispatch('initAllCourses');
+        }).catch((err) => {
+          console.log(err);
         });
+        this.dialogVisible = false;
+      });
     },
-    onDeleteCourse() {
-      console.log('Delete course!');
+    create() {
+      this.form = {
+        id: '',
+        name_zh: '',
+        name_en: '',
+        intro: '',
+        pre_course: '',
+        textbooks: '',
+        semester: '',
+        series: '',
+        teachers_gid: [],
+      };
+      this.originalTeachersGid = [];
+      this.dialogVisible = true;
     },
-    openModify(course) {
-      this.infoManageActive = true;
-      this.form = course;
+    editRow(row) {
+      const course = this.$store.getters.getCourseByID(row.id);
+      this.originalTeachersGid = course.teachers.reduce((teachers, teacher) => {
+        teachers.push(teacher.gid);
+        return teachers;
+      }, []);
+      this.form = {
+        id: course.cid,
+        name_zh: course.name_zh,
+        name_en: course.name_en,
+        intro: course.intro,
+        pre_course: course.pre_course,
+        textbooks: course.textbooks,
+        semester: course.semester,
+        series: course.series,
+        teachers_gid: [...this.originalTeachersGid],
+      };
+      this.dialogVisible = true;
     },
-    handleClose(done) {
-      if (this.loading) {
-        return;
-      }
-      this.$confirm('确定要提交表单吗？')
-        .then(() => {
-          this.loading = true;
-          this.timer = setTimeout(() => {
-            done();
-            // 动画关闭需要一定的时间
-            setTimeout(() => {
-              this.loading = false;
-            }, 400);
-          }, 2000);
-        })
-        .catch(() => {
-          this.loading = false;
-          this.infoManageActive = false;
-          this.newCourseActive = false;
-          clearTimeout(this.timer);
+    deleteRow(row) {
+      this.$confirm(`删除${row.name}-${row.id}?`, '提示', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }).then(() => {
+        this.axios({
+          url: `/api/v1/courses/${row.id}`,
+          method: 'delete',
+        }).then((res) => {
+          if (res.status !== 204) {
+            return;
+          }
+          this.$store.dispatch('initAllCourses');
+        }).catch((err) => {
+          // this.$message.error(`请求失败：${err.message}`);
+          console.log(err);
         });
-    },
-    cancelForm() {
-      this.loading = false;
-      this.infoManageActive = false;
-      this.newCourseActive = false;
-      clearTimeout(this.timer);
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除',
+        });
+      });
     },
   },
 };
@@ -201,7 +260,6 @@ export default {
 <style scoped>
 .course-manage {
   flex: 1;
-  padding: 30px;
 }
 .course-manage-header {
   padding: 0 100px;
@@ -212,48 +270,8 @@ export default {
   flex-direction: column;
   padding: 10px 200px;
 }
-#flex-bar {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-#course-search {
-  margin: 10px 0;
-}
-.course-button {
-  height: 120px;
-  width: 100%;
-  font-size: 20px;
-  margin-bottom: 30px;
-}
-.drawer__content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding: 20px;
-}
-form {
-  flex: 1;
-  margin-top: 0em;
-}
-.el-form-item {
-  display: flex;
-}
-.drawer__footer {
-  display: flex;
-}
-.drawer-control {
-  flex: 1;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.drawer-control button {
-  flex: 1;
-  margin: 0 10px;
+.mb-4 {
+  margin-bottom: 10px;
 }
 
 </style>
