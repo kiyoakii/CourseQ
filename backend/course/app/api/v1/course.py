@@ -68,7 +68,7 @@ def update_course(cid):
 def delete_course(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     with db.auto_commit():
-        course.delete()
+        db.session.delete(course)
     return DeleteSuccess()
 
 

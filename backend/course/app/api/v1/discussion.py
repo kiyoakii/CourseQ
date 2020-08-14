@@ -22,7 +22,7 @@ def update_discussion(did):
 def delete_discussion(did):
     topic = DiscussionTopic.query.get_or_404(did)
     with db.auto_commit():
-        topic.delete()
+        db.session.delete(topic)
     return DeleteSuccess()
 
 

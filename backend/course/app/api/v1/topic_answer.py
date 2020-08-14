@@ -43,5 +43,5 @@ def update_answer_discussion(topic_answer_id):
 def delete_answer_discussion(topic_answer_id):
     topic_answer = DiscussionAnswer.query.get_or_404(topic_answer_id)
     with db.auto_commit():
-        topic_answer.delete()
+        db.session.delete(topic_answer)
     return DeleteSuccess()
