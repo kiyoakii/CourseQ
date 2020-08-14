@@ -1,6 +1,6 @@
 from flask import jsonify, request
 
-from app.libs.error_code import Success, DeleteSuccess, Forbidden
+from app.libs.error_code import Success, DeleteSuccess
 from app.libs.redprint import Redprint
 from app.models import Announce
 from app.models.base import db
@@ -49,9 +49,9 @@ def update_course(cid):
     # todo: put
     form = CourseUpdateForm().validate_for_api()
     course = Course.query.filter_by(cid=cid).first_or_404()
-    enroll_set = Enroll.query.filter_by(course_cid=cid)
-    if enroll_set.count() == 0:
-        return Forbidden()
+    # enroll_set = Enroll.query.filter_by(course_cid=cid)
+    # if enroll_set.count() == 0:
+    #     return Forbidden()
     with db.auto_commit():
         if request.method == 'PATCH':
             for field, value in form.data.items():
