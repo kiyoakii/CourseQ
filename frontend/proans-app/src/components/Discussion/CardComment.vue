@@ -6,7 +6,7 @@
           <el-button type="primary" size="small"
           @click="beforeEdit" icon="el-icon-edit">编辑</el-button>
           <el-button type="primary" icon="el-icon-chat-dot-round" size="small"
-            @click="replyEditorShow = true" >回复</el-button>
+            @click="beforeReply" >回复</el-button>
           <el-button type="danger" size="small"
               @click="handleDelete" icon="el-icon-delete">删除</el-button>
         </div>
@@ -26,8 +26,6 @@
       </div>
     </div>
     <div class="editor" v-show="replyEditorShow">
-      <el-input v-model="form.title"
-      placeholder="标题"></el-input>
       <mavon-editor v-model="form.content"></mavon-editor>
       <div class="buttons">
         <el-button type="primary" icon="el-icon-close" size="small"
@@ -93,19 +91,42 @@ export default {
       this.axios.put(`/api/v1/discussions/${this.com.id}`, this.form)
         .then((res) => {
           console.log(res);
+          this.editEditorShow = false;
+          this.com.title = this.form.title;
+          this.com.content = this.form.content;
         });
+    },
+    beforeReply() {
+      this.form.title = '';
+      this.form.content = '';
+      this.replyEditorShow = true;
     },
     handleReply() {
       console.log(this.form);
-      this.axios.post(`/api/v1/discussions/${this.com.id}/answer`, this.form)
+      this.axios.post(`/api/v1/discussions/${this.com.id}/answer`, { content: this.form.content })
         .then((res) => {
           console.log(res);
+          this.replyEditorShow = false;
+          this.updateData();
         });
     },
     handleDelete() {
       this.axios.delete(`/api/v1/discussions/${this.com.id}`)
         .then((res) => {
           console.log(res);
+          this.$emit('deleteDiscussion', this.com.id);
+        });
+    },
+    updateData() {
+      this.axios.get(`/api/v1/discussions/${this.com.id}/answer`)
+        .then((res) => {
+          console.log(res);
+          if (res.status !== 200) {
+            console.log(JSON.stringify(res.data));
+            return;
+          }
+          this.replyList = res.data;
+          console.log(this.replyList);
         });
     },
   },
@@ -115,16 +136,7 @@ export default {
     },
   },
   mounted() {
-    this.axios.get(`/api/v1/discussions/${this.com.id}/answer`)
-      .then((res) => {
-        console.log(res);
-        if (res.status !== 200) {
-          console.log(JSON.stringify(res.data));
-          return;
-        }
-        this.replyList = res.data;
-        console.log(this.replyList);
-      });
+    this.updateData();
   },
 };
 </script>

@@ -42,7 +42,7 @@ export default {
       this.selectedProblem = proid;
       this.$router.push({
         path: '/proans/',
-        name: 'CategoryView',
+        name: 'ProblemView',
         query: {
           tid: this.$route.query.tid,
           qid: proid,

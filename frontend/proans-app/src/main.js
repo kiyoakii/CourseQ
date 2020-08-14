@@ -5,7 +5,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import './plugins/element';
-import './mock';
+// import './mock';
 import './plugins/vue-mavon-editor';
 
 Vue.config.productionTip = false;

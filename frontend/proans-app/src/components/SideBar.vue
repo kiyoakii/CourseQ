@@ -18,26 +18,21 @@ export default {
   },
   data() {
     return {
-      problems: [],
-      tags: [],
       searchInfo: '',
     };
-  },
-  beforeRouteUpdate(to, from, next) {
-    console.log(to, from);
-    next();
-    this.problems = this.$store.getters.problemsByTag(this.$route.query.tid);
   },
   watch: {
     searchInfo(newInfo) {
       this.problems = this.$store.getters.problemsBySearch(newInfo);
     },
   },
-  mounted() {
-    const self = this;
-    setTimeout(() => {
-      this.tags = self.$store.getters.allTags;
-    }, 2000);
+  computed: {
+    tags() {
+      return this.$store.getters.allTags;
+    },
+    problems() {
+      return this.$store.getters.problemsByTag(this.$route.query.tid);
+    },
   },
 };
 </script>
