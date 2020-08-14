@@ -33,7 +33,7 @@ export default {
     setTimeout(() => {
       console.log(self.$store.getters.allProblems);
       console.log(self.$store.getters.allTags);
-    }, 2000);
+    }, 1000);
   },
 };
 </script>
