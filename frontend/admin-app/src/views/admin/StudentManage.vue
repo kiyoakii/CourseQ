@@ -1,26 +1,27 @@
 <template>
   <el-row class="student-manage" type="flex" justify="center">
-    <el-col :span="20">
+    <el-col :md="24" :lg="23">
       <el-row type="flex" justify="space-between" class="mb-4">
-        <div>
-          <admin-member-list-search
+        <div style="width: 250px">
+          <data-table-search-bar
             v-model="searchText">
-            </admin-member-list-search>
+            </data-table-search-bar>
         </div>
         <div>
           <el-button type="primary" @click="create">注册新学生</el-button>
         </div>
       </el-row>
       <el-row>
-        <admin-member-list
+        <data-table
           :memberData="allStudents"
           @delete="deleteRow"
           @edit="editRow"
-          :searchText="searchText">
-          </admin-member-list>
+          :searchText="searchText"
+          :tableFormat="memberTable">
+        </data-table>
       </el-row>
       <el-dialog
-        title="编辑"
+        :title="form.id === '' ? '添加' : '编辑'"
         :visible.sync="dialogVisible"
         width="720px">
         <el-row type="flex" justify="center">
@@ -55,18 +56,20 @@
 </template>
 
 <script>
-import AdminMemberListSearch from '@/components/AdminMemberListSearch.vue';
-import AdminMemberList from '@/components/AdminMemberList.vue';
+import DataTableSearchBar from '@/components/DataTableSearchBar.vue';
+import DataTable from '@/components/DataTable.vue';
+import { memberTable } from '../../helpers/table';
 
 export default {
   name: 'StudentManage',
   components: {
-    AdminMemberListSearch,
-    AdminMemberList,
+    DataTableSearchBar,
+    DataTable,
   },
   data() {
     return {
       searchText: '',
+      memberTable,
       form: {
         id: '',
         name: '',
@@ -107,31 +110,21 @@ export default {
           this.$message.error('请正确填写完表格再提交！');
           return;
         }
-        const url = id === '' ? '/api/v1/students' : `/api/v1/students/${id}`;
+        const url = id === '' ? '/api/v1/students' : `/api/v1/users/${id}`;
         const method = id === '' ? 'post' : 'put';
         this.axios({
           url,
           method,
           data: {
             ...this.form,
-            id: undefined, // 用于覆盖 id, 使得参数中不含 id
           },
         }).then((res) => {
           if (res.status !== 200) {
-            return this.$message({
-              type: 'error',
-              message: `${res.status}-${res.statusText}`,
-            });
+            return;
           }
-          return this.$message({
-            type: 'success',
-            message: '请求成功',
-          });
+          this.$store.dispatch('initAllStudents');
         }).catch((err) => {
-          this.$message({
-            type: 'error',
-            message: `${err.message}`,
-          });
+          console.log(err);
         });
         this.dialogVisible = false;
       });
@@ -157,18 +150,15 @@ export default {
         type: 'warning',
       }).then(() => {
         this.axios({
-          url: `/api/v1/teachers/${row.id}`,
+          url: `/api/v1/users/${row.id}`,
           method: 'delete',
         }).then((res) => {
-          if (res.status !== 200) {
-            return this.$message.error(`请求失败：${res.status}-${res.statusText}`);
+          if (res.status !== 204) {
+            return;
           }
-          return this.$message({
-            type: 'success',
-            message: '删除成功！',
-          });
+          this.$store.dispatch('initAllStudents');
         }).catch((err) => {
-          this.$message.error(`请求失败：${err.message}`);
+          console.log(err);
         });
       }).catch(() => {
         this.$message({
