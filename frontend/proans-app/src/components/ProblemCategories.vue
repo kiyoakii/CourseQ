@@ -5,11 +5,14 @@
       <ul class="category-list">
         <li v-for="(item, i) in categories" :key="i"
         style="display: block;">
-          <el-button :icon="activeCategory === item.id ? 'el-icon-folder-opened':'el-icon-folder'"
+          <el-button :icon="String(activeCategory) === String(item.id) ?
+          'el-icon-folder-opened':'el-icon-folder'"
           :class="item.type" class="category-item"
           @click="chooseCategory(item.id)">
             {{ item.name }}
           </el-button>
+        </li>
+        <li v-if="categories.length === 0">
         </li>
       </ul>
     </el-scrollbar>
@@ -22,7 +25,6 @@ export default {
   data() {
     return {
       activeCategory: '0',
-      categories: [],
     };
   },
   methods: {
@@ -40,10 +42,16 @@ export default {
     },
   },
   mounted() {
-    const self = this;
     setTimeout(() => {
-      this.categories = self.$store.getters.allTags;
+      if (this.$route.query.tid !== undefined) {
+        this.activeCategory = this.$route.query.tid;
+      }
     }, 2000);
+  },
+  computed: {
+    categories() {
+      return this.$store.getters.allTags;
+    },
   },
 };
 </script>

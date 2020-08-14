@@ -57,6 +57,9 @@ export default {
           title: '',
           tags: [],
           content: '',
+          author: {
+            nickname: '',
+          },
         };
       },
     },
@@ -76,12 +79,24 @@ export default {
           if (res.status !== 200) {
             console.log(JSON.stringify(res.data));
           }
+          this.$store.commit('deleteProblem', this.problem);
+          this.$router.push({
+            path: '/proans/',
+            name: 'CategoryView',
+            params: {
+              problem: this.problem,
+              edit: true,
+            },
+            query: {
+              tid: this.$route.query.tid,
+            },
+          });
         });
     },
     handleEdit() {
       this.$router.push({
-        path: '/proans/',
-        name: 'EditView',
+        path: '/proans/editProblem',
+        name: 'EditProblemView',
         params: {
           problem: this.problem,
           edit: true,
@@ -97,20 +112,21 @@ export default {
         this.axios.post(`/api/v1/questions/${this.problem.id}/like`)
           .then((res) => {
             console.log(res);
-            this.popoverVisible = false;
             if (res.status !== 200) {
               console.log(JSON.stringify(res.data));
             }
+            this.$store.commit('updateProblem', this.problem);
+            this.$emit('updateProblem', this.$route.query.qid);
           });
       } else {
         this.starOn = true;
         this.axios.post(`/api/v1/questions/${this.problem.id}/like`)
           .then((res) => {
             console.log(res);
-            this.popoverVisible = false;
             if (res.status !== 200) {
               console.log(JSON.stringify(res.data));
             }
+            this.$emit('updateProblem', this.$route.query.qid);
           });
       }
     },

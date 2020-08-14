@@ -7,12 +7,12 @@
           v-model="form.title"></el-input>
         </div>
         <el-tag
-          :key="tag.id"
+          :key="tag"
           v-for="tag in form.tags"
           closable
           :disable-transitions="false"
           @close="handleClose(tag)">
-          {{tag.name}}
+          {{ tag }}
         </el-tag>
         <el-input
           class="input-new-tag"
@@ -72,6 +72,7 @@ export default {
     },
     onSubmit() {
       if (this.edit) {
+        console.log('oldTags', this.oldTags, 'newTags', this.form.tags);
         this.axios.put(`/api/v1/questions/${this.$route.params.problem.id}`,
           {
             title: this.form.title,
@@ -83,21 +84,34 @@ export default {
             console.log(res);
             if (res.status !== 200) {
               console.log(JSON.stringify(res.data));
-              return;
             }
+            this.$store.commit('updateProblem', this.$route.params.problem);
             console.log('成功');
+            this.$router.push({
+              path: '/proans/',
+              name: 'ProblemView',
+              query: {
+                tid: this.$route.query.tid,
+                qid: this.$route.params.problem.id,
+              },
+            });
           });
       } else {
-        this.axios.post('/api/v1/courses/3/questions',
-          this.form)
+        console.log(this.form);
+        this.axios.post('/api/v1/courses/6/questions', this.form)
           .then((res) => {
             console.log(res);
             if (res.status !== 200) {
               console.log(JSON.stringify(res.data));
-              return;
             }
-            console.log('成功');
-            this.dialogFormVisible = false;
+            this.$store.dispatch('initProblems');
+            this.$router.push({
+              path: '/proans',
+              name: 'CategoryView',
+              query: {
+                tid: this.$route.query.tid,
+              },
+            });
           });
       }
     },
@@ -105,8 +119,8 @@ export default {
   mounted() {
     this.form.title = this.$route.params.problem.title;
     this.form.content = this.$route.params.problem.content;
-    this.form.tags = this.$route.params.problem.tags;
-    this.oldTags = this.$route.params.problem.tags;
+    this.$route.params.problem.tags.forEach((t) => this.form.tags.push(t.name));
+    this.$route.params.problem.tags.forEach((t) => this.oldTags.push(t.name));
     this.edit = this.$route.params.edit;
   },
 };

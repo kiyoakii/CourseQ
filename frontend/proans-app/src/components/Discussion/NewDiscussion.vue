@@ -44,6 +44,7 @@ export default {
         this.form)
         .then((res) => {
           console.log(res);
+          this.$emit('createDiscussion', this.form);
         });
     },
   },
