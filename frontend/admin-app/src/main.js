@@ -1,6 +1,7 @@
 import Vue from 'vue';
-import axios from 'axios';
+// import axios from 'axios';
 import VueAxios from 'vue-axios';
+import { instance } from './helpers/instances';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -8,7 +9,7 @@ import './plugins/element';
 import './mock';
 
 Vue.config.productionTip = false;
-Vue.use(VueAxios, axios);
+Vue.use(VueAxios, instance);
 
 new Vue({
   router,
