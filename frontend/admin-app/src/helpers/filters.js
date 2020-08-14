@@ -12,4 +12,32 @@ module.exports = {
     });
     return res;
   },
+  courseFilter(data) {
+    const res = [];
+    data.forEach((item) => {
+      res.push({
+        id: item.cid,
+        name: item.name_zh || item.name_en,
+        intro: item.intro,
+        pre_course: item.pre_course,
+        textbooks: item.textbooks,
+        semester: item.semester,
+        series: item.series,
+        teachers: item.teachers.reduce((teachersText, teacher) => {
+          return `${teachersText}, ${teacher.name || teacher.nickname}`;
+        }, '').slice(2),
+      });
+    });
+    return res;
+  },
+  teacherOptionsFilter(data) {
+    const res = [];
+    data.forEach((item) => {
+      res.push({
+        label: `${item.name || item.nickname} - ${item.gid}`,
+        value: item.gid,
+      });
+    });
+    return res;
+  },
 };

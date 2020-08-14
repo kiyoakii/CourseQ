@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import VuexPersistence from 'vuex-persist';
 import axios from 'axios';
-import { memberFilter } from '../helpers/filters';
+import { memberFilter, courseFilter, teacherOptionsFilter } from '../helpers/filters';
 
 Vue.use(Vuex);
 
@@ -14,26 +14,23 @@ export default new Vuex.Store({
   },
   getters: {
     adminAllCourses(state) {
-      const res = [];
-      state.allCourses.forEach((item) => {
-        res.push({
-          id: item.cid,
-          name_zh: item.name_zh,
-          name_en: item.name_en,
-          intro: item.intro,
-          pre_course: item.pre_course,
-          textbooks: item.textbooks,
-          semester: item.semester,
-          teachers: item.teachers,
-        });
-      });
-      return res;
+      return courseFilter(state.allCourses);
     },
     adminAllTeachers(state) {
       return memberFilter(state.allTeachers);
     },
     adminAllStudents(state) {
       return memberFilter(state.allStudents);
+    },
+    teacherOptions(state) {
+      return teacherOptionsFilter(state.allTeachers);
+    },
+    getCourseByID(state) {
+      return (id) => {
+        return state.allCourses.find((course) => {
+          return course.cid === id;
+        });
+      };
     },
   },
   mutations: {
