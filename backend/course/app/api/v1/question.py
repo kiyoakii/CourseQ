@@ -41,7 +41,7 @@ def update_question(qid):
 def delete_question(qid):
     question = Question.query.get_or_404(qid)
     with db.auto_commit():
-        question.delete()
+        db.session.delete(question)
     return DeleteSuccess()
 
 
@@ -125,7 +125,7 @@ def up_vote(qid):
         .filter_by(user_gid='0000000000')
     if question_up_vote.count():
         with db.auto_commit():
-            question_up_vote.first().delete()
+            db.session.delete(question_up_vote.first())
         return CancelUpVoteSuccess()
     else:
         with db.auto_commit():
