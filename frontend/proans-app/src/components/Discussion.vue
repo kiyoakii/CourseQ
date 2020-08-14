@@ -6,14 +6,15 @@
       </div>
       <div v-for="(com, index) in commentList" :key="index">
         <card-comment class="comment"
-          :com="com">
+          :com="com"
+          @deleteDiscussion="handleDelete">
         </card-comment>
       </div>
       <div v-if="commentList.length == 0" class="comment">
         暂时没有讨论哦，快来发起第一个讨论吧
       </div>
       <div class="new-discussion">
-        <new-discussion></new-discussion>
+        <new-discussion @createDiscussion="handleCreate"></new-discussion>
       </div>
     </el-card>
   </div>
@@ -37,6 +38,14 @@ export default {
       isShow: '',
       editorShow: false,
     };
+  },
+  methods: {
+    handleDelete(did) {
+      this.commentList.splice(this.commentList.findIndex((c) => c.id === did), 1);
+    },
+    handleCreate(d) {
+      this.commentList.push(d);
+    },
   },
 };
 </script>

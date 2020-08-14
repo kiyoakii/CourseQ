@@ -87,6 +87,7 @@ export default {
     studentAnswer: {
       type: Object,
     },
+    problemId: Number,
   },
   data() {
     return {
@@ -104,6 +105,16 @@ export default {
           { content: this.tAnswer })
           .then((res) => {
             console.log(res);
+            this.teacherEditorShow = false;
+            this.$emit('updateProblem', this.problemId);
+          });
+      } else {
+        this.axios.post(`/api/v1/questions/${this.problemId}/answers`,
+          { content: this.tAnswer, is_teacher: true })
+          .then((res) => {
+            console.log(res);
+            this.teacherEditorShow = false;
+            this.$emit('updateProblem', this.problemId);
           });
       }
     },
@@ -113,6 +124,16 @@ export default {
           { content: this.sAnswer })
           .then((res) => {
             console.log(res);
+            this.studentEditorShow = false;
+            this.$emit('updateProblem', this.problemId);
+          });
+      } else {
+        this.axios.post(`/api/v1/questions/${this.problemId}/answers`,
+          { content: this.sAnswer, is_teacher: false })
+          .then((res) => {
+            console.log(res);
+            this.studentEditorShow = false;
+            this.$emit('updateProblem', this.problemId);
           });
       }
     },
