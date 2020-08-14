@@ -24,3 +24,5 @@ backend/course/.flaskenv
 
 #static files
 backend/course/static
+# test
+test.http
