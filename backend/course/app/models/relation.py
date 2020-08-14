@@ -47,14 +47,17 @@ class Enroll(Base):
     def del_user(course, teachers_gid, students_gid, TAs_gid, db):
         with db.auto_commit():
             for teacher_gid in teachers_gid:
-                enroll = Enroll.query.filter_by(user_gid=teacher_gid, course_cid=course.cid)
-                db.session.delete(enroll)
+                delete_q = Enroll.__table__.delete().where(
+                    Enroll.user_gid == teacher_gid and Enroll.course_cid == course.cid)
+                db.session.execute(delete_q)
             for student_gid in students_gid:
-                enroll = Enroll.query.filter_by(user_gid=student_gid, course_cid=course.cid)
-                db.session.delete(enroll)
+                delete_q = Enroll.__table__.delete().where(
+                    Enroll.user_gid == student_gid and Enroll.course_cid == course.cid)
+                db.session.execute(delete_q)
             for TA_gid in TAs_gid:
-                enroll = Enroll.query.filter_by(user_gid=TA_gid, course_cid=course.cid)
-                db.session.delete(enroll)
+                delete_q = Enroll.__table__.delete().where(
+                    Enroll.user_gid == TA_gid and Enroll.course_cid == course.cid)
+                db.session.execute(delete_q)
 
     @staticmethod
     def user_to_role(user_gid, course_cid):
