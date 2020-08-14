@@ -47,9 +47,9 @@ def get_user():
     return jsonify(user)
 
 
-@api.route('', methods=['DELETE'])
-def delete_user():
-    gid = g.user.gid
+@api.route('/<string:gid>', methods=['DELETE'])
+def delete_user(gid):
+    # gid = g.user.gid
     with db.auto_commit():
         user = User.query.filter_by(gid=gid).first_or_404()
         db.session.delete(user)
