@@ -4,7 +4,17 @@
     <div slot="header" class="clearfix">
       <span>版本时间轴</span>
     </div>
-    <ul class="timeline-list">
+    <el-row>
+      <el-col :span="24" ref="wrapper" class="version_wrapper"
+        @mousedown.native="mouseDown" @mouseup.native="mouseUp" @mouseleave.native="mouseLeave">
+        <template  v-for="(version, index) in timelineList">
+          <div class="version" :style="{left: 220 * index + offset + 'px'}" :key="index">
+            {{ version.desc }}
+          </div>
+        </template>
+      </el-col>
+    </el-row>
+    <!-- <ul class="timeline-list">
       <li class="timeline-item" v-for="(item, i) in timelineList" :key="i">
         <div v-if="i !== 0"
           class="timeline-item-line timeline-item-line-left"></div>
@@ -38,7 +48,7 @@
           </el-tooltip>
         </router-link>
       </li>
-    </ul>
+    </ul> -->
   </el-card>
 </template>
 
@@ -99,17 +109,89 @@ export default {
   data() {
     return {
       activeVersion: '0',
+      offset: 0,
+      oldX: 0,
+      timer: 0,
+      isMouseDown: false,
     };
   },
   methods: {
     chooseVersion(id) {
       this.activeVersion = id;
     },
+    mouseMove(ev) {
+      this.offset += ev.clientX - this.oldX;
+      this.oldX = ev.clientX;
+    },
+    mouseDown(ev) {
+      this.isMouseDown = true;
+      this.oldX = ev.clientX;
+      this.$refs.wrapper.$el.onmousemove = this.mouseMove;
+    },
+    mouseLeave(ev) {
+      if (this.isMouseDown) {
+        this.mouseUp(ev);
+      }
+    },
+    mouseUp(ev) {
+      this.isMouseDown = false;
+      this.offset += ev.clientX - this.oldX;
+      this.oldX = ev.clientX;
+      this.$refs.wrapper.$el.onmousemove = null;
+      const max = 0;
+      const min = -(this.timelineList.length * 220 - this.$refs.wrapper.$el.offsetWidth);
+      console.log('up');
+      if (this.offset > max) {
+        this.timer = setInterval(() => {
+          console.log(this.offset);
+          const delta = this.offset - max;
+          this.offset -= delta / 10 > 1 ? delta / 10 : 1;
+          if (this.offset <= max) {
+            clearInterval(this.timer);
+          }
+        }, 20);
+      } else if (this.offset < min) {
+        this.timer = setInterval(() => {
+          console.log(this.offset);
+          const delta = this.offset - min;
+          this.offset -= delta / 10 < -1 ? delta / 10 : -1;
+          if (this.offset > min) {
+            clearInterval(this.timer);
+          }
+        }, 20);
+      }
+    },
   },
 };
 </script>
+<style>
+.el-scrollbar .el-scrollbar__wrap .el-scrollbar__view{
+   white-space: nowrap;
+   overflow-x: hidden;
+}
+</style>
 
 <style scoped>
+
+.version {
+  width: 200px;
+  height: 200px;
+  border: 1px solid #eeddee;
+  border-radius: 5px;
+  display: inline-block;
+  position: absolute;
+}
+
+.version_wrapper {
+  width: 100%;
+  height: 220px;
+  position: relative;
+}
+
+.scrollbar {
+  height: 100%;
+  overflow-x: hidden;
+}
 
 a {
   text-decoration: none;
