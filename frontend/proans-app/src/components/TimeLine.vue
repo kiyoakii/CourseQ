@@ -43,7 +43,7 @@
                     问题内容：{{ version.content.slice(0, 50) }}
                   </el-col>
                   <el-col :span="24">
-                    修改时间：{{ version.date }}
+                    修改时间：{{ version.date.split('T').join(' ') }}
                   </el-col>
                 </el-row>
               </el-popover>
@@ -110,10 +110,20 @@ export default {
       const history = this.problemHistory || [];
       return history;
     },
+    // status() {
+    //   return (id) => id === this.currentProblemId;
+    // },
+  },
+  watch: {
+    problemId(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        console.log(111);
+        this.currentProblemId = newVal;
+      }
+    },
   },
   methods: {
     changeVersion(id) {
-      console.log(id);
       this.currentProblemId = id;
       this.$emit('changeversion', { id });
     },
@@ -254,7 +264,6 @@ export default {
 
 .popover-content {
   flex-direction: column;
-  text-align: center;
 }
 
 </style>

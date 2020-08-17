@@ -12,7 +12,7 @@
           暂时没有回答噢
         </div>
         <div class="footer">
-          <div v-if="teacherAnswer != null" class="edit-info">
+          <div v-if="teacherAnswer" class="edit-info">
             <span>{{ teacherAnswer.author.nickname }} 于
               {{ (new Date(teacherAnswer.update_datetime))
             .toLocaleString('zh-CN', { timeZone: 'UTC'}) }} 修改</span>
@@ -42,7 +42,7 @@
         <div slot="header" class="clearfix">
           <span class="title">学生回答</span>
         </div>
-        <div v-if="studentAnswer != null" class="text item">
+        <div v-if="studentAnswer" class="text item">
           {{ studentAnswer.content }}
         </div>
         <div v-else>
