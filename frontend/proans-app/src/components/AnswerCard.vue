@@ -6,7 +6,7 @@
           <span class="title">教师/助教回答</span>
         </div>
         <div v-if="teacherAnswer != null" class="text item">
-          {{ teacherAnswer.content }}
+          <render :markdown="teacherAnswer.content"></render>
         </div>
         <div v-else class="text item">
           暂时没有回答噢
@@ -43,7 +43,7 @@
           <span class="title">学生回答</span>
         </div>
         <div v-if="studentAnswer" class="text item">
-          {{ studentAnswer.content }}
+          <render :markdown="studentAnswer.content"></render>
         </div>
         <div v-else>
           暂时没有回答噢
@@ -78,8 +78,13 @@
 </template>
 
 <script>
+import Render from '@/components/Render.vue';
+
 export default {
   name: 'AnswerCard',
+  components: {
+    Render,
+  },
   props: {
     teacherAnswer: {
       type: Object,
