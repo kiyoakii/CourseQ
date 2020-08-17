@@ -1,39 +1,59 @@
 <template>
   <div>
-    <div class="title">
-      <el-input placeholder="主题"></el-input>
-    </div>
-    <mavon-editor @change="onChange" v-model="content"></mavon-editor>
-    <div class="footer">
-      <el-button type="primary" icon="el-icon-position" size="small">提交</el-button>
-    </div>
+    <mavon-editor @change="change" v-model="contentCopy" :toolbars="toolbars"></mavon-editor>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Editor',
-  model: {
-    prop: 'content',
-    event: 'submit',
+  data() {
+    return {
+      toolbars: {
+        bold: true, // 粗体
+        italic: true, // 斜体
+        header: true, // 标题
+        underline: true, // 下划线
+        strikethrough: true, // 中划线
+        mark: true, // 标记
+        superscript: true, // 上角标
+        subscript: true, // 下角标
+        quote: true, // 引用
+        ol: true, // 有序列表
+        ul: true, // 无序列表
+        link: true, // 链接
+        imagelink: true, // 图片链接
+        code: true, // code
+        table: true, // 表格
+        fullscreen: true, // 全屏编辑
+        help: true, // 帮助
+        undo: true, // 上一步
+        redo: true, // 下一步
+        subfield: true, // 单双栏模式
+        preview: true, // 预览
+      },
+      contentCopy: '',
+    };
   },
   props: {
+    content: String,
   },
   methods: {
-    onChange() {
-      console.log(this.content);
+    change(val) {
+      this.$emit('change', val);
+    },
+  },
+  watch: {
+    content() {
+      this.contentCopy = this.content;
     },
   },
 };
 </script>
 
 <style scoped>
-.title {
-
-}
 .footer {
   display: flex;
   justify-content: flex-end;
-
 }
 </style>>
