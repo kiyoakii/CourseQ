@@ -74,24 +74,18 @@ export default new Vuex.Store({
       state.tags.push(...tags);
     },
     updateProblem(state, problem) {
-      axios.get(`/api/v1/questions/${problem.id}`)
-        .then((res) => {
-          console.log(res);
-          if (res.status === 200) {
-            const i = state.problems.findIndex((p) => String(p.id) === String(problem.id));
-            state.problems[i] = res.data;
-            const tags = [];
-            state.problems.forEach((p) => {
-              p.tags.forEach((t) => {
-                if (tags.find((ta) => ta.name === t.name) === undefined) {
-                  tags.push(t);
-                }
-              });
-            });
-            state.tags.splice(0, state.tags.length);
-            state.tags.push(...tags);
+      const i = state.problems.findIndex((p) => String(p.id) === String(problem.id));
+      state.problems[i] = problem;
+      const tags = [];
+      state.problems.forEach((p) => {
+        p.tags.forEach((t) => {
+          if (tags.find((ta) => ta.name === t.name) === undefined) {
+            tags.push(t);
           }
         });
+      });
+      state.tags.splice(0, state.tags.length);
+      state.tags.push(...tags);
     },
     deleteProblem(state, problem) {
       const i = state.problems.findIndex((p) => String(p.id) === String(problem.id));
@@ -114,6 +108,15 @@ export default new Vuex.Store({
         .then((res) => {
           if (res.status === 200) {
             context.commit('initProblems', res.data);
+          }
+        });
+    },
+    updateProblem(context, problem) {
+      axios.get(`/api/v1/questions/${problem.id}`)
+        .then((res) => {
+          console.log(res);
+          if (res.status === 200) {
+            context.commit('updateProblem', res.data);
           }
         });
     },

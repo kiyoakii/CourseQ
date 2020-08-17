@@ -29,7 +29,7 @@ const routes = [
     },
   },
   {
-    path: '/proans/editProblem',
+    path: '/proans/course/:cid/tag/:tid/question/:qid/editProblem',
     name: 'EditProblemView',
     components: {
       default: () => import('@/components/ProblemEdit.vue'),
@@ -37,7 +37,7 @@ const routes = [
     },
   },
   {
-    path: '/proans/addProblem',
+    path: '/proans/course/:cid/tag/:tid/addProblem',
     name: 'AddProblemView',
     components: {
       default: () => import('@/components/ProblemEdit.vue'),

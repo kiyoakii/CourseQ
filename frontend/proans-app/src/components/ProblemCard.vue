@@ -81,28 +81,25 @@ export default {
           }
           this.$store.commit('deleteProblem', this.problem);
           this.$router.push({
-            path: '/proans/',
             name: 'CategoryView',
             params: {
+              cid: this.$route.params.cid,
+              tid: this.$route.params.tid,
               problem: this.problem,
               edit: true,
-            },
-            query: {
-              tid: this.$route.query.tid,
             },
           });
         });
     },
     handleEdit() {
       this.$router.push({
-        path: '/proans/editProblem',
         name: 'EditProblemView',
         params: {
+          cid: this.$route.params.cid,
+          tid: this.$route.params.tid,
+          qid: this.$route.params.qid,
           problem: this.problem,
           edit: true,
-        },
-        query: {
-          tid: this.$route.query.tid,
         },
       });
     },
