@@ -73,7 +73,7 @@ export default {
     onSubmit() {
       if (this.edit) {
         console.log('oldTags', this.oldTags, 'newTags', this.form.tags);
-        this.axios.put(`/api/v1/questions/${this.$route.params.problem.id}`,
+        this.axios.put(`/api/v1/questions/${this.$route.params.qid}`,
           {
             title: this.form.title,
             content: this.form.content,
@@ -88,17 +88,17 @@ export default {
             this.$store.commit('updateProblem', this.$route.params.problem);
             console.log('成功');
             this.$router.push({
-              path: '/proans/',
               name: 'ProblemView',
-              query: {
-                tid: this.$route.query.tid,
-                qid: this.$route.params.problem.id,
+              params: {
+                cid: this.$route.params.cid,
+                tid: this.$route.params.tid,
+                qid: this.$route.params.qid,
               },
             });
           });
       } else {
         console.log(this.form);
-        this.axios.post('/api/v1/courses/6/questions', this.form)
+        this.axios.post(`/api/v1/courses/${this.$route.params.qid}/questions`, this.form)
           .then((res) => {
             console.log(res);
             if (res.status !== 200) {
@@ -106,10 +106,10 @@ export default {
             }
             this.$store.dispatch('initProblems');
             this.$router.push({
-              path: '/proans',
               name: 'CategoryView',
-              query: {
-                tid: this.$route.query.tid,
+              params: {
+                cid: this.$route.params.cid,
+                tid: this.$route.params.tid,
               },
             });
           });
