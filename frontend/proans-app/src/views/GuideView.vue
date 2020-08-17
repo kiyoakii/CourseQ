@@ -28,6 +28,13 @@ export default {
       ];
     },
   },
+  beforeMount() {
+    this.$store.commit({
+      type: 'setCid',
+      id: Number(this.$route.params.cid),
+    });
+    this.$store.dispatch('initProblems');
+  },
 };
 </script>
 
