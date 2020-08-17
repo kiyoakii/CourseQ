@@ -16,21 +16,14 @@
 <script>
 export default {
   name: 'CourseListView',
-  data() {
-    return {
-      courses: [],
-    };
+  computed: {
+    courses() {
+      console.log(this.$store.getters.getDistinctCourses);
+      return this.$store.getters.getDistinctCourses;
+    },
   },
-  mounted() {
-    this.axios.get('/v1/admin/teacher/course-list')
-      .then((res) => {
-        console.log(res);
-        if (res.status !== 200) {
-          console.log(JSON.stringify(res.data));
-          return;
-        }
-        this.courses = res.data.courses;
-      });
+  beforeCreate() {
+    this.$store.dispatch('initCoursesForTeacher');
   },
 };
 </script>
