@@ -37,7 +37,7 @@ export default {
             cid: this.$route.params.cid,
             tid: id,
           },
-        });
+        }).catch(() => {});
       }
     },
   },
