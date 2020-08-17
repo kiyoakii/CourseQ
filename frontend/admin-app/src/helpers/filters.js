@@ -40,4 +40,15 @@ module.exports = {
     });
     return res;
   },
+  distinctCoursesFilter(data) {
+    const res = [];
+    data.forEach((item) => {
+      if (res.findIndex((v) => v.name === (item.name_zh || item.name_en)) === -1) {
+        res.push({
+          name: item.name_zh || item.name_en,
+        });
+      }
+    });
+    return res;
+  },
 };
