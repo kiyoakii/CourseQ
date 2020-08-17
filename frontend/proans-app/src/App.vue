@@ -25,16 +25,6 @@ export default {
     VueHeader,
     VueContent,
   },
-  beforeMount() {
-    this.$store.dispatch('initProblems', '6');
-  },
-  mounted() {
-    const self = this;
-    setTimeout(() => {
-      console.log(self.$store.getters.allProblems);
-      console.log(self.$store.getters.allTags);
-    }, 1000);
-  },
 };
 </script>
 
@@ -43,7 +33,6 @@ export default {
   margin: 0;
   padding: 0;
 }
-
 
 #app {
   font-family: BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC,

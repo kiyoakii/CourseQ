@@ -79,27 +79,27 @@ export default {
     changeVersion({ id }) {
       this.versionId = id;
     },
+    initStore() {
+      this.$store.commit({
+        type: 'setCid',
+        id: Number(this.$route.params.cid),
+      });
+      this.$store.commit({
+        type: 'setQid',
+        id: Number(this.$route.params.qid),
+      });
+    },
   },
-  beforeRouteUpdate(to, from, next) {
-    console.log(to, from);
+  beforeRouteUpdate(from, to, next) {
     next();
     this.versionId = -1;
-    this.$store.commit({
-      type: 'setQid',
-      id: this.$route.query.qid,
-    });
+    this.initStore();
   },
   beforeUpdate() {
-    this.$store.commit({
-      type: 'setQid',
-      id: this.$route.query.qid,
-    });
+    this.initStore();
   },
-  beforeCreate() {
-    this.$store.commit({
-      type: 'setQid',
-      id: this.$route.query.qid,
-    });
+  beforeMount() {
+    this.initStore();
     this.$store.dispatch('setCommentList');
   },
 };

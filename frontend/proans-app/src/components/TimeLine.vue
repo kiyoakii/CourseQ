@@ -4,16 +4,39 @@
     <div slot="header" class="clearfix">
       <span>版本时间轴</span>
     </div>
+    <template v-for="(version) in timelineList">
+      <el-popover
+        placement="bottom"
+        :key="'popover' + version.id"
+        :ref="'popover' + version.id"
+        width="220"
+        :close-delay="20"
+        trigger="hover"
+        >
+        <el-row type="flex" class="popover-content" justify="center"
+          >
+          <el-col :span="24">
+            问题标题：{{ version.title.slice(0, 20) }}
+          </el-col>
+          <el-col :span="24">
+            问题内容：{{ version.content.slice(0, 50) }}
+          </el-col>
+          <el-col :span="24">
+            修改时间：{{ version.date.split('T').join(' ') }}
+          </el-col>
+        </el-row>
+      </el-popover>
+    </template>
     <el-row class="timeline">
       <el-col :span="24" ref="wrapper" class="version_wrapper"
         :style="{ transform: 'translate(' + offset + 'px)', }"
         @mousedown.native="mouseDown" @mouseup.native="mouseUp"
         @mouseleave.native="mouseLeave">
           <el-steps align-center>
-            <template v-for="(version, index) in timelineList">
+            <template v-for="(version) in timelineList">
               <el-step class="step"
                   :status="version.id == currentProblemId ? 'finish' : 'wait'"
-                  :key="index"
+                  :key="'step' + version.id"
                   >
                   <span slot="icon" class="circle"
                     @click.stop="changeVersion(version.id)"
@@ -24,29 +47,6 @@
                     {{ version.date.split('T')[0] }}
                   </span>
                 </el-step>
-            </template>
-            <template v-for="(version) in timelineList">
-              <el-popover
-                placement="bottom"
-                :key="version.id"
-                :ref="'popover' + version.id"
-                width="220"
-                :close-delay="20"
-                trigger="hover"
-                >
-                <el-row type="flex" class="popover-content" justify="center"
-                  >
-                  <el-col :span="24">
-                    问题标题：{{ version.title.slice(0, 20) }}
-                  </el-col>
-                  <el-col :span="24">
-                    问题内容：{{ version.content.slice(0, 50) }}
-                  </el-col>
-                  <el-col :span="24">
-                    修改时间：{{ version.date.split('T').join(' ') }}
-                  </el-col>
-                </el-row>
-              </el-popover>
             </template>
           </el-steps>
       </el-col>
@@ -110,14 +110,10 @@ export default {
       const history = this.problemHistory || [];
       return history;
     },
-    // status() {
-    //   return (id) => id === this.currentProblemId;
-    // },
   },
   watch: {
     problemId(newVal, oldVal) {
       if (newVal !== oldVal) {
-        console.log(111);
         this.currentProblemId = newVal;
       }
     },
@@ -152,8 +148,7 @@ export default {
       this.oldX = ev.clientX;
       this.$refs.wrapper.$el.onmousemove = null;
       const max = 0;
-      let min = -(this.timelineList.length * 200 - this.$refs.wrapper.$el.offsetWidth);
-      min = min < 0 ? min : -9999;
+      const min = -(this.timelineList.length * 200 - this.$refs.wrapper.$el.offsetWidth);
       console.log('up');
       if (this.offset > max) {
         console.log('max');
@@ -165,7 +160,7 @@ export default {
             this.offset = 0;
           }
         }, 1000 / 60);
-      } else if (this.offset < min) {
+      } else if (this.offset < min && min < 0) {
         console.log('min');
         this.timer = setInterval(() => {
           const delta = this.offset - min;
@@ -175,12 +170,12 @@ export default {
             this.offset = min;
           }
         }, 1000 / 60);
-      } else {
+      } else if (min >= 0) {
         console.log('center');
         this.timer = setInterval(() => {
-          const delta = -this.offset;
-          this.offset += delta / 10 > 1 ? delta / 10 : 1;
-          if (this.offset >= max) {
+          const delta = this.offset;
+          this.offset -= delta / 10 < 1 ? delta / 10 : -1;
+          if (this.offset > 0) {
             clearInterval(this.timer);
             this.offset = 0;
           }
