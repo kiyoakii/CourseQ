@@ -4,51 +4,53 @@
     <div slot="header" class="clearfix">
       <span>版本时间轴</span>
     </div>
-    <el-row>
+    <el-row class="timeline">
       <el-col :span="24" ref="wrapper" class="version_wrapper"
-        @mousedown.native="mouseDown" @mouseup.native="mouseUp" @mouseleave.native="mouseLeave">
-        <template  v-for="(version, index) in timelineList">
-          <div class="version" :style="{left: 220 * index + offset + 'px'}" :key="index">
-            {{ version.desc }}
-          </div>
-        </template>
+        :style="{ transform: 'translate(' + offset + 'px)', }"
+        @mousedown.native="mouseDown" @mouseup.native="mouseUp"
+        @mouseleave.native="mouseLeave">
+          <el-steps align-center>
+            <template v-for="(version, index) in timelineList">
+              <el-step class="step"
+                  :status="version.id == currentProblemId ? 'finish' : 'wait'"
+                  :key="index"
+                  >
+                  <span slot="icon" class="circle"
+                    @click.stop="changeVersion(version.id)"
+                    @mousedown.stop=""
+                    @mouseup.stop=""
+                    v-popover="'popover' + version.id"></span>
+                  <span slot="title">
+                    {{ version.date.split('T')[0] }}
+                  </span>
+                </el-step>
+            </template>
+            <template v-for="(version) in timelineList">
+              <el-popover
+                placement="bottom"
+                :key="version.id"
+                :ref="'popover' + version.id"
+                width="220"
+                :close-delay="20"
+                trigger="hover"
+                >
+                <el-row type="flex" class="popover-content" justify="center"
+                  >
+                  <el-col :span="24">
+                    问题标题：{{ version.title.slice(0, 20) }}
+                  </el-col>
+                  <el-col :span="24">
+                    问题内容：{{ version.content.slice(0, 50) }}
+                  </el-col>
+                  <el-col :span="24">
+                    修改时间：{{ version.date }}
+                  </el-col>
+                </el-row>
+              </el-popover>
+            </template>
+          </el-steps>
       </el-col>
     </el-row>
-    <!-- <ul class="timeline-list">
-      <li class="timeline-item" v-for="(item, i) in timelineList" :key="i">
-        <div v-if="i !== 0"
-          class="timeline-item-line timeline-item-line-left"></div>
-        <div v-if="i != timelineList.length - 1"
-          class="timeline-item-line timeline-item-line-right"></div>
-        <router-link :to="'./' + item.versionId">
-          <el-tooltip class="item" effect="light" placement="top">
-            <div slot="content">
-              <div class="timeline-item-content">
-                <span class="timeline-item-desc">
-                  {{ item.userId + '进行的修改：' }}
-                </span>
-                <div class="timeline-item-desc">
-                  {{ item.desc }}
-                </div>
-                <div class="timeline-item-time">{{ item.time }}</div>
-              </div>
-            </div>
-            <div class="timeline-item-node"
-              @click="chooseVersion(item.versionId)"
-              :class="activeVersion === item.versionId ? 'timeline-item-node-active' : ''"></div>
-          </el-tooltip>
-        </router-link>
-        <router-link :to="'./' + item.versionId + '/diff'">
-          <el-tooltip class="item" effect="light" placement="top"
-            v-if="i != timelineList.length - 1">
-            <div slot="content">
-              点击查看两个版本的差别
-            </div>
-            <i class="el-icon-document-copy"></i>
-          </el-tooltip>
-        </router-link>
-      </li>
-    </ul> -->
   </el-card>
 </template>
 
@@ -56,70 +58,67 @@
 export default {
   name: 'TimeLine',
   props: {
-    timelineList: {
-      type: Array,
-      default() {
-        return [
-          {
-            versionId: '0',
-            time: '2020-04-29',
-            userId: '1234567',
-            desc: '使用动态规划可以将复杂度降为O(n)',
-          },
-          {
-            versionId: '1',
-            time: '2020-04-28',
-            userId: '1234567',
-            desc: '使用动态规划可以将复杂度降为O(n)',
-          },
-          {
-            versionId: '2',
-            time: '2020-04-28',
-            userId: '1234567',
-            desc: '使用动态规划可以将复杂度降为O(n)',
-          },
-          {
-            versionId: '3',
-            time: '2020-04-28',
-            userId: '1234567',
-            desc: '使用动态规划可以将复杂度降为O(n)',
-          },
-          {
-            versionId: '4',
-            time: '2020-04-28',
-            userId: '1234567',
-            desc: '使用动态规划可以将复杂度降为O(n)',
-          },
-          {
-            versionId: '5',
-            time: '2020-04-28',
-            userId: '1234567',
-            desc: '使用动态规划可以将复杂度降为O(n)',
-          },
-          {
-            versionId: '6',
-            time: '2020-04-28',
-            userId: '1234567',
-            desc: '使用动态规划可以将复杂度降为O(n)',
-          },
-        ];
-      },
+    problemId: {
+      type: Number,
+      default: 30,
     },
   },
   data() {
     return {
-      activeVersion: '0',
+      activeVersion: 0,
       offset: 0,
       oldX: 0,
       timer: 0,
+      isMouseMove: false,
       isMouseDown: false,
+      currentProblemId: -1,
     };
   },
+  beforeCreate() {
+    this.$store.dispatch('initProblems');
+  },
+  beforeMount() {
+    this.currentProblemId = this.problemId;
+  },
+  computed: {
+    problemHistory() {
+      const problem = this.$store.getters.problem(this.problemId);
+      if (!problem) {
+        return [];
+      }
+      const res = [];
+      const history = [...problem.history];
+      for (let i = 0; i < history.length; i += 1) {
+        if (history[i].question) {
+          res.push({
+            id: history[i].question.id,
+            title: history[i].question.title,
+            content: history[i].question.content,
+            date: history[i].question.update_datetime,
+          });
+        }
+      }
+      res.push({
+        id: problem.id,
+        title: problem.title,
+        content: problem.content,
+        date: problem.update_datetime,
+      });
+      return res;
+    },
+    timelineList() {
+      const history = this.problemHistory || [];
+      return history;
+    },
+  },
   methods: {
-    chooseVersion(id) {
-      this.activeVersion = id;
+    changeVersion(id) {
+      console.log(id);
+      this.currentProblemId = id;
+      this.$emit('changeversion', { id });
     },
     mouseMove(ev) {
+      this.isMouseMove = true;
       this.offset += ev.clientX - this.oldX;
       this.oldX = ev.clientX;
     },
@@ -129,153 +128,133 @@ export default {
       this.$refs.wrapper.$el.onmousemove = this.mouseMove;
     },
     mouseLeave(ev) {
-      if (this.isMouseDown) {
+      if (this.isMouseMove && this.isMouseDown) {
         this.mouseUp(ev);
       }
     },
     mouseUp(ev) {
+      if (!this.isMouseMove || !this.isMouseDown) {
+        return;
+      }
+      this.isMouseMove = false;
       this.isMouseDown = false;
       this.offset += ev.clientX - this.oldX;
       this.oldX = ev.clientX;
       this.$refs.wrapper.$el.onmousemove = null;
       const max = 0;
-      const min = -(this.timelineList.length * 220 - this.$refs.wrapper.$el.offsetWidth);
+      let min = -(this.timelineList.length * 200 - this.$refs.wrapper.$el.offsetWidth);
+      min = min < 0 ? min : -9999;
       console.log('up');
       if (this.offset > max) {
+        console.log('max');
         this.timer = setInterval(() => {
-          console.log(this.offset);
           const delta = this.offset - max;
           this.offset -= delta / 10 > 1 ? delta / 10 : 1;
           if (this.offset <= max) {
             clearInterval(this.timer);
+            this.offset = 0;
           }
-        }, 20);
+        }, 1000 / 60);
       } else if (this.offset < min) {
+        console.log('min');
         this.timer = setInterval(() => {
-          console.log(this.offset);
           const delta = this.offset - min;
           this.offset -= delta / 10 < -1 ? delta / 10 : -1;
           if (this.offset > min) {
             clearInterval(this.timer);
+            this.offset = min;
           }
-        }, 20);
+        }, 1000 / 60);
+      } else {
+        console.log('center');
+        this.timer = setInterval(() => {
+          const delta = -this.offset;
+          this.offset += delta / 10 > 1 ? delta / 10 : 1;
+          if (this.offset >= max) {
+            clearInterval(this.timer);
+            this.offset = 0;
+          }
+        }, 1000 / 60);
       }
     },
   },
 };
 </script>
+
 <style>
-.el-scrollbar .el-scrollbar__wrap .el-scrollbar__view{
-   white-space: nowrap;
-   overflow-x: hidden;
+
+.el-step__icon {
+  border: none !important;
+  cursor: pointer;
+}
+
+.el-step__icon:hover .circle{
+  background: #68b4ff !important;
+}
+
+.is-wait .el-step__icon .circle {
+  border-radius: 50%;
+  border: none;
+  background: #C0C4CC;
+}
+
+.is-finish .el-step__icon .circle {
+  border-radius: 50%;
+  border: none;
+  background: #409EFF;
+}
+
+.el-step__icon-inner {
+  display: none !important;
+}
+
+.is-finish {
+  color: #409EFF !important;
+  border-color: #409EFF !important;
+}
+
+.is-process {
+  color: #409EFF !important;
+  border-color: #409EFF !important;
 }
 </style>
 
 <style scoped>
 
+.circle {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background: #f60;
+}
+
+.timeline {
+  user-select: none;
+}
+
 .version {
   width: 200px;
   height: 200px;
   border: 1px solid #eeddee;
+  white-space: normal;
   border-radius: 5px;
   display: inline-block;
-  position: absolute;
+  margin-right: 10px;
+  flex-shrink: 0;
 }
 
 .version_wrapper {
-  width: 100%;
-  height: 220px;
-  position: relative;
-}
-
-.scrollbar {
-  height: 100%;
-  overflow-x: hidden;
-}
-
-a {
-  text-decoration: none;
-  color: black;
-}
-
-.timeline-container {
+  white-space: nowrap;
   display: flex;
-  justify-content: center;
-  /* align-items: center; */
 }
 
-.timeline-list {
-  display: flex;
-  height: 50px;
+.step {
+  width: 200px;
 }
 
-.timeline-item {
-  position: relative;
-  display: flex;
-  width: 100px;
-  flex-shrink: 0;
-  justify-items: baseline;
-}
-.timeline-item-node {
-  position: absolute;
-  background-color: #e4e7ed;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 15px;
-  left: calc(50% - 10px);
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-}
-.el-icon-document-copy {
-  display: none;
-}
-ul:hover .el-icon-document-copy {
-  display: flex;
-  position: absolute;
-  top: 15px;
-  right: -10px;
-  z-index: 1;
-  font-size: 16px;
-  cursor: pointer;
-}
-.timeline-item-node-active {
-  background-color: #409eff;
-}
-
-.timeline-item-line {
-  position: absolute;
-  width: 50%;
-  top: 25px;
-  border-top: 2px solid #e4e7ed;
-}
-
-.timeline-item-line-left {
-  left: 0;
-}
-
-.timeline-item-line-right {
-  left: 50%;
-}
-
-.timeline-item-content {
-  width: 100%;
-  color: black;
-}
-
-.timeline-item-desc {
+.popover-content {
+  flex-direction: column;
   text-align: center;
-  font-size: 14px;
-  font-weight: 300;
-}
-
-.timeline-item-time {
-  text-align: center;
-  font-size: 12px;
-  margin-top:10px;
-  font-weight: 200;
 }
 
 </style>
