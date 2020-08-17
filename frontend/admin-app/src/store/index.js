@@ -2,7 +2,12 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import VuexPersistence from 'vuex-persist';
 import axios from 'axios';
-import { memberFilter, courseFilter, teacherOptionsFilter } from '../helpers/filters';
+import {
+  memberFilter,
+  courseFilter,
+  teacherOptionsFilter,
+  distinctCoursesFilter,
+} from '../helpers/filters';
 
 Vue.use(Vuex);
 
@@ -11,6 +16,7 @@ export default new Vuex.Store({
     allCourses: [],
     allTeachers: [],
     allStudents: [],
+    coursesForTeacher: [],
   },
   getters: {
     adminAllCourses(state) {
@@ -32,6 +38,13 @@ export default new Vuex.Store({
         });
       };
     },
+    // TODO: 在此写入你需要的数据，比如某个教师对应的课程，某个课程对应的所有学期
+    getDistinctCourses(state) {
+      return distinctCoursesFilter(state.coursesForTeacher);
+    },
+    getSemestersForCourses(state) {
+      console.log(state);
+    },
   },
   mutations: {
     initAllCourses(state, { courses }) {
@@ -45,6 +58,10 @@ export default new Vuex.Store({
     initAllStudents(state, { students }) {
       state.allStudents.splice(0, state.allStudents.length);
       state.allStudents.push(...students);
+    },
+    initCoursesForTeacher(state, { courses }) {
+      state.coursesForTeacher.splice(0, state.coursesForTeacher.length);
+      state.coursesForTeacher.push(...courses);
     },
   },
   actions: {
@@ -75,6 +92,16 @@ export default new Vuex.Store({
           return context.commit({
             type: 'initAllStudents',
             students: res.data,
+          });
+        });
+    },
+    initCoursesForTeacher(context) {
+      axios.get('/api/v1/users/0000000000/courses')
+        .then((res) => {
+          console.log('courses for teacher request success: ', res);
+          return context.commit({
+            type: 'initCoursesForTeacher',
+            courses: res.data,
           });
         });
     },
