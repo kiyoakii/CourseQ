@@ -10,8 +10,13 @@ export default new Vuex.Store({
     problems: [],
     tags: [],
     count: 0,
+    qid: 0,
+    commentList: [],
   },
   getters: {
+    commentList(state) {
+      return state.commentList;
+    },
     allProblems(state) {
       return state.problems;
     },
@@ -60,6 +65,13 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    setCommentList(state, { list }) {
+      state.commentList.splice(0, state.commentList.length);
+      state.commentList.push(...list);
+    },
+    setQid(state, { id }) {
+      state.qid = id;
+    },
     initProblems(state, problems) {
       state.problems.splice(0, state.problems.length);
       state.problems.push(...problems);
@@ -119,6 +131,21 @@ export default new Vuex.Store({
           if (res.status === 200) {
             context.commit('updateProblem', res.data);
           }
+        });
+    },
+    setCommentList(context) {
+      console.log(context);
+      axios.get(`/api/v1/questions/${context.state.qid}/discussions`)
+        .then((res) => {
+          console.log(res);
+          if (res.status !== 200) {
+            console.log(JSON.stringify(res.data));
+            return;
+          }
+          context.commit({
+            type: 'setCommentList',
+            list: res.data,
+          });
         });
     },
   },
