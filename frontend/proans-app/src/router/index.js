@@ -5,7 +5,7 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/proans/',
+    path: '/proans/course/:cid',
     name: 'IntroView',
     components: {
       default: () => import('@/views/GuideView.vue'),
@@ -13,18 +13,18 @@ const routes = [
     },
   },
   {
-    path: '/proans/',
-    name: 'ProblemView',
+    path: '/proans/course/:cid/tag/:tid',
+    name: 'CategoryView',
     components: {
-      default: () => import('@/views/ProblemView.vue'),
+      default: () => import('@/views/GuideView.vue'),
       sidebar: () => import('@/components/SideBar.vue'),
     },
   },
   {
-    path: '/proans/',
-    name: 'CategoryView',
+    path: '/proans/course/:cid/tag/:tid/question/:qid',
+    name: 'ProblemView',
     components: {
-      default: () => import('@/views/GuideView.vue'),
+      default: () => import('@/views/ProblemView.vue'),
       sidebar: () => import('@/components/SideBar.vue'),
     },
   },
