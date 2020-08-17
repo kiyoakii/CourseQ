@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div style="margin-bottom: 30px;">
       <el-card class="box-card" shadow="hover">
         <div slot="header" class="clearfix">
           <span class="title">教师/助教回答</span>

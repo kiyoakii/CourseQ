@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="problem">
     <problem-card :problem="problem"
       @updateProblem="handleUpdateProblem"></problem-card>
     <answer-card :studentAnswer="studentAnswer"
@@ -40,13 +40,13 @@ export default {
       }, 400);
     },
     updateData() {
-      console.log(this.$route.query.qid);
+      console.log(this.$route.params.qid);
       setTimeout(() => {
-        this.problem = this.$store.getters.problem(this.$route.query.qid);
+        this.problem = this.$store.getters.problem(this.$route.params.qid);
         this.studentAnswer = this.problem.student_answer;
         this.teacherAnswer = this.problem.teacher_answer;
       }, 400);
-      this.axios.get(`/api/v1/questions/${this.$route.query.qid}/discussions`)
+      this.axios.get(`/api/v1/questions/${this.$route.params.qid}/discussions`)
         .then((res) => {
           console.log(res);
           if (res.status !== 200) {
@@ -60,12 +60,12 @@ export default {
   beforeRouteUpdate(to, from, next) {
     console.log(to, from);
     next();
-    if (this.$route.query.qid !== undefined) {
+    if (this.$route.params.qid !== undefined) {
       this.updateData();
     }
   },
   beforeMount() {
-    if (this.$route.query.qid !== undefined) {
+    if (this.$route.params.qid !== undefined) {
       this.updateData();
     }
   },
@@ -73,5 +73,7 @@ export default {
 </script>
 
 <style>
-
+#problem > * {
+  margin-bottom: 30px;
+}
 </style>

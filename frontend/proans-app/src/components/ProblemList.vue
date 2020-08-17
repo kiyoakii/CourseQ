@@ -14,8 +14,8 @@
         </el-card>
       </li>
       <li @click="handleAdd">
-        <el-card class="box-card center" shadow="hover">
-          <img src="@/assets/add.png" class="add-img">
+        <el-card class="box-card center" shadow="hover" style="font-size: 30px; color: #409EFF;">
+          <i class="el-icon-circle-plus-outline"></i>
         </el-card>
       </li>
     </ul>
@@ -41,26 +41,23 @@ export default {
     getProblem(proid) {
       this.selectedProblem = proid;
       this.$router.push({
-        path: '/proans/',
         name: 'ProblemView',
-        query: {
-          tid: this.$route.query.tid,
+        params: {
+          cid: this.$route.params.cid,
+          tid: this.$route.params.tid,
           qid: proid,
         },
       });
     },
     handleAdd() {
       this.$router.push({
-        path: '/proans/',
         name: 'AddProblemView',
-        query: {
-          tid: this.$route.query.tid,
-        },
         params: {
+          tid: this.$route.params.tid,
           edit: false,
           problem: {
             title: '',
-            tags: [this.$store.getters.tag(this.$route.query.tid)],
+            tags: [this.$store.getters.tag(this.$route.params.tid)],
             content: '',
           },
         },
