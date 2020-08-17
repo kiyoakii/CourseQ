@@ -5,7 +5,15 @@ Vue.use(VueRouter);
 
 const routes = [
   {
+<<<<<<< HEAD
     path: '/proans/course/:cid',
+=======
+    path: '/timeline',
+    component: () => import('../components/TimeLine.vue'),
+  },
+  {
+    path: '/proans/',
+>>>>>>> feat: add timeline comp
     name: 'IntroView',
     components: {
       default: () => import('@/views/GuideView.vue'),
