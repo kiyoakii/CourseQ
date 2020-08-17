@@ -1,7 +1,8 @@
 <template>
   <div>
     <search :tags="tags"
-    v-model="searchInfo"></search>
+    v-model="searchInfo"
+    style="margin-bottom: 20px;"></search>
     <problem-list :problems="problems"></problem-list>
   </div>
 </template>
@@ -31,7 +32,7 @@ export default {
       return this.$store.getters.allTags;
     },
     problems() {
-      return this.$store.getters.problemsByTag(this.$route.query.tid);
+      return this.$store.getters.problemsByTag(this.$route.params.tid);
     },
   },
 };

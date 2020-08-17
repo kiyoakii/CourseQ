@@ -32,9 +32,9 @@ export default {
       if (this.activeCategory !== id) {
         this.activeCategory = id;
         this.$router.push({
-          path: '/proans/',
           name: 'CategoryView',
-          query: {
+          params: {
+            cid: this.$route.params.cid,
             tid: id,
           },
         });
@@ -43,8 +43,8 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      if (this.$route.query.tid !== undefined) {
-        this.activeCategory = this.$route.query.tid;
+      if (this.$route.params.tid !== undefined) {
+        this.activeCategory = this.$route.params.tid;
       }
     }, 2000);
   },

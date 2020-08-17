@@ -109,8 +109,8 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    initProblems(context) {
-      axios.get('/api/v1/courses/6/questions')
+    initProblems(context, cid) {
+      axios.get(`/api/v1/courses/${cid}/questions`)
         .then((res) => {
           if (res.status === 200) {
             context.commit('initProblems', res.data);
