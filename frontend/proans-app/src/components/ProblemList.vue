@@ -47,12 +47,13 @@ export default {
           tid: this.$route.params.tid,
           qid: proid,
         },
-      });
+      }).catch(() => {});
     },
     handleAdd() {
       this.$router.push({
         name: 'AddProblemView',
         params: {
+          cid: this.$route.params.cid,
           tid: this.$route.params.tid,
           edit: false,
           problem: {
@@ -61,7 +62,7 @@ export default {
             content: '',
           },
         },
-      });
+      }).catch(() => {});
     },
   },
   filters: {
