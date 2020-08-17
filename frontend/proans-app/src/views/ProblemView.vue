@@ -101,6 +101,7 @@ export default {
   beforeMount() {
     this.initStore();
     this.$store.dispatch('setCommentList');
+    this.$store.dispatch('initProblems');
   },
 };
 </script>
