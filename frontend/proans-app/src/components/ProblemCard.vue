@@ -2,7 +2,7 @@
   <div>
     <el-card class="box-card" shadow="hover">
       <div slot="header" class="clearfix">
-        <span class="title">{{ problem.title }}</span>
+        <span class="title"><render :markdown="problem.title"></render></span>
         <span class="tags" v-for="tag in problem.tags" :key="tag.id">
           <el-tag class="success" size="mini">{{ tag.name }}</el-tag>
         </span>
@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="text item">
-        {{ problem.content }}
+        <render :markdown="problem.content"></render>
       </div>
       <div class="footer">
         <div class="edit-info">
@@ -46,9 +46,13 @@
 </template>
 
 <script>
+import Render from '@/components/Render.vue';
 
 export default {
   name: 'ProblemCard',
+  components: {
+    Render,
+  },
   props: {
     problem: {
       type: Object,

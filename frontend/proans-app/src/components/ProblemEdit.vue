@@ -26,7 +26,7 @@
         </el-input>
         <el-button v-else class="button-new-tag" size="small"
         @click="showInput">+ New Tag</el-button>
-        <mavon-editor class="mavon-editor" v-model="form.content"></mavon-editor>
+        <editor class="mavon-editor" :content="form.content" @change="change"></editor>
       </div>
       <div class="footer">
         <el-button type="primary" @click="onSubmit">确 定</el-button>
@@ -36,8 +36,13 @@
 </template>
 
 <script>
+import Editor from '@/components/Editor.vue';
+
 export default {
   name: 'ProblemEdit',
+  components: {
+    Editor,
+  },
   data() {
     return {
       form: {
@@ -114,6 +119,9 @@ export default {
             });
           });
       }
+    },
+    change(val) {
+      this.form.content = val;
     },
   },
   mounted() {
