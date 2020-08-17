@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-container>
-      <el-aside>
+      <el-aside style="padding-top: 20px;">
         <router-view name="sidebar"></router-view>
       </el-aside>
       <el-main>

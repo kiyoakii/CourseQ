@@ -26,7 +26,7 @@ export default {
     VueContent,
   },
   beforeMount() {
-    this.$store.dispatch('initProblems');
+    this.$store.dispatch('initProblems', '6');
   },
   mounted() {
     const self = this;
