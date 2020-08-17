@@ -11,6 +11,7 @@ export default new Vuex.Store({
     tags: [],
     count: 0,
     qid: 0,
+    cid: 0,
     commentList: [],
   },
   getters: {
@@ -72,6 +73,9 @@ export default new Vuex.Store({
     setQid(state, { id }) {
       state.qid = id;
     },
+    setCid(state, { id }) {
+      state.cid = id;
+    },
     initProblems(state, problems) {
       state.problems.splice(0, state.problems.length);
       state.problems.push(...problems);
@@ -116,8 +120,8 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    initProblems(context, cid) {
-      axios.get(`/api/v1/courses/${cid}/questions`)
+    initProblems(context) {
+      axios.get(`/api/v1/courses/${context.state.cid}/questions`)
         .then((res) => {
           if (res.status === 200) {
             context.commit('initProblems', res.data);

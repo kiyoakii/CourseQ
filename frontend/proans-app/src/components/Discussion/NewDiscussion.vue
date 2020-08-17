@@ -11,7 +11,7 @@
           <el-input placeholder="主题"
           v-model="form.title"></el-input>
         </div>
-        <mavon-editor v-model="form.content"></mavon-editor>
+        <mavon-editor v-model="form.content" :autofocus="false"></mavon-editor>
         <div class="footer">
           <el-button type="primary" icon="el-icon-position" size="small"
           @click="onSubmit">提交</el-button>
