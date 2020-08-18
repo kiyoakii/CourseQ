@@ -22,7 +22,7 @@
             <div v-show="!teacherEditorShow">
               <el-button type="primary" icon="el-icon-edit" size="small"
                 @click="teacherEditorShow = true;
-                tAnswer = teacherAnswer !== null ? teacherAnswer.content:''">编辑</el-button>
+                tAnswer = teacherAnswer !== null ? teacherAnswer.content:''" plain>编辑</el-button>
             </div>
           </div>
         </div>
@@ -30,9 +30,9 @@
           <mavon-editor v-model="tAnswer"></mavon-editor>
           <div class="buttons">
             <el-button type="primary" icon="el-icon-close" size="small"
-              @click="teacherEditorShow = false"></el-button>
+              @click="teacherEditorShow = false" plain></el-button>
             <el-button type="primary" icon="el-icon-position" size="small"
-              @click="handleTeacherEdit"></el-button>
+              @click="handleTeacherEdit" plain></el-button>
           </div>
         </div>
       </el-card>
@@ -59,7 +59,7 @@
             <div v-show="!studentEditorShow">
               <el-button type="primary" icon="el-icon-edit" size="small"
                 @click="studentEditorShow = true;
-                tAnswer = studentAnswer !== null ?studentAnswer.content:''">编辑</el-button>
+                tAnswer = studentAnswer !== null ?studentAnswer.content:''" plain>编辑</el-button>
             </div>
           </div>
         </div>
@@ -67,9 +67,9 @@
           <mavon-editor v-model="sAnswer"></mavon-editor>
           <div class="buttons">
             <el-button type="primary" icon="el-icon-close" size="small"
-              @click="studentEditorShow = false"></el-button>
+              @click="studentEditorShow = false" plain></el-button>
             <el-button type="primary" icon="el-icon-position" size="small"
-              @click="handleStudentEdit"></el-button>
+              @click="handleStudentEdit" plain></el-button>
           </div>
         </div>
       </el-card>
