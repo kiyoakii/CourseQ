@@ -1,9 +1,12 @@
 <template>
   <div class="course-announce">
-    <el-row>
+    <div class="header">
+      <h2>课程公告</h2>
+    </div>
+    <div class="btn-header">
       <el-button type="primary"
       @click="handleCreate">新建公告</el-button>
-    </el-row>
+    </div>
     <el-row class="announce" v-for="anno in allInfo.announces" :key="anno.id">
       <el-card class="card-box">
         <div slot="header" class="clearfix card-header">
@@ -17,7 +20,7 @@
             @click="handleDelete(anno.id)">删除</el-button>
           </div>
         </div>
-        <div>
+        <div class="text-wrapper">
           {{ anno.content }}
         </div>
       </el-card>
@@ -31,7 +34,10 @@
           <el-input v-model="form.title" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="内容" >
-          <el-input v-model="form.content" autocomplete="off"></el-input>
+          <el-input v-model="form.content"
+          type="textarea"
+          :autosize="{ minRows: 4}"
+          placeholder="请输入内容"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -107,7 +113,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .announce {
   margin-bottom: 15px;
 }
@@ -118,7 +124,21 @@ export default {
 }
 
 .course-announce {
-  margin:0 auto;
-  width:700px;
+  width:900px;
+}
+
+.header {
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.text-wrapper {
+  white-space: pre-wrap;
+}
+
+.btn-header {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

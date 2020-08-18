@@ -35,10 +35,6 @@ export default {
           link: 'schedule',
         },
         {
-          name: '教师信息',
-          link: 'teacher',
-        },
-        {
           name: '主⻚布局',
           link: 'layout',
         },
