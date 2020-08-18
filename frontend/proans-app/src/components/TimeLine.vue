@@ -59,7 +59,7 @@
                   :key="'step' + version.id"
                   >
                   <span slot="icon" class="circle"
-                    @click.stop="changeVersion(version.id)"                    
+                    @click.stop="changeVersion(version.id)"
                     v-popover="'popover' + version.id"></span>
                   <!-- <span slot="title">
                     {{ version.date.split('T')[0] }}
