@@ -19,15 +19,11 @@ export default {
   name: 'CourseListView',
   computed: {
     courses() {
-      console.log(this.$store.getters.getDistinctCourses);
-      return this.$store.getters.getDistinctCourses;
+      return this.$store.getters.teacherCourses;
     },
   },
   beforeMount() {
     this.$store.dispatch('initCourses', { tid: this.$route.params.tid });
-  },
-  mounted() {
-    this.courses = this.$store.getters.teacherCourses;
   },
 };
 </script>
