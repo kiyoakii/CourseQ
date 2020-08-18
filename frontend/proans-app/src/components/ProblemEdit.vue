@@ -26,7 +26,7 @@
         </el-input>
         <el-button v-else class="button-new-tag" size="small"
         @click="showInput">+ New Tag</el-button>
-        <editor class="mavon-editor" :content="form.content" @change="change"></editor>
+        <editor class="mavon-editor" v-model="form.content"></editor>
       </div>
       <div style="display: flex; justify-content: flex-end;">
         <el-button type="primary" size="small" plain @click="onSubmit">确 定</el-button>
@@ -119,9 +119,6 @@ export default {
             });
           });
       }
-    },
-    change(val) {
-      this.form.content = val;
     },
   },
   mounted() {
