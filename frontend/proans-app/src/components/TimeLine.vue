@@ -28,7 +28,7 @@
       </el-popover>
     </template>
     <el-row class="timeline">
-      <el-col :span="24" ref="wrapper" class="version_wrapper"
+      <!-- <el-col :span="24" ref="wrapper" class="version_wrapper"
         :style="{ transform: 'translate(' + offset + 'px)', }"
         @mousedown.native="mouseDown" @mouseup.native="mouseUp"
         @mouseleave.native="mouseLeave">
@@ -49,6 +49,25 @@
                 </el-step>
             </template>
           </el-steps>
+      </el-col> -->
+      <el-col :span="24">
+        <el-scrollbar class="scrollbar">
+          <el-steps>
+            <template v-for="(version) in timelineList">
+              <el-step class="step"
+                  :status="version.id == currentProblemId ? 'finish' : 'wait'"
+                  :key="'step' + version.id"
+                  >
+                  <span slot="icon" class="circle"
+                    @click.stop="changeVersion(version.id)"                    
+                    v-popover="'popover' + version.id"></span>
+                  <!-- <span slot="title">
+                    {{ version.date.split('T')[0] }}
+                  </span> -->
+                </el-step>
+            </template>
+          </el-steps>
+        </el-scrollbar>
       </el-col>
     </el-row>
   </el-card>
@@ -191,6 +210,7 @@ export default {
 .el-step__icon {
   border: none !important;
   cursor: pointer;
+  width: auto;
 }
 
 .el-step__icon:hover .circle{
@@ -222,13 +242,21 @@ export default {
   color: #409EFF !important;
   border-color: #409EFF !important;
 }
+
+.el-scrollbar__wrap {
+  overflow-x: hidden;
+}
 </style>
 
 <style scoped>
 
+.scrollbar {
+  height: 40px;
+}
+
 .circle {
-  width: 24px;
-  height: 24px;
+  width: 16px;
+  height: 16px;
   display: inline-block;
   background: #f60;
 }
@@ -254,7 +282,9 @@ export default {
 }
 
 .step {
-  width: 200px;
+  width: 100px;
+  flex-shrink: 0;
+  flex-basis: 100px !important;
 }
 
 .popover-content {
