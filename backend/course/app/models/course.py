@@ -25,6 +25,7 @@ class Course(Base):
                                   UserTypeEnum.TA.value))
     schedules = relationship('Schedule')
     announces = relationship('Announce')
+    assignments = relationship('Assignment')
 
     @reconstructor
     def __init__(self, *args, **kwargs):

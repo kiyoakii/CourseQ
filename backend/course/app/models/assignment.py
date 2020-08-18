@@ -1,20 +1,17 @@
-from sqlalchemy import Column, String, Integer, Sequence, ForeignKey
-from sqlalchemy.orm import reconstructor, relationship
-import functools
+from sqlalchemy import Column, String, Integer, ForeignKey
+from sqlalchemy.orm import reconstructor
+
 from app.models.base import Base
-from app.libs.error_code import Forbidden
-from flask import g
-from sqlalchemy.orm.exc import NoResultFound
 
 
 class Assignment(Base):
     id = Column(Integer, primary_key=True)
-    schedule_id = Column(Integer, ForeignKey('schedule.id'))
     title = Column(String(63))
-    due = Column(Integer)
+    due = Column(String(63))
+    course_cid = Column(Integer, ForeignKey('course.cid'))
 
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.fields = ['id', 'schedule_id', 'title', 'due']
+        self.fields = ['id', 'title', 'due']
