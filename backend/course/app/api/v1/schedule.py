@@ -29,16 +29,3 @@ def update_schedule(sid):
     return Success()
 
 
-@api.route('/<int:sid>/assignments', methods=['POST'])
-def create_assignment(sid):
-    schedule = Schedule.query.get_or_404(sid)
-    form = AssignmentCreateForm().validate_for_api()
-    print(form.due.data)
-    with db.auto_commit():
-        assignment = Assignment(
-            title=form.title.data,
-            due=int(datetime.datetime.strptime(form.due.data, '%Y-%m-%d %H:%M:%S').timestamp()),
-            schedule_id=schedule.id
-        )
-        db.session.add(assignment)
-    return Success()
