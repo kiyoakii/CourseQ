@@ -65,9 +65,9 @@ class CourseUpdateForm(Form):
     del_TAs_gid = FieldList(StringField('gid', validators=[DataRequired()]))
 
 
-class ResourceForm(Form):
-    filename = StringField(validators=[DataRequired()])
-    course_id = StringField(validators=[DataRequired()])
+# class ResourceForm(Form):
+#     filename = StringField(validators=[DataRequired()])
+#     course_id = StringField(validators=[DataRequired()])
 
 
 class QuestionCreateForm(Form):
@@ -122,9 +122,13 @@ class ScheduleUpdateForm(Form):
 
 class AssignmentCreateForm(Form):
     title = StringField(validators=[DataRequired(), length(max=255)])
-    due = DateTimeField(validators=[DataRequired()])
+    due = StringField(validators=[DataRequired()])
 
 
 class AssignmentUpdateForm(Form):
     title = StringField(validators=[length(max=255)])
-    due = DateTimeField(validators=[])
+    due = StringField(validators=[])
+
+
+class ResourceForm(Form):
+    description = StringField(validators=[length(max=127)])
