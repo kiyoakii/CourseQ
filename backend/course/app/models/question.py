@@ -32,7 +32,7 @@ class Question(Base):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields = ['id', 'title', 'tags', 'content', 'student_answer', 'teacher_answer', 'history', 'stars',
-                       'update_datetime', 'create_datetime', 'author']
+                       'update_datetime', 'create_datetime', 'author', 'liked']
         self.update_time = self.create_time
 
     @property
@@ -46,3 +46,7 @@ class Question(Base):
     def stars(self):
         # todo: count()
         return QuestionUpVote.query.filter_by(question_id=self.id).count()
+
+    @property
+    def liked(self):
+        return QuestionUpVote.query.filter_by(question_id=self.id, user_gid='0000000000').count() != 0
