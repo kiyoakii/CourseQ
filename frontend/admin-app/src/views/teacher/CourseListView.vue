@@ -3,9 +3,10 @@
     <!-- This is TeacherCourseList component. -->
     <el-row :gutter="40">
       <el-col :span="8" v-for="(item, i) in courses" :key="i">
-        <router-link :to="'/teacher/1/course/1/semesters'">
+        <router-link :to=" `/teacher/${$route.params.tid}/course/${item.cid}/manage`">
           <el-button type="primary" plain>
-              {{item.name}}
+              {{ item.name_zh }}<br>
+              {{ item.semester }}
           </el-button>
         </router-link>
       </el-col>
@@ -22,8 +23,11 @@ export default {
       return this.$store.getters.getDistinctCourses;
     },
   },
-  beforeCreate() {
-    this.$store.dispatch('initCoursesForTeacher');
+  beforeMount() {
+    this.$store.dispatch('initCourses', { tid: this.$route.params.tid });
+  },
+  mounted() {
+    this.courses = this.$store.getters.teacherCourses;
   },
 };
 </script>

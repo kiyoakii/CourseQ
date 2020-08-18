@@ -2,9 +2,9 @@
   <div class="intro">
     <el-card class="box-card" shadow="hover">
       <div slot="header" class="clearfix">
-        <span class="title">{{ allInfo.name }}</span>
+        <span class="title">{{ allInfo.name_zh }}</span>
         <div class="footer">
-          {{courseTerm}}
+          {{ allInfo.semester }}
         </div>
       </div>
       <div class="text item">
@@ -14,8 +14,10 @@
     <el-card class="message-card">
       <el-row>
         <div class="text item">
-          <span class="subtitle">教师信息：</span>
-          <span>{{courseTutor}}</span>
+          <span class="subtitle">教师：</span>
+          <span v-for="teacher in allInfo.teachers" :key="teacher.gid">
+            {{ teacher.name }}
+          </span>
         </div>
       </el-row>
       <el-row>
@@ -27,7 +29,7 @@
       <el-row>
         <div class="text item">
           <span class="subtitle">参考教材：</span>
-          <span>{{courseReference}}</span>
+          <span>{{allInfo.textbooks}}</span>
         </div>
       </el-row>
     </el-card>

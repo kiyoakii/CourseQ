@@ -31,14 +31,6 @@ export default {
           link: 'announce',
         },
         {
-          name: '课程作业',
-          link: 'assignment',
-        },
-        {
-          name: '课程资源',
-          link: 'resource',
-        },
-        {
           name: '课程日历',
           link: 'schedule',
         },
