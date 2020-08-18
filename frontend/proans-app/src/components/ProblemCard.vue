@@ -2,7 +2,7 @@
   <div>
     <el-card class="box-card" shadow="hover">
       <div slot="header" class="clearfix">
-        <span class="title"><render :markdown="problem.title"></render></span>
+        <span class="title">{{ problem.title }}</span>
         <span class="tags" v-for="tag in problem.tags" :key="tag.id">
           <el-tag class="success" size="mini">{{ tag.name }}</el-tag>
         </span>
@@ -26,18 +26,19 @@
         </div>
         <div class="buttons">
           <el-button size="small" type="primary"
-          @click="handleEdit" icon="el-icon-edit">编辑</el-button>
+          @click="handleEdit" icon="el-icon-edit" plain>编辑</el-button>
           <el-popover
           placement="top"
           width="160"
           v-model="popoverVisible">
           <p>确定删除吗？</p>
           <div style="text-align: right; margin: 0">
-            <el-button size="mini" type="text" @click="popoverVisible = false">取消</el-button>
-            <el-button type="primary" size="mini" @click="handleDelete">确定</el-button>
+            <el-button size="mini" type="primary" @click="popoverVisible = false" plain>
+                取消</el-button>
+            <el-button type="danger" size="mini" @click="handleDelete" plain>确定</el-button>
           </div>
           <el-button slot="reference" size="small" type="danger"
-          icon="el-icon-delete">删除</el-button>
+          icon="el-icon-delete" plain>删除</el-button>
         </el-popover>
         </div>
       </div>

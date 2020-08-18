@@ -4,11 +4,11 @@
         <div class="comment-title" v-show="!editEditorShow">{{ com.title }}</div>
         <div class="buttons" v-show="!editEditorShow">
           <el-button type="primary" size="small"
-          @click="beforeEdit" icon="el-icon-edit">编辑</el-button>
+          @click="beforeEdit" icon="el-icon-edit" plain>编辑</el-button>
           <el-button type="primary" icon="el-icon-chat-dot-round" size="small"
-            @click="beforeReply" >回复</el-button>
+            @click="beforeReply" plain>回复</el-button>
           <el-button type="danger" size="small"
-              @click="handleDelete" icon="el-icon-delete">删除</el-button>
+              @click="handleDelete" icon="el-icon-delete" plain>删除</el-button>
         </div>
     </div>
     <div class="comment-body" v-show="!editEditorShow">
@@ -20,18 +20,18 @@
       <mavon-editor v-model="form.content"></mavon-editor>
       <div class="buttons">
         <el-button type="primary" icon="el-icon-close" size="small"
-          @click="editEditorShow = false"></el-button>
+          @click="editEditorShow = false" plain></el-button>
         <el-button type="primary" icon="el-icon-position" size="small"
-          @click="handleEdit"></el-button>
+          @click="handleEdit" plain></el-button>
       </div>
     </div>
     <div class="editor" v-show="replyEditorShow">
       <mavon-editor v-model="form.content"></mavon-editor>
       <div class="buttons">
         <el-button type="primary" icon="el-icon-close" size="small"
-          @click="replyEditorShow = false"></el-button>
+          @click="replyEditorShow = false" plain></el-button>
         <el-button type="primary" icon="el-icon-position" size="small"
-          @click="handleReply"></el-button>
+          @click="handleReply" plain></el-button>
       </div>
     </div>
     <el-collapse accordion v-model="isShow">
