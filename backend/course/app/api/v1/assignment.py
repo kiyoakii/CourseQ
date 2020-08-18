@@ -1,14 +1,10 @@
-from io import BytesIO
+from flask import jsonify
 
-from flask import request, send_file, jsonify
-
-from app.libs.error_code import Success, Forbidden, ParameterException, FileSuccess
+from app.libs.error_code import Success
 from app.libs.redprint import Redprint
-from app.models.base import db
 from app.models.assignment import Assignment
+from app.models.base import db
 from app.validators.forms import AssignmentUpdateForm
-from app.models.resource import CourseResource
-from app.validators.forms import ResourceForm
 
 api = Redprint('assignment')
 
@@ -19,7 +15,7 @@ def get_assignment(aid):
     return jsonify(assignment)
 
 
-@api.route('/<int:aid>', methods=['POST'])
+@api.route('/<int:aid>', methods=['PUT'])
 def update_assignment(aid):
     assignment = Assignment.query.get_or_404(aid)
     form = AssignmentUpdateForm().validate_for_api()
