@@ -39,6 +39,10 @@ export default {
   props: {
     content: String,
   },
+  model: {
+    prop: 'content',
+    event: 'change',
+  },
   methods: {
     change(val) {
       this.$emit('change', val);
