@@ -46,6 +46,11 @@ export default new Vuex.Store({
         return state.courses.find((item) => String(item.cid) === String(cid));
       };
     },
+    getCourseNameByID(state) {
+      return (cid) => {
+        return state.courses.find((item) => String(item.cid) === String(cid)).name_zh;
+      };
+    },
   },
   mutations: {
     initAllCourses(state, { courses }) {

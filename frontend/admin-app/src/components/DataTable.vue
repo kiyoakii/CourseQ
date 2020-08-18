@@ -12,13 +12,19 @@
           </el-table-column>
         </template>
         <el-table-column align="center" min-width="160"
-          :label="actionFormat === 'normal'?'操作':'选择'">
+          :label="actionFormat === 'select'?'选择':'操作'">
           <template slot-scope="scope">
             <div v-if="actionFormat === 'normal'">
               <el-button
                 size="mini"
                 type="primary"
                 @click="handleEdit(scope.row)">编辑</el-button>
+              <el-button
+                size="mini"
+                type="danger"
+                @click="handleDelete(scope.row)">删除</el-button>
+            </div>
+            <div v-else-if="actionFormat === 'delete'">
               <el-button
                 size="mini"
                 type="danger"

@@ -40,6 +40,7 @@
     <data-table
       :memberData="memberFilter(allInfo.students)"
       :tableFormat="memberTable"
+      actionFormat="delete"
       @delete="deleteRow"
       :searchText="searchText">
     </data-table>
@@ -87,19 +88,59 @@ export default {
     this.$store.dispatch('initAllStudents');
   },
   methods: {
-    deleteRow() {
-      console.log('edit!');
+    deleteRow(row) {
+      const data = {
+        name_zh: this.allInfo.name_zh,
+        name_en: this.allInfo.name_en,
+        intro: this.allInfo.intro,
+        series: this.allInfo.series,
+        pre_course: '',
+        textbooks: this.allInfo.textbooks,
+        semester: this.allInfo.semester,
+        new_teachers_gid: [],
+        new_students_gid: [],
+        new_TAs_gid: [],
+        del_teachers_gid: [],
+        del_students_gid: [],
+        del_TAs_gid: [],
+      };
+      data.del_students_gid.push(row.id);
+      this.axios.patch(`/api/v1/courses/${this.$route.params.cid}`,
+        data)
+        .then((res) => {
+          console.log(res);
+          this.dialogVisible = false;
+          this.$store.dispatch('initCourses', { tid: this.$route.params.tid });
+        });
     },
     submit() {
       console.log(this.selectedStus);
+      const data = {
+        name_zh: this.allInfo.name_zh,
+        name_en: this.allInfo.name_en,
+        intro: this.allInfo.intro,
+        series: this.allInfo.series,
+        pre_course: '',
+        textbooks: this.allInfo.textbooks,
+        semester: this.allInfo.semester,
+        new_teachers_gid: [],
+        new_students_gid: [],
+        new_TAs_gid: [],
+        del_teachers_gid: [],
+        del_students_gid: [],
+        del_TAs_gid: [],
+      };
       this.selectedStus.forEach((stu) => {
         console.log({ id: stu.id });
-        this.axios.post(`/api/v1/courses/${this.$route.params.cid}/students`,
-          { id: stu.id })
-          .then((res) => {
-            console.log(res);
-          });
+        data.new_students_gid.push(stu.id);
       });
+      this.axios.patch(`/api/v1/courses/${this.$route.params.cid}`,
+        data)
+        .then((res) => {
+          console.log(res);
+          this.dialogVisible = false;
+          this.$store.dispatch('initCourses', { tid: this.$route.params.tid });
+        });
     },
     create() {
       this.form = {
