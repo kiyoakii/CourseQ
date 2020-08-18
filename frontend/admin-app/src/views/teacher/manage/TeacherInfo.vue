@@ -1,78 +1,107 @@
 <template>
   <div>
-    <!-- This is TeacherInfo component. -->
     <h2>教师信息</h2>
     <div id="flex-bar">
       <div class="flex-item">
-        <el-form :inline="true" :model="searchForm">
-          <el-form-item class="form-item">
-            <el-input v-model="searchForm.name" placeholder="姓名"></el-input>
-          </el-form-item>
-          <el-form-item class="form-item">
-            <el-button type="primary" @click="onSearch">查询</el-button>
-          </el-form-item>
-        </el-form>
+        <data-table-search-bar
+          v-model="searchText">
+        </data-table-search-bar>
       </div>
       <div class="flex-item">
-        <el-button type="primary" @click="onSubmit">添加教师</el-button>
+        <el-button type="primary" @click="create">添加教师</el-button>
       </div>
     </div>
-    <el-table :data="allInfo.teachers" border id="teacher-table">
-      <el-table-column prop="name" label="姓名"></el-table-column>
-      <el-table-column prop="email" label="邮箱"></el-table-column>
-      <el-table-column prop="phone" label="电话"></el-table-column>
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <el-dialog
+      :title="'添加'"
+      :visible.sync="dialogVisible"
+      width="1000px">
+      <div id="flex-bar">
+        <div>
+          <data-table-search-bar
+            v-model="searchTextD">
+          </data-table-search-bar>
+        </div>
+      </div>
+      <div class="table">
+        <data-table
+          :memberData="allTeachers"
+          :tableFormat="memberTable"
+          @delete="deleteRow"
+          :actionFormat="'select'"
+          :searchText="searchTextD"
+          v-model="selectedStus">
+        </data-table>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submit">确 定</el-button>
+      </span>
+    </el-dialog>
+    <data-table
+      :memberData="memberFilter(allInfo.teachers)"
+      :tableFormat="memberTable"
+      @delete="deleteRow"
+      :searchText="searchText">
+    </data-table>
   </div>
 </template>
 
 <script>
+import DataTableSearchBar from '@/components/DataTableSearchBar.vue';
+import DataTable from '@/components/DataTable.vue';
+import { memberTable } from '@/helpers/table';
+import { memberFilter } from '@/helpers/filters';
+
 export default {
-  name: 'TeacherInfo',
+  name: 'TeacherAssiList',
+  components: {
+    DataTable,
+    DataTableSearchBar,
+  },
   props: {
     allInfo: {},
   },
   data() {
     return {
-      teacherInfo: [
-        {
-          name: 'teacher1',
-          email: 'email1',
-          phone: 'phone1',
-        },
-        {
-          name: 'teacher2',
-          email: 'email2',
-          phone: 'phone2',
-        },
-      ],
-      searchForm: {
+      searchText: '',
+      searchTextD: '',
+      memberTable,
+      memberFilter,
+      selectedStus: [],
+      form: {
+        id: '',
         name: '',
+        email: '',
+        phone: '',
+        school: '',
       },
+      dialogVisible: false,
     };
   },
+  computed: {
+    allTeachers() {
+      return this.$store.getters.adminAllTeachers;
+    },
+  },
+  beforeCreate() {
+    this.$store.dispatch('initAllTeachers');
+  },
   methods: {
-    handleEdit(index, row) {
-      console.log(index, row);
+    deleteRow() {
+      console.log('edit!');
     },
-    handleDelete(index, row) {
-      console.log(index, row);
+    submit() {
+      console.log('submit');
     },
-    onSearch() {
-      console.log('search!');
-    },
-    onSubmit() {
-      console.log('submit!');
+    create() {
+      this.form = {
+        id: '',
+        name: '',
+        email: '',
+        phone: '',
+        school: '',
+      };
+      this.dialogVisible = true;
     },
   },
 };
@@ -84,12 +113,13 @@ export default {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+}
+#ta-search {
   margin: 10px 0;
 }
-#teacher-table{
-  width: 800px;
+
+#table {
+  display: flex;
 }
-.form-item {
-  margin-bottom: 0;
-}
+
 </style>

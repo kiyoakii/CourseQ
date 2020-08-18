@@ -6,10 +6,10 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/teacher',
+    path: '/teacher/:tid',
     name: 'TeacherView',
     component: () => import('@/views/teacher/TeacherView.vue'),
-    redirect: '/teacher/courses',
+    redirect: '/teacher/:tid/courses',
     children: [
       {
         path: 'courses',
@@ -17,15 +17,10 @@ const routes = [
         component: () => import('@/views/teacher/CourseListView.vue'),
       },
       {
-        path: 'courses/:cname/semesters',
-        name: 'TeacherSemesterList',
-        component: () => import('@/views/teacher/SemesterListView.vue'),
-      },
-      {
-        path: '/teacher/courses/:cname/semesters/:sname/manage/:cid',
+        path: 'course/:cid/manage',
         name: 'TeacherCourseManage',
         component: () => import('@/views/teacher/ManageView.vue'),
-        redirect: '/teacher/courses/:cname/semesters/:sname/manage/:cid/assistants',
+        redirect: 'course/:cid/manage/assistants',
         children: [
           {
             path: 'assistants',
