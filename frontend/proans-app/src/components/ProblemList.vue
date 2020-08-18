@@ -9,7 +9,7 @@
             <span>{{ problem.title }}</span>
           </div>
           <div class="text item">
-            {{ problem.content | formatDesc }}
+            <render :markdown="problem.content | formatDesc"></render>
           </div>
         </el-card>
       </li>
@@ -23,8 +23,13 @@
 </template>
 
 <script>
+import Render from '@/components/Render.vue';
+
 export default {
   name: 'ProblemList',
+  components: {
+    Render,
+  },
   props: {
     problems: Array,
   },
