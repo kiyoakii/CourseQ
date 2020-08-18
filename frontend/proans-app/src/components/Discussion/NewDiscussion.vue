@@ -14,7 +14,7 @@
         <mavon-editor v-model="form.content" :autofocus="false"></mavon-editor>
         <div class="footer">
           <el-button type="primary" icon="el-icon-position" size="small"
-          @click="onSubmit">提交</el-button>
+          @click="onSubmit" plain>提交</el-button>
         </div>
       </div>
     </el-card>
