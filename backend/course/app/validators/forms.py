@@ -13,6 +13,10 @@ class UserForm(Form):
     nickname = StringField(validators=[DataRequired(),
                                        length(min=4, max=22)])
 
+    name = StringField(validators=[length(max=24)])
+    phone = StringField(validators=[length(max=24)])
+    school = StringField(validators=[length(max=63)])
+
     def validate_email(self, value):
         """ Used for validation before changing email"""
         if User.query.filter_by(email=value.data).first():
@@ -100,7 +104,7 @@ class TopicAnswerForm(Form):
 
 
 class ScheduleCreateForm(Form):
-    week_id = IntegerField(validators=[DataRequired()])
+    week = IntegerField(validators=[DataRequired()])
     topic = StringField(validators=[length(max=255), DataRequired()])
     reference = StringField(validators=[length(max=255), DataRequired()])
 
@@ -111,7 +115,7 @@ class AnnounceForm(Form):
 
 
 class ScheduleUpdateForm(Form):
-    week_id = IntegerField(validators=[])
+    week = IntegerField(validators=[])
     topic = StringField(validators=[length(max=255)])
     reference = StringField(validators=[length(max=255)])
 
