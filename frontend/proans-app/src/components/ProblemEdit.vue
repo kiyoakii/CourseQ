@@ -103,7 +103,7 @@ export default {
           });
       } else {
         console.log(this.form);
-        this.axios.post(`/api/v1/courses/${this.$route.params.qid}/questions`, this.form)
+        this.axios.post(`/api/v1/courses/${this.$route.params.cid}/questions`, this.form)
           .then((res) => {
             console.log(res);
             if (res.status !== 200) {
