@@ -82,4 +82,9 @@ question_tag_table = Table(
     Column('question_id', Integer, ForeignKey('question.id'))
 )
 
-
+assignment_schedule_table = Table(
+    'assignment_schedule_table',
+    Base.metadata,
+    Column('assignment_id', Integer, ForeignKey('assignment.id')),
+    Column('schedule_id', Integer, ForeignKey('schedule.id'))
+)

@@ -1,10 +1,8 @@
-from sqlalchemy import Column, String, Integer, Sequence, ForeignKey
+from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import reconstructor, relationship
-import functools
+
 from app.models.base import Base
-from app.libs.error_code import Forbidden
-from flask import g
-from sqlalchemy.orm.exc import NoResultFound
+from app.models.relation import assignment_schedule_table
 
 
 class Schedule(Base):
@@ -13,7 +11,7 @@ class Schedule(Base):
     week = Column(Integer)
     topic = Column(String(255))
     reference = Column(String(255))
-    assignments = relationship('Assignment')
+    assignments = relationship('Assignment', secondary=assignment_schedule_table)
 
     @reconstructor
     def __init__(self, *args, **kwargs):
