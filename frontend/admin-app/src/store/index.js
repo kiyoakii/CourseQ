@@ -6,7 +6,6 @@ import {
   memberFilter,
   courseFilter,
   teacherOptionsFilter,
-  distinctCoursesFilter,
 } from '../helpers/filters';
 
 Vue.use(Vuex);
