@@ -1,8 +1,13 @@
-from flask import jsonify, request
+import binascii
+import os
 
-from app.libs.error_code import Success, DeleteSuccess
+from flask import jsonify, request
+from werkzeug.utils import secure_filename
+
+from app.config.secure import UPLOAD_FOLDER, ALLOWED_EXTENSIONS
+from app.libs.error_code import Success, DeleteSuccess, ParameterException
 from app.libs.redprint import Redprint
-from app.models import Announce
+from app.models import Announce, CourseResource, Assignment
 from app.models.base import db
 from app.models.course import Course
 from app.models.history import History
@@ -10,7 +15,8 @@ from app.models.question import Question
 from app.models.relation import Enroll
 from app.models.schedule import Schedule
 from app.models.tag import Tag
-from app.validators.forms import CourseCreateForm, CourseUpdateForm, QuestionCreateForm, AnnounceForm
+from app.validators.forms import CourseCreateForm, CourseUpdateForm, QuestionCreateForm, AnnounceForm, ResourceForm, \
+    AssignmentCreateForm
 from app.validators.forms import ScheduleCreateForm
 
 api = Redprint('course')
@@ -135,3 +141,56 @@ def create_announce(cid):
         announce.course = course
         db.session.add(announce)
     return Success()
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@api.route('/<int:cid>/resources', methods=['POST'])
+def upload(cid):
+    course = Course.query.get_or_404(cid)
+    if 'file' not in request.files:
+        return ParameterException
+    file = request.files['file']
+    form = ResourceForm().validate_for_api()
+    if file.filename == '':
+        return ParameterException
+    if file:
+        with db.auto_commit():
+            filename = secure_filename(file.filename)
+            random_filename = str(binascii.b2a_hex(os.urandom(15)), encoding='UTF-8')
+            print(os.path.join(UPLOAD_FOLDER, random_filename))
+            file.save(os.path.join(UPLOAD_FOLDER, random_filename))
+            resource = CourseResource()
+            resource.filename = filename
+            resource.file = random_filename
+            resource.course_id = cid
+            resource.description = form.description.data
+            db.session.add(resource)
+    return Success()
+
+
+@api.route('/<int:cid>/resources', methods=['GET'])
+def get_resources(cid):
+    course = Course.query.get_or_404(cid)
+    return jsonify(course.resources)
+
+
+@api.route('/<int:cid>/assignments', methods=['POST'])
+def create_assignment(cid):
+    course = Course.query.get_or_404(cid)
+    form = AssignmentCreateForm().validate_for_api()
+    with db.auto_commit():
+        assignment = Assignment()
+        form.populate_obj(assignment)
+        assignment.course_cid = cid
+        db.session.add(assignment)
+    return Success()
+
+
+@api.route('/<int:cid>/assignments', methods=['GET'])
+def get_assignment(cid):
+    course = Course.query.get_or_404(cid)
+    return jsonify(course.assignments)
