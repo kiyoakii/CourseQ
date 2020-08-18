@@ -16,7 +16,7 @@ export default new Vuex.Store({
     allCourses: [],
     allTeachers: [],
     allStudents: [],
-    coursesForTeacher: [],
+    courses: [],
   },
   getters: {
     adminAllCourses(state) {
@@ -38,12 +38,13 @@ export default new Vuex.Store({
         });
       };
     },
-    // TODO: 在此写入你需要的数据，比如某个教师对应的课程，某个课程对应的所有学期
-    getDistinctCourses(state) {
-      return distinctCoursesFilter(state.coursesForTeacher);
+    teacherCourses(state) {
+      return state.courses;
     },
-    getSemestersForCourses(state) {
-      console.log(state);
+    courseAllInfo(state) {
+      return (cid) => {
+        return state.courses.find((item) => String(item.cid) === String(cid));
+      };
     },
   },
   mutations: {
@@ -59,9 +60,9 @@ export default new Vuex.Store({
       state.allStudents.splice(0, state.allStudents.length);
       state.allStudents.push(...students);
     },
-    initCoursesForTeacher(state, { courses }) {
-      state.coursesForTeacher.splice(0, state.coursesForTeacher.length);
-      state.coursesForTeacher.push(...courses);
+    initCourses(state, { courses }) {
+      state.courses.splice(0, state.courses.length);
+      state.courses.push(...courses);
     },
   },
   actions: {
@@ -95,12 +96,12 @@ export default new Vuex.Store({
           });
         });
     },
-    initCoursesForTeacher(context) {
-      axios.get('/api/v1/users/0000000000/courses')
+    initCourses(context, { tid }) {
+      axios.get(`/api/v1/users/${tid}/courses`)
         .then((res) => {
-          console.log('courses for teacher request success: ', res);
+          console.log('courses get: ', res);
           return context.commit({
-            type: 'initCoursesForTeacher',
+            type: 'initCourses',
             courses: res.data,
           });
         });
