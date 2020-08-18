@@ -1,6 +1,7 @@
 <template>
   <div>
-    <mavon-editor @change="change" v-model="contentCopy" :toolbars="toolbars"></mavon-editor>
+    <mavon-editor @change="change" v-model="contentCopy" :toolbars="toolbars"
+      :boxShadow="false" :tabSize="4"></mavon-editor>
   </div>
 </template>
 
