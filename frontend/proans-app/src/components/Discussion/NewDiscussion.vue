@@ -40,7 +40,7 @@ export default {
   methods: {
     onSubmit() {
       console.log(this.$route.query.qid);
-      this.axios.post(`/api/v1/questions/${this.$route.query.qid}/discussions`,
+      this.axios.post(`/api/v1/questions/${this.$route.params.qid}/discussions`,
         this.form)
         .then((res) => {
           console.log(res);
