@@ -11,16 +11,20 @@
             :min-width="col.minWidth">
           </el-table-column>
         </template>
-        <el-table-column align="center" min-width="160" label="操作">
+        <el-table-column align="center" min-width="160"
+          :label="actionFormat === 'normal'?'操作':'选择'">
           <template slot-scope="scope">
-            <el-button
-              size="mini"
-              type="primary"
-              @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button
-              size="mini"
-              type="danger"
-              @click="handleDelete(scope.row)">删除</el-button>
+            <div v-if="actionFormat === 'normal'">
+              <el-button
+                size="mini"
+                type="primary"
+                @click="handleEdit(scope.row)">编辑</el-button>
+              <el-button
+                size="mini"
+                type="danger"
+                @click="handleDelete(scope.row)">删除</el-button>
+            </div>
+            <el-checkbox v-else @change="handleSelect($event, scope.row)"></el-checkbox>
           </template>
         </el-table-column>
       </el-table>
@@ -44,6 +48,10 @@
 <script>
 export default {
   name: 'AdminMemberList',
+  model: {
+    prop: 'selectedMems',
+    event: 'updateSelectedMems',
+  },
   props: {
     memberData: {
       type: Array,
@@ -55,11 +63,16 @@ export default {
     tableFormat: {
       type: Array,
     },
+    actionFormat: {
+      type: String,
+      default: 'normal',
+    },
   },
   data() {
     return {
       currentPage: 1,
       pageSize: 10,
+      mems: [],
     };
   },
   computed: {
@@ -90,6 +103,14 @@ export default {
     },
     handleCurrentChange(val) {
       this.currentPage = val;
+    },
+    handleSelect(val, row) {
+      if (val === true) {
+        this.mems.push(row);
+      } else {
+        this.mems.splice(this.mems.findIndex((item) => item.id === row.id));
+      }
+      this.$emit('updateSelectedMems', this.mems);
     },
   },
 };
