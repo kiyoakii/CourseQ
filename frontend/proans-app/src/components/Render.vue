@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span v-html="rawHtml"></span>
+    <span class="markdown-body" v-html="rawHtml"></span>
   </div>
 </template>
 
