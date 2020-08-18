@@ -6,16 +6,18 @@
       </el-row>
     </div>
     <div class="reply-body">
-      {{ content }}
-      这里是内容
+      <render :markdown="content"></render>
     </div>
   </el-card>
 </template>
 
 <script>
+import Render from '@/components/Render.vue';
+
 export default {
   name: 'CardReply',
   components: {
+    Render,
   },
   props: {
     title: {
