@@ -207,7 +207,7 @@ export default {
         .then((res) => {
           console.log(res);
           this.$store.dispatch('initCourses', { tid: this.$route.params.tid });
-        })
+        });
     },
     addLecs(row) {
       console.log(row);
