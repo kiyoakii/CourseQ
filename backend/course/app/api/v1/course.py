@@ -52,6 +52,7 @@ def update_course(cid):
     # enroll_set = Enroll.query.filter_by(course_cid=cid)
     # if enroll_set.count() == 0:
     #     return Forbidden()
+
     with db.auto_commit():
         if request.method == 'PATCH':
             for field, value in form.data.items():
@@ -108,7 +109,7 @@ def create_schedule(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     form = ScheduleCreateForm().validate_for_api()
     with db.auto_commit():
-        schedule = Schedule(week_id=form.week_id.data,
+        schedule = Schedule(week=form.week.data,
                             topic=form.topic.data,
                             reference=form.reference.data,
                             course_id=course.cid
