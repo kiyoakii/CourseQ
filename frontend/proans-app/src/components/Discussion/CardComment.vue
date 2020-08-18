@@ -12,7 +12,7 @@
         </div>
     </div>
     <div class="comment-body" v-show="!editEditorShow">
-      {{ com.content }}
+      <render :markdown="com.content"></render>
     </div>
     <div class="editor" v-show="editEditorShow">
       <el-input v-model="form.title"
@@ -52,12 +52,14 @@
 </template>
 
 <script>
+import Render from '@/components/Render.vue';
 import CardReply from '@/components/Discussion/CardReply.vue';
 
 export default {
   name: 'CardComment',
   components: {
     CardReply,
+    Render,
   },
   props: {
     com: Object,
