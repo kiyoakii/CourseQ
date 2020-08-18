@@ -28,8 +28,8 @@
         @click="showInput">+ New Tag</el-button>
         <editor class="mavon-editor" :content="form.content" @change="change"></editor>
       </div>
-      <div class="footer">
-        <el-button type="primary" @click="onSubmit">确 定</el-button>
+      <div style="display: flex; justify-content: flex-end;">
+        <el-button type="primary" size="small" plain @click="onSubmit">确 定</el-button>
       </div>
     </el-card>
   </div>
