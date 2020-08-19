@@ -48,8 +48,7 @@ export default {
       }
       console.log(problem);
       const res = problem.history.find((item) => {
-        console.log(item.question && item.question.id, this.versionId);
-        return item.question && (item.question.id === this.versionId);
+        return item.id === this.versionId;
       });
       return {
         ...res.question,
