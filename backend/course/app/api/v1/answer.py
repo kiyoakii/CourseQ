@@ -16,12 +16,13 @@ def update_answer(aid):
     form = AnswerForm().validate_for_api()
     with db.auto_commit():
         # history_answer.author_gid=??
-        if form.is_teacher.data:
-            history = History.create_from_teacher_answer(answer)
-        else:
-            history = History.create_from_student_answer(answer)
-        form.populate_obj(answer)
-        db.session.add(history)
+        if form.content.data != answer.content:
+            if form.is_teacher.data:
+                history = History.create_from_teacher_answer(answer)
+            else:
+                history = History.create_from_student_answer(answer)
+            form.populate_obj(answer)
+            db.session.add(history)
     return Success()
 
 
