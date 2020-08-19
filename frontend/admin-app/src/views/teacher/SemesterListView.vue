@@ -2,12 +2,12 @@
   <div>
     <!-- This is TeacherSemesterList component. -->
     <el-row :gutter="40">
-      <el-col :span="8" v-for="(item, i) in semesters" :key="i">
-        <router-link :to="'/teacher/1/course/1/semester/1/manage/assistants'">
-          <el-button type="primary" plain>
-              {{item.name}}
+      <el-col :span="8" v-for="(item, i) in courses" :key="i">
+          <el-button type="primary"
+          @click="toManage(item)"
+          plain>
+              {{item.semester}}
           </el-button>
-        </router-link>
       </el-col>
     </el-row>
   </div>
@@ -16,21 +16,18 @@
 <script>
 export default {
   name: 'SemesterListView',
-  data() {
-    return {
-      semesters: [],
-    };
+  computed: {
+    courses() {
+      console.log(this.$store.getters.courseSemesters(this.$route.params.cname));
+      return this.$store.getters.courseSemesters(this.$route.params.cname);
+    },
   },
-  mounted() {
-    this.axios.get('/v1/admin/teacher/semester-list?course=1')
-      .then((res) => {
-        console.log(res);
-        if (res.status !== 200) {
-          console.log(JSON.stringify(res.data));
-          return;
-        }
-        this.semesters = res.data.semesters;
+  methods: {
+    toManage(item) {
+      this.$router.push({
+        path: `/teacher/${this.$route.params.tid}/course/${this.$route.params.cname}/semester/${item.semester}/manage/${item.cid}`,
       });
+    },
   },
 };
 </script>

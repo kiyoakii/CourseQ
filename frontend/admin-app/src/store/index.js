@@ -6,6 +6,7 @@ import {
   memberFilter,
   courseFilter,
   teacherOptionsFilter,
+  distinctCoursesFilter,
 } from '../helpers/filters';
 
 Vue.use(Vuex);
@@ -38,7 +39,18 @@ export default new Vuex.Store({
       };
     },
     teacherCourses(state) {
-      return state.courses;
+      return distinctCoursesFilter(state.courses);
+    },
+    courseSemesters(state) {
+      return (cname) => {
+        const courses = [];
+        state.courses.forEach((course) => {
+          if (course.name_zh === cname) {
+            courses.push(course);
+          }
+        });
+        return courses;
+      };
     },
     courseAllInfo(state) {
       return (cid) => {
