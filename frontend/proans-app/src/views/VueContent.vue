@@ -2,7 +2,7 @@
   <div>
     <el-container>
       <el-aside style="padding-top: 20px;">
-        <router-view name="sidebar"></router-view>
+        <side-bar></side-bar>
       </el-aside>
       <el-main>
         <router-view ></router-view>
@@ -12,10 +12,12 @@
 </template>
 
 <script>
+import SideBar from '@/components/SideBar.vue';
 
 export default {
   name: 'VueContent',
   components: {
+    SideBar,
   },
 };
 </script>

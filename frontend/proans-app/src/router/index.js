@@ -7,42 +7,27 @@ const routes = [
   {
     path: '/proans/course/:cid',
     name: 'IntroView',
-    components: {
-      default: () => import('@/views/GuideView.vue'),
-      sidebar: () => import('@/components/SideBar.vue'),
-    },
+    component: () => import('@/views/GuideView.vue'),
   },
   {
     path: '/proans/course/:cid/tag/:tid',
     name: 'CategoryView',
-    components: {
-      default: () => import('@/views/GuideView.vue'),
-      sidebar: () => import('@/components/SideBar.vue'),
-    },
+    component: () => import('@/views/GuideView.vue'),
   },
   {
     path: '/proans/course/:cid/tag/:tid/question/:qid',
     name: 'ProblemView',
-    components: {
-      default: () => import('@/views/ProblemView.vue'),
-      sidebar: () => import('@/components/SideBar.vue'),
-    },
+    component: () => import('@/views/ProblemView.vue'),
   },
   {
     path: '/proans/course/:cid/tag/:tid/question/:qid/editProblem',
     name: 'EditProblemView',
-    components: {
-      default: () => import('@/components/ProblemEdit.vue'),
-      sidebar: () => import('@/components/SideBar.vue'),
-    },
+    component: () => import('@/components/ProblemEdit.vue'),
   },
   {
     path: '/proans/course/:cid/tag/:tid/addProblem',
     name: 'AddProblemView',
-    components: {
-      default: () => import('@/components/ProblemEdit.vue'),
-      sidebar: () => import('@/components/SideBar.vue'),
-    },
+    component: () => import('@/components/ProblemEdit.vue'),
   },
 ];
 
