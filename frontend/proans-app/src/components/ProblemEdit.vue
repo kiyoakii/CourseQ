@@ -29,7 +29,10 @@
         <editor class="mavon-editor" v-model="form.content"></editor>
       </div>
       <div style="display: flex; justify-content: flex-end;">
-        <el-button type="primary" size="small" plain @click="onSubmit">确 定</el-button>
+        <el-button type="primary" icon="el-icon-close" size="small"
+          @click="closeEditor" plain>取消</el-button>
+        <el-button type="primary" icon="el-icon-position" size="small"
+          @click="onSubmit" plain>确定</el-button>
       </div>
     </el-card>
   </div>
@@ -37,6 +40,7 @@
 
 <script>
 import Editor from '@/components/Editor.vue';
+import { instance } from '../helpers/instances';
 
 export default {
   name: 'ProblemEdit',
@@ -75,10 +79,20 @@ export default {
       this.inputVisible = false;
       this.inputValue = '';
     },
+    closeEditor() {
+      this.$router.push({
+        name: 'ProblemView',
+        params: {
+          cid: this.$route.params.cid,
+          tid: this.$route.params.tid,
+          qid: this.$route.params.qid,
+        },
+      });
+    },
     onSubmit() {
       if (this.edit) {
         console.log('oldTags', this.oldTags, 'newTags', this.form.tags);
-        this.axios.put(`/api/v1/questions/${this.$route.params.qid}`,
+        instance.put(`/api/v1/questions/${this.$route.params.qid}`,
           {
             title: this.form.title,
             content: this.form.content,
@@ -91,37 +105,33 @@ export default {
               console.log(JSON.stringify(res.data));
             }
             this.$store.commit('updateProblem', this.$route.params.problem);
-            console.log('成功');
-            this.$router.push({
-              name: 'ProblemView',
-              params: {
-                cid: this.$route.params.cid,
-                tid: this.$route.params.tid,
-                qid: this.$route.params.qid,
-              },
-            });
+            this.closeEditor();
           });
       } else {
         console.log(this.form);
-        this.axios.post(`/api/v1/courses/${this.$route.params.cid}/questions`, this.form)
-          .then((res) => {
-            console.log(res);
-            if (res.status !== 200) {
-              console.log(JSON.stringify(res.data));
-            }
-            this.$store.dispatch('initProblems');
-            this.$router.push({
-              name: 'CategoryView',
-              params: {
-                cid: this.$route.params.cid,
-                tid: this.$route.params.tid,
-              },
-            });
+        instance.post(`/api/v1/courses/${this.$route.params.cid}/questions`, {
+          title: this.form.title,
+          content: this.form.content,
+          tags: this.form.tags.length === 0 ? ['默认'] : this.form.tags,
+        }).then((res) => {
+          console.log(res);
+          if (res.status !== 200) {
+            console.log(JSON.stringify(res.data));
+          }
+          this.$store.dispatch('initProblems');
+          this.$router.push({
+            name: 'CategoryView',
+            params: {
+              cid: this.$route.params.cid,
+              tid: this.$route.params.tid,
+            },
           });
+        });
       }
     },
   },
   mounted() {
+    console.log(this.$route);
     this.form.title = this.$route.params.problem.title;
     this.form.content = this.$route.params.problem.content;
     this.$route.params.problem.tags.forEach((t) => this.form.tags.push(t.name));
