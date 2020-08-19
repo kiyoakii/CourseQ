@@ -1,75 +1,49 @@
 <template>
-  <el-card class="box-card timeline-card" shadow="hover">
-    <!-- This is the TimeLine component. -->
-    <div slot="header" class="clearfix">
-      <span>版本时间轴</span>
-    </div>
-    <el-row class="timeline">
-      <!-- <el-col :span="24" ref="wrapper" class="version_wrapper"
-        :style="{ transform: 'translate(' + offset + 'px)', }"
-        @mousedown.native="mouseDown" @mouseup.native="mouseUp"
-        @mouseleave.native="mouseLeave">
-          <el-steps align-center>
-            <template v-for="(version) in timelineList">
-              <el-step class="step"
-                  :status="version.id == currentProblemId ? 'finish' : 'wait'"
-                  :key="'step' + version.id"
-                  >
-                  <span slot="icon" class="circle"
-                    @click.stop="changeVersion(version.id)"
-                    @mousedown.stop=""
-                    @mouseup.stop=""
-                    v-popover="'popover' + version.id"></span>
-                  <span slot="title">
-                    {{ version.date.split('T')[0] }}
-                  </span>
-                </el-step>
-            </template>
-          </el-steps>
-      </el-col> -->
-      <el-col :span="24">
-        <el-scrollbar class="scrollbar">
-          <el-steps>
-            <template v-for="(version) in timelineList">
-              <el-step class="step"
-                  :status="version.id == currentProblemId ? 'finish' : 'wait'"
-                  :key="'step' + version.id"
-                  >
-                  <span slot="icon" class="circle"
-                    @click.stop="changeVersion(version.id)"
-                    v-popover="'popover' + version.id">
-                    <el-popover
-                      placement="bottom"
-                      :key="'popover' + version.id"
-                      :ref="'popover' + version.id"
-                      width="220"
-                      :close-delay="20"
-                      trigger="hover"
+  <el-row class="timeline" v-if="timelineList.length !== 1">
+    <el-col :span="24">
+      <el-scrollbar class="scrollbar">
+        <el-steps>
+          <template v-for="(version, index) in timelineList">
+            <el-step class="step"
+                :status="version.id == currentProblemId ? 'finish' : 'wait'"
+                :key="'step' + version.id"
+                >
+                <span slot="icon"
+                  :class="version.id === currentProblemId ? 'el-icon-star-on' :
+                    index === 0 ? 'el-icon-star-off' : 'circle'"
+                  @click.stop="changeVersion(version.id)"
+                  v-popover="'popover' + version.id">
+                  <el-popover
+                    placement="bottom"
+                    :key="'popover' + version.id"
+                    :ref="'popover' + version.id"
+                    width="220"
+                    :close-delay="20"
+                    trigger="hover"
+                    >
+                    <el-row type="flex" class="popover-content" justify="center"
                       >
-                      <el-row type="flex" class="popover-content" justify="center"
-                        >
-                        <el-col :span="24">
-                          问题标题：{{ version.title.slice(0, 20) }}
-                        </el-col>
-                        <el-col :span="24">
-                          问题内容：{{ version.content.slice(0, 50) }}
-                        </el-col>
-                        <el-col :span="24">
-                          修改时间：{{ version.date.split('T').join(' ') }}
-                        </el-col>
-                      </el-row>
-                    </el-popover>
-                  </span>
-                  <!-- <span slot="title">
-                    {{ version.date.split('T')[0] }}
-                  </span> -->
-                </el-step>
-            </template>
-          </el-steps>
-        </el-scrollbar>
-      </el-col>
-    </el-row>
-  </el-card>
+                      <el-col :span="24">
+                        问题标题：{{ version.title.slice(0, 20) }}
+                      </el-col>
+                      <el-col :span="24">
+                        问题内容：{{ version.content.slice(0, 50) }}
+                      </el-col>
+                      <el-col :span="24">
+                        修改时间：{{ version.date.split('T').join(' ') }}
+                      </el-col>
+                    </el-row>
+                  </el-popover>
+                </span>
+                <!-- <span slot="title">
+                  {{ version.date.split('T')[0] }}
+                </span> -->
+              </el-step>
+          </template>
+        </el-steps>
+      </el-scrollbar>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
@@ -106,13 +80,14 @@ export default {
       }
       const res = [];
       const history = [...problem.history];
+      console.log(history);
       for (let i = 0; i < history.length; i += 1) {
         if (history[i].question) {
           res.push({
-            id: history[i].question.id,
+            id: history[i].id,
             title: history[i].question.title,
             content: history[i].question.content,
-            date: history[i].question.update_datetime,
+            date: history[i].modify_time,
           });
         }
       }
@@ -127,7 +102,7 @@ export default {
     timelineList() {
       const history = this.problemHistory || [];
       console.log('timelineList:', history);
-      return history;
+      return history.reverse();
     },
   },
   watch: {
@@ -251,6 +226,17 @@ export default {
 
 <style scoped>
 
+.el-icon-star-on, .el-icon-star-off {
+  font-size: 26px;
+  user-select: none;
+  outline:none;
+}
+
+.el-icon-star-off {
+  font-size: 22px;
+  outline: none;
+}
+
 .scrollbar {
   height: 40px;
 }
@@ -260,10 +246,13 @@ export default {
   height: 16px;
   display: inline-block;
   background: #f60;
+  outline: none;
 }
 
 .timeline {
   user-select: none;
+  padding-top: 7px;
+  margin-bottom: 10px !important;
 }
 
 .version {
