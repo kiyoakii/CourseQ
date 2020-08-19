@@ -1,15 +1,11 @@
-from io import BytesIO
-
 from flask import jsonify
 
-from app.libs.error_code import Success, Forbidden, ParameterException, FileSuccess
+from app.libs.error_code import Success, DeleteSuccess
 from app.libs.redprint import Redprint
-from app.models.schedule import Schedule
-from app.models.assignment import Assignment
-from app.validators.forms import ScheduleUpdateForm, AssignmentCreateForm
+from app.models import CourseResource, Assignment
 from app.models.base import db
-import datetime
-import app
+from app.models.schedule import Schedule
+from app.validators.forms import ScheduleUpdateForm
 
 api = Redprint('schedule')
 
@@ -20,12 +16,22 @@ def get_schedule(sid):
     return jsonify(schedule)
 
 
-@api.route('/<int:sid>', methods=['POST'])
+@api.route('/<int:sid>', methods=['PUT'])
 def update_schedule(sid):
     schedule = Schedule.query.get_or_404(sid)
     form = ScheduleUpdateForm().validate_for_api()
     with db.auto_commit():
         form.populate_obj(schedule)
+        resources = CourseResource.query.filter(CourseResource.id.in_(form.resource_ids.data)).all()
+        schedule.resources = resources
+        assignments = Assignment.query.filter(Assignment.id.in_(form.assignment_ids.data)).all()
+        schedule.assignments = assignments
     return Success()
 
 
+@api.route('/<int:sid>', methods=['DELETE'])
+def delete_schedule(sid):
+    schedule = Schedule.query.get_or_404(sid)
+    with db.auto_commit():
+        db.session.delete(schedule)
+    return DeleteSuccess()
