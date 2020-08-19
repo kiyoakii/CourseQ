@@ -1,32 +1,9 @@
 <template>
-  <el-card class="box-card">
+  <el-card class="box-card timeline-card" shadow="hover">
     <!-- This is the TimeLine component. -->
     <div slot="header" class="clearfix">
       <span>版本时间轴</span>
     </div>
-    <template v-for="(version) in timelineList">
-      <el-popover
-        placement="bottom"
-        :key="'popover' + version.id"
-        :ref="'popover' + version.id"
-        width="220"
-        :close-delay="20"
-        trigger="hover"
-        >
-        <el-row type="flex" class="popover-content" justify="center"
-          >
-          <el-col :span="24">
-            问题标题：{{ version.title.slice(0, 20) }}
-          </el-col>
-          <el-col :span="24">
-            问题内容：{{ version.content.slice(0, 50) }}
-          </el-col>
-          <el-col :span="24">
-            修改时间：{{ version.date.split('T').join(' ') }}
-          </el-col>
-        </el-row>
-      </el-popover>
-    </template>
     <el-row class="timeline">
       <!-- <el-col :span="24" ref="wrapper" class="version_wrapper"
         :style="{ transform: 'translate(' + offset + 'px)', }"
@@ -60,7 +37,29 @@
                   >
                   <span slot="icon" class="circle"
                     @click.stop="changeVersion(version.id)"
-                    v-popover="'popover' + version.id"></span>
+                    v-popover="'popover' + version.id">
+                    <el-popover
+                      placement="bottom"
+                      :key="'popover' + version.id"
+                      :ref="'popover' + version.id"
+                      width="220"
+                      :close-delay="20"
+                      trigger="hover"
+                      >
+                      <el-row type="flex" class="popover-content" justify="center"
+                        >
+                        <el-col :span="24">
+                          问题标题：{{ version.title.slice(0, 20) }}
+                        </el-col>
+                        <el-col :span="24">
+                          问题内容：{{ version.content.slice(0, 50) }}
+                        </el-col>
+                        <el-col :span="24">
+                          修改时间：{{ version.date.split('T').join(' ') }}
+                        </el-col>
+                      </el-row>
+                    </el-popover>
+                  </span>
                   <!-- <span slot="title">
                     {{ version.date.split('T')[0] }}
                   </span> -->
@@ -94,7 +93,7 @@ export default {
     };
   },
   beforeCreate() {
-    this.$store.dispatch('initProblems');
+    // this.$store.dispatch('initProblems');
   },
   beforeMount() {
     this.currentProblemId = this.problemId;
@@ -127,6 +126,7 @@ export default {
     },
     timelineList() {
       const history = this.problemHistory || [];
+      console.log('timelineList:', history);
       return history;
     },
   },
@@ -134,6 +134,7 @@ export default {
     problemId(newVal, oldVal) {
       if (newVal !== oldVal) {
         this.currentProblemId = newVal;
+        this.$forceUpdate();
       }
     },
   },
@@ -243,7 +244,7 @@ export default {
   border-color: #409EFF !important;
 }
 
-.el-scrollbar__wrap {
+.timeline .el-scrollbar__wrap {
   overflow-x: hidden;
 }
 </style>
