@@ -5,7 +5,7 @@ from flask import request, jsonify
 from werkzeug.utils import secure_filename
 
 from app.config.secure import UPLOAD_FOLDER
-from app.libs.error_code import Success, ParameterException, DeleteSuccess
+from app.libs.error_code import ParameterException, DeleteSuccess
 from app.libs.redprint import Redprint
 from app.models import User
 from app.models.base import db
@@ -17,10 +17,10 @@ api = Redprint('photo')
 @api.route('', methods=['POST'])
 def upload_photo():
     if 'file' not in request.files:
-        return ParameterException
+        return ParameterException()
     file = request.files['file']
     if file.filename == '':
-        return ParameterException
+        return ParameterException()
     if file:
         with db.auto_commit():
             filename = secure_filename(file.filename)
@@ -32,7 +32,9 @@ def upload_photo():
             photo.file = random_filename
             photo.author_gid = '0000000000'
             db.session.add(photo)
-    return Success()
+        return jsonify(photo)
+    else:
+        return ParameterException()
 
 
 @api.route('', methods=['GET'])
