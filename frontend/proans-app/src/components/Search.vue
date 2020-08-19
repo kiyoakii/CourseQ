@@ -1,12 +1,9 @@
 <template>
   <div>
-    <el-input placeholder="请输入内容" v-model="searchText"
+    <el-input prefix-icon="el-icon-search"
+    placeholder="请输入搜索内容" v-model="searchText"
     class="input-with-select"
-    @keyup.enter.native="search">
-    <el-select v-model="select" slot="prepend" placeholder="类别">
-      <el-option v-for="tag in tags" :key="tag.id"
-      :label="tag.name" :value="tag.id"></el-option>
-    </el-select>
+    @input="search">
     <!-- <el-button slot="append" icon="el-icon-search"></el-button> -->
   </el-input>
   </div>
@@ -19,24 +16,24 @@ export default {
     prop: 'searchInfo',
     event: 'search',
   },
-  props: {
-    tags: {
-      type: Array,
-      default() {
-        return [];
-      },
-    },
-  },
   data() {
     return {
-      select: '',
       searchText: '',
+      tid: '',
     };
+  },
+  watch: {
+    $route() {
+      this.tid = this.$route.params.tid;
+    },
+    tid() {
+      this.searchText = '';
+      this.$emit('search', this.searchText);
+    },
   },
   methods: {
     search() {
-      console.log(this.select, this.searchText);
-      this.$emit('search', { select: this.select, searchText: this.searchText });
+      this.$emit('search', this.searchText);
     },
   },
 };
