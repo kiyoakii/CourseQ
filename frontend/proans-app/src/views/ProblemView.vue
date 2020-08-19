@@ -71,10 +71,12 @@ export default {
     },
   },
   methods: {
-    handleUpdateProblem() {
-      this.$store.commit('updateProblem', this.problem);
+    handleUpdateProblem(id) {
+      this.$store.dispatch('updateProblem', { id });
     },
     updateData() {
+      this.$store.dispatch('setCommentList');
+      this.$store.dispatch('initProblems');
     },
     changeVersion({ id }) {
       this.versionId = id;
@@ -94,13 +96,13 @@ export default {
     next();
     this.versionId = -1;
     this.initStore();
+    this.$store.dispatch('setCommentList');
   },
-  beforeUpdate() {
-    this.initStore();
-  },
-  beforeMount() {
+  created() {
     this.initStore();
     this.$store.dispatch('setCommentList');
+  },
+  beforeCreate() {
     this.$store.dispatch('initProblems');
   },
 };
