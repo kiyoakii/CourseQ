@@ -61,8 +61,12 @@ class History(Base):
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields = ['id', 'question', 'teacher_answer', 'student_answer']
+        self.fields = ['id', 'question', 'teacher_answer', 'student_answer', 'modify_time']
         self.update_time = self.create_time
+
+    @property
+    def modify_time(self):
+        return datetime.fromtimestamp(self.create_time)
 
 
 class HistoryQuestion(Base):
