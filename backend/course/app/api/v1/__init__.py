@@ -1,7 +1,7 @@
 from flask import Blueprint
 
 from app.api.v1 import user, token, course, resource, answer, question, discussion, topic_answer, schedule, assignment, \
-    announce
+    announce, photo
 
 
 def create_blueprint_v1():
@@ -17,4 +17,5 @@ def create_blueprint_v1():
     schedule.api.register(bp_v1, url_prefix='/schedules')
     assignment.api.register(bp_v1, url_prefix='/assignments')
     announce.api.register(bp_v1, url_prefix='/announces')
+    photo.api.register(bp_v1,url_prefix='/photos')
     return bp_v1

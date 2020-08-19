@@ -23,6 +23,7 @@ class User(Base):
     name = Column(String(24))
     phone = Column(String(24))
     school = Column(String(63))
+    photos = relationship('Photo')
 
     @orm.reconstructor
     def __init__(self):
