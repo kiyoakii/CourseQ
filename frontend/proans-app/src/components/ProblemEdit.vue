@@ -63,6 +63,11 @@ export default {
   },
   methods: {
     handleClose(tag) {
+      console.log(tag);
+      if (tag === '默认' && this.form.tags.length === 1) {
+        this.$message.error('问题至少有一个 tag!');
+        return;
+      }
       this.form.tags.splice(this.form.tags.indexOf(tag), 1);
     },
     showInput() {
