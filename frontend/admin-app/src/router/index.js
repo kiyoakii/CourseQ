@@ -17,10 +17,15 @@ const routes = [
         component: () => import('@/views/teacher/CourseListView.vue'),
       },
       {
-        path: 'course/:cid/manage',
+        path: 'course/:cname/semesters',
+        name: 'TeacherSemesterList',
+        component: () => import('@/views/teacher/SemesterListView.vue'),
+      },
+      {
+        path: 'course/:cname/semester/:sname/manage/:cid',
         name: 'TeacherCourseManage',
         component: () => import('@/views/teacher/ManageView.vue'),
-        redirect: 'course/:cid/manage/assistants',
+        redirect: 'course/:cname/semester/:sname/manage/:cid/assistants',
         children: [
           {
             path: 'assistants',
