@@ -45,11 +45,12 @@ export default {
     },
     getProblem(proid) {
       this.selectedProblem = proid;
+      const problem = this.$store.getters.problem(proid);
       this.$router.push({
         name: 'ProblemView',
         params: {
           cid: this.$route.params.cid,
-          tid: this.$route.params.tid,
+          tid: this.$route.params.tid || problem.tags[0].id,
           qid: proid,
         },
       }).catch(() => {});
@@ -59,11 +60,11 @@ export default {
         name: 'AddProblemView',
         params: {
           cid: this.$route.params.cid,
-          tid: this.$route.params.tid,
+          tid: this.$route.params.tid || -1,
           edit: false,
           problem: {
             title: '',
-            tags: [this.$store.getters.tag(this.$route.params.tid)],
+            tags: [this.$store.getters.tag(this.$route.params.tid) || { id: -1, name: '默认' }],
             content: '',
           },
         },

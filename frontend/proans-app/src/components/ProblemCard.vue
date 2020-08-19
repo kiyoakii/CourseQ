@@ -28,18 +28,18 @@
           <el-button size="small" type="primary"
           @click="handleEdit" icon="el-icon-edit" plain>编辑</el-button>
           <el-popover
-          placement="top"
-          width="160"
-          v-model="popoverVisible">
-          <p>确定删除吗？</p>
-          <div style="text-align: right; margin: 0">
-            <el-button size="mini" type="primary" @click="popoverVisible = false" plain>
-                取消</el-button>
-            <el-button type="danger" size="mini" @click="handleDelete" plain>确定</el-button>
-          </div>
-          <el-button slot="reference" size="small" type="danger"
-          icon="el-icon-delete" plain>删除</el-button>
-        </el-popover>
+            placement="top"
+            width="160"
+            v-model="popoverVisible">
+            <p>确定删除吗？</p>
+            <div style="text-align: right; margin: 0">
+              <el-button size="mini" type="primary" @click="popoverVisible = false" plain>
+                  取消</el-button>
+              <el-button type="danger" size="mini" @click="handleDelete" plain>确定</el-button>
+            </div>
+            <el-button slot="reference" size="small" type="danger"
+            icon="el-icon-delete" plain>删除</el-button>
+          </el-popover>
         </div>
       </div>
     </el-card>
@@ -48,6 +48,7 @@
 
 <script>
 import Render from '@/components/Render.vue';
+import { instance } from '../helpers/instances';
 
 export default {
   name: 'ProblemCard',
@@ -77,7 +78,7 @@ export default {
   },
   methods: {
     handleDelete() {
-      this.axios.delete(`/api/v1/questions/${this.problem.id}`)
+      instance.delete(`/api/v1/questions/${this.problem.id}`)
         .then((res) => {
           console.log(res);
           this.popoverVisible = false;
@@ -117,8 +118,8 @@ export default {
             if (res.status !== 200) {
               console.log(JSON.stringify(res.data));
             }
-            this.$store.commit('updateProblem', this.problem);
-            this.$emit('updateProblem', this.$route.query.qid);
+            this.$store.dispatch('updateProblem', this.problem);
+            this.$emit('updateProblem');
           });
       } else {
         this.starOn = true;
@@ -128,7 +129,7 @@ export default {
             if (res.status !== 200) {
               console.log(JSON.stringify(res.data));
             }
-            this.$emit('updateProblem', this.$route.query.qid);
+            this.$emit('updateProblem');
           });
       }
     },
