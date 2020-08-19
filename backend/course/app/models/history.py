@@ -61,7 +61,7 @@ class History(Base):
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields = ['question', 'teacher_answer', 'student_answer']
+        self.fields = ['id', 'question', 'teacher_answer', 'student_answer']
         self.update_time = self.create_time
 
 
@@ -83,7 +83,7 @@ class HistoryQuestion(Base):
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields = ['id', 'title', 'content', 'author', 'update_datetime']
+        self.fields = ['title', 'content', 'author', 'update_datetime']
         self.update_time = self.create_time
 
     @property
@@ -108,7 +108,7 @@ class HistoryAnswer(Base):
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields = ['id', 'content', 'author', 'update_datetime']
+        self.fields = ['content', 'author', 'update_datetime']
         self.update_time = self.create_time
 
     @property
