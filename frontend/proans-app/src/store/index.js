@@ -40,24 +40,15 @@ export default new Vuex.Store({
         return problems;
       };
     },
-    problemsBySearch(state, getters) {
+    problemsBySearch(state) {
       return (searchInfo) => {
         const problems = [];
-        let temp = [];
-        if (searchInfo.select !== '') {
-          temp = getters.problemsByTag(searchInfo.select);
-          temp.forEach((p) => {
-            if (p.title.search(searchInfo.searchText) !== -1) {
-              problems.push(p);
-            }
-          });
-        } else {
-          state.problems.forEach((p) => {
-            if (p.title.search(searchInfo.searchText) !== -1) {
-              problems.push(p);
-            }
-          });
-        }
+        state.problems.forEach((p) => {
+          if (p.title.search(searchInfo) !== -1
+          || p.content.search(searchInfo) !== -1) {
+            problems.push(p);
+          }
+        });
         return problems;
       };
     },
