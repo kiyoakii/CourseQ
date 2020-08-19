@@ -54,15 +54,19 @@ import { instance } from '../helpers/instances';
 function syncProblem(self) {
   let timer = null;
   return () => {
-    console.log(111);
     clearTimeout(timer);
+    if (self.starOn === self.problem.liked) {
+      return;
+    }
     timer = setTimeout(() => {
       instance.post(`/api/v1/questions/${self.problem.id}/like`, {
         liked: self.starOn,
       }).then(() => {
         self.$emit('updateProblem');
+      }).catch(() => {
+        self.starOn = self.problem.liked;
       });
-    }, 500);
+    }, 1000);
   };
 }
 
@@ -136,6 +140,9 @@ export default {
       }
       this.syncProblem();
     },
+  },
+  beforeMount() {
+    this.starOn = this.problem.liked;
   },
 };
 </script>
