@@ -7,9 +7,9 @@
           <el-tag class="success" size="mini">{{ tag.name }}</el-tag>
         </span>
         <div class="stars">
-          <img src="../assets/star-off.png" class="star"
+          <img src="../assets/imgs/like-no.png" class="star"
           @click="handleStar" v-show="!starOn">
-          <img src="../assets/star-on.png" class="star"
+          <img src="../assets/imgs/like-yes.png" class="star"
           @click="handleStar" v-show="starOn">
           <span >{{ problem.stars }}</span>
           <i class="el-icon-star-off star"></i>
@@ -49,6 +49,22 @@
 <script>
 import Render from '@/components/Render.vue';
 import { instance } from '../helpers/instances';
+// import { debounce } from '../helpers/utils';
+
+function syncProblem(self) {
+  let timer = null;
+  return () => {
+    console.log(111);
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      instance.post(`/api/v1/questions/${self.problem.id}/like`, {
+        liked: self.starOn,
+      }).then(() => {
+        self.$emit('updateProblem');
+      });
+    }, 500);
+  };
+}
 
 export default {
   name: 'ProblemCard',
@@ -74,6 +90,7 @@ export default {
     return {
       popoverVisible: false,
       starOn: false,
+      syncProblem: syncProblem(this),
     };
   },
   methods: {
@@ -112,26 +129,12 @@ export default {
     handleStar() {
       if (this.starOn) {
         this.starOn = false;
-        this.axios.post(`/api/v1/questions/${this.problem.id}/like`)
-          .then((res) => {
-            console.log(res);
-            if (res.status !== 200) {
-              console.log(JSON.stringify(res.data));
-            }
-            this.$store.dispatch('updateProblem', this.problem);
-            this.$emit('updateProblem');
-          });
+        this.problem.stars -= 1;
       } else {
         this.starOn = true;
-        this.axios.post(`/api/v1/questions/${this.problem.id}/like`)
-          .then((res) => {
-            console.log(res);
-            if (res.status !== 200) {
-              console.log(JSON.stringify(res.data));
-            }
-            this.$emit('updateProblem');
-          });
+        this.problem.stars += 1;
       }
+      this.syncProblem();
     },
   },
 };
