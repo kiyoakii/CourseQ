@@ -19,7 +19,7 @@ class CourseResource(Base):
 
     @property
     def url(self):
-        return request.url_root + 'static/' + self.file
+        return request.url_root + 'static/uploads' + self.file
 
 
 class Photo(Base):
@@ -35,4 +35,4 @@ class Photo(Base):
 
     @property
     def url(self):
-        return request.url_root + 'static/' + self.file
+        return request.url_root + 'static/uploads' + self.file
