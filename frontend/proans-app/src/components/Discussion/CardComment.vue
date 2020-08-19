@@ -43,7 +43,6 @@
 </template>
 
 <script>
-import Render from '@/components/Render.vue';
 import CardReply from '@/components/Discussion/CardReply.vue';
 import Render from '../Render.vue';
 import Editor from '../Editor.vue';
