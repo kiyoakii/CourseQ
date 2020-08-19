@@ -1,7 +1,6 @@
 <template>
   <div>
-    <search :tags="tags"
-    v-model="searchInfo"
+    <search v-model="searchInfo"
     style="margin-bottom: 20px;"></search>
     <problem-list :problems="problems"></problem-list>
   </div>
@@ -22,16 +21,11 @@ export default {
       searchInfo: '',
     };
   },
-  watch: {
-    searchInfo(newInfo) {
-      this.problems = this.$store.getters.problemsBySearch(newInfo);
-    },
-  },
   computed: {
-    tags() {
-      return this.$store.getters.allTags;
-    },
     problems() {
+      if (this.searchInfo !== '') {
+        return this.$store.getters.problemsBySearch(this.searchInfo);
+      }
       return this.$store.getters.problemsByTag(this.$route.params.tid);
     },
   },
