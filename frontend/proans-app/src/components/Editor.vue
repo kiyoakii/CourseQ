@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="editor">
     <mavon-editor @change="change" v-model="contentCopy" :toolbars="toolbars"
-      :boxShadow="false" :tabSize="4"></mavon-editor>
+      :boxShadow="false" :tabSize="4" style="border: 1px solid #EBEEF5;"></mavon-editor>
   </div>
 </template>
 
@@ -15,8 +15,8 @@ export default {
         italic: true, // 斜体
         header: true, // 标题
         underline: true, // 下划线
-        strikethrough: true, // 中划线
-        mark: true, // 标记
+        // strikethrough: true, // 中划线
+        // mark: true, // 标记
         superscript: true, // 上角标
         subscript: true, // 下角标
         quote: true, // 引用
@@ -27,9 +27,9 @@ export default {
         code: true, // code
         table: true, // 表格
         fullscreen: true, // 全屏编辑
-        help: true, // 帮助
-        undo: true, // 上一步
-        redo: true, // 下一步
+        // help: true, // 帮助
+        // undo: true, // 上一步
+        // redo: true, // 下一步
         subfield: true, // 单双栏模式
         preview: true, // 预览
       },
@@ -55,6 +55,14 @@ export default {
   },
 };
 </script>
+
+<style>
+
+.editor .v-note-show .v-show-content.scroll-style.scroll-style-border-radius {
+  background-color: #fefefe !important;
+}
+
+</style>
 
 <style scoped>
 .footer {
