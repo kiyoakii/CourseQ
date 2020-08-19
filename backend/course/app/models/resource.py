@@ -1,3 +1,4 @@
+from flask import request
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import reconstructor
 
@@ -18,5 +19,20 @@ class CourseResource(Base):
 
     @property
     def url(self):
-        # todo
-        return 'http://维修中/' + self.file
+        return request.url_root + 'static/' + self.file
+
+
+class Photo(Base):
+    id = Column(Integer, primary_key=True)
+    filename = Column(String(127))
+    author_gid = Column(String(10), ForeignKey('user.gid'))
+    file = Column(String(127))
+
+    @reconstructor
+    def __init__(self):
+        super().__init__()
+        self.fields = ['id', 'filename', 'url']
+
+    @property
+    def url(self):
+        return request.url_root + 'static/' + self.file
