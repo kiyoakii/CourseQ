@@ -6,7 +6,10 @@ from app.libs.error_code import ParameterException
 
 class BaseForm(Form):
     def __init__(self):
-        data = request.get_json(silent=True)
+        if 'multipart/form-data' in request.content_type:
+            data = request.form.to_dict()
+        else:
+            data = request.get_json(silent=True)
         args = request.args.to_dict()
         super().__init__(data=data, **args)
 
