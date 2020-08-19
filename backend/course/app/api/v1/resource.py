@@ -14,26 +14,7 @@ from app.validators.forms import ResourceForm
 api = Redprint('resource')
 
 
-@api.route('', methods=['POST'])
-def create_resource():
-    if 'file' not in request.files:
-        return ParameterException
-    file = request.files['file']
-    form = ResourceForm().validate_for_api()
-    if file.filename == '':
-        return ParameterException
-    if file:
-        with db.auto_commit():
-            filename = secure_filename(file.filename)
-            random_filename = str(binascii.b2a_hex(os.urandom(15)), encoding='UTF-8')
-            print(os.path.join(UPLOAD_FOLDER, random_filename))
-            file.save(os.path.join(UPLOAD_FOLDER, random_filename))
-            resource = CourseResource()
-            resource.filename = filename
-            resource.file = random_filename
-            resource.description = form.description.data
-            db.session.add(resource)
-    return Success()
+
 
 
 @api.route('/<int:fid>', methods=['PATCH'])
