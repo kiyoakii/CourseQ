@@ -1,4 +1,4 @@
-from wtforms import StringField, FieldList, TextAreaField, IntegerField, DateTimeField, BooleanField
+from wtforms import StringField, FieldList, TextAreaField, IntegerField, BooleanField
 from wtforms import ValidationError
 from wtforms.validators import DataRequired, length, Email
 
@@ -106,7 +106,10 @@ class TopicAnswerForm(Form):
 class ScheduleCreateForm(Form):
     week = IntegerField(validators=[DataRequired()])
     topic = StringField(validators=[length(max=255), DataRequired()])
+    datetime = StringField(validators=[length(max=63)])
     reference = StringField(validators=[length(max=255), DataRequired()])
+    resource_ids = FieldList(IntegerField(validators=[DataRequired()]))
+    assignment_ids = FieldList(IntegerField(validators=[DataRequired()]))
 
 
 class AnnounceForm(Form):
@@ -117,8 +120,10 @@ class AnnounceForm(Form):
 class ScheduleUpdateForm(Form):
     week = IntegerField(validators=[])
     topic = StringField(validators=[length(max=255)])
+    datetime = StringField(validators=[length(max=63)])
     reference = StringField(validators=[length(max=255)])
-
+    resource_ids = FieldList(IntegerField(validators=[DataRequired()]))
+    assignment_ids = FieldList(IntegerField(validators=[DataRequired()]))
 
 class AssignmentCreateForm(Form):
     title = StringField(validators=[DataRequired(), length(max=255)])
