@@ -26,6 +26,9 @@ export default new Vuex.Store({
     },
     problemsByTag(state) {
       return (tid) => {
+        if (!tid) {
+          return state.problems;
+        }
         const problems = [];
         state.problems.forEach((p) => {
           p.tags.forEach((t) => {
@@ -66,6 +69,26 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    changeStudentAnswer(state, { content }) {
+      const index = state.problems.findIndex((problem) => problem.id === state.qid);
+      console.log('index:', index);
+      console.log('change stu_ans: ', {
+        ...state.problems[index],
+        student_answer: {
+          ...state.problems[index].student_answer,
+          content,
+        },
+      });
+      if (index >= 0 && index < state.problems.length) {
+        state.problems.splice(index, 1, {
+          ...state.problems[index],
+          student_answer: {
+            ...state.problems[index].student_answer,
+            content,
+          },
+        });
+      }
+    },
     setCommentList(state, { list }) {
       state.commentList.splice(0, state.commentList.length);
       state.commentList.push(...list);
@@ -92,7 +115,7 @@ export default new Vuex.Store({
     },
     updateProblem(state, problem) {
       const i = state.problems.findIndex((p) => String(p.id) === String(problem.id));
-      state.problems[i] = problem;
+      state.problems.splice(i, 1, problem);
       const tags = [];
       state.problems.forEach((p) => {
         p.tags.forEach((t) => {
@@ -129,16 +152,16 @@ export default new Vuex.Store({
         });
     },
     updateProblem(context, problem) {
-      axios.get(`/api/v1/questions/${problem.id}`)
+      console.log(111, problem);
+      axios.get(`/api/v1/questions/${problem.id || context.state.qid}`)
         .then((res) => {
-          console.log(res);
+          console.log(333, res);
           if (res.status === 200) {
             context.commit('updateProblem', res.data);
           }
         });
     },
     setCommentList(context) {
-      console.log(context);
       axios.get(`/api/v1/questions/${context.state.qid}/discussions`)
         .then((res) => {
           console.log(res);
