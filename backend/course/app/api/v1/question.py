@@ -30,10 +30,10 @@ def update_question(qid):
                 except ValueError:
                     continue
         if form.content.data or form.title.data:
-            # history_question.author_gid=??
-            history = History.create_from_question(question)
-            form.populate_obj(question)
-            db.session.add(history)
+            if form.content.data != question.content or form.title.data != question.title:
+                history = History.create_from_question(question)
+                form.populate_obj(question)
+                db.session.add(history)
     return Success()
 
 
