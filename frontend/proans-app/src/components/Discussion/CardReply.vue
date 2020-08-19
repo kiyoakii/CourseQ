@@ -1,18 +1,14 @@
 <template>
-  <el-card>
-    <div class="reply-header">
-      <el-row type="flex" justify="space-between">
-        <div class="reply-title">{{ title }}用户1234：</div>
-      </el-row>
-    </div>
-    <div class="reply-body">
-      <render :markdown="content"></render>
-    </div>
-  </el-card>
+  <el-row class="card-reply">
+    <render :markdown="reply.content" style="display: inline-box"/>
+    <el-divider content-position="right">
+      <span class="reply-title">{{ reply.author_name || reply.author_gid }}回复</span>
+    </el-divider>
+  </el-row>
 </template>
 
 <script>
-import Render from '@/components/Render.vue';
+import Render from '../Render.vue';
 
 export default {
   name: 'CardReply',
@@ -20,17 +16,8 @@ export default {
     Render,
   },
   props: {
-    title: {
-      type: String,
-    },
-    author_gid: {
-      type: String,
-    },
-    stars: {
-      type: Number,
-    },
-    content: {
-      type: String,
+    reply: {
+      type: Object,
     },
   },
   data() {
@@ -47,22 +34,9 @@ export default {
 </script>
 
 <style scoped>
-.reply {
-  margin-bottom: 15px;
-}
 
-.reply-header {
-  height: 30px;
-  margin-bottom: 10px;
-}
-
-.reply-title {
-  line-height: 30px;
-  font-size: 14px;
-}
-
-.reply-body {
-    font-size: 14px;
+.card-reply {
+  padding-left: 2em;
 }
 
 </style>

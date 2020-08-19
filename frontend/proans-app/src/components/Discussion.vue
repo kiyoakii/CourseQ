@@ -1,9 +1,14 @@
 <template>
-  <div>
-    <el-card>
-      <div slot="header" class="clearfix">
-        <span class="title">讨论区</span>
+  <el-card shadow="hover">
+    <el-row slot="header" class="clearfix" type="flex" justify="space-between" align="center">
+      <span class="title">讨论区</span>
+      <div>
+        <el-button type="primary" size="small"
+          @click="showNewDisscussion = !showNewDisscussion"
+          plain>{{ showNewDisscussion ? '查看讨论' : '新建讨论' }}</el-button>
       </div>
+    </el-row>
+    <el-row v-show="!showNewDisscussion">
       <div v-for="(com, index) in commentList" :key="index">
         <card-comment class="comment"
           :com="com"
@@ -11,13 +16,14 @@
         </card-comment>
       </div>
       <div v-if="commentList.length == 0" class="comment">
-        暂时没有讨论哦，快来发起第一个讨论吧
+        暂时没有讨论哦，快来发起第一个讨论吧～
       </div>
-      <div class="new-discussion">
-        <new-discussion @createDiscussion="handleCreate"></new-discussion>
-      </div>
-    </el-card>
-  </div>
+    </el-row>
+    <el-row v-show="showNewDisscussion">
+      <new-discussion :show.sync="showNewDisscussion"/>
+    </el-row>
+
+  </el-card>
 </template>
 
 <script>
@@ -37,6 +43,7 @@ export default {
     return {
       isShow: '',
       editorShow: false,
+      showNewDisscussion: false,
     };
   },
   methods: {
