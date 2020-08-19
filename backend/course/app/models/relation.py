@@ -88,3 +88,9 @@ assignment_schedule_table = Table(
     Column('assignment_id', Integer, ForeignKey('assignment.id')),
     Column('schedule_id', Integer, ForeignKey('schedule.id'))
 )
+resource_schedule_table = Table(
+    'resource_schedule_table',
+    Base.metadata,
+    Column('resource_id', Integer, ForeignKey('course_resource.id')),
+    Column('schedule_id', Integer, ForeignKey('schedule.id'))
+)
