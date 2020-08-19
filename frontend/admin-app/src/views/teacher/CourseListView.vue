@@ -3,10 +3,9 @@
     <!-- This is TeacherCourseList component. -->
     <el-row :gutter="40">
       <el-col :span="8" v-for="(item, i) in courses" :key="i">
-        <router-link :to=" `/teacher/${$route.params.tid}/course/${item.cid}/manage`">
+        <router-link :to=" `/teacher/${$route.params.tid}/course/${item.name}/semesters`">
           <el-button type="primary" plain>
-              {{ item.name_zh }}<br>
-              {{ item.semester }}
+              {{ item.name }}
           </el-button>
         </router-link>
       </el-col>
@@ -19,6 +18,7 @@ export default {
   name: 'CourseListView',
   computed: {
     courses() {
+      console.log(this.$store.getters.teacherCourses);
       return this.$store.getters.teacherCourses;
     },
   },
