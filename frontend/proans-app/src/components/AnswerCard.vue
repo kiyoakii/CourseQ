@@ -27,12 +27,12 @@
           </div>
         </div>
         <div class="editor" v-show="teacherEditorShow">
-          <mavon-editor v-model="tAnswer"></mavon-editor>
+          <editor v-model="tAnswer"></editor>
           <div class="buttons">
             <el-button type="primary" icon="el-icon-close" size="small"
-              @click="teacherEditorShow = false" plain></el-button>
+              @click="teacherEditorShow = false" plain>取消</el-button>
             <el-button type="primary" icon="el-icon-position" size="small"
-              @click="handleTeacherEdit" plain></el-button>
+              @click="handleTeacherEdit" plain>确认</el-button>
           </div>
         </div>
       </el-card>
@@ -59,17 +59,17 @@
             <div v-show="!studentEditorShow">
               <el-button type="primary" icon="el-icon-edit" size="small"
                 @click="studentEditorShow = true;
-                tAnswer = studentAnswer !== null ?studentAnswer.content:''" plain>编辑</el-button>
+                sAnswer = studentAnswer !== null ?studentAnswer.content:''" plain>编辑</el-button>
             </div>
           </div>
         </div>
         <div class="editor" v-show="studentEditorShow">
-          <mavon-editor v-model="sAnswer"></mavon-editor>
+          <editor v-model="sAnswer"></editor>
           <div class="buttons">
             <el-button type="primary" icon="el-icon-close" size="small"
-              @click="studentEditorShow = false" plain></el-button>
+              @click="studentEditorShow = false" plain>取消</el-button>
             <el-button type="primary" icon="el-icon-position" size="small"
-              @click="handleStudentEdit" plain></el-button>
+              @click="handleStudentEdit" plain>确认</el-button>
           </div>
         </div>
       </el-card>
@@ -79,11 +79,14 @@
 
 <script>
 import Render from '@/components/Render.vue';
+import Editor from './Editor.vue';
+import { instance } from '../helpers/instances';
 
 export default {
   name: 'AnswerCard',
   components: {
     Render,
+    Editor,
   },
   props: {
     teacherAnswer: {
@@ -106,18 +109,16 @@ export default {
   methods: {
     handleTeacherEdit() {
       if (this.teacherAnswer !== null) {
-        this.axios.put(`/api/v1/answers/${this.teacherAnswer.id}`,
+        instance.put(`/api/v1/answers/${this.teacherAnswer.id}`,
           { content: this.tAnswer })
-          .then((res) => {
-            console.log(res);
+          .then(() => {
             this.teacherEditorShow = false;
             this.$emit('updateProblem', this.problemId);
           });
       } else {
-        this.axios.post(`/api/v1/questions/${this.problemId}/answers`,
+        instance.post(`/api/v1/questions/${this.problemId}/answers`,
           { content: this.tAnswer, is_teacher: true })
-          .then((res) => {
-            console.log(res);
+          .then(() => {
             this.teacherEditorShow = false;
             this.$emit('updateProblem', this.problemId);
           });
@@ -125,18 +126,16 @@ export default {
     },
     handleStudentEdit() {
       if (this.studentAnswer !== null) {
-        this.axios.put(`/api/v1/answers/${this.studentAnswer.id}`,
+        instance.put(`/api/v1/answers/${this.studentAnswer.id}`,
           { content: this.sAnswer })
-          .then((res) => {
-            console.log(res);
+          .then(() => {
             this.studentEditorShow = false;
             this.$emit('updateProblem', this.problemId);
           });
       } else {
-        this.axios.post(`/api/v1/questions/${this.problemId}/answers`,
+        instance.post(`/api/v1/questions/${this.problemId}/answers`,
           { content: this.sAnswer, is_teacher: false })
-          .then((res) => {
-            console.log(res);
+          .then(() => {
             this.studentEditorShow = false;
             this.$emit('updateProblem', this.problemId);
           });
