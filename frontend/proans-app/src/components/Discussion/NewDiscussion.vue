@@ -1,33 +1,29 @@
 <template>
   <div>
-    <el-card class="comment">
-      <div class="comment-header">
-        <el-row type="flex" justify="space-between">
-          <div class="comment-user">新的讨论</div>
-        </el-row>
+    <div class="title">
+      <el-input placeholder="请输入讨论主题"
+      v-model="form.title"></el-input>
+    </div>
+    <editor v-model="form.content" :autofocus="false"></editor>
+    <div class="footer">
+      <div class="buttons">
+        <el-button type="primary" icon="el-icon-close" size="small"
+          @click="$emit('update:show', false);" plain>取消</el-button>
+        <el-button type="primary" icon="el-icon-position" size="small"
+          @click="submitForm" plain>确定</el-button>
       </div>
-      <div class="editor">
-        <div class="title">
-          <el-input placeholder="主题"
-          v-model="form.title"></el-input>
-        </div>
-        <mavon-editor v-model="form.content" :autofocus="false"></mavon-editor>
-        <div class="footer">
-          <el-button type="primary" icon="el-icon-position" size="small"
-          @click="onSubmit" plain>提交</el-button>
-        </div>
-      </div>
-    </el-card>
+    </div>
   </div>
 </template>
 
 <script>
-// import Editor from '../Editor.vue';
+import Editor from '../Editor.vue';
+import { instance } from '../../helpers/instances';
 
 export default {
   name: 'NewDiscussion',
   components: {
-    // Editor,
+    Editor,
   },
   data() {
     return {
@@ -37,40 +33,33 @@ export default {
       },
     };
   },
+  props: {
+    show: {
+      type: Boolean,
+    },
+  },
   methods: {
-    onSubmit() {
-      console.log(this.$route.query.qid);
-      this.axios.post(`/api/v1/questions/${this.$route.params.qid}/discussions`,
+    submitForm() {
+      const self = this;
+      instance.post(`/api/v1/questions/${this.$route.params.qid}/discussions`,
         this.form)
-        .then((res) => {
-          console.log(res);
-          this.$emit('createDiscussion', this.form);
+        .then(() => {
+          self.$store.dispatch('setCommentList');
         });
+      this.form = {
+        title: '',
+        content: '',
+      };
+      this.$emit('update:show', false);
     },
   },
 };
 </script>
 
 <style scoped>
-.comment {
-  margin-bottom: 15px;
-}
 
-.comment-header {
-  height: 30px;
-  margin-bottom: 10px;
-}
-
-.comment-user {
-  line-height: 30px;
-  font-size: 15px;
-}
-
-.editor {
-  margin-top: 20px;
-}
 .title {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .footer {

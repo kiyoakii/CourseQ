@@ -1,68 +1,70 @@
 <template>
-  <el-card>
+  <el-row>
     <div class="comment-header">
-        <div class="comment-title" v-show="!editEditorShow">{{ com.title }}</div>
-        <div class="buttons" v-show="!editEditorShow">
-          <el-button type="primary" size="small"
-          @click="beforeEdit" icon="el-icon-edit" plain>编辑</el-button>
-          <el-button type="primary" icon="el-icon-chat-dot-round" size="small"
-            @click="beforeReply" plain>回复</el-button>
-          <el-button type="danger" size="small"
-              @click="handleDelete" icon="el-icon-delete" plain>删除</el-button>
-        </div>
+      <div class="comment-title">{{ com.title }}</div>
+      <div class="buttons">
+        <el-button type="primary" size="small"
+        @click="showEditor('edit')" icon="el-icon-edit" plain>编辑</el-button>
+        <el-button type="primary" icon="el-icon-chat-dot-round" size="small"
+          @click="showEditor('reply')" plain>回复</el-button>
+        <el-button type="danger" size="small"
+            @click="handleDelete" icon="el-icon-delete" plain>删除</el-button>
+      </div>
     </div>
-    <div class="comment-body" v-show="!editEditorShow">
-      <render :markdown="com.content"></render>
+    <div class="comment-body">
+      <render :markdown="com.content"/>
     </div>
-    <div class="editor" v-show="editEditorShow">
+    <el-row class="editor" v-show="isEditorShow">
       <el-input v-model="form.title"
-        placeholder="标题"></el-input>
-      <mavon-editor v-model="form.content"></mavon-editor>
+        placeholder="标题" v-show="form.type === 'edit'"></el-input>
+      <editor v-model="form.content"></editor>
       <div class="buttons">
         <el-button type="primary" icon="el-icon-close" size="small"
-          @click="editEditorShow = false" plain></el-button>
+          @click="isEditorShow = false" plain>取消</el-button>
         <el-button type="primary" icon="el-icon-position" size="small"
-          @click="handleEdit" plain></el-button>
+          @click="submitForm" plain>确定</el-button>
       </div>
-    </div>
-    <div class="editor" v-show="replyEditorShow">
-      <mavon-editor v-model="form.content"></mavon-editor>
-      <div class="buttons">
-        <el-button type="primary" icon="el-icon-close" size="small"
-          @click="replyEditorShow = false" plain></el-button>
-        <el-button type="primary" icon="el-icon-position" size="small"
-          @click="handleReply" plain></el-button>
-      </div>
-    </div>
+    </el-row>
     <el-collapse accordion v-model="isShow">
-      <el-collapse-item>
+      <el-collapse-item name="comment">
         <template slot="title">
           <i class="header-icon el-icon-chat-dot-round"></i>
           <span class="reply-header">查看回复</span>
         </template>
         <div v-for="(rep, index) in replyList" :key="index">
           <card-reply class="reply"
-            :content="rep.content">
+            :reply="rep">
           </card-reply>
         </div>
         <div v-if="replyList.length == 0">暂时没有回复噢</div>
       </el-collapse-item>
     </el-collapse>
-  </el-card>
+  </el-row>
 </template>
 
 <script>
 import Render from '@/components/Render.vue';
 import CardReply from '@/components/Discussion/CardReply.vue';
+import Render from '../Render.vue';
+import Editor from '../Editor.vue';
+import { instance } from '../../helpers/instances';
 
 export default {
   name: 'CardComment',
   components: {
     CardReply,
     Render,
+    Editor,
   },
   props: {
     com: Object,
+  },
+  watch: {
+    isShow(newVal) {
+      if (newVal === 'comment') {
+        this.updateData();
+      }
+    },
   },
   data() {
     return {
@@ -80,40 +82,48 @@ export default {
       form: {
         title: '',
         content: '',
+        type: '',
       },
+      isEditorShow: false,
     };
   },
   methods: {
-    beforeEdit() {
-      this.form.title = this.com.title;
-      this.form.content = this.com.content;
-      this.editEditorShow = true;
+    showEditor(type) {
+      this.form = {
+        type,
+        title: type === 'edit' ? this.com.title : '',
+        content: type === 'edit' ? this.com.content : '',
+      };
+      this.isEditorShow = true;
+    },
+    submitForm() {
+      if (this.form.type === 'edit') {
+        this.handleEdit();
+      } else {
+        this.handleReply();
+      }
+      this.isEditorShow = false;
     },
     handleEdit() {
-      this.axios.put(`/api/v1/discussions/${this.com.id}`, this.form)
-        .then((res) => {
-          console.log(res);
-          this.editEditorShow = false;
+      instance.put(`/api/v1/discussions/${this.com.id}`, this.form)
+        .then(() => {
           this.com.title = this.form.title;
           this.com.content = this.form.content;
         });
     },
-    beforeReply() {
-      this.form.title = '';
-      this.form.content = '';
-      this.replyEditorShow = true;
-    },
     handleReply() {
-      console.log(this.form);
-      this.axios.post(`/api/v1/discussions/${this.com.id}/answer`, { content: this.form.content })
+      instance.post(`/api/v1/discussions/${this.com.id}/answer`, { content: this.form.content })
         .then((res) => {
           console.log(res);
-          this.replyEditorShow = false;
+          this.replyList.push({
+            author_gid: '000000',
+            content: this.form.content,
+          });
           this.updateData();
         });
     },
     handleDelete() {
-      this.axios.delete(`/api/v1/discussions/${this.com.id}`)
+      instance.delete(`/api/v1/discussions/${this.com.id}`)
         .then((res) => {
           console.log(res);
           this.$emit('deleteDiscussion', this.com.id);
@@ -137,8 +147,8 @@ export default {
       return `${this.username}@${this.time}：`;
     },
   },
-  mounted() {
-    this.updateData();
+  beforeMount() {
+    // this.updateData();
   },
 };
 </script>
@@ -158,7 +168,11 @@ export default {
 
 .comment-title {
   line-height: 30px;
-  font-size: 18px;
+  font-size: 16px;
+}
+
+.editor {
+  margin-top: 10px;
 }
 
 .reply {
