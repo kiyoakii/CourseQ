@@ -15,7 +15,7 @@ class CourseResource(Base):
     @reconstructor
     def __init__(self):
         super().__init__()
-        self.fields = ['id', 'filename', 'url']
+        self.fields = ['id', 'filename', 'url', 'description']
 
     @property
     def url(self):
