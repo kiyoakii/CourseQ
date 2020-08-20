@@ -29,34 +29,42 @@ const routes = [
         children: [
           {
             path: 'assistants',
+            name: 'assistants',
             component: () => import('@/views/teacher/manage/TeacherAssiList.vue'),
           },
           {
             path: 'students',
+            name: 'students',
             component: () => import('@/views/teacher/manage/StudentList.vue'),
           },
           {
             path: 'intro',
+            name: 'intro',
             component: () => import('@/views/teacher/manage/CourseIntro.vue'),
           },
           {
             path: 'announce',
+            name: 'announce',
             component: () => import('@/views/teacher/manage/CourseAnnounce.vue'),
           },
           {
             path: 'assignment',
+            name: 'assignment',
             component: () => import('@/views/teacher/manage/CourseAssignment.vue'),
           },
           {
             path: 'resource',
+            name: 'resource',
             component: () => import('@/views/teacher/manage/CourseRes.vue'),
           },
           {
             path: 'schedule',
+            name: 'schedule',
             component: () => import('@/views/teacher/manage/CourseSchedule.vue'),
           },
           {
             path: 'teacher',
+            name: 'teacher',
             component: () => import('@/views/teacher/manage/TeacherInfo.vue'),
           },
         ],

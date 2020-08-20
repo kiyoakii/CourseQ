@@ -1,10 +1,13 @@
 <template>
   <div class="list">
-    <el-card class="list-item" v-for="item in list" :key="item.name" align="center" shadow="hover">
+    <div v-for="item in list" :key="item.name">
+    <el-card class="list-item" :class="$route.name === item.link ? 'is-always-shadow' : ''"
+      align="center" shadow="hover">
       <router-link :to="item.link" class="link">
         {{ item.name }}
       </router-link>
     </el-card>
+    </div>
   </div>
 </template>
 
@@ -34,12 +37,14 @@ export default {
           name: '课程日历',
           link: 'schedule',
         },
-        {
-          name: '主⻚布局',
-          link: 'layout',
-        },
       ],
+      current: this.$route.name,
     };
+  },
+  methods: {
+    testRouter() {
+      console.log(this.$route.name);
+    },
   },
 };
 </script>

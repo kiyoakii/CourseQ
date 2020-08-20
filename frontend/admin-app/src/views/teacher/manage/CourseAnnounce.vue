@@ -1,7 +1,7 @@
 <template>
   <div class="course-announce">
     <div class="header">
-      <h2>课程公告</h2>
+      <h2 id="title">课程公告</h2>
     </div>
     <div class="btn-header">
       <el-button type="primary"
@@ -140,5 +140,9 @@ export default {
 .btn-header {
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 20px;
+}
+#title {
+  margin-top: 20px;
 }
 </style>
