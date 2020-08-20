@@ -1,12 +1,13 @@
 <template>
   <div class="list">
     <div v-for="item in list" :key="item.name">
-    <el-card class="list-item" :class="$route.name === item.link ? 'is-always-shadow' : ''"
-      align="center" shadow="hover">
       <router-link :to="item.link" class="link">
-        {{ item.name }}
+        <el-card class="list-item" :class="$route.name === item.link ? 'is-always-shadow' : ''"
+          align="center" shadow="hover">
+          <!-- <router-link :to="item.link" class="link"> -->
+            {{ item.name }}
+        </el-card>
       </router-link>
-    </el-card>
     </div>
   </div>
 </template>
@@ -53,9 +54,10 @@ export default {
 .list {
   width: 200px;
   margin-right: 30px;
+  margin-top:20px;
 }
 .list-item {
-  margin-bottom: 10px;
+  margin-bottom: 25px;
 }
 .link {
   text-decoration: none;
