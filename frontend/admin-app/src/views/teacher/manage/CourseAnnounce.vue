@@ -8,7 +8,7 @@
       @click="handleCreate">新建公告</el-button>
     </div>
     <el-row class="announce" v-for="anno in allInfo.announces" :key="anno.id">
-      <el-card class="card-box">
+      <el-card class="card-box" shadow="hover">
         <div slot="header" class="clearfix card-header">
           <span>{{ anno.title }}</span>
           <div>
@@ -124,7 +124,7 @@ export default {
 }
 
 .course-announce {
-  width:900px;
+  width:880px;
 }
 
 .header {
