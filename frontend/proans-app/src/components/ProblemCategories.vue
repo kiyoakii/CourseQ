@@ -29,6 +29,7 @@ export default {
   },
   methods: {
     chooseCategory(id) {
+      this.$emit('click');
       if (this.activeCategory !== id) {
         this.activeCategory = id;
         this.$router.push({
