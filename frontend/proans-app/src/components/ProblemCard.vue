@@ -178,13 +178,17 @@ export default {
 
 <style scoped>
 .tags {
-  margin-left: 10px;
+  margin-left: 0px;
+  margin-right: 10px;
+  border: 3px;
 }
 .el-tag {
   font-size: 10px;
 }
 .title {
   font-size: 18px;
+  margin-left: 0px;
+  margin-right: 10px;
 }
 .footer {
   padding-top: 20px;
