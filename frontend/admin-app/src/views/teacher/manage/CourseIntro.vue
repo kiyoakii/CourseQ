@@ -1,6 +1,6 @@
 <template>
   <div class="intro">
-    <h2>课程简介</h2>
+    <h2 id="title">课程简介</h2>
     <div class="btn-header">
       <el-button type="primary"
       @click="handleEdit">编辑简介</el-button>
@@ -134,6 +134,9 @@ export default {
 </script>
 
 <style>
+#title {
+  margin-top: 20px;
+}
 .tags {
   margin-left: 10px;
 }
@@ -165,5 +168,6 @@ export default {
 .btn-header {
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 20px;
 }
 </style>
