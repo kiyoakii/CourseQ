@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>学生名单</h2>
+    <h2 id="title">学生名单</h2>
     <div id="flex-bar">
       <div class="flex-item">
         <data-table-search-bar
@@ -157,11 +157,16 @@ export default {
 </script>
 
 <style scoped>
+#title {
+  margin-top: 20px;
+}
 #flex-bar {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 #ta-search {
   margin: 10px 0;
