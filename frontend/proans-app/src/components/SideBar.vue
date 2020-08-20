@@ -23,6 +23,9 @@ export default {
   },
   computed: {
     problems() {
+      if (this.$store.state.clickLike) {
+        return this.$store.getters.problemsByLike;
+      }
       if (this.searchInfo !== '') {
         return this.$store.getters.problemsBySearch(this.searchInfo);
       }
