@@ -5,7 +5,7 @@
       <el-button type="primary"
       @click="handleEdit">编辑简介</el-button>
     </div>
-    <el-card class="box-card" shadow="hover">
+    <el-card class="box-card" shadow="none">
       <div slot="header" class="clearfix">
         <span class="title">{{ allInfo.name_zh }}</span>
         <span class="subtitle"> {{ allInfo.name_en }}</span>
@@ -17,7 +17,7 @@
         {{ allInfo.intro }}
       </div>
     </el-card>
-    <el-card class="message-card">
+    <el-card class="message-card" shadow="none">
       <el-row>
         <div class="text-wrapper item">
           <span class="subtitle">教师：</span>
