@@ -9,18 +9,17 @@
       <div slot="header" class="clearfix">
         <span class="title">{{ allInfo.name_zh }}</span>
         <span class="subtitle"> {{ allInfo.name_en }}</span>
-        <div class="footer">
+        <span class="semester">
           {{ allInfo.semester }}
-        </div>
+        </span>
       </div>
-      <div class="text-wrapper item">
-        {{ allInfo.intro }}
-      </div>
-    </el-card>
-    <el-card class="message-card" shadow="none">
+      <div class="text-wrapper item label">简介：</div>
+      <div class="text-wrapper item brief-intro">{{ allInfo.intro }}</div>
+    <!-- </el-card>
+    <el-card class="message-card" shadow="none"> -->
       <el-row>
         <div class="text-wrapper item">
-          <span class="subtitle">教师：</span>
+          <span class="label">教师：</span>
           <span v-for="teacher in allInfo.teachers" :key="teacher.gid">
             {{ teacher.name }}
           </span>
@@ -28,13 +27,13 @@
       </el-row>
       <el-row>
         <div class="text-wrapper item">
-          <span class="subtitle">预修课程：</span>
+          <span class="label">预修课程：</span>
           <span>{{allInfo.pre_course}}</span>
         </div>
       </el-row>
       <el-row>
         <div class="text-wrapper item">
-          <span class="subtitle">参考教材：</span>
+          <span class="label">参考教材：</span>
           <span>{{allInfo.textbooks}}</span>
         </div>
       </el-row>
@@ -149,13 +148,15 @@ export default {
 .subtitle {
   font-size: 22px;
 }
-.footer {
-  padding-top: 20px;
-  display: flex;
-  justify-content: flex-end;
+.label {
+  font-size: 18px;
+  font-weight:bold;
+}
+.brief-intro {
+  padding-bottom: 50px;
 }
 .intro {
-  width:900px;
+  width:880px;
 }
 .message-card {
   margin-top: 50px;
@@ -169,5 +170,6 @@ export default {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 20px;
+  margin-top: 20px;
 }
 </style>
