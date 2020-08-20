@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>日程安排</h2>
+    <h2 id="title">日程安排</h2>
     <div class="schedule">
       <el-table :data="allInfo.schedules" :header-cell-style="{'text-align':'center'}"
         highlight-current-row size="medium">
@@ -257,5 +257,8 @@ export default {
   color: #d3dce6;
   cursor: pointer;
   position: relative;
+}
+#title {
+  margin-top: 20px;
 }
 </style>>
