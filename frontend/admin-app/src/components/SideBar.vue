@@ -2,9 +2,9 @@
   <div class="list">
     <div v-for="item in list" :key="item.name">
       <router-link :to="item.link" class="link">
-        <el-card class="list-item" :class="$route.name === item.link ? 'is-always-shadow' : ''"
+        <el-card class="list-item"
+          :class="$route.name === item.link ? 'is-always-shadow active' : ''"
           align="center" shadow="hover">
-          <!-- <router-link :to="item.link" class="link"> -->
             {{ item.name }}
         </el-card>
       </router-link>
@@ -56,8 +56,14 @@ export default {
   margin-right: 30px;
   margin-top:20px;
 }
+.active {
+  background: rgba(250, 250, 250, .8);
+}
 .list-item {
   margin-bottom: 25px;
+}
+.list-item :hover {
+  background: rgba(250, 250, 250, .8);
 }
 .link {
   text-decoration: none;
