@@ -4,7 +4,7 @@
       <li v-for="(problem, index) in problems" :key="index " class="infinite-list-item"
         @click="getProblem(problem.id)" >
         <el-card class="box-card" shadow="hover"
-        :class="{selected:selectedProblem === problem.id}">
+        :class="selectedProblem === problem.id ? 'is-always-shadow active': ''">
           <div slot="header" class="clearfix">
             <span>{{ problem.title }}</span>
           </div>
@@ -89,7 +89,9 @@ export default {
 .box-card:hover {
   background: rgba(250, 250, 250, .8);
 }
-
+.active {
+  background: rgba(250, 250, 250, .8);
+}
 .text {
   font-size: 12px;
 }
@@ -98,9 +100,6 @@ export default {
   text-decoration: none;
   color: #303133;
   display: block;
-}
-.selected {
-  background-color: #ecf5ff;
 }
 .center {
   display: flex;
