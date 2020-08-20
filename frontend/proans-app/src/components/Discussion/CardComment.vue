@@ -4,11 +4,14 @@
       <div class="comment-title">{{ com.title }}</div>
       <div class="buttons">
         <el-button type="primary" size="small"
-        @click="showEditor('edit')" icon="el-icon-edit" plain>编辑</el-button>
+          :disabled="disableInteract"
+          @click="showEditor('edit')" icon="el-icon-edit" plain>编辑</el-button>
         <el-button type="primary" icon="el-icon-chat-dot-round" size="small"
+          :disabled="disableInteract"
           @click="showEditor('reply')" plain>回复</el-button>
         <el-button type="danger" size="small"
-            @click="handleDelete" icon="el-icon-delete" plain>删除</el-button>
+          :disabled="disableInteract"
+          @click="handleDelete" icon="el-icon-delete" plain>删除</el-button>
       </div>
     </div>
     <div class="comment-body">
@@ -57,6 +60,10 @@ export default {
   },
   props: {
     com: Object,
+    disableInteract: {
+      type: Boolean,
+      default: true,
+    },
   },
   watch: {
     isShow(newVal) {
