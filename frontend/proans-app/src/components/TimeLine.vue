@@ -9,8 +9,8 @@
                 :key="'step' + version.id"
                 >
                 <span slot="icon"
-                  :class="version.id === currentProblemId ? 'el-icon-star-on' :
-                    index === 0 ? 'el-icon-star-off' : 'circle'"
+                  :class="version.id === currentProblemId ? index === 0 ? 'el-icon-star-on' :
+                    'circle-active' : index === 0 ? 'el-icon-star-off' : 'circle'"
                   @click.stop="changeVersion(version.id)"
                   v-popover="'popover' + version.id">
                   <el-popover
@@ -237,6 +237,11 @@ export default {
   outline: none;
 }
 
+.el-icon-star-off:hover:before {
+  color: #409EFF;
+  content: "\e797";
+}
+
 .scrollbar {
   height: 40px;
 }
@@ -247,6 +252,15 @@ export default {
   display: inline-block;
   background: #f60;
   outline: none;
+}
+
+.circle-active {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  background: #409EFF;
+  outline: none;
+  border-radius: 50%;
 }
 
 .timeline {
