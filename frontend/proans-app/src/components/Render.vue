@@ -22,9 +22,4 @@ export default {
 
 <style>
 
-.markdown-body p{
-  font-size: 14px;
-  font-weight: 100;
-}
-
 </style>
