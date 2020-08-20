@@ -10,8 +10,11 @@
     <answer-card :studentAnswer="studentAnswer"
       :teacherAnswer="teacherAnswer"
       :problemId="problemId"
+      :disableInteract="disableInteract"
       @updateProblem="handleUpdateProblem"></answer-card>
-    <discussion :commentList="commentList"></discussion>
+    <discussion :commentList="commentList"
+      :disableInteract="disableInteract"
+      ></discussion>
   </div>
 </template>
 
@@ -54,10 +57,16 @@ export default {
         ...res.question,
         student_answer: res.student_answer,
         teacher_answer: res.teacher_answer,
+        stars: problem.stars,
+        liked: problem.liked,
+        tags: problem.tags,
       };
     },
     problemId() {
       return this.$store.state.qid;
+    },
+    disableInteract() {
+      return !this.problem.history;
     },
     studentAnswer() {
       return this.problem && this.problem.student_answer ? this.problem.student_answer : null;

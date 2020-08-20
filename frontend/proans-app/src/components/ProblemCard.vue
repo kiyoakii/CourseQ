@@ -11,8 +11,7 @@
           @click="handleStar" v-show="!starOn">
           <img src="../assets/imgs/like-yes.png" class="star"
           @click="handleStar" v-show="starOn">
-          <span >{{ problem.stars }}</span>
-          <i class="el-icon-star-off star"></i>
+          <span >{{ stars }}</span>
         </div>
       </div>
       <div class="text item">
@@ -26,7 +25,10 @@
         </div>
         <div class="buttons">
           <el-button size="small" type="primary"
-          @click="handleEdit" icon="el-icon-edit" plain>编辑</el-button>
+          @click="handleEdit" icon="el-icon-edit"
+          plain
+          :disabled="disableInteract"
+          >编辑</el-button>
           <el-popover
             placement="top"
             width="160"
@@ -38,7 +40,9 @@
               <el-button type="danger" size="mini" @click="handleDelete" plain>确定</el-button>
             </div>
             <el-button slot="reference" size="small" type="danger"
-            icon="el-icon-delete" plain>删除</el-button>
+              icon="el-icon-delete" plain
+              :disabled="disableInteract"
+              >删除</el-button>
           </el-popover>
         </div>
       </div>
@@ -64,9 +68,9 @@ function syncProblem(self) {
       }).then(() => {
         self.$emit('updateProblem');
       }).catch(() => {
-        self.starOn = self.problem.liked;
+        // self.starOn = self.problem.liked;
       });
-    }, 1000);
+    }, 500);
   };
 }
 
@@ -94,8 +98,22 @@ export default {
     return {
       popoverVisible: false,
       starOn: false,
+      stars: 0,
       syncProblem: syncProblem(this),
     };
+  },
+  computed: {
+    disableInteract() {
+      return !this.problem.history;
+    },
+  },
+  watch: {
+    $route(newVal, oldVal) {
+      if (JSON.stringify(newVal.params) !== JSON.stringify(oldVal.params)) {
+        this.stars = this.problem.stars;
+        this.starOn = this.problem.liked;
+      }
+    },
   },
   methods: {
     handleDelete() {
@@ -131,17 +149,28 @@ export default {
       });
     },
     handleStar() {
+      if (this.disableInteract) {
+        this.$message.error('对不起，历史版本不能点赞！');
+        return;
+      }
       if (this.starOn) {
+        // this.problem.liked = false;
         this.starOn = false;
-        this.problem.stars -= 1;
+        if (this.stars > 1) {
+          this.stars -= 1;
+        } else {
+          this.stars = 0;
+        }
       } else {
+        // this.problem.liked = true;
         this.starOn = true;
-        this.problem.stars += 1;
+        this.stars += 1;
       }
       this.syncProblem();
     },
   },
   beforeMount() {
+    this.stars = this.problem.stars;
     this.starOn = this.problem.liked;
   },
 };
