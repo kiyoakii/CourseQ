@@ -12,6 +12,7 @@ export default new Vuex.Store({
     count: 0,
     qid: 0,
     cid: 0,
+    clickLike: false, // 点击我的点赞
     commentList: [],
   },
   getters: {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
     },
     allTags(state) {
       return state.tags;
+    },
+    problemsByLike(state) {
+      return state.problems.filter((problem) => problem.liked === true);
     },
     problemsByTag(state) {
       return (tid) => {
@@ -60,6 +64,9 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    setClickLike(state, { like }) {
+      state.clickLike = like;
+    },
     changeStudentAnswer(state, { content }) {
       const index = state.problems.findIndex((problem) => problem.id === state.qid);
       console.log('index:', index);
