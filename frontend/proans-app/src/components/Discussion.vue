@@ -5,6 +5,7 @@
       <div>
         <el-button type="primary" size="small"
           @click="showNewDisscussion = !showNewDisscussion"
+          :disabled="disableInteract"
           plain>{{ showNewDisscussion ? '查看讨论' : '新建讨论' }}</el-button>
       </div>
     </el-row>
@@ -12,6 +13,7 @@
       <div v-for="(com, index) in commentList" :key="index">
         <card-comment class="comment"
           :com="com"
+          :disableInteract="disableInteract"
           @deleteDiscussion="handleDelete">
         </card-comment>
       </div>
@@ -38,6 +40,10 @@ export default {
   },
   props: {
     commentList: Array,
+    disableInteract: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {

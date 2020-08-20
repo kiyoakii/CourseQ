@@ -22,7 +22,9 @@
             <div v-show="!teacherEditorShow">
               <el-button type="primary" icon="el-icon-edit" size="small"
                 @click="teacherEditorShow = true;
-                tAnswer = teacherAnswer !== null ? teacherAnswer.content:''" plain>编辑</el-button>
+                tAnswer = teacherAnswer !== null ? teacherAnswer.content:''"
+                :disabled="disableInteract"
+                plain>编辑</el-button>
             </div>
           </div>
         </div>
@@ -59,7 +61,9 @@
             <div v-show="!studentEditorShow">
               <el-button type="primary" icon="el-icon-edit" size="small"
                 @click="studentEditorShow = true;
-                sAnswer = studentAnswer !== null ?studentAnswer.content:''" plain>编辑</el-button>
+                sAnswer = studentAnswer !== null ?studentAnswer.content:''"
+                :disabled="disableInteract"
+                plain>编辑</el-button>
             </div>
           </div>
         </div>
@@ -96,6 +100,10 @@ export default {
       type: Object,
     },
     problemId: Number,
+    disableInteract: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
