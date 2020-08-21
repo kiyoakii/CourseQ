@@ -7,9 +7,9 @@
           <el-tag class="success" size="mini">{{ tag.name }}</el-tag>
         </span>
         <div class="stars">
-          <img src="../assets/imgs/like-no.png" class="star"
+          <img src="../assets/star-off.png" class="star-off"
           @click="handleStar" v-show="!starOn">
-          <img src="../assets/imgs/like-yes.png" class="star"
+          <img src="../assets/star-on.png" class="star-on"
           @click="handleStar" v-show="starOn">
           <span >{{ stars }}</span>
         </div>
@@ -206,12 +206,15 @@ export default {
   font-size: 12px;
   color: #606266;
 }
-.star {
+.star-off {
   width: 20px;
   margin-right: 5px;
   margin-left: 20px;
 }
-
+.star-on {
+  width: 20px;
+  margin-right: 7px;
+}
 .el-button {
   margin-left: 5px;
 }
