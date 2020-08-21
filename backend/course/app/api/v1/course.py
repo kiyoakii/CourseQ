@@ -12,7 +12,8 @@ from app.models.question import Question
 from app.models.relation import Enroll
 from app.models.schedule import Schedule
 from app.models.tag import Tag
-from app.validators.forms import CourseCreateForm, CourseUpdateForm, QuestionCreateForm, AnnounceForm, ResourceForm
+from app.validators.forms import CourseCreateForm, CourseUpdateForm, QuestionCreateForm, AnnounceForm, ResourceForm, \
+    AssignmentCreateForm
 from app.validators.forms import ScheduleCreateForm
 
 api = Redprint('course')
@@ -177,7 +178,7 @@ def get_resources(cid):
 @api.route('/<int:cid>/assignments', methods=['POST'])
 def create_assignment(cid):
     course = Course.query.get_or_404(cid)
-    form = ResourceForm().validate_for_api()
+    form = AssignmentCreateForm().validate_for_api()
     with db.auto_commit():
         assignment = Assignment()
         form.populate_obj(assignment)
