@@ -20,10 +20,16 @@ def update_file(file, instance):
     print(os.path.join(UPLOAD_FOLDER, random_filename))
     file.save(os.path.join(UPLOAD_FOLDER, random_filename))
     if instance.file:
-        os.remove(os.path.join(UPLOAD_FOLDER, instance.file))
+        try:
+            os.remove(os.path.join(UPLOAD_FOLDER, instance.file))
+        except Exception as e:
+            print(e)
     instance.filename = filename
     instance.file = random_filename
 
 
 def delete_file(instance):
-    os.remove(os.path.join(UPLOAD_FOLDER, instance.file))
+    try:
+        os.remove(os.path.join(UPLOAD_FOLDER, instance.file))
+    except Exception as e:
+        print(e)
