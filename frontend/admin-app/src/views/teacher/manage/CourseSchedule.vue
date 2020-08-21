@@ -6,80 +6,78 @@
         border
         :header-cell-style="{'text-align':'center'}"
         highlight-current-row>
-        <el-scrollbar>
-          <el-table-column prop="week" label="教学周"
-            width="70"
-            align="center"
-            fixed
-            style="font-weight:bold"></el-table-column>
-          <el-table-column label="课程"
-            align="left" :show-overflow-tooltip="true">
-            <el-table-column v-for="i in maxLecsNum" :key="i" :label="`Lec${i}`"
-            align="left" :show-overflow-tooltip="true">
-              <el-table-column label="主题"
-              width="120"
-              align="center">
-                <template slot-scope="scope">
-                  <el-tooltip class="item" effect="dark" content="点击修改该日程" placement="top">
-                    <div>
-                      <el-row>
-                        <span class="click-area" @click="handleEdit(scope.row.lectures[i-1])">
+        <el-table-column prop="week" label="教学周"
+          width="70"
+          align="center"
+          fixed
+          style="font-weight:bold"></el-table-column>
+        <el-table-column label="课程"
+          align="left" :show-overflow-tooltip="true">
+          <el-table-column v-for="i in maxLecsNum" :key="i" :label="`Lec${i}`"
+          align="left" :show-overflow-tooltip="true">
+            <el-table-column label="主题"
+            width="120"
+            align="center">
+              <template slot-scope="scope">
+                <el-tooltip class="item" effect="dark" content="点击修改该日程" placement="top">
+                  <div>
+                    <el-row>
+                      <span class="click-area" @click="handleEdit(scope.row.lectures[i-1])">
+                      {{ scope.row.lectures.length >= i
+                      ? scope.row.lectures[i - 1].topic : '' }}
+                      </span>
+                    </el-row>
+                    <el-row>
+                      <span class="click-area light-text"
+                      @click="handleEdit(scope.row.lectures[i-1])"
+                      >
                         {{ scope.row.lectures.length >= i
-                        ? scope.row.lectures[i - 1].topic : '' }}
-                        </span>
-                      </el-row>
-                      <el-row>
-                        <span class="click-area light-text"
-                        @click="handleEdit(scope.row.lectures[i-1])"
-                        >
-                          {{ scope.row.lectures.length >= i
-                        ? `参考章节：${scope.row.lectures[i - 1].reference}` : '' }}</span>
-                      </el-row>
-                    </div>
-                  </el-tooltip>
-                </template>
-              </el-table-column>
-              <el-table-column label="教学资源"
-              min-width="120"
-              align="center">
-                <template slot-scope="scope">
-                  <el-row v-for="(res, index) in
-                  scope.row.lectures.length >= i
-                  ? scope.row.lectures[i - 1].resources : []" :key="index">
-                      <el-row>
-                        <span>{{ res.description }}</span>
-                      </el-row>
-                      <el-row>
-                        <el-link type="primary" :href="res.url">
-                          {{ thumbnailFilename(res.filename) }}
-                        </el-link>
-                      </el-row>
-                  </el-row>
-                </template>
-              </el-table-column>
-              <el-table-column label="作业" min-width="120"
-              align="center">
-                <template slot-scope="scope">
-                  <el-row v-for="(ass, index) in
-                  scope.row.lectures.length >= i
-                  ? scope.row.lectures[i - 1].assignments : []" :key="index"
-                  :gutter="20">
-                      <el-row>
-                        <span>{{ ass.title }}</span>
-                      </el-row>
-                      <el-row>
-                        <el-link type="primary" :href="ass.url">
-                          {{ thumbnailFilename(ass.filename) }}</el-link>
-                      </el-row>
-                      <el-row class="light-text">
-                        <span>ddl:{{ ass.due }}</span>
-                      </el-row>
-                  </el-row>
-                </template>
-              </el-table-column>
+                      ? `参考章节：${scope.row.lectures[i - 1].reference}` : '' }}</span>
+                    </el-row>
+                  </div>
+                </el-tooltip>
+              </template>
+            </el-table-column>
+            <el-table-column label="教学资源"
+            min-width="120"
+            align="center">
+              <template slot-scope="scope">
+                <el-row v-for="(res, index) in
+                scope.row.lectures.length >= i
+                ? scope.row.lectures[i - 1].resources : []" :key="index">
+                    <el-row>
+                      <span>{{ res.description }}</span>
+                    </el-row>
+                    <el-row>
+                      <el-link type="primary" :href="res.url">
+                        {{ thumbnailFilename(res.filename) }}
+                      </el-link>
+                    </el-row>
+                </el-row>
+              </template>
+            </el-table-column>
+            <el-table-column label="作业" min-width="120"
+            align="center">
+              <template slot-scope="scope">
+                <el-row v-for="(ass, index) in
+                scope.row.lectures.length >= i
+                ? scope.row.lectures[i - 1].assignments : []" :key="index"
+                :gutter="20">
+                    <el-row>
+                      <span>{{ ass.title === '无' ? '' : ass.title }}</span>
+                    </el-row>
+                    <el-row>
+                      <el-link type="primary" :href="ass.url">
+                        {{ thumbnailFilename(ass.filename) }}</el-link>
+                    </el-row>
+                    <el-row class="light-text">
+                      <span>ddl:{{ ass.ddl }}</span>
+                    </el-row>
+                </el-row>
+              </template>
             </el-table-column>
           </el-table-column>
-        </el-scrollbar>
+        </el-table-column>
       </el-table>
       <div class="btn-adder"
         @click="createSchedule">
@@ -114,7 +112,10 @@
               :http-request="uploadRes"
               multiple>
               <i class="el-icon-upload"></i>
-              <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+              <div class="el-upload__text">
+                将文件拖到此处，或<em>点击上传</em><br>
+                点击文件添加描述
+              </div>
             </el-upload>
           </el-form-item>
           <el-form-item label="作业" >
@@ -156,7 +157,7 @@
             <el-form-item v-if="!isRes"
             label="选择截止日期">
               <el-date-picker
-                v-model="form.due"
+                v-model="form.ddl"
                 type="datetime"
                 placeholder="选择日期时间"
                 default-time="12:00:00">
@@ -196,7 +197,7 @@ export default {
         week: '',
         description: '',
         title: '',
-        due: '',
+        ddl: '',
       },
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -236,7 +237,7 @@ export default {
       } else {
         formData = new FormData();
         formData.append('title', this.form.title);
-        formData.append('due', this.form.due.toISOString());
+        formData.append('ddl', this.form.ddl.toLocaleString('zh-CN'));
         const url = `/api/v1/assignments/${this.form.fileID}`;
         this.axios.patch(url,
           formData,
@@ -289,10 +290,8 @@ export default {
         week: lec.week,
         id: lec.id,
         description: '',
-        title: lec.assignments.length > 0
-          ? lec.assignments[0].title : '',
-        due: lec.assignments.length > 0
-          ? lec.assignments[0].due : '',
+        title: '',
+        ddl: '',
       };
       this.resFileList = [];
       this.assFileList = [];
@@ -313,7 +312,7 @@ export default {
           url: item.url,
           id: item.id,
           title: item.title,
-          due: item.due,
+          ddl: new Date(item.ddl.replace('上午', '').replace('下午', '').replace('中午', '')),
         });
         this.uploadAssID.push(item.id);
       });
@@ -331,7 +330,7 @@ export default {
         week: '',
         description: '',
         title: '',
-        due: '',
+        ddl: '',
       };
     },
     handleResPreview(file) {
@@ -350,21 +349,21 @@ export default {
       console.log(file);
       this.innerVisible = true;
       this.isRes = false;
-      console.log(file.due);
+      console.log(file.ddl);
       if (file.status === 'success') {
         this.form.fileID = file.id;
         this.form.title = file.title;
-        this.form.due = file.due;
+        this.form.ddl = file.ddl;
       } else {
         this.form.fileID = this.fileToID[file.uid];
         this.form.title = '';
-        this.form.due = '';
+        this.form.ddl = '';
       }
     },
     removeRes(file, fileList) {
       console.log(file, fileList);
       let rid = 0;
-      if (this.isEdit) {
+      if (file.status === 'success') {
         rid = file.id;
       } else {
         rid = this.fileToID[file.uid];
@@ -381,7 +380,7 @@ export default {
     removeAss(file, fileList) {
       console.log(file, fileList);
       let aid = 0;
-      if (this.isEdit) {
+      if (file.status === 'success') {
         aid = file.id;
       } else {
         aid = this.fileToID[file.uid];
@@ -414,8 +413,8 @@ export default {
     uploadAss(params) {
       const formData = new FormData();
       formData.append('file', params.file);
-      formData.append('title', '');
-      formData.append('due', '');
+      formData.append('title', '无');
+      formData.append('ddl', '暂无');
       const url = `/api/v1/courses/${this.$route.params.cid}/assignments`;
       this.axios.post(url,
         formData,
@@ -426,6 +425,9 @@ export default {
           console.log(res);
           this.uploadAssID.push(res.data.id);
           this.fileToID[params.file.uid] = res.data.id;
+        })
+        .catch((err) => {
+          console.log(err.response);
         });
     },
     deleteSchedule(id) {
