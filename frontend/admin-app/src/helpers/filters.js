@@ -51,4 +51,20 @@ module.exports = {
     });
     return res;
   },
+  schedulesFilter(data) {
+    const res = [];
+    const map = {};
+    data.forEach((item) => {
+      if (map[item.week] === undefined) {
+        res.push({
+          week: item.week,
+          lectures: [item],
+        });
+        map[item.week] = res.length - 1;
+      } else {
+        res[map[item.week]].lectures.push(item);
+      }
+    });
+    return res;
+  },
 };
