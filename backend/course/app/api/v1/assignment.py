@@ -21,8 +21,8 @@ def update_assignment(aid):
     assignment = Assignment.query.get_or_404(aid)
     form = AssignmentUpdateForm().validate_for_api()
     with db.auto_commit():
-        if form.due.data:
-            assignment.due = form.due.data
+        if form.ddl.data:
+            assignment.ddl = form.ddl.data
         if form.title.data:
             assignment.title = form.title.data
         if 'file' in request.files:

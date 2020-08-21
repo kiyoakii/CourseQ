@@ -128,12 +128,12 @@ class ScheduleUpdateForm(Form):
 
 class AssignmentCreateForm(Form):
     title = StringField(validators=[DataRequired(), length(max=255)])
-    due = StringField(validators=[DataRequired()])
+    ddl = StringField(validators=[DataRequired()])
 
 
 class AssignmentUpdateForm(Form):
     title = StringField(validators=[length(max=255)])
-    due = StringField(validators=[])
+    ddl = StringField(validators=[])
 
 
 class ResourceForm(Form):
