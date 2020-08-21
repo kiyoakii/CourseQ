@@ -495,7 +495,7 @@
 | id          | 作业id             | Number |           |
 | schedule_id | 该作业所在的日程id | Number |           |
 | title       | 作业内容           | String |           |
-| due         | 作业截止时间       | Number | timestamp |
+| ddl         | 作业截止时间       | Number | timestamp |
 
 失败返回：
 
@@ -536,7 +536,7 @@
 | id          | 作业id             | Number |           |
 | schedule_id | 该作业所在的日程id | Number |           |
 | title       | 作业内容           | String |           |
-| due         | 作业截止时间       | Number | timestamp |
+| ddl         | 作业截止时间       | Number | timestamp |
 
 失败返回：
 
@@ -635,7 +635,7 @@
 | 字段  | 说明             | 类型   | 备注      | 是否必填 |
 | ----- | ---------------- | ------ | --------- | -------- |
 | title | 该日程所在的周数 | String |           | 是       |
-| due   | 作业截止时间     | Number | timestamp | 是       |
+| ddl   | 作业截止时间     | Number | timestamp | 是       |
 
 成功返回：
 
@@ -710,7 +710,7 @@
 | id          | 作业id             | Number |           |
 | schedule_id | 该作业所在的日程id | Number |           |
 | title       | 作业内容           | String |           |
-| due         | 作业截止时间       | Number | timestamp |
+| ddl         | 作业截止时间       | Number | timestamp |
 
 失败返回：
 
@@ -737,7 +737,7 @@
 | 字段  | 说明             | 类型   | 备注      | 是否必填 |
 | ----- | ---------------- | ------ | --------- | -------- |
 | title | 该日程所在的周数 | String |           | 是       |
-| due   | 作业截止时间     | Number | timestamp | 是       |
+| ddl   | 作业截止时间     | Number | timestamp | 是       |
 
 成功返回：
 
