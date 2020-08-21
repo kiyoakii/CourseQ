@@ -125,6 +125,7 @@ class ScheduleUpdateForm(Form):
     resource_ids = FieldList(IntegerField(validators=[DataRequired()]))
     assignment_ids = FieldList(IntegerField(validators=[DataRequired()]))
 
+
 class AssignmentCreateForm(Form):
     title = StringField(validators=[DataRequired(), length(max=255)])
     due = StringField(validators=[DataRequired()])
