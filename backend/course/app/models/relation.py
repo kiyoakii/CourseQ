@@ -85,12 +85,12 @@ question_tag_table = Table(
 assignment_schedule_table = Table(
     'assignment_schedule_table',
     Base.metadata,
-    Column('assignment_id', Integer, ForeignKey('assignment.id')),
-    Column('schedule_id', Integer, ForeignKey('schedule.id'))
+    Column('assignment_id', Integer, ForeignKey('assignment.id', ondelete="CASCADE")),
+    Column('schedule_id', Integer, ForeignKey('schedule.id', ondelete="CASCADE"))
 )
 resource_schedule_table = Table(
     'resource_schedule_table',
     Base.metadata,
-    Column('resource_id', Integer, ForeignKey('course_resource.id')),
-    Column('schedule_id', Integer, ForeignKey('schedule.id'))
+    Column('resource_id', Integer, ForeignKey('course_resource.id', ondelete="CASCADE")),
+    Column('schedule_id', Integer, ForeignKey('schedule.id', ondelete="CASCADE"))
 )
