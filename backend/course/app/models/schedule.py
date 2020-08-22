@@ -11,6 +11,7 @@ class Schedule(Base):
     week = Column(Integer)
     topic = Column(String(255))
     reference = Column(String(255))
+    additional_info = Column(String(255))
     datetime = Column(String(63))
     assignments = relationship('Assignment', secondary=assignment_schedule_table)
     resources = relationship('CourseResource', secondary=resource_schedule_table)
@@ -18,4 +19,4 @@ class Schedule(Base):
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields = ['id', 'week', 'topic', 'reference', 'assignments', 'resources']
+        self.fields = ['id', 'week', 'topic', 'reference', 'assignments', 'resources', 'additional_info']
