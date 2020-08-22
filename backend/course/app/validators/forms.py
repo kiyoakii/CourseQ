@@ -108,6 +108,7 @@ class ScheduleCreateForm(Form):
     topic = StringField(validators=[length(max=255), DataRequired()])
     datetime = StringField(validators=[length(max=63)])
     reference = StringField(validators=[length(max=255), DataRequired()])
+    additional_info = StringField(validators=[length(max=255)])
     resource_ids = FieldList(IntegerField(validators=[DataRequired()]))
     assignment_ids = FieldList(IntegerField(validators=[DataRequired()]))
 
@@ -122,6 +123,7 @@ class ScheduleUpdateForm(Form):
     topic = StringField(validators=[length(max=255)])
     datetime = StringField(validators=[length(max=63)])
     reference = StringField(validators=[length(max=255)])
+    additional_info = StringField(validators=[length(max=255)])
     resource_ids = FieldList(IntegerField(validators=[DataRequired()]))
     assignment_ids = FieldList(IntegerField(validators=[DataRequired()]))
 
