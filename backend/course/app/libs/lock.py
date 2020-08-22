@@ -30,7 +30,8 @@ class QuestionLock:
         if qid in self.__lock_threads:
             self.__lock_threads[qid].update()
         else:
-            self.__lock_threads[qid] = QuestionLockThread(qid=qid, on_timeout=lambda: self.__lock_threads.pop(qid))
+            self.__lock_threads[qid] = QuestionLockThread(qid=qid, on_timeout=lambda: self.__lock_threads.pop(
+                qid) if qid in self.__lock_threads else None)
             self.__lock_threads[qid].start()
 
     def unlock(self, qid):
