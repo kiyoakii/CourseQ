@@ -25,6 +25,28 @@ export default {
     VueHeader,
     VueContent,
   },
+  beforeCreate() {
+    const currentUrl = window.location.href;
+    const serviceUrl = 'http://home.ustc.edu.cn/~jarvis/cas/index.html';
+    console.log(currentUrl);
+    this.$store.state.token = '';
+    if (currentUrl.includes('ticket')) {
+      console.log(222);
+      const ticket = currentUrl.match(/ticket=([\s\S]+?)/)[1];
+      const service = currentUrl.match(/service=([\s\S]+?)/)[1];
+      this.axios.get(`/api/v1/token?id=null&ticket=${ticket}&service=${service}`)
+        .then((res) => {
+          if (res.status === 200) {
+            this.$store.commit('setToken', res.data.access_token);
+            window.location.href = currentUrl.slice(0, currentUrl.indexOf('?'));
+          }
+        });
+    } else if (!this.$store.state.token) {
+      const redirectUrl = window.location.href;
+      const casUrl = `http://passport.ustc.edu.cn/login?service=${serviceUrl}?redirect=${redirectUrl}`;
+      window.location.href = casUrl;
+    }
+  },
 };
 </script>
 
