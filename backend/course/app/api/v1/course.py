@@ -116,6 +116,7 @@ def create_schedule(cid):
                             topic=form.topic.data,
                             reference=form.reference.data,
                             course_id=course.cid,
+                            additional_info=form.additional_info.data,
                             datetime=form.datetime.data
                             )
         resources = CourseResource.query.filter(CourseResource.id.in_(form.resource_ids.data)).all()
