@@ -1,6 +1,7 @@
 from flask import jsonify
 
 from app.libs.error_code import Success, DeleteSuccess, UpVoteSuccess, CancelUpVoteSuccess, Duplicate
+from app.libs.lock import question_lock
 from app.libs.redprint import Redprint
 from app.models.answer import Answer
 from app.models.base import db
@@ -141,3 +142,20 @@ def up_vote(qid):
 def get_vote_num(qid):
     question = Question.query.get_or_404(qid)
     return jsonify({'likes': sum(map(lambda vote: vote.status == 1, question.up_votes))})
+
+
+@api.route('/<int:qid>/lock', methods=['POST'])
+def lock_question(qid):
+    question_lock.lock(qid)
+    return Success()
+
+
+@api.route('/<int:qid>/unlock', methods=['POST'])
+def unlock_question(qid):
+    question_lock.unlock(qid)
+    return Success()
+
+
+@api.route('/<int:qid>/isLocked', methods=['GET'])
+def get_lock(qid):
+    return jsonify({'isLocked': question_lock.is_locked(qid)})
