@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirect Page</title>
+</head>
+<body>
+Redirect..
+<script>
+    // This page's url, the host must end with ".ustc.edu.cn"
+    var serviceURL = "https://home.ustc.edu.cn/~jarvis/cas/index.html?id={0}";
+
+    // When this page get ticket, user will be redirected to apiUrl
+    // var apiURL = "http://42.120.20.54:8080/v1/token?id={0}&ticket={1}&service={2}";
+    var apiURL = "{3}?id={0}&ticket={1}&service={2}";
+
+    // Default USTC CAS Url
+    var CASURL = "https://passport.ustc.edu.cn/login?service={0}";
+
+    function getURLParameter(name) {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+    }
+
+    String.prototype.URLFormat = function(){
+        var args = arguments;
+        return this.replace(/\{(\d+)\}/g, function(a, num){
+            return encodeURI(args[num]) || a
+        })
+    }
+
+    window.onload = function() {
+        console.log('window onload');
+        var ticket = getURLParameter('ticket');
+        var redirectUrl = getURLParameter('redirect');
+        var id = getURLParameter('id');
+        serviceURL = serviceURL.URLFormat(id);
+
+        if (ticket) {
+            // redirect to api
+            var jumpURL = apiURL.URLFormat(id, ticket, serviceURL, redirectUrl);
+        } else {
+            // redirect to cas
+            var jumpURL = CASURL.URLFormat(serviceURL);
+        }
+        window.location.href = jumpURL;
+    };
+
+</script>
+</body>
+</html>
