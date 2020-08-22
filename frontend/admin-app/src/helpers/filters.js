@@ -65,6 +65,17 @@ module.exports = {
         res[map[item.week]].lectures.push(item);
       }
     });
-    return res;
+    res.sort((a, b) => { return a.week - b.week; });
+    const sortedSchedule = [];
+    res.forEach((item) => {
+      item.lectures.sort();
+      item.lectures.forEach((lec) => {
+        sortedSchedule.push(lec);
+      });
+    });
+    return {
+      weekInfo: res,
+      schedules: sortedSchedule,
+    };
   },
 };
