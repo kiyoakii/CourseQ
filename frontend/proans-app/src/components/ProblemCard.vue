@@ -21,7 +21,7 @@
         <div class="edit-info">
           <span>{{ problem.author.nickname }} 于
             {{ (new Date(problem.update_datetime))
-            .toLocaleString('zh-CN', { timeZone: 'UTC'}) }} 修改</span>
+            .toLocaleString('zh-CN') }} 修改</span>
         </div>
         <div class="buttons">
           <el-button size="small" type="primary"
@@ -29,21 +29,11 @@
           plain
           :disabled="disableInteract"
           >编辑</el-button>
-          <el-popover
-            placement="top"
-            width="160"
-            v-model="popoverVisible">
-            <p>确定删除吗？</p>
-            <div style="text-align: right; margin: 0">
-              <el-button size="mini" type="primary" @click="popoverVisible = false" plain>
-                  取消</el-button>
-              <el-button type="danger" size="mini" @click="handleDelete" plain>确定</el-button>
-            </div>
-            <el-button slot="reference" size="small" type="danger"
-              icon="el-icon-delete" plain
-              :disabled="disableInteract"
-              >删除</el-button>
-          </el-popover>
+          <el-button slot="reference" size="small" type="danger"
+            icon="el-icon-delete" plain
+            :disabled="disableInteract"
+            @click="handleDelete"
+            >删除</el-button>
         </div>
       </div>
     </el-card>
@@ -117,24 +107,29 @@ export default {
   },
   methods: {
     handleDelete() {
-      instance.delete(`/api/v1/questions/${this.problem.id}`)
-        .then((res) => {
-          console.log(res);
-          this.popoverVisible = false;
-          if (res.status !== 200) {
-            console.log(JSON.stringify(res.data));
-          }
-          this.$store.commit('deleteProblem', this.problem);
-          this.$router.push({
-            name: 'CategoryView',
-            params: {
-              cid: this.$route.params.cid,
-              tid: this.$route.params.tid,
-              problem: this.problem,
-              edit: true,
-            },
-          });
-        });
+      this.$confirm('确认删除？')
+        .then((_) => {
+          console.log(_);
+          instance.delete(`/api/v1/questions/${this.problem.id}`)
+            .then((res) => {
+              console.log(res);
+              this.popoverVisible = false;
+              if (res.status !== 200) {
+                console.log(JSON.stringify(res.data));
+              }
+              this.$store.commit('deleteProblem', this.problem);
+              this.$router.push({
+                name: 'CategoryView',
+                params: {
+                  cid: this.$route.params.cid,
+                  tid: this.$route.params.tid,
+                  problem: this.problem,
+                  edit: true,
+                },
+              });
+            });
+        })
+        .catch((_) => { console.log(_); });
     },
     handleEdit() {
       this.$router.push({
