@@ -4,7 +4,7 @@
       <el-header>
         <teacher-header></teacher-header>
       </el-header>
-      <el-main>
+      <el-main style="overflow-y: hidden;">
         <el-row type="flex" justify="center">
           <el-col :xs="24" :sm="24" :md="22" :lg="22" :xl="22" >
             <teacher-content></teacher-content>
