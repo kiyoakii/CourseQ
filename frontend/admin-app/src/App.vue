@@ -7,6 +7,28 @@
 <script>
 export default {
   name: 'app',
+  beforeMount() {
+    const currentUrl = window.location.href;
+    const appPath = currentUrl.slice(0, currentUrl.indexOf('#'));
+    const hashPath = currentUrl.slice(currentUrl.indexOf('#') + 1);
+    const serviceUrl = 'http://home.ustc.edu.cn/~jarvis/cas/index.html';
+    if (currentUrl.includes('ticket')) {
+      const ticket = currentUrl.match(/ticket=([\s\S]+?)&/)[1];
+      const service = currentUrl.match(/service=([\s\S]+?)&/)[1];
+      const hashpath = currentUrl.match(/hashpath=([\s\S]+)#\//)[1];
+      this.axios.get(`/api/v1/token?id=null&ticket=${ticket}&service=${service}`)
+        .then((res) => {
+          if (res.status === 200) {
+            this.$store.commit('setToken', res.data.access_token);
+            window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${hashpath}`;
+          }
+        });
+    } else if (!this.$store.state.token) {
+      const url = `${serviceUrl}${encodeURIComponent(`?apppath=${appPath}&hashpath=${hashPath}`)}`;
+      const casUrl = `http://passport.ustc.edu.cn/login?service=${encodeURIComponent(url)}`;
+      window.location.href = casUrl;
+    }
+  },  
 };
 </script>
 
