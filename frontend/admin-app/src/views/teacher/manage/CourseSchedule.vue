@@ -2,82 +2,83 @@
   <div>
     <h2 id="title">日程安排</h2>
     <div class="schedule">
-      <el-table :data="schedules"
+      <el-table :data="schedules.schedules"
         border
         :header-cell-style="{'text-align':'center'}"
+        :span-method="arraySpanMethod"
         highlight-current-row>
         <el-table-column prop="week" label="教学周"
           width="70"
           align="center"
           fixed
           style="font-weight:bold"></el-table-column>
-        <el-table-column label="课程"
-          align="left" :show-overflow-tooltip="true">
-          <el-table-column v-for="i in maxLecsNum" :key="i" :label="`Lec${i}`"
-          align="left" :show-overflow-tooltip="true">
-            <el-table-column label="主题"
-            width="120"
-            align="center">
-              <template slot-scope="scope">
-                <el-tooltip class="item" effect="dark" content="点击修改该日程" placement="top">
-                  <div>
-                    <el-row>
-                      <span class="click-area" @click="handleEdit(scope.row.lectures[i-1])">
-                      {{ scope.row.lectures.length >= i
-                      ? scope.row.lectures[i - 1].topic : '' }}
-                      </span>
-                    </el-row>
-                    <el-row>
-                      <span class="click-area light-text"
-                      @click="handleEdit(scope.row.lectures[i-1])"
-                      >
-                        {{ scope.row.lectures.length >= i
-                      ? `参考章节：${scope.row.lectures[i - 1].reference}` : '' }}</span>
-                    </el-row>
-                  </div>
-                </el-tooltip>
-              </template>
-            </el-table-column>
-            <el-table-column label="教学资源"
-            min-width="120"
-            align="center">
-              <template slot-scope="scope">
-                <el-row v-for="(res, index) in
-                scope.row.lectures.length >= i
-                ? scope.row.lectures[i - 1].resources : []" :key="index">
-                    <el-row>
-                      <span>{{ res.description }}</span>
-                    </el-row>
-                    <el-row>
-                      <el-link type="primary" :href="res.url">
-                        {{ thumbnailFilename(res.filename) }}
-                      </el-link>
-                    </el-row>
-                </el-row>
-              </template>
-            </el-table-column>
-            <el-table-column label="作业" min-width="120"
-            align="center">
-              <template slot-scope="scope">
-                <el-row v-for="(ass, index) in
-                scope.row.lectures.length >= i
-                ? scope.row.lectures[i - 1].assignments : []" :key="index"
-                :gutter="20">
-                    <el-row>
-                      <span>{{ ass.title === '无' ? '' : ass.title }}</span>
-                    </el-row>
-                    <el-row>
-                      <el-link type="primary" :href="ass.url">
-                        {{ thumbnailFilename(ass.filename) }}</el-link>
-                    </el-row>
-                    <el-row class="light-text">
-                      <span>ddl:{{ ass.ddl }}</span>
-                    </el-row>
-                </el-row>
-              </template>
-            </el-table-column>
-          </el-table-column>
+        <el-table-column label="上课时间"
+          prop="time"
+          align="center"
+          width="100">
         </el-table-column>
+        <el-table-column label="主题"
+          width="120"
+          prop="topic"
+          align="center">
+            <template slot-scope="scope">
+              <el-row>
+                <span>
+                {{ scope.row.topic }}
+                </span>
+              </el-row>
+              <el-row>
+                <span>
+                  {{ `参考章节：${scope.row.reference}` }}</span>
+              </el-row>
+            </template>
+          </el-table-column>
+          <el-table-column label="教学资源"
+          min-width="120"
+          align="center">
+            <template slot-scope="scope">
+              <el-row v-for="(res, index) in scope.row.resources" :key="index">
+                  <el-row>
+                    <span>{{ res.description }}</span>
+                  </el-row>
+                  <el-row>
+                    <el-link type="primary" :href="res.url">
+                      {{ thumbnailFilename(res.filename) }}
+                    </el-link>
+                  </el-row>
+              </el-row>
+            </template>
+          </el-table-column>
+          <el-table-column label="作业" min-width="120"
+          align="center">
+            <template slot-scope="scope">
+              <el-row v-for="(ass, index) in scope.row.assignments" :key="index"
+              :gutter="20">
+                  <el-row>
+                    <span>{{ ass.title === '无' ? '' : ass.title }}</span>
+                  </el-row>
+                  <el-row>
+                    <el-link type="primary" :href="ass.url">
+                      {{ thumbnailFilename(ass.filename) }}</el-link>
+                  </el-row>
+                  <el-row class="light-text">
+                    <span>ddl:{{ ass.ddl }}</span>
+                  </el-row>
+              </el-row>
+            </template>
+          </el-table-column>
+          <el-table-column label="补充">
+          </el-table-column>
+          <el-table-column label="操作"
+          align="center"
+            width="150">
+            <template slot-scope="scope">
+              <el-button size="small"
+              @click="handleEdit(scope.row)">编辑</el-button>
+              <el-button type="danger" size="small"
+              @click="deleteSchedule(scope.row.id)">删除</el-button>
+            </template>
+          </el-table-column>
       </el-table>
       <div class="btn-adder"
         @click="createSchedule">
@@ -90,32 +91,57 @@
         :visible.sync="dialogVisible"
         :before-close="handleClose"
         width="720px">
-        <el-form :model="form">
-          <el-form-item label="主题" >
-            <el-input v-model="form.topic" autocomplete="off"></el-input>
+        <el-form :model="form" label-width="80px"
+          :rules="rules">
+          <el-form-item label="主题" prop="topic">
+            <el-input v-model="form.topic"></el-input>
           </el-form-item>
           <el-form-item label="参考章节" >
             <el-input v-model="form.reference" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="教学周" >
-            <el-input v-model="form.week" autocomplete="off"></el-input>
+          <el-form-item label="教学周" prop="week">
+            <el-select v-model="form.week">
+              <el-option v-for="i in weekNum"
+              :key="String(i)"
+              :value="String(i)"
+              :label="String(i)">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="上课时间">
+            <el-select v-model="form.timeW"
+            placeholder="请选择周次">
+              <el-option
+                v-for="item in optionsTimeW"
+                :key="item"
+                :label="item"
+                :value="item">
+              </el-option>
+            </el-select>
+            <el-select v-model="form.timeL"
+            placeholder="请选择节次">
+              <el-option
+                v-for="i in lecNum"
+                :key="i"
+                :label="`第${i}节`"
+                :value="`第${i}节`">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="教学资源" >
             <el-upload
-              class="upload-demo"
               drag
               :headers="headers"
               action="eadf"
               :file-list="resFileList"
               :on-preview="handleResPreview"
               :on-remove="removeRes"
-              :http-request="uploadRes"
-              multiple>
+              :http-request="uploadRes">
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">
-                将文件拖到此处，或<em>点击上传</em><br>
-                点击文件添加描述
+                将文件拖到此处，或<em>点击上传</em>
               </div>
+              <div slot="tip" class="el-upload__tip">点击文件添加资源描述</div>
             </el-upload>
           </el-form-item>
           <el-form-item label="作业" >
@@ -127,20 +153,20 @@
               :file-list="assFileList"
               :on-preview="handleAssPreview"
               :on-remove="removeAss"
-              :http-request="uploadAss"
-              multiple>
+              :http-request="uploadAss">
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">
-                将文件拖到此处，或<em>点击上传</em><br>
-                点击文件添加描述
+                将文件拖到此处，或<em>点击上传</em>
               </div>
+              <div slot="tip" class="el-upload__tip">点击文件添加作业描述</div>
             </el-upload>
+          </el-form-item>
+          <el-form-item label="补充">
+            <el-input type="textarea"
+              v-model="form.additionalInfo"></el-input>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button v-if="isEdit"
-          type="danger"
-          @click="deleteSchedule(form.id)">删 除</el-button>
           <el-button @click="dialogVisible = false">取 消</el-button>
           <el-button type="primary" @click="submit">确 定</el-button>
         </span>
@@ -198,6 +224,9 @@ export default {
         description: '',
         title: '',
         ddl: '',
+        timeW: '',
+        timeL: '',
+        additionalInfo: '',
       },
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -207,6 +236,18 @@ export default {
       fileToID: [],
       uploadResID: [],
       uploadAssID: [],
+      optionsTimeW: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+      lecNum: 14,
+      weekNum: 18,
+      rules: {
+        topic: [
+          { required: true, message: '请输入课程主题', trigger: 'blur' },
+        ],
+        week: [
+          { required: true, message: '请输入教学周', trigger: 'blur' },
+          { type: 'number', message: '请输入正确的教学周', trigger: 'blur' },
+        ],
+      },
     };
   },
   methods: {
@@ -219,6 +260,25 @@ export default {
         .catch((err) => {
           console.log(err.response);
         });
+    },
+    arraySpanMethod(params) {
+      if (params.columnIndex === 0) {
+        const weekInfo = this.schedules.weekInfo.find((item) => item.week === params.row.week);
+        if (params.row.id === weekInfo.lectures[0].id) {
+          return {
+            rowspan: weekInfo.lectures.length,
+            colspan: 1,
+          };
+        }
+        return {
+          rowspan: 0,
+          colspan: 0,
+        };
+      }
+      return {
+        rowspan: 1,
+        colspan: 1,
+      };
     },
     innerSubmit() {
       let formData = new FormData();
@@ -270,6 +330,8 @@ export default {
           topic: this.form.topic,
           reference: this.form.reference,
           week: this.form.week,
+          additionalInfo: this.form.additionalInfo,
+          time: `${this.form.timeW}${this.form.timeL}`,
           resource_ids: this.uploadResID,
           assignment_ids: this.uploadAssID,
         },
@@ -470,15 +532,6 @@ export default {
     },
   },
   computed: {
-    maxLecsNum() {
-      let maxNum = 0;
-      this.schedules.forEach((item) => {
-        if (item.lectures.length > maxNum) {
-          maxNum = item.lectures.length;
-        }
-      });
-      return maxNum;
-    },
     schedules() {
       return this.schedulesFilter(this.allInfo.schedules);
     },
