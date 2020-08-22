@@ -13,6 +13,7 @@ export default new Vuex.Store({
     qid: 0,
     cid: 0,
     clickLike: false, // 点击我的点赞
+    token: undefined,
     commentList: [],
   },
   getters: {
@@ -139,8 +140,19 @@ export default new Vuex.Store({
       state.tags.splice(0, state.tags.length);
       state.tags.push(...tags);
     },
+    setToken(state, token) {
+      state.token = token;
+    },
   },
   actions: {
+    setToekn(context, { ticket, service }) {
+      axios.get(`/api/v1/token?id=null&ticket=${ticket}&service=${service}`)
+        .then((res) => {
+          if (res.status === 200) {
+            context.commit('setToken', res.data.access_token);
+          }
+        });
+    },
     initProblems(context) {
       axios.get(`/api/v1/courses/${context.state.cid}/questions`)
         .then((res) => {
