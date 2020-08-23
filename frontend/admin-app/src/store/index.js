@@ -91,44 +91,56 @@ export default new Vuex.Store({
   },
   actions: {
     initAllCourses(context) {
-      axios.get('/api/v1/courses')
-        .then((res) => {
-          console.log('courses request success: ', res);
-          return context.commit({
-            type: 'initAllCourses',
-            courses: res.data,
-          });
+      axios.get('/api/v1/courses', {
+        headers: {
+          Authentication: `bearer ${context.state.adminAdminToken}`,
+        },
+      }).then((res) => {
+        console.log('courses request success: ', res);
+        return context.commit({
+          type: 'initAllCourses',
+          courses: res.data,
         });
+      });
     },
     initAllTeachers(context) {
-      axios.get('/api/v1/users/teachers')
-        .then((res) => {
-          console.log('teachers request success: ', res);
-          return context.commit({
-            type: 'initAllTeachers',
-            teachers: res.data,
-          });
+      axios.get('/api/v1/users/teachers', {
+        headers: {
+          Authentication: `bearer ${context.state.adminAdminToken}`,
+        },
+      }).then((res) => {
+        console.log('teachers request success: ', res);
+        return context.commit({
+          type: 'initAllTeachers',
+          teachers: res.data,
         });
+      });
     },
     initAllStudents(context) {
-      axios.get('/api/v1/users/students')
-        .then((res) => {
-          console.log('students request success: ', res);
-          return context.commit({
-            type: 'initAllStudents',
-            students: res.data,
-          });
+      axios.get('/api/v1/users/students', {
+        headers: {
+          Authentication: `bearer ${context.state.adminAdminToken}`,
+        },
+      }).then((res) => {
+        console.log('students request success: ', res);
+        return context.commit({
+          type: 'initAllStudents',
+          students: res.data,
         });
+      });
     },
     initCourses(context, { tid }) {
-      axios.get(`/api/v1/users/${tid}/courses`)
-        .then((res) => {
-          console.log('courses get: ', res);
-          return context.commit({
-            type: 'initCourses',
-            courses: res.data,
-          });
+      axios.get(`/api/v1/users/${tid}/courses`, {
+        headers: {
+          Authentication: `bearer ${context.state.adminTeacherToken || context.state.adminAdminToken}`,
+        },
+      }).then((res) => {
+        console.log('courses get: ', res);
+        return context.commit({
+          type: 'initCourses',
+          courses: res.data,
         });
+      });
     },
   },
   modules: {

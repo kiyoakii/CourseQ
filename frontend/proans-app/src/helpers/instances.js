@@ -1,3 +1,5 @@
+import store from '../store';
+
 const axios = require('axios');
 const { Message } = require('element-ui');
 
@@ -20,7 +22,8 @@ function successHandler() {
 
 instance.interceptors.request.use(
   (config) => {
-    // console.log(config);
+    config.headers.Authentication = `bearer ${store.state.proansToken}`;
+    console.log(config);
     return config;
   },
   (err) => {
@@ -44,6 +47,4 @@ instance.interceptors.response.use(
   },
 );
 
-module.exports = {
-  instance,
-};
+export { instance };
