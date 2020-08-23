@@ -13,7 +13,7 @@ export default new Vuex.Store({
     qid: 0,
     cid: 0,
     clickLike: false, // 点击我的点赞
-    token: undefined,
+    proansToken: '',
     commentList: [],
   },
   getters: {
@@ -140,8 +140,8 @@ export default new Vuex.Store({
       state.tags.splice(0, state.tags.length);
       state.tags.push(...tags);
     },
-    setToken(state, token) {
-      state.token = token;
+    setProansToken(state, token) {
+      state.proansToken = token;
     },
   },
   actions: {
