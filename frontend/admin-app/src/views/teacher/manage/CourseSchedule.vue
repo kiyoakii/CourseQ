@@ -67,7 +67,7 @@
               </el-row>
             </template>
           </el-table-column>
-          <el-table-column label="补充">
+          <el-table-column label="补充" prop="additional_info">
           </el-table-column>
           <el-table-column label="操作"
           align="center"
@@ -330,8 +330,8 @@ export default {
           topic: this.form.topic,
           reference: this.form.reference,
           week: this.form.week,
-          additionalInfo: this.form.additionalInfo,
-          time: `${this.form.timeW}${this.form.timeL}`,
+          additional_info: this.form.additionalInfo,
+          datetime: `${this.form.timeW}${this.form.timeL}`,
           resource_ids: this.uploadResID,
           assignment_ids: this.uploadAssID,
         },
@@ -354,6 +354,9 @@ export default {
         description: '',
         title: '',
         ddl: '',
+        additionalInfo: lec.additional_info,
+        timeW: lec.datetime.substr(0, 2),
+        timeL: lec.datetime.substr(2),
       };
       this.resFileList = [];
       this.assFileList = [];
