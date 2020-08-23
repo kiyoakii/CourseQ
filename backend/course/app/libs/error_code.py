@@ -84,6 +84,12 @@ class Forbidden(APIException):
     msg = 'forbidden, not in scope'
 
 
+class LockForbidden(APIException):
+    code = 403
+    error_code = 1004
+    msg = 'locked'
+
+
 class Duplicate(APIException):
     code = 400
     error_code = 2001
