@@ -145,45 +145,46 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    setToekn(context, { ticket, service }) {
-      axios.get(`/api/v1/token?id=null&ticket=${ticket}&service=${service}`)
-        .then((res) => {
-          if (res.status === 200) {
-            context.commit('setToken', res.data.access_token);
-          }
-        });
-    },
     initProblems(context) {
-      axios.get(`/api/v1/courses/${context.state.cid}/questions`)
-        .then((res) => {
-          if (res.status === 200) {
-            context.commit('initProblems', res.data);
-          }
-        });
+      axios.get(`/api/v1/courses/${context.state.cid}/questions`, {
+        headers: {
+          Authentication: `bearer ${context.state.proansToken}`
+        }
+      }).then((res) => {
+        if (res.status === 200) {
+          context.commit('initProblems', res.data);
+        }
+      });
     },
     updateProblem(context, problem) {
       console.log(111, problem);
-      axios.get(`/api/v1/questions/${problem.id || context.state.qid}`)
-        .then((res) => {
-          console.log(333, res);
-          if (res.status === 200) {
-            context.commit('updateProblem', res.data);
-          }
-        });
+      axios.get(`/api/v1/questions/${problem.id || context.state.qid}`, {
+        headers: {
+          Authentication: `bearer ${context.state.proansToken}`
+        }
+      }).then((res) => {
+        console.log(333, res);
+        if (res.status === 200) {
+          context.commit('updateProblem', res.data);
+        }
+      });
     },
     setCommentList(context) {
-      axios.get(`/api/v1/questions/${context.state.qid}/discussions`)
-        .then((res) => {
-          console.log(res);
-          if (res.status !== 200) {
-            console.log(JSON.stringify(res.data));
-            return;
-          }
-          context.commit({
-            type: 'setCommentList',
-            list: res.data,
-          });
+      axios.get(`/api/v1/questions/${context.state.qid}/discussions`, {
+        headers: {
+          Authentication: `bearer ${context.state.proansToken}`
+        }
+      }).then((res) => {
+        console.log(res);
+        if (res.status !== 200) {
+          console.log(JSON.stringify(res.data));
+          return;
+        }
+        context.commit({
+          type: 'setCommentList',
+          list: res.data,
         });
+      });
     },
   },
   modules: {
