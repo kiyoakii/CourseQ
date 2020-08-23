@@ -10,7 +10,7 @@
     <el-row class="announce" v-for="anno in allInfo.announces" :key="anno.id">
       <el-card class="card-box" shadow="hover">
         <div slot="header" class="clearfix card-header">
-          <span>{{ anno.title }}</span>
+          <span class="ann-title">{{ anno.title }}</span>
           <div>
             <el-button type="primary"
             icon="el-icon-edit" size="small"
@@ -121,6 +121,11 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.ann-title {
+  font-size: 24px;
+  font-weight: 500;
 }
 
 .course-announce {
