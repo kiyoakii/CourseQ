@@ -5,10 +5,11 @@ from app.config.secure import LOCK_TIMEOUT
 
 
 class QuestionLockThread(threading.Thread):
-    def __init__(self, qid, on_timeout):
+    def __init__(self, qid, gid, on_timeout):
         super().__init__()
         self.qid = qid
         self.last_time = time.time()
+        self.gid = gid
         self.on_timeout = on_timeout
 
     def run(self):
@@ -26,11 +27,11 @@ class QuestionLock:
     def __init__(self):
         self.__lock_threads = {}
 
-    def lock(self, qid):
+    def lock(self, qid, gid):
         if qid in self.__lock_threads:
             self.__lock_threads[qid].update()
         else:
-            self.__lock_threads[qid] = QuestionLockThread(qid=qid, on_timeout=lambda: self.__lock_threads.pop(
+            self.__lock_threads[qid] = QuestionLockThread(qid=qid, gid=gid, on_timeout=lambda: self.__lock_threads.pop(
                 qid) if qid in self.__lock_threads else None)
             self.__lock_threads[qid].start()
 
@@ -39,6 +40,9 @@ class QuestionLock:
 
     def is_locked(self, qid):
         return qid in self.__lock_threads
+
+    def user(self, qid):
+        return self.__lock_threads[qid].gid if qid in self.__lock_threads else None
 
 
 question_lock = QuestionLock()
