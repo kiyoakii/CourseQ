@@ -35,7 +35,32 @@ export default {
   },
   methods: {
     commandHandler(command) {
-      console.log(command);
+      if (command === 'logout') {
+        this.$confirm('确认登出, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '登出成功!',
+          });
+          this.$store.commit('setAdminAdminToken', '');
+          // window.location.reload();
+          const currentUrl = window.location.href;
+          const appname = currentUrl.slice(0, currentUrl.indexOf('#'));
+          const hashparam = currentUrl.slice(currentUrl.indexOf('#') + 1);
+          const serviceUrl = `${appname}?hashparam=${hashparam}`;
+          window.location.href = `http://passport.ustc.edu.cn/logout?service=${encodeURIComponent(serviceUrl)}`;
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消登出',
+          });
+        });
+      } else if (command === 'profile') {
+        console.log(command);
+      }
     },
   },
 };
