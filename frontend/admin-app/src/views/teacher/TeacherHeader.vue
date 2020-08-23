@@ -13,7 +13,13 @@
     </el-col>
     <el-col :span="2">
       <div class="center">
-        <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+        <el-dropdown placement="bottom" @command="commandHandler" size="medium">
+          <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="profile">个人资料</el-dropdown-item>
+            <el-dropdown-item command="logout">登出</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </div>
     </el-col>
   </el-row>
@@ -26,6 +32,36 @@ export default {
   name: 'TeacherHeader',
   components: {
     TeacherNavBar,
+  },
+  methods: {
+    commandHandler(command) {
+      if (command === 'logout') {
+        this.$confirm('确认登出, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '登出成功!',
+          });
+          this.$store.commit('setAdminTeacherToken', '');
+          // window.location.reload();
+          const currentUrl = window.location.href;
+          const appname = currentUrl.slice(0, currentUrl.indexOf('#'));
+          const hashparam = currentUrl.match(/\/teacher\/\d*\//g);
+          const serviceUrl = `${appname}?hashparam=${hashparam}`;
+          window.location.href = `http://passport.ustc.edu.cn/logout?service=${encodeURIComponent(serviceUrl)}`;
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消登出',
+          });
+        });
+      } else if (command === 'profile') {
+        console.log(command);
+      }
+    },
   },
 };
 </script>

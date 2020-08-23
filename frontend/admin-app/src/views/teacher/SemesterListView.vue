@@ -18,7 +18,6 @@ export default {
   name: 'SemesterListView',
   computed: {
     courses() {
-      console.log(this.$store.getters.courseSemesters(this.$route.params.cname));
       return this.$store.getters.courseSemesters(this.$route.params.cname);
     },
   },

@@ -17,7 +17,6 @@ export default {
   },
   computed: {
     allInfo() {
-      console.log('allInfo:', this.$route.params.cid);
       return this.$store.getters.courseAllInfo(this.$route.params.cid);
     },
   },
