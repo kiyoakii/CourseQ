@@ -18,7 +18,6 @@ export default {
   name: 'CourseListView',
   computed: {
     courses() {
-      console.log(this.$store.getters.teacherCourses);
       return this.$store.getters.teacherCourses;
     },
   },
