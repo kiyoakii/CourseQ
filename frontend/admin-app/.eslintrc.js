@@ -17,6 +17,8 @@ module.exports = {
       optionalDependencies: ['src/mock/index.js'],
     }],
     'arrow-body-style': 'off',
+    'import/prefer-default-export': 'off',
+    'no-param-reassign': 'off',
   },
   overrides: [
     {

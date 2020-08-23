@@ -1,3 +1,5 @@
+import store from '../store';
+
 const axios = require('axios');
 const { Message } = require('element-ui');
 
@@ -20,6 +22,12 @@ function successHandler() {
 
 instance.interceptors.request.use(
   (config) => {
+    if (store.state.adminAdminToken) {
+      config.headers.Authentication = `bearer ${store.state.adminAdminToken}`;
+    } else if (store.state.adminTeacherToken) {
+      config.headers.Authentication = `bearer ${store.state.adminTeacherToken}`;
+    }
+    console.log(config, store.state);
     return config;
   },
   (err) => {
@@ -43,6 +51,6 @@ instance.interceptors.response.use(
   },
 );
 
-module.exports = {
+export {
   instance,
 };
