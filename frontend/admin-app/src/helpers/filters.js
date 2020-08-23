@@ -68,7 +68,15 @@ module.exports = {
     res.sort((a, b) => { return a.week - b.week; });
     const sortedSchedule = [];
     res.forEach((item) => {
-      item.lectures.sort();
+      item.lectures.sort((a, b) => {
+        if (a.datetime > b.datetime) {
+          return 1;
+        }
+        if (a.datetime < b.datetime) {
+          return -1;
+        }
+        return 0;
+      });
       item.lectures.forEach((lec) => {
         sortedSchedule.push(lec);
       });
