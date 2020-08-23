@@ -19,4 +19,4 @@ class Schedule(Base):
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields = ['id', 'week', 'topic', 'reference', 'assignments', 'resources', 'additional_info']
+        self.fields = ['id', 'week', 'topic', 'reference', 'assignments', 'resources', 'additional_info', 'datetime']
