@@ -24,7 +24,7 @@ export default {
       axios.get(`/api/v1/token?id=null&ticket=${ticket}&service=${service}`)
         .then((res) => {
           if (res.status === 200) {
-            if (hashpath.includes('/admin')) {
+            if (hashpath.includes('/admin/')) {
               this.$store.commit('setAdminAdminToken', res.data.access_token);
             } else {
               this.$store.commit('setAdminTeacherToken', res.data.access_token);
@@ -32,8 +32,8 @@ export default {
             window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${hashpath}`;
           }
         });
-    } else if ((hashPath.includes('/admin') && !this.$store.state.adminAdminToken)
-      || (hashPath.includes('/teacher') && !this.$store.state.adminTeacherToken)) {
+    } else if ((hashPath.includes('/admin/') && !this.$store.state.adminAdminToken)
+      || (hashPath.includes('/teacher/') && !this.$store.state.adminTeacherToken)) {
       const url = `${serviceUrl}${encodeURIComponent(`&apppath=${appPath}&hashpath=${hashPath}`)}`;
       const casUrl = `http://passport.ustc.edu.cn/login?service=${encodeURIComponent(url)}`;
       window.location.href = casUrl;

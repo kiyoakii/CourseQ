@@ -18,6 +18,7 @@
 <script>
 import VueHeader from '@/views/VueHeader.vue';
 import VueContent from '@/views/VueContent.vue';
+import axios from 'axios';
 
 export default {
   name: 'app',
@@ -37,7 +38,7 @@ export default {
       const ticket = currentUrl.match(/ticket=([\s\S]+?)&/)[1];
       const service = currentUrl.match(/service=([\s\S]+?)&/)[1];
       const hashpath = currentUrl.match(/hashpath=([\s\S]+)#\//)[1];
-      this.axios.get(`/api/v1/token?id=null&ticket=${ticket}&service=${service}`)
+      axios.get(`/api/v1/token?id=null&ticket=${ticket}&service=${service}`)
         .then((res) => {
           if (res.status === 200) {
             this.$store.commit('setProansToken', res.data.access_token);
