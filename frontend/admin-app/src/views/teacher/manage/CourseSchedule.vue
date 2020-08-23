@@ -13,7 +13,7 @@
           fixed
           style="font-weight:bold"></el-table-column>
         <el-table-column label="上课时间"
-          prop="time"
+          prop="datetime"
           align="center"
           width="100">
         </el-table-column>
@@ -28,7 +28,7 @@
                 </span>
               </el-row>
               <el-row>
-                <span>
+                <span class="light-text">
                   {{ `参考章节：${scope.row.reference}` }}</span>
               </el-row>
             </template>
@@ -76,7 +76,7 @@
               <el-button size="small"
               @click="handleEdit(scope.row)">编辑</el-button>
               <el-button type="danger" size="small"
-              @click="deleteSchedule(scope.row.id)">删除</el-button>
+              @click="deleteSchedule(scope.row)">删除</el-button>
             </template>
           </el-table-column>
       </el-table>
@@ -85,48 +85,60 @@
         <i class="el-icon-plus"></i>
         <span>新增日程</span>
       </div>
-      <!-- <el-button @click="deleteAssignment">delete</el-button> -->
       <el-dialog
         :title="isEdit ? '编辑' : '添加'"
         :visible.sync="dialogVisible"
         :before-close="handleClose"
         width="720px">
         <el-form :model="form" label-width="80px"
-          :rules="rules">
+          :rules="rules"
+          ref="lecForm">
           <el-form-item label="主题" prop="topic">
-            <el-input v-model="form.topic"></el-input>
+            <el-input v-model="form.topic"
+              maxlength="20"
+              show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="参考章节" >
-            <el-input v-model="form.reference" autocomplete="off"></el-input>
+            <el-input v-model="form.reference" autocomplete="off"
+              maxlength="20"
+              show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="教学周" prop="week">
             <el-select v-model="form.week">
               <el-option v-for="i in weekNum"
               :key="String(i)"
-              :value="String(i)"
+              :value="i"
               :label="String(i)">
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="上课时间">
-            <el-select v-model="form.timeW"
-            placeholder="请选择周次">
-              <el-option
-                v-for="item in optionsTimeW"
-                :key="item"
-                :label="item"
-                :value="item">
-              </el-option>
-            </el-select>
-            <el-select v-model="form.timeL"
-            placeholder="请选择节次">
-              <el-option
-                v-for="i in lecNum"
-                :key="i"
-                :label="`第${i}节`"
-                :value="`第${i}节`">
-              </el-option>
-            </el-select>
+          <el-form-item label="上课时间" required>
+            <el-col :span="11">
+              <el-form-item prop="timeW">
+                <el-select v-model="form.timeW"
+                placeholder="请选择周次">
+                  <el-option
+                    v-for="item in optionsTimeW"
+                    :key="item"
+                    :label="item"
+                    :value="item">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="11">
+              <el-form-item prop="timeL">
+                <el-select v-model="form.timeL"
+                placeholder="请选择节次">
+                  <el-option
+                    v-for="i in lecNum"
+                    :key="i"
+                    :label="`第${i}节`"
+                    :value="`第${i}节`">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
           </el-form-item>
           <el-form-item label="教学资源" >
             <el-upload
@@ -161,13 +173,15 @@
               <div slot="tip" class="el-upload__tip">点击文件添加作业描述</div>
             </el-upload>
           </el-form-item>
-          <el-form-item label="补充">
+          <el-form-item label="补充" prop="additionalInfo">
             <el-input type="textarea"
-              v-model="form.additionalInfo"></el-input>
+              v-model="form.additionalInfo"
+              maxlength="50"
+              show-word-limit></el-input>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button @click="handleClose(() => { dialogVisible = false })">取 消</el-button>
           <el-button type="primary" @click="submit">确 定</el-button>
         </span>
         <el-dialog
@@ -176,9 +190,13 @@
           <el-form>
             <el-form-item :label="isRes ? '资源描述' : '作业描述'">
               <el-input v-if="isRes" v-model="form.description"
-              placeholder="请输入资源描述"></el-input>
+              placeholder="请输入资源描述"
+              maxlength="20"
+              show-word-limit></el-input>
               <el-input v-else v-model="form.title"
-              placeholder="请输入作业描述"></el-input>
+              placeholder="请输入作业描述"
+              maxlength="20"
+              show-word-limit></el-input>
             </el-form-item>
             <el-form-item v-if="!isRes"
             label="选择截止日期">
@@ -245,22 +263,18 @@ export default {
         ],
         week: [
           { required: true, message: '请输入教学周', trigger: 'blur' },
-          { type: 'number', message: '请输入正确的教学周', trigger: 'blur' },
+          { type: 'number', message: '请输入正确的教学周' },
+        ],
+        timeW: [
+          { required: true, message: '请输入上课周次', trigger: 'blur' },
+        ],
+        timeL: [
+          { required: true, message: '请输入上课节次', trigger: 'blur' },
         ],
       },
     };
   },
   methods: {
-    deleteAssignment() {
-      this.axios.delete('/api/v1/assignments/1')
-        .then((res) => {
-          console.log(res);
-          this.$store.dispatch('initCourses', { tid: this.$route.params.tid });
-        })
-        .catch((err) => {
-          console.log(err.response);
-        });
-    },
     arraySpanMethod(params) {
       if (params.columnIndex === 0) {
         const weekInfo = this.schedules.weekInfo.find((item) => item.week === params.row.week);
@@ -312,35 +326,46 @@ export default {
       this.innerVisible = false;
     },
     submit() {
-      let option = {};
-      if (this.isEdit) {
-        option = {
-          method: 'put',
-          url: `/api/v1/schedules/${this.form.id}`,
-        };
-      } else {
-        option = {
-          method: 'post',
-          url: `/api/v1/courses/${this.$route.params.cid}/schedules`,
-        };
-      }
-      this.axios({
-        ...option,
-        data: {
-          topic: this.form.topic,
-          reference: this.form.reference,
-          week: this.form.week,
-          additional_info: this.form.additionalInfo,
-          datetime: `${this.form.timeW}${this.form.timeL}`,
-          resource_ids: this.uploadResID,
-          assignment_ids: this.uploadAssID,
-        },
-      })
-        .then((res) => {
-          console.log(res);
-          this.$store.dispatch('initCourses', { tid: this.$route.params.tid });
-        });
-      this.dialogVisible = false;
+      this.$refs.lecForm.validate((valid) => {
+        if (valid) {
+          let option = {};
+          if (this.isEdit) {
+            option = {
+              method: 'put',
+              url: `/api/v1/schedules/${this.form.id}`,
+            };
+          } else {
+            option = {
+              method: 'post',
+              url: `/api/v1/courses/${this.$route.params.cid}/schedules`,
+            };
+          }
+          this.axios({
+            ...option,
+            data: {
+              topic: this.form.topic,
+              reference: this.form.reference,
+              week: this.form.week,
+              additional_info: this.form.additionalInfo,
+              datetime: `${this.form.timeW}${this.form.timeL}`,
+              resource_ids: this.uploadResID,
+              assignment_ids: this.uploadAssID,
+            },
+          })
+            .then((res) => {
+              console.log(res);
+              this.$store.dispatch('initCourses', { tid: this.$route.params.tid });
+            })
+            .catch((err) => {
+              console.log(err.response);
+            });
+          this.dialogVisible = false;
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+        return true;
+      });
     },
     handleEdit(lec) {
       console.log(lec);
@@ -495,8 +520,26 @@ export default {
           console.log(err.response);
         });
     },
-    deleteSchedule(id) {
-      this.axios.delete(`/api/v1/schedules/${id}`)
+    deleteSchedule(row) {
+      row.resources.forEach((item) => {
+        this.axios.delete(`/api/v1/resources/${item.id}`)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err.response);
+          });
+      });
+      row.assignments.forEach((item) => {
+        this.axios.delete(`/api/v1/assignments/${item.id}`)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err.response);
+          });
+      });
+      this.axios.delete(`/api/v1/schedules/${row.id}`)
         .then((res) => {
           console.log(res);
           this.$store.dispatch('initCourses', { tid: this.$route.params.tid });
