@@ -15,16 +15,24 @@
         </el-dropdown>
       </el-row>
     </el-col>
+    <profile :dialogVisible.sync="dialogVisible" :id="11"></profile>
   </el-row>
 </template>
 
 <script>
 import ProblemCategories from '@/components/ProblemCategories.vue';
+import Profile from '@/components/Profile.vue';
 
 export default {
   name: 'VueHeader',
   components: {
     ProblemCategories,
+    Profile,
+  },
+  data() {
+    return {
+      dialogVisible: false,
+    };
   },
   methods: {
     setLike(like) {
@@ -58,7 +66,7 @@ export default {
           });
         });
       } else if (command === 'profile') {
-        console.log(command);
+        this.dialogVisible = true;
       }
     },
   },
