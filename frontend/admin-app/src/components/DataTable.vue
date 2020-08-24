@@ -99,7 +99,10 @@ export default {
   },
   methods: {
     handleDelete(row) {
-      this.$emit('delete', row);
+      this.$confirm('确认刪除？')
+        .then(() => {
+          this.$emit('delete', row);
+        });
     },
     handleEdit(row) {
       this.$emit('edit', row);
