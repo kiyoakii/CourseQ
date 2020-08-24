@@ -58,7 +58,8 @@
 <script>
 import DataTableSearchBar from '@/components/DataTableSearchBar.vue';
 import DataTable from '@/components/DataTable.vue';
-import { memberTable } from '../../helpers/table';
+import { instance } from '@/helpers/instances';
+import { memberTable } from '@/helpers/table';
 
 export default {
   name: 'StudentManage',
@@ -112,7 +113,7 @@ export default {
         }
         const url = id === '' ? '/api/v1/students' : `/api/v1/users/${id}`;
         const method = id === '' ? 'post' : 'put';
-        this.axios({
+        instance({
           url,
           method,
           data: {
@@ -149,7 +150,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning',
       }).then(() => {
-        this.axios({
+        instance({
           url: `/api/v1/users/${row.id}`,
           method: 'delete',
         }).then((res) => {
