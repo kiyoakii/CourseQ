@@ -1,6 +1,12 @@
 <template>
   <div id="app">
-    <el-container>
+    <el-container v-show="showUserProfileSteps" style="height: 100vh;">
+      <user-profile-steps
+        :token='token'
+        @submit="change">
+      </user-profile-steps>
+    </el-container>
+    <el-container v-show="!showUserProfileSteps">
       <el-header>
         <vue-header></vue-header>
       </el-header>
@@ -19,12 +25,32 @@
 import VueHeader from '@/views/VueHeader.vue';
 import VueContent from '@/views/VueContent.vue';
 import axios from 'axios';
+import UserProfileSteps from './components/UserProfileSteps.vue';
 
 export default {
   name: 'app',
   components: {
     VueHeader,
+    UserProfileSteps,
     VueContent,
+  },
+  data() {
+    return {
+      showUserProfileSteps: false,
+      token: '',
+    };
+  },
+  methods: {
+    change(options) {
+      this.showUserProfileSteps = options.showUserProfileSteps || false;
+      const data = options.data;
+      console.log(data);
+      this.$store.commit('setGid', data.gid);
+      this.$store.commit('setProansToken', data.access_token);
+      const currentUrl = window.location.href;
+      const hashpath = currentUrl.match(/hashpath=([\s\S]+)#\//)[1];
+      window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${hashpath}`;
+    },
   },
   beforeMount() {
     const currentUrl = window.location.href;
@@ -37,13 +63,23 @@ export default {
     if (currentUrl.includes('ticket')) {
       const ticket = currentUrl.match(/ticket=([\s\S]+?)&/)[1];
       const service = currentUrl.match(/service=([\s\S]+?)&/)[1];
-      const hashpath = currentUrl.match(/hashpath=([\s\S]+)#\//)[1];
+      // const hashpath = currentUrl.match(/hashpath=([\s\S]+)#\//)[1];
       axios.get(`/api/v1/token?id=null&ticket=${ticket}&service=${service}`)
         .then((res) => {
           if (res.status === 200) {
-            this.$store.commit('setProansToken', res.data.access_token);
-            window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${hashpath}`;
+            console.log('token res.data: ', res.data);
+            this.token = res.data.access_token;
+            if (res.data.registered) {
+              this.$store.commit('setProansToken', res.data.access_token);
+              window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}`;
+              return;
+            }
+            this.showUserProfileSteps = true;
+            // window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${hashpath}`;
+            // window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}`;
           }
+        }).catch((e) => {
+          console.log(e);
         });
     } else if (!this.$store.state.proansToken) {
       const url = `${serviceUrl}${encodeURIComponent(`&apppath=${appPath}&hashpath=${hashPath}`)}`;
