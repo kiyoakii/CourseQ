@@ -15,7 +15,7 @@
         </el-dropdown>
       </el-row>
     </el-col>
-    <profile :dialogVisible.sync="dialogVisible" :id="11"></profile>
+    <profile :dialogVisible.sync="dialogVisible" :id="this.$store.state.gid"></profile>
   </el-row>
 </template>
 
