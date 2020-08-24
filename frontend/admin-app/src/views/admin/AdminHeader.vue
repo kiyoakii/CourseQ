@@ -22,16 +22,24 @@
         </el-dropdown>
       </div>
     </el-col>
+    <profile :dialogVisible.sync="dialogVisible" :id="this.$store.state.gid"></profile>
   </el-row>
 </template>
 
 <script>
 import AdminNavBar from '@/components/AdminNavBar.vue';
+import Profile from '@/components/Profile.vue';
 
 export default {
   name: 'AdminHeader',
   components: {
     AdminNavBar,
+    Profile,
+  },
+  data() {
+    return {
+      dialogVisible: false,
+    };
   },
   methods: {
     commandHandler(command) {
@@ -59,7 +67,7 @@ export default {
           });
         });
       } else if (command === 'profile') {
-        console.log(command);
+        this.dialogVisible = true;
       }
     },
   },
