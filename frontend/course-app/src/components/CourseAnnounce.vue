@@ -17,7 +17,7 @@
           {{ allinfo.announces[0].content }}
         </div>
       </div>
-      <div v-else>    
+      <div v-else>
         <el-card class="box-card" shadow="hover">
         暂时还没有公告哦～
         </el-card>
@@ -42,7 +42,8 @@
         </div>
       </div>
     </el-scrollbar>
-    <el-button v-if="allinfo.announces && allinfo.announces.length > 1" @click="onClick" class="btn-more">
+    <el-button v-if="allinfo.announces && allinfo.announces.length > 1"
+      @click="onClick" class="btn-more">
       <i :class="isActive ? 'el-icon-caret-top' : 'el-icon-caret-bottom'"></i>
       <span>{{ btnMassage }}</span>
     </el-button>
