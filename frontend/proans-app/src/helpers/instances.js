@@ -22,7 +22,7 @@ function successHandler() {
 
 instance.interceptors.request.use(
   (config) => {
-    config.headers.Authentication = `bearer ${store.state.proansToken}`;
+    config.headers.Authorization = `Bearer ${store.state.proansToken}`;
     console.log(config);
     return config;
   },

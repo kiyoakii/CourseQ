@@ -12,6 +12,7 @@ export default new Vuex.Store({
     count: 0,
     qid: 0,
     cid: 0,
+    gid: '',
     clickLike: false, // 点击我的点赞
     proansToken: '',
     commentList: [],
@@ -65,6 +66,9 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    setGid(state, gid) {
+      state.gid = gid;
+    },
     setClickLike(state, { like }) {
       state.clickLike = like;
     },
@@ -148,7 +152,7 @@ export default new Vuex.Store({
     initProblems(context) {
       axios.get(`/api/v1/courses/${context.state.cid}/questions`, {
         headers: {
-          Authentication: `bearer ${context.state.proansToken}`,
+          Authorization: `Bearer ${context.state.proansToken}`,
         },
       }).then((res) => {
         if (res.status === 200) {
@@ -160,7 +164,7 @@ export default new Vuex.Store({
       console.log(111, problem);
       axios.get(`/api/v1/questions/${problem.id || context.state.qid}`, {
         headers: {
-          Authentication: `bearer ${context.state.proansToken}`,
+          Authorization: `Bearer ${context.state.proansToken}`,
         },
       }).then((res) => {
         console.log(333, res);
@@ -172,7 +176,7 @@ export default new Vuex.Store({
     setCommentList(context) {
       axios.get(`/api/v1/questions/${context.state.qid}/discussions`, {
         headers: {
-          Authentication: `bearer ${context.state.proansToken}`,
+          Authorization: `Bearer ${context.state.proansToken}`,
         },
       }).then((res) => {
         console.log(res);

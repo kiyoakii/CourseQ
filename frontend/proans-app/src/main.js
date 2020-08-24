@@ -8,7 +8,7 @@ import './plugins/element';
 // import './mock';
 import './plugins/vue-mavon-editor';
 
-axios.defaults.headers.common.Authentication = `bearer ${store.state.proansToken}`;
+axios.defaults.headers.common.Authorization = `Bearer ${store.state.proansToken}`;
 
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
