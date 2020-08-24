@@ -59,6 +59,7 @@ export default {
           const hashparam = currentUrl.slice(currentUrl.indexOf('#') + 1);
           const serviceUrl = `${appname}?hashparam=${hashparam}`;
           window.location.href = `http://passport.ustc.edu.cn/logout?service=${encodeURIComponent(serviceUrl)}`;
+          // window.location.href = `http://passport.ustc.edu.cn/logout?service=${encodeURIComponent(serviceUrl)}`;
         }).catch(() => {
           this.$message({
             type: 'info',
