@@ -71,11 +71,14 @@
           </el-table-column>
           <el-table-column label="操作"
           align="center"
-            width="150">
+            width="200">
             <template slot-scope="scope">
               <el-button size="small"
+                type="primary"
+                icon="el-icon-edit"
               @click="handleEdit(scope.row)">编辑</el-button>
               <el-button type="danger" size="small"
+                icon="el-icon-delete"
               @click="deleteSchedule(scope.row)">删除</el-button>
             </template>
           </el-table-column>
@@ -521,32 +524,35 @@ export default {
         });
     },
     deleteSchedule(row) {
-      row.resources.forEach((item) => {
-        this.axios.delete(`/api/v1/resources/${item.id}`)
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err.response);
+      this.$confirm('确认删除？')
+        .then(() => {
+          row.resources.forEach((item) => {
+            this.axios.delete(`/api/v1/resources/${item.id}`)
+              .then((res) => {
+                console.log(res);
+              })
+              .catch((err) => {
+                console.log(err.response);
+              });
           });
-      });
-      row.assignments.forEach((item) => {
-        this.axios.delete(`/api/v1/assignments/${item.id}`)
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err.response);
+          row.assignments.forEach((item) => {
+            this.axios.delete(`/api/v1/assignments/${item.id}`)
+              .then((res) => {
+                console.log(res);
+              })
+              .catch((err) => {
+                console.log(err.response);
+              });
           });
-      });
-      this.axios.delete(`/api/v1/schedules/${row.id}`)
-        .then((res) => {
-          console.log(res);
-          this.$store.dispatch('initCourses', { tid: this.$route.params.tid });
-          this.dialogVisible = false;
-        })
-        .catch((err) => {
-          console.log(err.response);
+          this.axios.delete(`/api/v1/schedules/${row.id}`)
+            .then((res) => {
+              console.log(res);
+              this.$store.dispatch('initCourses', { tid: this.$route.params.tid });
+              this.dialogVisible = false;
+            })
+            .catch((err) => {
+              console.log(err.response);
+            });
         });
     },
     thumbnailFilename(filename) {
