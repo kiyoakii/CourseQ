@@ -57,7 +57,8 @@ export default {
   margin-top:20px;
 }
 .active {
-  background: rgba(250, 250, 250, .8);
+  background-color: #ecf5ff;
+  color: #409eff;
 }
 .list-item {
   margin-bottom: 25px;
