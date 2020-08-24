@@ -23,9 +23,9 @@ function successHandler() {
 instance.interceptors.request.use(
   (config) => {
     if (store.state.adminAdminToken) {
-      config.headers.Authentication = `bearer ${store.state.adminAdminToken}`;
+      config.headers.Authorization = `Bearer ${store.state.adminAdminToken}`;
     } else if (store.state.adminTeacherToken) {
-      config.headers.Authentication = `bearer ${store.state.adminTeacherToken}`;
+      config.headers.Authorization = `Bearer ${store.state.adminTeacherToken}`;
     }
     console.log(config, store.state);
     return config;
