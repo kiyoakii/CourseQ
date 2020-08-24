@@ -1,14 +1,42 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <el-container v-show="showUserProfile" style="height: 100vh;">
+      <user-profile
+        :token='token'
+        @submit="change">
+      </user-profile>
+    </el-container>
+    <router-view v-show="!showUserProfile"></router-view>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import UserProfile from './components/UserProfile.vue';
 
 export default {
   name: 'app',
+  components: {
+    UserProfile,
+  },
+  data() {
+    return {
+      showUserProfile: false,
+      token: '',
+    };
+  },
+  methods: {
+    change(options) {
+      this.showUserProfile = options.showUserProfile || false;
+      const { data } = options;
+      console.log(data);
+      const currentUrl = window.location.href;
+      const hashpath = currentUrl.match(/hashpath=([\s\S]+)#\//)[1];
+      this.$store.commit('setToken', data.access_token);
+      this.$store.commit('setGid', data.gid);
+      window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${hashpath}`;
+    },
+  },
   beforeMount() {
     const currentUrl = window.location.href;
     if (currentUrl.includes('hashparam')) {
@@ -20,20 +48,26 @@ export default {
     if (currentUrl.includes('ticket')) {
       const ticket = currentUrl.match(/ticket=([\s\S]+?)&/)[1];
       const service = currentUrl.match(/service=([\s\S]+?)&/)[1];
-      const hashpath = currentUrl.match(/hashpath=([\s\S]+)#\//)[1];
-      axios.get(`/api/v1/token?id=null&ticket=${ticket}&service=${service}`)
+      // const hashpath = currentUrl.match(/hashpath=([\s\S]+)#\//)[1];
+      axios.get(`/api/v1/token?id=null&ticket=${ticket}&service=${service}`,
+        {
+          headers: {
+            Authorization: 'Bearer ',
+          },
+        })
         .then((res) => {
+          console.log(res);
           if (res.status === 200) {
-            if (hashpath.includes('/admin/')) {
-              this.$store.commit('setAdminAdminToken', res.data.access_token);
-            } else {
-              this.$store.commit('setAdminTeacherToken', res.data.access_token);
+            this.token = res.data.access_token;
+            if (res.data.registered) {
+              this.$store.commit('setToken', res.data.access_token);
+              window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}`;
+              return;
             }
-            window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${hashpath}`;
+            this.showUserProfile = true;
           }
         });
-    } else if ((hashPath.includes('/admin/') && !this.$store.state.adminAdminToken)
-      || (hashPath.includes('/teacher/') && !this.$store.state.adminTeacherToken)) {
+    } else if (!this.$store.state.token) {
       const url = `${serviceUrl}${encodeURIComponent(`&apppath=${appPath}&hashpath=${hashPath}`)}`;
       const casUrl = `http://passport.ustc.edu.cn/login?service=${encodeURIComponent(url)}`;
       window.location.href = casUrl;

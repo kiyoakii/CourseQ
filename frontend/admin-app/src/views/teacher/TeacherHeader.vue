@@ -53,8 +53,7 @@ export default {
             type: 'success',
             message: '登出成功!',
           });
-          this.$store.commit('setAdminTeacherToken', '');
-          // window.location.reload();
+          this.$store.commit('setToken', '');
           const currentUrl = window.location.href;
           const appname = currentUrl.slice(0, currentUrl.indexOf('#'));
           const hashparam = currentUrl.match(/\/teacher\/\d*\//g);
