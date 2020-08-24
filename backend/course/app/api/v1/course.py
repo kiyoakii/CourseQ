@@ -21,7 +21,7 @@ api = Redprint('course')
 
 
 @api.route('', methods=['GET'])
-@login_required
+# @login_required
 def get_course_list():
     return jsonify(Course.query.filter_by().all())
 
@@ -43,7 +43,7 @@ def create_course():
 @api.route('/<int:cid>', methods=['GET'])
 # @jwt_required
 # @role_required(UserTypeEnum.TEACHER)
-@login_required
+# @login_required
 def get_course(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     course.fields.append('series_courses')
