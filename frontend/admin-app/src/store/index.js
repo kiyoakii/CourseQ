@@ -17,8 +17,8 @@ export default new Vuex.Store({
     allTeachers: [],
     allStudents: [],
     courses: [],
-    adminAdminToken: '',
-    adminTeacherToken: '',
+    token: '',
+    gid: '',
   },
   getters: {
     adminAllCourses(state) {
@@ -66,11 +66,11 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    setAdminAdminToken(state, token) {
-      state.adminAdminToken = token;
+    setGid(state, gid) {
+      state.gid = gid;
     },
-    setAdminTeacherToken(state, token) {
-      state.adminTeacherToken = token;
+    setToken(state, token) {
+      state.token = token;
     },
     initAllCourses(state, { courses }) {
       state.allCourses.splice(0, state.allCourses.length);
