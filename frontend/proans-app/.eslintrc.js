@@ -19,6 +19,7 @@ module.exports = {
     'arrow-body-style': 'off',
     'no-param-reassign': 'off',
     'import/prefer-default-export': 'off',
+    'prefer-destructuring': 'off',
   },
   overrides: [
     {

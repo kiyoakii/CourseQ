@@ -106,12 +106,10 @@ export default {
     this.initStore();
     this.$store.dispatch('setCommentList');
   },
-  created() {
+  mounted() {
+    this.$store.dispatch('initProblems');
     this.initStore();
     this.$store.dispatch('setCommentList');
-  },
-  beforeCreate() {
-    this.$store.dispatch('initProblems');
   },
 };
 </script>
