@@ -1,8 +1,9 @@
-from flask import jsonify
+from flask import jsonify, g
 
 from app.libs.error_code import Success, DeleteSuccess, UpVoteSuccess, CancelUpVoteSuccess, Duplicate, LockForbidden
 from app.libs.lock import question_lock
 from app.libs.redprint import Redprint
+from app.libs.token_auth import login_required
 from app.models.answer import Answer
 from app.models.base import db
 from app.models.discussion import DiscussionTopic
@@ -16,6 +17,7 @@ api = Redprint('question')
 
 
 @api.route('/<int:qid>', methods=['PUT'])
+@login_required
 def update_question(qid):
     question = Question.query.get_or_404(qid)
     form = QuestionUpdateForm().validate_for_api()
@@ -39,6 +41,7 @@ def update_question(qid):
 
 
 @api.route('/<int:qid>', methods=['DELETE'])
+@login_required
 def delete_question(qid):
     question = Question.query.get_or_404(qid)
     with db.auto_commit():
@@ -47,24 +50,21 @@ def delete_question(qid):
 
 
 @api.route('/<int:qid>', methods=['GET'])
+@login_required
 def get_question(qid):
     question = Question.query.get_or_404(qid)
     return jsonify(question)
 
 
-@api.route('/<int:qid>/star', methods=['POST'])
-def star_question(qid):
-    pass
-
-
 @api.route('/<int:qid>/answers', methods=['POST'])
+@login_required
 def create_answer(qid):
     question = Question.query.get_or_404(qid)
     form = AnswerForm().validate_for_api()
     with db.auto_commit():
         answer = Answer(
             content=form.content.data,
-            author_gid='0000000000',
+            author_gid=g.user.gid,
             # author_gid=g.user.gid
         )
         if form.is_teacher.data:
@@ -86,12 +86,14 @@ def create_answer(qid):
 
 
 @api.route('/<int:qid>/answers', methods=['GET'])
+@login_required
 def list_answer(qid):
     question = Question.query.get_or_404(qid)
     return jsonify(question.answers)
 
 
 @api.route('/<int:qid>/discussions', methods=['POST'])
+@login_required
 def create_topic(qid):
     question = Question.query.get_or_404(qid)
     form = TopicCreateForm().validate_for_api()
@@ -99,7 +101,7 @@ def create_topic(qid):
         topic = DiscussionTopic(
             question_id=question.id,
             # author_gid=g.user.gid,
-            author_gid='0000000000'
+            author_gid=g.user.gid
         )
         form.populate_obj(topic)
         db.session.add(topic)
@@ -107,23 +109,26 @@ def create_topic(qid):
 
 
 @api.route('/<int:qid>/discussions', methods=['GET'])
+@login_required
 def list_topic(qid):
     question = Question.query.get_or_404(qid)
     return jsonify(question.discussions)
 
 
 @api.route('/<int:qid>/history', methods=['GET'])
+@login_required
 def list_history(qid):
     question = Question.query.get_or_404(qid)
     return jsonify(question.history_questions)
 
 
 @api.route('/<int:qid>/like', methods=['POST'])
+@login_required
 def up_vote(qid):
     question = Question.query.get_or_404(qid)
     question_up_vote = QuestionUpVote.query \
         .filter_by(question_id=question.id) \
-        .filter_by(user_gid='0000000000')
+        .filter_by(user_gid=g.user.gid)
     if question_up_vote.count():
         with db.auto_commit():
             db.session.delete(question_up_vote.first())
@@ -132,32 +137,38 @@ def up_vote(qid):
         with db.auto_commit():
             question_up_vote = QuestionUpVote(
                 question_id=question.id,
-                user_gid='0000000000'
+                user_gid=g.user.gid
             )
             db.session.add(question_up_vote)
         return UpVoteSuccess()
 
 
 @api.route('/<int:qid>/like', methods=['GET'])
+@login_required
 def get_vote_num(qid):
     question = Question.query.get_or_404(qid)
     return jsonify({'likes': sum(map(lambda vote: vote.status == 1, question.up_votes))})
 
 
 @api.route('/<int:qid>/lock', methods=['POST'])
+@login_required
 def lock_question(qid):
-    if not question_lock.user(qid) or question_lock.user(qid) == '0000000000':
-        question_lock.lock(qid, '0000000000')
+    if not question_lock.user(qid) or question_lock.user(qid) == g.user.gid:
+        question_lock.lock(qid, g.user.gid)
         return Success()
     return LockForbidden()
 
 
 @api.route('/<int:qid>/unlock', methods=['POST'])
+@login_required
 def unlock_question(qid):
+    if question_lock.user(qid) != g.user.gid:
+        return LockForbidden()
     question_lock.unlock(qid)
     return Success()
 
 
 @api.route('/<int:qid>/isLocked', methods=['GET'])
+@login_required
 def get_lock(qid):
     return jsonify({'isLocked': question_lock.is_locked(qid), 'user': question_lock.user(qid)})
