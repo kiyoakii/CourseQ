@@ -148,8 +148,8 @@ export default new Vuex.Store({
     initProblems(context) {
       axios.get(`/api/v1/courses/${context.state.cid}/questions`, {
         headers: {
-          Authentication: `bearer ${context.state.proansToken}`
-        }
+          Authentication: `bearer ${context.state.proansToken}`,
+        },
       }).then((res) => {
         if (res.status === 200) {
           context.commit('initProblems', res.data);
@@ -160,8 +160,8 @@ export default new Vuex.Store({
       console.log(111, problem);
       axios.get(`/api/v1/questions/${problem.id || context.state.qid}`, {
         headers: {
-          Authentication: `bearer ${context.state.proansToken}`
-        }
+          Authentication: `bearer ${context.state.proansToken}`,
+        },
       }).then((res) => {
         console.log(333, res);
         if (res.status === 200) {
@@ -172,8 +172,8 @@ export default new Vuex.Store({
     setCommentList(context) {
       axios.get(`/api/v1/questions/${context.state.qid}/discussions`, {
         headers: {
-          Authentication: `bearer ${context.state.proansToken}`
-        }
+          Authentication: `bearer ${context.state.proansToken}`,
+        },
       }).then((res) => {
         console.log(res);
         if (res.status !== 200) {
