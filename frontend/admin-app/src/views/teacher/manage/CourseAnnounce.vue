@@ -102,11 +102,14 @@ export default {
       this.dialogVisible = true;
     },
     handleDelete(aid) {
-      this.axios.delete(`/api/v1/announces/${aid}`,
-        this.form)
-        .then((res) => {
-          console.log(res);
-          this.$store.dispatch('initCourses', { tid: this.$route.params.tid });
+      this.$confirm('确认刪除？')
+        .then(() => {
+          this.axios.delete(`/api/v1/announces/${aid}`,
+            this.form)
+            .then((res) => {
+              console.log(res);
+              this.$store.dispatch('initCourses', { tid: this.$route.params.tid });
+            });
         });
     },
   },
