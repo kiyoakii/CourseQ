@@ -93,7 +93,7 @@ export default new Vuex.Store({
     initAllCourses(context) {
       axios.get('/api/v1/courses', {
         headers: {
-          Authorization: `Bearer ${context.state.adminAdminToken}`,
+          Authorization: `Bearer ${context.state.token}`,
         },
       }).then((res) => {
         console.log('courses request success: ', res);
@@ -106,7 +106,7 @@ export default new Vuex.Store({
     initAllTeachers(context) {
       axios.get('/api/v1/users/teachers', {
         headers: {
-          Authorization: `Bearer ${context.state.adminAdminToken}`,
+          Authorization: `Bearer ${context.state.token}`,
         },
       }).then((res) => {
         console.log('teachers request success: ', res);
@@ -119,7 +119,7 @@ export default new Vuex.Store({
     initAllStudents(context) {
       axios.get('/api/v1/users/students', {
         headers: {
-          Authorization: `Bearer ${context.state.adminAdminToken}`,
+          Authorization: `Bearer ${context.state.token}`,
         },
       }).then((res) => {
         console.log('students request success: ', res);
@@ -132,7 +132,7 @@ export default new Vuex.Store({
     initCourses(context, { tid }) {
       axios.get(`/api/v1/users/${tid}/courses`, {
         headers: {
-          Authorization: `Bearer ${context.state.adminTeacherToken || context.state.adminAdminToken}`,
+          Authorization: `Bearer ${context.state.token}`,
         },
       }).then((res) => {
         console.log('courses get: ', res);
