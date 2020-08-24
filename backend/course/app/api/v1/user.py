@@ -4,6 +4,7 @@ from flask_jwt_extended import create_access_token
 from app.libs.enums import UserTypeEnum
 from app.libs.error_code import DeleteSuccess, RegisterSuccess, Success
 from app.libs.redprint import Redprint
+from app.libs.token_auth import login_required
 from app.models.base import db
 from app.models.user import User
 from app.validators.forms import UserForm, UserUpdateForm
@@ -40,7 +41,7 @@ def update_user(gid):
 
 
 @api.route('', methods=['GET'])
-# @login_required
+@login_required
 def get_user():
     gid = g.user.gid
     user = User.query.filter_by(gid=gid).first_or_404()
@@ -48,6 +49,7 @@ def get_user():
 
 
 @api.route('/<string:gid>', methods=['DELETE'])
+@login_required
 def delete_user(gid):
     # gid = g.user.gid
     with db.auto_commit():
@@ -60,10 +62,10 @@ def delete_user(gid):
 # @login_required
 def register():
     form = UserForm().validate_for_api()
-    user = User().register(form.nickname.data,
-                           form.email.data,
-                           g.user.gid,
-                           g.user.uid)
+    user = User.register(form.nickname.data,
+                         form.email.data,
+                         g.user.gid,
+                         g.user.uid)
     scope = User.assign_scope(user)
     identity = {
         'scope': scope,

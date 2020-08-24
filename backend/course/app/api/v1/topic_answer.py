@@ -2,6 +2,7 @@ from flask import jsonify, g
 
 from app.libs.error_code import Success, DeleteSuccess
 from app.libs.redprint import Redprint
+from app.libs.token_auth import login_required
 from app.models.base import db
 from app.models.discussion import DiscussionAnswer
 from app.validators.forms import TopicAnswerForm
@@ -10,6 +11,7 @@ api = Redprint('topic_answer')
 
 
 @api.route('/<int:topic_answer_id>', methods=['POST'])
+@login_required
 def answer_discussion(topic_answer_id):
     topic_answer = DiscussionAnswer.query.get_or_404(topic_answer_id)
     form = TopicAnswerForm().validate_for_api()
@@ -25,12 +27,14 @@ def answer_discussion(topic_answer_id):
 
 
 @api.route('/<int:topic_answer_id>', methods=['GET'])
+@login_required
 def get_answer_discussion(topic_answer_id):
     topic_answer = DiscussionAnswer.query.get_or_404(topic_answer_id)
     return jsonify(topic_answer)
 
 
 @api.route('/<int:topic_answer_id>', methods=['PUT'])
+@login_required
 def update_answer_discussion(topic_answer_id):
     topic_answer = DiscussionAnswer.query.get_or_404(topic_answer_id)
     form = TopicAnswerForm().validate_for_api()
@@ -40,6 +44,7 @@ def update_answer_discussion(topic_answer_id):
 
 
 @api.route('/<int:topic_answer_id>', methods=['DELETE'])
+@login_required
 def delete_answer_discussion(topic_answer_id):
     topic_answer = DiscussionAnswer.query.get_or_404(topic_answer_id)
     with db.auto_commit():

@@ -11,7 +11,7 @@ jwt = JWTManager()
 
 # Endpoint-based
 @wrapt.decorator
-def login_required(wrapped, instance, args, kwargs):
+def login_required(wrapped, *args, **kwargs):
     verify_jwt_in_request()
     user = get_jwt_identity()
     if not is_in_scope(user['scope'], request.endpoint):
