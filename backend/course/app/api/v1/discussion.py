@@ -38,8 +38,7 @@ def answer_discussion(did):
         answer = DiscussionAnswer(
             content=form.content.data,
             topic_id=topic.id,
-            # author_id=g.user.gid
-            author_gid=g.user.gid
+            author_gid=g.user['gid']
         )
         db.session.add(answer)
     return Success()

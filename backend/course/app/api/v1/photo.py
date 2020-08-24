@@ -32,7 +32,7 @@ def upload_photo():
             photo = Photo()
             photo.filename = filename
             photo.file = random_filename
-            photo.author_gid = g.user.gid
+            photo.author_gid = g.user['gid']
             db.session.add(photo)
         return jsonify(photo)
     else:
@@ -42,7 +42,7 @@ def upload_photo():
 @api.route('', methods=['GET'])
 @login_required
 def get_photo():
-    user = User.query.get_or_404(g.user.gid)
+    user = User.query.get_or_404(g.user['gid'])
     return jsonify(user.photos)
 
 
