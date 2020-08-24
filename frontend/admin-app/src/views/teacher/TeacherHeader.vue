@@ -22,7 +22,7 @@
         </el-dropdown>
       </div>
     </el-col>
-    <profile :dialogVisible.sync="dialogVisible" :id="this.$store.state.gid"></profile>
+    <profile :dialogVisible.sync="dialogVisible" :id="$store.state.gid"></profile>
   </el-row>
 </template>
 
