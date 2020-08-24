@@ -20,7 +20,7 @@ def answer_discussion(topic_answer_id):
             content=form.content.data,
             topic_id=topic_answer.topic_id,
             reply_id=topic_answer.id,
-            author_id=g.user.gid
+            author_id=g.user['gid']
         )
         db.session.add(answer)
     return Success()

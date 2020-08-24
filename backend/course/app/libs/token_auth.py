@@ -17,7 +17,7 @@ def login_required(wrapped, *args, **kwargs):
     if not is_in_scope(user['scope'], request.endpoint):
         raise Forbidden
     g.user = user
-    return wrapped(*args, **kwargs)
+    return wrapped()
 
 
 # Object-based

@@ -2,7 +2,7 @@ from flask import jsonify, g
 from flask_jwt_extended import create_access_token
 
 from app.libs.enums import UserTypeEnum
-from app.libs.error_code import DeleteSuccess, RegisterSuccess, Success
+from app.libs.error_code import DeleteSuccess, Success
 from app.libs.redprint import Redprint
 from app.libs.token_auth import login_required
 from app.models.base import db
@@ -43,7 +43,7 @@ def update_user(gid):
 @api.route('', methods=['GET'])
 @login_required
 def get_user():
-    gid = g.user.gid
+    gid = g.user['gid']
     user = User.query.filter_by(gid=gid).first_or_404()
     return jsonify(user)
 
@@ -51,7 +51,7 @@ def get_user():
 @api.route('/<string:gid>', methods=['DELETE'])
 @login_required
 def delete_user(gid):
-    # gid = g.user.gid
+    # gid = g.user['gid']
     with db.auto_commit():
         user = User.query.filter_by(gid=gid).first_or_404()
         db.session.delete(user)
@@ -64,17 +64,17 @@ def register():
     form = UserForm().validate_for_api()
     user = User.register(form.nickname.data,
                          form.email.data,
-                         g.user.gid,
-                         g.user.uid)
+                         g.user['gid'],
+                         g.user['uid'])
     scope = User.assign_scope(user)
     identity = {
         'scope': scope,
-        'uid': g.user.uid,
-        'gid': g.user.gid
+        'uid': g.user['uid'],
+        'gid': g.user['gid']
     }
     access_token = create_access_token(identity)
 
-    return RegisterSuccess(access_token)
+    return jsonify({'access_token': access_token, 'registered': user['scope'] == 'Scope'})
 
 
 @api.route('/<string:gid>/courses', methods=['GET'])
