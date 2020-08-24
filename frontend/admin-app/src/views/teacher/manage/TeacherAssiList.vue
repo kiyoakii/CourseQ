@@ -52,6 +52,7 @@ import DataTableSearchBar from '@/components/DataTableSearchBar.vue';
 import DataTable from '@/components/DataTable.vue';
 import { memberTable } from '@/helpers/table';
 import { memberFilter } from '@/helpers/filters';
+import { instance } from '@/helpers/instances';
 
 export default {
   name: 'TeacherAssiList',
@@ -105,7 +106,7 @@ export default {
         del_TAs_gid: [],
       };
       data.del_TAs_gid.push(row.id);
-      this.axios.patch(`/api/v1/courses/${this.$route.params.cid}`,
+      instance.patch(`/api/v1/courses/${this.$route.params.cid}`,
         data)
         .then((res) => {
           console.log(res);
@@ -134,7 +135,7 @@ export default {
         console.log({ id: stu.id });
         data.new_TAs_gid.push(stu.id);
       });
-      this.axios.patch(`/api/v1/courses/${this.$route.params.cid}`,
+      instance.patch(`/api/v1/courses/${this.$route.params.cid}`,
         data)
         .then((res) => {
           console.log(res);

@@ -49,18 +49,14 @@ export default {
       const ticket = currentUrl.match(/ticket=([\s\S]+?)&/)[1];
       const service = currentUrl.match(/service=([\s\S]+?)&/)[1];
       // const hashpath = currentUrl.match(/hashpath=([\s\S]+)#\//)[1];
-      axios.get(`/api/v1/token?id=null&ticket=${ticket}&service=${service}`,
-        {
-          headers: {
-            Authorization: 'Bearer ',
-          },
-        })
+      axios.get(`/api/v1/token?id=null&ticket=${ticket}&service=${service}`)
         .then((res) => {
           console.log(res);
           if (res.status === 200) {
             this.token = res.data.access_token;
             if (res.data.registered) {
               this.$store.commit('setToken', res.data.access_token);
+              this.$store.commit('setGid', res.data.gid);
               window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}`;
               return;
             }

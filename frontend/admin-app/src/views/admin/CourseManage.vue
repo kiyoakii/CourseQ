@@ -78,8 +78,9 @@
 
 <script>
 import DataTableSearchBar from '@/components/DataTableSearchBar.vue';
-import DataTable from '../../components/DataTable.vue';
-import { courseTable } from '../../helpers/table';
+import DataTable from '@/components/DataTable.vue';
+import { instance } from '@/helpers/instances';
+import { courseTable } from '@/helpers/table';
 
 export default {
   name: 'CourseManage',
@@ -183,7 +184,7 @@ export default {
             },
           };
         }
-        this.axios(options).then((res) => {
+        instance(options).then((res) => {
           if (res.status !== 200) {
             return;
           }
@@ -234,7 +235,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning',
       }).then(() => {
-        this.axios({
+        instance({
           url: `/api/v1/courses/${row.id}`,
           method: 'delete',
         }).then((res) => {

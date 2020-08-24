@@ -49,6 +49,8 @@
 </template>
 
 <script>
+import { instance } from '@/helpers/instances';
+
 export default {
   name: 'CourseAnnounce',
   props: {
@@ -104,7 +106,7 @@ export default {
     handleDelete(aid) {
       this.$confirm('确认刪除？')
         .then(() => {
-          this.axios.delete(`/api/v1/announces/${aid}`,
+          instance.delete(`/api/v1/announces/${aid}`,
             this.form)
             .then((res) => {
               console.log(res);

@@ -74,6 +74,8 @@
 </template>
 
 <script>
+import { instance } from '@/helpers/instances';
+
 export default {
   name: 'CourseIntro',
   props: {
@@ -120,7 +122,7 @@ export default {
         del_students_gid: [],
         del_TAs_gid: [],
       };
-      this.axios.patch(`/api/v1/courses/${this.$route.params.cid}`,
+      instance.patch(`/api/v1/courses/${this.$route.params.cid}`,
         data)
         .then((res) => {
           console.log(res);
