@@ -1,5 +1,6 @@
 from app.libs.error_code import DeleteSuccess, Success
 from app.libs.redprint import Redprint
+from app.libs.token_auth import login_required
 from app.models import Announce
 from app.models.base import db
 from app.validators.forms import AnnounceForm
@@ -7,6 +8,7 @@ from app.validators.forms import AnnounceForm
 api = Redprint('announce')
 
 
+@login_required
 @api.route('/<int:pk>', methods=['DELETE'])
 def delete_announce(pk):
     announce = Announce.query.get_or_404(pk)
@@ -15,6 +17,7 @@ def delete_announce(pk):
     return DeleteSuccess()
 
 
+@login_required
 @api.route('/<int:pk>', methods=['PUT'])
 def update_announce(pk):
     announce = Announce.query.get_or_404(pk)

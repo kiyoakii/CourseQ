@@ -2,6 +2,7 @@ from flask import jsonify
 
 from app.libs.error_code import Success, DeleteSuccess
 from app.libs.redprint import Redprint
+from app.libs.token_auth import login_required
 from app.models import CourseResource, Assignment
 from app.models.base import db
 from app.models.schedule import Schedule
@@ -11,12 +12,14 @@ api = Redprint('schedule')
 
 
 @api.route('/<int:sid>', methods=['GET'])
+@login_required
 def get_schedule(sid):
     schedule = Schedule.query.get_or_404(sid)
     return jsonify(schedule)
 
 
 @api.route('/<int:sid>', methods=['PUT'])
+@login_required
 def update_schedule(sid):
     schedule = Schedule.query.get_or_404(sid)
     form = ScheduleUpdateForm().validate_for_api()
@@ -30,6 +33,7 @@ def update_schedule(sid):
 
 
 @api.route('/<int:sid>', methods=['DELETE'])
+@login_required
 def delete_schedule(sid):
     schedule = Schedule.query.get_or_404(sid)
     with db.auto_commit():
