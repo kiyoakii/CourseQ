@@ -64,8 +64,8 @@ def create_answer(qid):
     with db.auto_commit():
         answer = Answer(
             content=form.content.data,
-            author_gid=g.user.gid,
-            # author_gid=g.user.gid
+            author_gid=g.user['gid'],
+            # author_gid=g.user['gid']
         )
         if form.is_teacher.data:
             if not question.teacher_aid:
@@ -100,8 +100,8 @@ def create_topic(qid):
     with db.auto_commit():
         topic = DiscussionTopic(
             question_id=question.id,
-            # author_gid=g.user.gid,
-            author_gid=g.user.gid
+            # author_gid=g.user['gid'],
+            author_gid=g.user['gid']
         )
         form.populate_obj(topic)
         db.session.add(topic)
@@ -128,7 +128,7 @@ def up_vote(qid):
     question = Question.query.get_or_404(qid)
     question_up_vote = QuestionUpVote.query \
         .filter_by(question_id=question.id) \
-        .filter_by(user_gid=g.user.gid)
+        .filter_by(user_gid=g.user['gid'])
     if question_up_vote.count():
         with db.auto_commit():
             db.session.delete(question_up_vote.first())
@@ -137,7 +137,7 @@ def up_vote(qid):
         with db.auto_commit():
             question_up_vote = QuestionUpVote(
                 question_id=question.id,
-                user_gid=g.user.gid
+                user_gid=g.user['gid']
             )
             db.session.add(question_up_vote)
         return UpVoteSuccess()
@@ -153,8 +153,8 @@ def get_vote_num(qid):
 @api.route('/<int:qid>/lock', methods=['POST'])
 @login_required
 def lock_question(qid):
-    if not question_lock.user(qid) or question_lock.user(qid) == g.user.gid:
-        question_lock.lock(qid, g.user.gid)
+    if not question_lock.user(qid) or question_lock.user(qid) == g.user['gid']:
+        question_lock.lock(qid, g.user['gid'])
         return Success()
     return LockForbidden()
 
@@ -162,7 +162,7 @@ def lock_question(qid):
 @api.route('/<int:qid>/unlock', methods=['POST'])
 @login_required
 def unlock_question(qid):
-    if question_lock.user(qid) != g.user.gid:
+    if question_lock.user(qid) != g.user['gid']:
         return LockForbidden()
     question_lock.unlock(qid)
     return Success()

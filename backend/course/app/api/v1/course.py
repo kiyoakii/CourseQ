@@ -98,7 +98,7 @@ def create_question(cid):
             title=form.title.data,
             content=form.content.data,
             course_id=course.cid,
-            author_gid=g.user.gid
+            author_gid=g.user['gid']
         )
         history = History(root_question=question)
         for tag_name in form.tags.data:
