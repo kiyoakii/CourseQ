@@ -38,6 +38,30 @@
 </template>
 
 <script>
+import axios from 'axios';
+
+export function isPhone(rule, value, callback) {
+  const reg = /^[1][3,4,5,7,8][0-9]{9}$/;
+  if (value === '' || value === undefined || value === null) {
+    callback();
+  } else if ((!reg.test(value)) && value !== '') {
+    console.log('invalid phone!');
+    callback(new Error('请输入正确的电话号码'));
+  } else {
+    callback();
+  }
+}
+export function isEmail(rule, value, callback) {
+  const reg = /^([a-zA-Z0-9]+[-_.]?)+@[a-zA-Z0-9]+\.[a-z]+$/;
+  if (value === '' || value === undefined || value == null) {
+    callback();
+  } else if (!reg.test(value)) {
+    console.log('invalid email!');
+    callback(new Error('请输入正确的邮箱地址'));
+  } else {
+    callback();
+  }
+}
 export default {
   name: 'Profile',
   props: {
@@ -46,30 +70,32 @@ export default {
       default: false,
     },
     id: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: '',
     },
   },
   data() {
     return {
       visible: false,
       form: {
-        id: 123,
-        name: '123',
-        nickname: '1234',
-        email: '123@',
-        phone: '112',
-        school: '12',
+        id: '',
+        name: '',
+        nickname: '',
+        email: '',
+        phone: '',
+        school: '',
       },
       rules: {
         nickname: [
           { required: true, message: '请输入昵称', trigger: ['change', 'blur'] },
         ],
         email: [
-          { required: true, message: '请输入邮箱', trigger: ['change', 'blur'] },
+          {
+            validator: isEmail, required: true, message: '请输入正确的邮箱', trigger: ['change', 'blur'],
+          },
         ],
         phone: [
-          { message: '请输入联系电话', trigger: ['change', 'blur'] },
+          { validator: isPhone, message: '请输入正确的联系电话', trigger: ['change', 'blur'] },
         ],
       },
     };
@@ -82,6 +108,14 @@ export default {
   mounted() {
     console.log(this.id);
     this.form.id = this.id;
+    axios.get(`/api/v1/users/${this.id}`).then((res) => {
+      console.log(res);
+      if (res.status === 200) {
+        this.form.nickname = res.data.nickname;
+        this.form.email = res.data.email;
+        this.form.phone = res.data.phone;
+      }
+    });
   },
   methods: {
     handleCancel() {
@@ -93,6 +127,14 @@ export default {
           this.$message.error('请正确填写完表格再提交！');
           return;
         }
+        axios.put(`/api/v1/users/${id}`, {
+          id: this.form.id,
+          name: this.form.name,
+          nickname: this.form.nickname,
+          email: this.form.email,
+          phone: this.form.phone,
+          school: this.form.school,
+        });
         console.log(id);
         this.$emit('update:dialogVisible', false);
       });
