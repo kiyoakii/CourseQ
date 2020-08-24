@@ -1,86 +1,101 @@
 <template>
   <div>
-    <!-- This is Profile view. -->
-    <el-header>
-      <div class="header">
-        <router-link to="/">
-          <el-button type="primary" plain>答疑平台</el-button>
-        </router-link>
-      </div>
-      <el-avatar :src="img"></el-avatar>
-    </el-header>
-    <el-main>
+    <el-dialog
+      title='个人资料' @close="handleCancel"
+      :visible.sync="visible" :dialogVisible="dialogVisible"
+      width="720px">
       <el-row type="flex" justify="center">
-        <el-col :span="8" type="flex" justify="center">
-          <el-row>
-            <div>
-              <div class="block">
-                <el-avatar :size="200" :src="img"></el-avatar>
-              </div>
-            </div>
-          </el-row>
-          <el-row class="photo-change">
-            <el-upload
-              class="upload-demo"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload"
-              :file-list="fileList">
-              <el-button>更换头像</el-button>
-            </el-upload>
-          </el-row>
-        </el-col>
-        <el-col :span="14" class="name">
-          <el-row>
-            <el-col :span="6">
-              <h2>{{name}}</h2>
-            </el-col>
-            <el-col :span="4">
-              <el-button>修改密码</el-button>
-            </el-col>
-            <el-col :span="4">
-              <el-button>修改个人信息</el-button>
-            </el-col>
-          </el-row>
+        <el-col :span="20">
+          <el-form label-position="left" label-width="140px"
+            :model="form" :rules="rules" ref="form">
+            <el-form-item label="学号">
+              <el-input v-model="form.id" :disabled="true"></el-input>
+            </el-form-item>
+            <el-form-item label="姓名">
+              <el-input v-model="form.name" :disabled="true"></el-input>
+            </el-form-item>
+            <el-form-item label="昵称" prop="nickname">
+              <el-input v-model="form.nickname"></el-input>
+            </el-form-item>
+            <el-form-item label="邮箱" prop="email">
+              <el-input v-model="form.email"></el-input>
+            </el-form-item>
+            <el-form-item label="电话" prop="phone">
+              <el-input v-model="form.phone"></el-input>
+            </el-form-item>
+            <el-form-item label="学院">
+              <el-input v-model="form.school" :disabled="true"></el-input>
+            </el-form-item>
+          </el-form>
         </el-col>
       </el-row>
-      <el-row>
-        <el-card class="info">
-          <div slot="header">
-            <h3>个人信息</h3>
-          </div>
-          {{info}}
-        </el-card>
-      </el-row>
-    </el-main>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="handleCancel">取 消</el-button>
+        <el-button type="primary" @click="submit(form.id)">确 定</el-button>
+      </span>
+  </el-dialog>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Profile',
+  props: {
+    dialogVisible: {
+      type: Boolean,
+      default: false,
+    },
+    id: {
+      type: Number,
+      default: 0,
+    },
+  },
   data() {
     return {
-      name: '学生姓名',
-      info: '个人信息',
-      img: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
+      visible: false,
+      form: {
+        id: 123,
+        name: '123',
+        nickname: '1234',
+        email: '123@',
+        phone: '112',
+        school: '12',
+      },
+      rules: {
+        nickname: [
+          { required: true, message: '请输入昵称', trigger: ['change', 'blur'] },
+        ],
+        email: [
+          { required: true, message: '请输入邮箱', trigger: ['change', 'blur'] },
+        ],
+        phone: [
+          { message: '请输入联系电话', trigger: ['change', 'blur'] },
+        ],
+      },
     };
   },
-  methods: {
-    handleAvatarSuccess(res, file) {
-      this.img = URL.createObjectURL(file.raw);
+  watch: {
+    dialogVisible() {
+      this.visible = this.dialogVisible;
     },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
-      }
-      return isJPG && isLt2M;
+  },
+  mounted() {
+    console.log(this.id);
+    this.form.id = this.id;
+  },
+  methods: {
+    handleCancel() {
+      this.$emit('update:dialogVisible', false);
+    },
+    submit(id) {
+      this.$refs.form.validate((valid) => {
+        if (!valid) {
+          this.$message.error('请正确填写完表格再提交！');
+          return;
+        }
+        console.log(id);
+        this.$emit('update:dialogVisible', false);
+      });
     },
   },
 };
