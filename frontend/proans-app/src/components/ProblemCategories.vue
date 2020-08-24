@@ -7,7 +7,8 @@
         style="display: block;">
           <el-button :icon="String(activeCategory) === String(item.id) ?
           'el-icon-folder-opened':'el-icon-folder'"
-          :class="item.type" class="category-item"
+          :class="String(activeCategory) === String(item.id) ?
+          'folder-opened' : 'folder-closed'" class="category-item"
           @click="chooseCategory(item.id)">
             {{ item.name }}
           </el-button>
@@ -67,16 +68,6 @@ a {
   text-decoration: none;
 }
 
-.homework {
-  color: #409eff;
-  background-color: #ecf5ff;
-  border-color: #b3d8ff;
-}
-
-.exam {
-  background-color: yellow;
-}
-
 .category-list {
   display: flex;
 }
@@ -85,6 +76,11 @@ a {
   display: flex;
   height: 100%;
   margin: 0 1em;
+}
+
+.folder-opened  {
+  background-color: #ecf5ff;
+  color: #409eff;
 }
 
 
