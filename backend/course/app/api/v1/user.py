@@ -59,7 +59,7 @@ def delete_user(gid):
 
 
 @api.route('/register', methods=['POST'])
-# @login_required
+@login_required
 def register():
     form = UserForm().validate_for_api()
     user = User.register(form.nickname.data,
