@@ -74,7 +74,7 @@ def register():
     }
     access_token = create_access_token(identity)
 
-    return jsonify({'access_token': access_token, 'registered': user['scope'] == 'Scope'})
+    return jsonify({'access_token': access_token, 'registered': user['scope'] != 'Scope', 'gid': user['gid']})
 
 
 @api.route('/<string:gid>/courses', methods=['GET'])

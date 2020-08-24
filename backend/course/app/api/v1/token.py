@@ -14,4 +14,4 @@ def get_token():
     user = User.verify(ticket, service)
     # user = User.query.get_or_404(1)
     access_token = create_access_token(identity=user)
-    return jsonify({'access_token': access_token, 'registered': user['scope'] == 'Scope'})
+    return jsonify({'access_token': access_token, 'registered': user['scope'] != 'Scope', 'gid': user['gid']})
