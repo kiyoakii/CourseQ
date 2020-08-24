@@ -223,6 +223,7 @@
 
 <script>
 import { schedulesFilter } from '@/helpers/filters';
+import { instance } from '@/helpers/instances';
 
 export default {
   name: 'CourseSchedule',
@@ -302,7 +303,7 @@ export default {
       if (this.isRes) {
         formData.append('description', this.form.description);
         const url = `/api/v1/resources/${this.form.fileID}`;
-        this.axios.patch(url,
+        instance.patch(url,
           formData,
           {
             headers: { 'Content-Type': 'multipart/form-data' },
@@ -316,7 +317,7 @@ export default {
         formData.append('title', this.form.title);
         formData.append('ddl', this.form.ddl.toLocaleString('zh-CN'));
         const url = `/api/v1/assignments/${this.form.fileID}`;
-        this.axios.patch(url,
+        instance.patch(url,
           formData,
           {
             headers: { 'Content-Type': 'multipart/form-data' },
@@ -343,7 +344,7 @@ export default {
               url: `/api/v1/courses/${this.$route.params.cid}/schedules`,
             };
           }
-          this.axios({
+          instance({
             ...option,
             data: {
               topic: this.form.topic,
@@ -461,7 +462,7 @@ export default {
       } else {
         rid = this.fileToID[file.uid];
       }
-      this.axios.delete(`/api/v1/resources/${rid}`)
+      instance.delete(`/api/v1/resources/${rid}`)
         .then((res) => {
           console.log(res);
           this.$store.dispatch('initCourses', { tid: this.$route.params.tid });
@@ -478,7 +479,7 @@ export default {
       } else {
         aid = this.fileToID[file.uid];
       }
-      this.axios.delete(`/api/v1/assignments/${aid}`)
+      instance.delete(`/api/v1/assignments/${aid}`)
         .then((res) => {
           console.log(res);
           this.$store.dispatch('initCourses', { tid: this.$route.params.tid });
@@ -492,7 +493,7 @@ export default {
       formData.append('file', params.file);
       formData.append('description', '');
       const url = `/api/v1/courses/${this.$route.params.cid}/resources`;
-      this.axios.post(url,
+      instance.post(url,
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -509,7 +510,7 @@ export default {
       formData.append('title', '无');
       formData.append('ddl', '暂无');
       const url = `/api/v1/courses/${this.$route.params.cid}/assignments`;
-      this.axios.post(url,
+      instance.post(url,
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -527,7 +528,7 @@ export default {
       this.$confirm('确认删除？')
         .then(() => {
           row.resources.forEach((item) => {
-            this.axios.delete(`/api/v1/resources/${item.id}`)
+            instance.delete(`/api/v1/resources/${item.id}`)
               .then((res) => {
                 console.log(res);
               })
@@ -536,7 +537,7 @@ export default {
               });
           });
           row.assignments.forEach((item) => {
-            this.axios.delete(`/api/v1/assignments/${item.id}`)
+            instance.delete(`/api/v1/assignments/${item.id}`)
               .then((res) => {
                 console.log(res);
               })
@@ -544,7 +545,7 @@ export default {
                 console.log(err.response);
               });
           });
-          this.axios.delete(`/api/v1/schedules/${row.id}`)
+          instance.delete(`/api/v1/schedules/${row.id}`)
             .then((res) => {
               console.log(res);
               this.$store.dispatch('initCourses', { tid: this.$route.params.tid });
