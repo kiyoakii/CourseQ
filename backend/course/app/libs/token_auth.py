@@ -3,7 +3,6 @@ from flask import g, request
 from flask_jwt_extended import JWTManager, get_jwt_identity, verify_jwt_in_request
 
 from app.libs.error_code import Forbidden, TokenExpired, TokenInvalid, TokenMissing
-from app.libs.scope import is_in_scope
 from app.models.relation import Enroll
 
 jwt = JWTManager()
@@ -14,8 +13,9 @@ jwt = JWTManager()
 def login_required(wrapped, *args, **kwargs):
     verify_jwt_in_request()
     user = get_jwt_identity()
-    if not is_in_scope(user['scope'], request.endpoint):
-        raise Forbidden
+    print(request.endpoint)
+    # if not is_in_scope(user['scope'], request.endpoint):
+    #     raise Forbidden
     g.user = user
     return wrapped()
 
