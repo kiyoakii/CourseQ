@@ -135,8 +135,9 @@ export default {
         del_TAs_gid: [],
       };
       this.selectedStus.forEach((stu) => {
-        console.log({ id: stu.id });
-        data.new_students_gid.push(stu.id);
+        if (!this.allInfo.students.find((item) => item.gid === stu.id)) {
+          data.new_students_gid.push(stu.id);
+        }
       });
       instance.patch(`/api/v1/courses/${this.$route.params.cid}`,
         data)
