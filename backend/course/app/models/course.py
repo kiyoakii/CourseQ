@@ -37,3 +37,7 @@ class Course(Base):
     @property
     def series_courses(self):
         return Course.query.filter(Course.series == self.series).filter(Course.cid != self.cid).all()
+
+    @property
+    def belong_course(self):
+        return self.cid

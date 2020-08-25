@@ -21,6 +21,9 @@ class CourseResource(Base):
     def url(self):
         return request.url_root + 'static/uploads/' + self.file
 
+    @property
+    def belong_course(self):
+        return self.course_id
 
 class Photo(Base):
     id = Column(Integer, primary_key=True)

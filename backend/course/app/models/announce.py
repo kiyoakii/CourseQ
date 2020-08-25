@@ -17,3 +17,7 @@ class Announce(Base):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields = ['id', 'create_datetime', 'title', 'content', 'author']
+
+    @property
+    def belong_course(self):
+        return self.course_cid

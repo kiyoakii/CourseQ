@@ -20,3 +20,7 @@ class Schedule(Base):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields = ['id', 'week', 'topic', 'reference', 'assignments', 'resources', 'additional_info', 'datetime']
+
+    @property
+    def belong_course(self):
+        return self.course_id

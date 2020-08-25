@@ -23,3 +23,7 @@ class Assignment(Base):
     def url(self):
         if self.file:
             return request.url_root + 'static/uploads/' + self.file
+
+    @property
+    def belong_course(self):
+        return self.course_cid
