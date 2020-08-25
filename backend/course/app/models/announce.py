@@ -21,3 +21,7 @@ class Announce(Base):
     @property
     def belong_course(self):
         return self.course_cid
+
+    @property
+    def belong_author(self):
+        return self.author_gid

@@ -19,3 +19,7 @@ class Answer(Base):
     @property
     def update_datetime(self):
         return datetime.fromtimestamp(self.create_time)
+
+    @property
+    def belong_author(self):
+        return self.author_gid

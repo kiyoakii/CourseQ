@@ -54,3 +54,7 @@ class Question(Base):
     @property
     def belong_course(self):
         return self.course_id
+
+    @property
+    def belong_author(self):
+        return self.author_gid
