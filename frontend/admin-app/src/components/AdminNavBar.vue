@@ -2,9 +2,9 @@
   <div>
     <el-menu :default-active="activeRoute" class="el-menu-demo"
       mode="horizontal" router>
-      <el-menu-item index="/admin/1/courses">课程管理</el-menu-item>
-      <el-menu-item index="/admin/1/teachers">教师管理</el-menu-item>
-      <el-menu-item index="/admin/1/students">学生管理</el-menu-item>
+      <el-menu-item :index="`/admin/${$route.params.aid}/courses`">课程管理</el-menu-item>
+      <el-menu-item :index="`/admin/${$route.params.aid}/teachers`">教师管理</el-menu-item>
+      <el-menu-item :index="`/admin/${$route.params.aid}/students`">学生管理</el-menu-item>
     </el-menu>
   </div>
 </template>
