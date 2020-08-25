@@ -40,8 +40,6 @@ def create_course():
 
 
 @api.route('/<int:cid>', methods=['GET'])
-@role_required(UserTypeEnum.MANAGER)
-@enroll_required(Course)
 def get_course(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     course.fields.append('series_courses')
