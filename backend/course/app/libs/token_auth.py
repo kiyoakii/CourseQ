@@ -26,8 +26,6 @@ def role_required(required_role):
         verify_jwt_in_request()
         user = get_jwt_identity()
         role = UserTypeEnum.scope_to_role(user['scope'])
-        print(role)
-        print(required_role)
         if not role or role.value < required_role.value:
             raise Forbidden
         return wrapped(*args, **kwargs)
