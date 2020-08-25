@@ -1,9 +1,10 @@
 from flask import jsonify, g
 
+from app.libs.enums import UserTypeEnum
 from app.libs.error_code import Success, DeleteSuccess, UpVoteSuccess, CancelUpVoteSuccess, Duplicate, LockForbidden
 from app.libs.lock import question_lock
 from app.libs.redprint import Redprint
-from app.libs.token_auth import login_required
+from app.libs.token_auth import login_required, role_required, enroll_required
 from app.models.answer import Answer
 from app.models.base import db
 from app.models.discussion import DiscussionTopic
@@ -17,7 +18,8 @@ api = Redprint('question')
 
 
 @api.route('/<int:qid>', methods=['PUT'])
-@login_required
+@role_required(UserTypeEnum.TEACHER)
+@enroll_required(Question)
 def update_question(qid):
     question = Question.query.get_or_404(qid)
     form = QuestionUpdateForm().validate_for_api()
@@ -41,7 +43,8 @@ def update_question(qid):
 
 
 @api.route('/<int:qid>', methods=['DELETE'])
-@login_required
+@role_required(UserTypeEnum.TEACHER)
+@enroll_required(Question)
 def delete_question(qid):
     question = Question.query.get_or_404(qid)
     with db.auto_commit():
@@ -50,14 +53,16 @@ def delete_question(qid):
 
 
 @api.route('/<int:qid>', methods=['GET'])
-@login_required
+@role_required(UserTypeEnum.STUDENT)
+@enroll_required(Question)
 def get_question(qid):
     question = Question.query.get_or_404(qid)
     return jsonify(question)
 
 
 @api.route('/<int:qid>/answers', methods=['POST'])
-@login_required
+@role_required(UserTypeEnum.STUDENT)
+@enroll_required(Question)
 def create_answer(qid):
     question = Question.query.get_or_404(qid)
     form = AnswerForm().validate_for_api()
@@ -85,15 +90,17 @@ def create_answer(qid):
     return Success()
 
 
-@api.route('/<int:qid>/answers', methods=['GET'])
-@login_required
-def list_answer(qid):
-    question = Question.query.get_or_404(qid)
-    return jsonify(question.answers)
+# @api.route('/<int:qid>/answers', methods=['GET'])
+# @role_required(UserTypeEnum.STUDENT)
+# @enroll_required(Question)
+# def list_answer(qid):
+#     question = Question.query.get_or_404(qid)
+#     return jsonify(question.answers)
 
 
 @api.route('/<int:qid>/discussions', methods=['POST'])
-@login_required
+@role_required(UserTypeEnum.STUDENT)
+@enroll_required(Question)
 def create_topic(qid):
     question = Question.query.get_or_404(qid)
     form = TopicCreateForm().validate_for_api()
@@ -109,21 +116,24 @@ def create_topic(qid):
 
 
 @api.route('/<int:qid>/discussions', methods=['GET'])
-@login_required
+@role_required(UserTypeEnum.STUDENT)
+@enroll_required(Question)
 def list_topic(qid):
     question = Question.query.get_or_404(qid)
     return jsonify(question.discussions)
 
 
 @api.route('/<int:qid>/history', methods=['GET'])
-@login_required
+@role_required(UserTypeEnum.STUDENT)
+@enroll_required(Question)
 def list_history(qid):
     question = Question.query.get_or_404(qid)
     return jsonify(question.history_questions)
 
 
 @api.route('/<int:qid>/like', methods=['POST'])
-@login_required
+@role_required(UserTypeEnum.STUDENT)
+@enroll_required(Question)
 def up_vote(qid):
     question = Question.query.get_or_404(qid)
     question_up_vote = QuestionUpVote.query \
@@ -144,14 +154,16 @@ def up_vote(qid):
 
 
 @api.route('/<int:qid>/like', methods=['GET'])
-@login_required
+@role_required(UserTypeEnum.STUDENT)
+@enroll_required(Question)
 def get_vote_num(qid):
     question = Question.query.get_or_404(qid)
     return jsonify({'likes': sum(map(lambda vote: vote.status == 1, question.up_votes))})
 
 
 @api.route('/<int:qid>/lock', methods=['POST'])
-@login_required
+@role_required(UserTypeEnum.STUDENT)
+@enroll_required(Question)
 def lock_question(qid):
     if not question_lock.user(qid) or question_lock.user(qid) == g.user['gid']:
         question_lock.lock(qid, g.user['gid'])
@@ -160,7 +172,8 @@ def lock_question(qid):
 
 
 @api.route('/<int:qid>/unlock', methods=['POST'])
-@login_required
+@role_required(UserTypeEnum.STUDENT)
+@enroll_required(Question)
 def unlock_question(qid):
     if question_lock.user(qid) != g.user['gid']:
         return LockForbidden()
@@ -169,6 +182,7 @@ def unlock_question(qid):
 
 
 @api.route('/<int:qid>/isLocked', methods=['GET'])
-@login_required
+@role_required(UserTypeEnum.STUDENT)
+@enroll_required(Question)
 def get_lock(qid):
     return jsonify({'isLocked': question_lock.is_locked(qid), 'user': question_lock.user(qid)})
