@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { instance } from '@/helpers/instances';
 
 export default {
   name: 'Profile',
@@ -95,7 +95,7 @@ export default {
       if (this.visible) {
         console.log(this.id);
         this.form.id = this.id;
-        axios.get(`/api/v1/users/${this.id}`).then((res) => {
+        instance.get(`/api/v1/users/${this.id}`).then((res) => {
           console.log(res);
           if (res.status === 200) {
             this.form.nickname = res.data.nickname;
@@ -116,7 +116,7 @@ export default {
           this.$message.error('请正确填写完表格再提交！');
           return;
         }
-        axios.put(`/api/v1/users/${id}`, {
+        instance.put(`/api/v1/users/${id}`, {
           id: this.form.id,
           name: this.form.name,
           nickname: this.form.nickname,
