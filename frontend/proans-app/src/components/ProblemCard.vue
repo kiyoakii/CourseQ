@@ -132,15 +132,24 @@ export default {
         .catch((_) => { console.log(_); });
     },
     handleEdit() {
-      this.$router.push({
-        name: 'EditProblemView',
-        params: {
-          cid: this.$route.params.cid,
-          tid: this.$route.params.tid,
-          qid: this.$route.params.qid,
-          problem: this.problem,
-          edit: true,
-        },
+      this.axios({
+        method: 'POST',
+        url: `/api/v1/questions/${this.$route.params.qid}/lock`,
+      }).then((res) => {
+        if (res.status === 403) {
+          this.$message.info('对不起，该问题已被其他用户编辑，请等待.');
+          return;
+        }
+        this.$router.push({
+          name: 'EditProblemView',
+          params: {
+            cid: this.$route.params.cid,
+            tid: this.$route.params.tid,
+            qid: this.$route.params.qid,
+            problem: this.problem,
+            edit: true,
+          },
+        });
       });
     },
     handleStar() {

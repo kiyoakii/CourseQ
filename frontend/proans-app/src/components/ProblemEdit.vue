@@ -59,6 +59,8 @@ export default {
       inputVisible: false,
       inputValue: '',
       edit: false,
+      lockTimer: 0,
+      lockTimes: 0,
     };
   },
   methods: {
@@ -135,6 +137,9 @@ export default {
       }
     },
   },
+  beforeDestory() {
+    clearInterval(this.lockTimer);
+  },
   mounted() {
     console.log(this.$route);
     this.form.title = this.$route.params.problem.title;
@@ -142,6 +147,46 @@ export default {
     this.$route.params.problem.tags.forEach((t) => this.form.tags.push(t.name));
     this.$route.params.problem.tags.forEach((t) => this.oldTags.push(t.name));
     this.edit = this.$route.params.edit;
+    if (this.edit) {
+      this.lockTimer = setInterval(() => {
+        this.axios({
+          method: 'POST',
+          url: `/api/v1/questions/${this.$route.params.qid}/lock`,
+        }).then((res) => {
+          this.lockTimes += 1;
+          if (this.lockTimes > 40) {
+            this.$message.info('由于长时间未改动，你即将退出编辑界面.');
+            clearInterval(this.lockTimer);
+            this.axios.post(`/v1/questions/${this.$route.params.qid}/unlock`)
+              .then(() => {
+                this.$router.push({
+                  name: 'ProblemView',
+                  params: {
+                    cid: this.$route.params.cid,
+                    tid: this.$route.params.tid,
+                    qid: this.$route.params.qid,
+                  },
+                });
+              });
+            return;
+          }
+          if (res.status === 403) {
+            this.$message.info('对不起，该问题已被其他用户编辑，请等待.');
+            clearInterval(this.lockTimer);
+            this.$nextTick(() => {
+              this.$router.push({
+                name: 'ProblemView',
+                params: {
+                  cid: this.$route.params.cid,
+                  tid: this.$route.params.tid,
+                  qid: this.$route.params.qid,
+                },
+              });
+            });
+          }
+        });
+      }, 1000 * 15);
+    }
   },
 };
 </script>
