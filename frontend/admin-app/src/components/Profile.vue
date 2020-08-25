@@ -40,28 +40,6 @@
 <script>
 import axios from 'axios';
 
-export function isPhone(rule, value, callback) {
-  const reg = /^[1][3,4,5,7,8][0-9]{9}$/;
-  if (value === '' || value === undefined || value === null) {
-    callback();
-  } else if ((!reg.test(value)) && value !== '') {
-    console.log('invalid phone!');
-    callback(new Error('请输入正确的电话号码'));
-  } else {
-    callback();
-  }
-}
-export function isEmail(rule, value, callback) {
-  const reg = /^([a-zA-Z0-9]+[-_.]?)+@[a-zA-Z0-9]+\.[a-z]+$/;
-  if (value === '' || value === undefined || value == null) {
-    callback();
-  } else if (!reg.test(value)) {
-    console.log('invalid email!');
-    callback(new Error('请输入正确的邮箱地址'));
-  } else {
-    callback();
-  }
-}
 export default {
   name: 'Profile',
   props: {
@@ -75,6 +53,17 @@ export default {
     },
   },
   data() {
+    const validatePhone = (rule, value, callback) => {
+      const reg = /^[1][3,4,5,7,8][0-9]{9}$/;
+      if (value === '' || value === undefined || value === null) {
+        callback();
+      } else if ((!reg.test(value)) && value !== '') {
+        console.log('invalid phone!');
+        callback(new Error('请输入正确的电话号码'));
+      } else {
+        callback();
+      }
+    };
     return {
       visible: false,
       form: {
@@ -91,11 +80,11 @@ export default {
         ],
         email: [
           {
-            validator: isEmail, required: true, message: '请输入正确的邮箱', trigger: ['change', 'blur'],
+            type: 'email', required: true, message: '请输入正确的邮箱', trigger: ['change', 'blur'],
           },
         ],
         phone: [
-          { validator: isPhone, message: '请输入正确的联系电话', trigger: ['change', 'blur'] },
+          { validator: validatePhone, message: '请输入正确的联系电话', trigger: ['change', 'blur'] },
         ],
       },
     };

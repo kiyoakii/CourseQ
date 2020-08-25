@@ -29,11 +29,11 @@
       :title="form.id === '' ? '添加' : '编辑'"
       :visible.sync="dialogVisible"
       width="720px">
-      <el-form :model="form">
-        <el-form-item label="标题" >
+      <el-form :model="form" :rules="rules">
+        <el-form-item label="标题" prop="title">
           <el-input v-model="form.title" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="内容" >
+        <el-form-item label="内容" prop="content">
           <el-input v-model="form.content"
           type="textarea"
           :autosize="{ minRows: 4}"
@@ -63,6 +63,10 @@ export default {
         id: '',
         title: '',
         content: '',
+      },
+      rules: {
+        title: { required: true, message: '请输入标题', trigger: ['change', 'blur'] },
+        content: { required: true, message: '请输入内容', trigger: ['change', 'blur'] },
       },
     };
   },
