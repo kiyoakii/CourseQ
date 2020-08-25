@@ -8,7 +8,8 @@
             </data-table-search-bar>
         </div>
         <div>
-          <el-button type="primary" @click="create">注册新教师</el-button>
+          <el-button style="display: none;"
+          type="primary" @click="create">注册新教师</el-button>
         </div>
       </el-row>
       <el-row>
