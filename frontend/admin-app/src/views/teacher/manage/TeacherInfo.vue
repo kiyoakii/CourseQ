@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <h2>教师信息</h2>
     <div id="flex-bar">
       <div class="flex-item">
@@ -108,6 +108,11 @@ export default {
 </script>
 
 <style scoped>
+
+.container {
+  width: 100%;
+}
+
 #flex-bar {
   display: flex;
   flex-direction: row;

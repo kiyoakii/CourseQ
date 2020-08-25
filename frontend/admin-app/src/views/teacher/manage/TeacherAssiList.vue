@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <h2 id="title">助教名单</h2>
     <div id="flex-bar">
       <div class="flex-item">
@@ -162,6 +162,11 @@ export default {
 </script>
 
 <style scoped>
+
+.container {
+  width: 100%;
+}
+
 #title {
   margin-top: 20px;
 }
