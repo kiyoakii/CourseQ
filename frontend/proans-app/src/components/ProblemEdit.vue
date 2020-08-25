@@ -141,6 +141,7 @@ export default {
     clearInterval(this.lockTimer);
   },
   mounted() {
+    this.axios
     console.log(this.$route);
     this.form.title = this.$route.params.problem.title;
     this.form.content = this.$route.params.problem.content;
