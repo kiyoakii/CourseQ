@@ -150,6 +150,7 @@ export default new Vuex.Store({
   },
   actions: {
     initProblems(context) {
+      console.log('initProblem', context.state.proansToken);
       axios.get(`/api/v1/courses/${context.state.cid}/questions`, {
         headers: {
           Authorization: `Bearer ${context.state.proansToken}`,

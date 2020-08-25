@@ -46,11 +46,16 @@ export default {
     const hashPath = currentUrl.slice(currentUrl.indexOf('#') + 1);
     const serviceUrl = `http://home.ustc.edu.cn/~jarvis/cas/index.html?r=${new Date().getTime()}`;
     if (currentUrl.includes('ticket')) {
-      const ticket = currentUrl.match(/ticket=([\s\S]+?)&/)[1];
-      const service = currentUrl.match(/service=([\s\S]+?)&/)[1];
+      // const ticket = currentUrl.match(/ticket=([\s\S]+?)&/)[1];
+      // const service = currentUrl.match(/service=([\s\S]+?)&/)[1];
       // const hashpath = currentUrl.match(/hashpath=([\s\S]+)#\//)[1];
+<<<<<<< HEAD
       axios.get(`/api/v1/token?id=null&ticket=${ticket}&service=${service}`)
       // axios.get('/api/v1/token/0000000101')
+=======
+      // axios.get(`/api/v1/token?id=null&ticket=${ticket}&service=${service}`)
+      axios.get('/api/v1/token/0000000000') // test
+>>>>>>> fix: add missing authorization header
         .then((res) => {
           console.log(res);
           if (res.status === 200) {

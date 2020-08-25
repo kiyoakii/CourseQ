@@ -59,8 +59,12 @@
 <script>
 import DataTableSearchBar from '@/components/DataTableSearchBar.vue';
 import DataTable from '@/components/DataTable.vue';
+<<<<<<< HEAD
 import { memberTable } from '@/helpers/table';
+=======
+>>>>>>> fix: add missing authorization header
 import { instance } from '@/helpers/instances';
+import { memberTable } from '../../helpers/table';
 
 export default {
   name: 'TeacherManage',
