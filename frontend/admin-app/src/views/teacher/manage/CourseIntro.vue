@@ -163,7 +163,7 @@ export default {
   padding-bottom: 50px;
 }
 .intro {
-  width:880px;
+  width:100%;
 }
 .message-card {
   margin-top: 50px;
