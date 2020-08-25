@@ -1,8 +1,9 @@
 from flask import jsonify
 
+from app.libs.enums import UserTypeEnum
 from app.libs.error_code import Success, DeleteSuccess
 from app.libs.redprint import Redprint
-from app.libs.token_auth import login_required
+from app.libs.token_auth import login_required, enroll_required, role_required
 from app.models.answer import Answer
 from app.models.base import db
 from app.models.history import History
@@ -12,7 +13,8 @@ api = Redprint('answer')
 
 
 @api.route('/<int:aid>', methods=['PUT'])
-@login_required
+@role_required(UserTypeEnum.TEACHER)
+@enroll_required(Answer)
 def update_answer(aid):
     answer = Answer.query.get_or_404(aid)
     form = AnswerForm().validate_for_api()
@@ -27,15 +29,17 @@ def update_answer(aid):
     return Success()
 
 
-@login_required
 @api.route('/<int:aid>', methods=['GET'])
+@role_required(UserTypeEnum.TEACHER)
+@enroll_required(Answer)
 def get_answer(aid):
     answer = Answer.query.get_or_404(aid)
     return jsonify(answer)
 
 
 @api.route('/<int:aid>', methods=['DELETE'])
-@login_required
+@role_required(UserTypeEnum.TEACHER)
+@enroll_required(Answer)
 def delete_answer(aid):
     answer = Answer.query.get_or_404(aid)
     with db.auto_commit():
@@ -44,7 +48,8 @@ def delete_answer(aid):
 
 
 @api.route('/<int:qid>/like', methods=['GET'])
-@login_required
+@role_required(UserTypeEnum.STUDENT)
+@enroll_required(Answer)
 def get_vote_num(qid):
     answer = Answer.query.get_or_404(qid)
     return jsonify({'likes': sum(map(lambda vote: vote.status == 1, answer.up_votes))})

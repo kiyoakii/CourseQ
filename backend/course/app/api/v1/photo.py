@@ -5,9 +5,10 @@ from flask import request, jsonify, g
 from werkzeug.utils import secure_filename
 
 from app.config.secure import UPLOAD_FOLDER
+from app.libs.enums import UserTypeEnum
 from app.libs.error_code import ParameterException, DeleteSuccess
 from app.libs.redprint import Redprint
-from app.libs.token_auth import login_required
+from app.libs.token_auth import login_required, role_required, enroll_required, private
 from app.models import User
 from app.models.base import db
 from app.models.resource import Photo
@@ -16,7 +17,7 @@ api = Redprint('photo')
 
 
 @api.route('', methods=['POST'])
-@login_required
+@role_required(UserTypeEnum.STUDENT)
 def upload_photo():
     if 'file' not in request.files:
         return ParameterException()
@@ -40,14 +41,14 @@ def upload_photo():
 
 
 @api.route('', methods=['GET'])
-@login_required
+@private(Photo)
 def get_photo():
     user = User.query.get_or_404(g.user['gid'])
     return jsonify(user.photos)
 
 
 @api.route('/<int:fid>', methods=['DELETE'])
-@login_required
+@private(Photo)
 def delete_photo(fid):
     photo = Photo.query.get_or_404(fid)
     with db.auto_commit():
