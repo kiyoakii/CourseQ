@@ -50,3 +50,7 @@ class Question(Base):
     @property
     def liked(self):
         return QuestionUpVote.query.filter_by(question_id=self.id, user_gid='0000000000').count() != 0
+
+    @property
+    def belong_course(self):
+        return self.course_id
