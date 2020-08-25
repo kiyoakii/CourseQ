@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <h2 id="title">日程安排</h2>
     <div class="schedule">
       <el-table :data="schedules.schedules"
@@ -67,7 +67,8 @@
               </el-row>
             </template>
           </el-table-column>
-          <el-table-column label="补充" prop="additional_info">
+          <el-table-column label="补充"
+            align="center" prop="additional_info">
           </el-table-column>
           <el-table-column label="操作"
           align="center"
@@ -593,9 +594,12 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  width: 100%;
+}
+
 .schedule {
   margin: 50px auto;
-  width: 900px;
   height: 100%;
 }
 
