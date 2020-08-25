@@ -50,6 +50,7 @@ export default {
       const service = currentUrl.match(/service=([\s\S]+?)&/)[1];
       // const hashpath = currentUrl.match(/hashpath=([\s\S]+)#\//)[1];
       axios.get(`/api/v1/token?id=null&ticket=${ticket}&service=${service}`)
+      // axios.get('/api/v1/token/0000000101')
         .then((res) => {
           console.log(res);
           if (res.status === 200) {
@@ -57,7 +58,12 @@ export default {
             if (res.data.registered) {
               this.$store.commit('setToken', res.data.access_token);
               this.$store.commit('setGid', res.data.gid);
-              window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}`;
+              // window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}`;
+              if (currentUrl.includes('teacher')) {
+                window.location.href = `${appPath}#/teacher/${res.data.gid}`;
+              } else {
+                window.location.href = `${appPath}#/admin/${res.data.gid}`;
+              }
               return;
             }
             this.showUserProfile = true;
