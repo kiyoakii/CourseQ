@@ -1,7 +1,8 @@
 import wrapt
-from flask import g, request
+from flask import g
 from flask_jwt_extended import JWTManager, get_jwt_identity, verify_jwt_in_request
 
+from app.libs.enums import UserTypeEnum
 from app.libs.error_code import Forbidden, TokenExpired, TokenInvalid, TokenMissing
 from app.models.relation import Enroll
 
@@ -13,32 +14,58 @@ jwt = JWTManager()
 def login_required(wrapped, *args, **kwargs):
     verify_jwt_in_request()
     user = get_jwt_identity()
-    print(request.endpoint)
-    # if not is_in_scope(user['scope'], request.endpoint):
-    #     raise Forbidden
-    g.user = user
+#     # if not is_in_scope(user['scope'], request.endpoint):
+#     #     raise Forbidden
     return wrapped()
 
 
 # Object-based
 def role_required(required_role):
     @wrapt.decorator
+    def wrapper1(wrapped, instance, args, kwargs):
+        verify_jwt_in_request()
+        user = get_jwt_identity()
+        role = UserTypeEnum.scope_to_role(user['scope'])
+        print(role)
+        print(required_role)
+        if not role or role.value < required_role.value:
+            raise Forbidden
+        return wrapped(*args, **kwargs)
+
+    return wrapper1
+
+
+def enroll_required(model):
+    @wrapt.decorator
     def wrapper(wrapped, instance, args, kwargs):
         verify_jwt_in_request()
         user = get_jwt_identity()
-        course_cid = kwargs['cid']
+        pk = next(iter(kwargs.values()))
+        course_cid = model.query.get_or_404(pk).belong_course
         role = Enroll.user_to_role(user['gid'], course_cid)
-        if not role or role.value < required_role.value:
+        if not role:
             raise Forbidden
-        g.user = user
         return wrapped(*args, **kwargs)
+    return wrapper
 
+
+def private(model):
+    @wrapt.decorator
+    def wrapper(wrapped, instance, args, kwargs):
+        verify_jwt_in_request()
+        g.user = get_jwt_identity()
+        resource_pk = next(iter(kwargs.values()))
+        resource = model.query.get_or_404(resource_pk)
+        if resource.belong_author != g.user['gid']:
+            raise Forbidden
+        return wrapped(*args, **kwargs)
     return wrapper
 
 
 @jwt.user_loader_callback_loader
 def user_loader_callback(user):
     g.user = user
+    user['role'] = UserTypeEnum.scope_to_role(user['scope'])
     return True
 
 
