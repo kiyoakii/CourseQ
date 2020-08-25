@@ -8,7 +8,8 @@
             </data-table-search-bar>
         </div>
         <div>
-          <el-button type="primary" @click="create">注册新学生</el-button>
+          <el-button style="display: none;"
+          type="primary" @click="create">注册新学生</el-button>
         </div>
       </el-row>
       <el-row>
@@ -182,4 +183,5 @@ export default {
 .mb-4 {
   margin-bottom: 10px;
 }
+
 </style>
