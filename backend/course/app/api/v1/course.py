@@ -112,7 +112,6 @@ def create_question(cid):
 
 @api.route('/<int:cid>/questions', methods=['GET'])
 @role_required(UserTypeEnum.STUDENT)
-@enroll_required(Course)
 def get_question_list(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     return jsonify(course.questions)
@@ -147,6 +146,8 @@ def list_schedules(cid):
 
 
 @api.route('/<int:cid>/announces', methods=['POST'])
+@role_required(UserTypeEnum.TA)
+@enroll_required(Course)
 def create_announce(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     form = AnnounceForm().validate_for_api()
@@ -164,7 +165,7 @@ def allowed_file(filename):
 
 
 @api.route('/<int:cid>/resources', methods=['POST'])
-@role_required(UserTypeEnum.TEACHER)
+@role_required(UserTypeEnum.TA)
 @enroll_required(Course)
 def upload(cid):
     course = Course.query.get_or_404(cid)
@@ -192,7 +193,7 @@ def get_resources(cid):
 
 
 @api.route('/<int:cid>/assignments', methods=['POST'])
-@role_required(UserTypeEnum.TEACHER)
+@role_required(UserTypeEnum.TA)
 @enroll_required(Course)
 def create_assignment(cid):
     course = Course.query.get_or_404(cid)
