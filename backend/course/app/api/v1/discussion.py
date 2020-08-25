@@ -3,7 +3,7 @@ from flask import jsonify, g
 from app.libs.enums import UserTypeEnum
 from app.libs.error_code import Success, DeleteSuccess
 from app.libs.redprint import Redprint
-from app.libs.token_auth import login_required, role_required, enroll_required
+from app.libs.token_auth import role_required, enroll_required, private
 from app.models.base import db
 from app.models.discussion import DiscussionTopic, DiscussionAnswer
 from app.validators.forms import TopicUpdateForm, TopicAnswerForm
@@ -12,8 +12,8 @@ api = Redprint('discussion')
 
 
 @api.route('/<int:did>', methods=['PUT'])
-@role_required(UserTypeEnum.TEACHER)
-@enroll_required(DiscussionTopic)
+@role_required(UserTypeEnum.STUDENT)
+@private(DiscussionTopic)
 def update_discussion(did):
     topic = DiscussionTopic.query.get_or_404(did)
     form = TopicUpdateForm().validate_for_api()
@@ -23,8 +23,8 @@ def update_discussion(did):
 
 
 @api.route('/<int:did>', methods=['DELETE'])
-@role_required(UserTypeEnum.TEACHER)
-@enroll_required(DiscussionTopic)
+@role_required(UserTypeEnum.STUDENT)
+@private(DiscussionTopic)
 def delete_discussion(did):
     topic = DiscussionTopic.query.get_or_404(did)
     with db.auto_commit():
