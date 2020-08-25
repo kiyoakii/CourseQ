@@ -15,3 +15,6 @@ MAX_CONTENT_LENGTH = 1000 * 1024 * 1024  # 1000mb
 JWT_SECRET_KEY = 'Lin Huancheng zuishuai'
 
 LOCK_TIMEOUT = 20
+
+# Uncomment this line when testing with pytest
+# DEBUG = False
