@@ -53,10 +53,10 @@ def private(model):
     @wrapt.decorator
     def wrapper(wrapped, instance, args, kwargs):
         verify_jwt_in_request()
-        g.user = get_jwt_identity()
+        user = get_jwt_identity()
         resource_pk = next(iter(kwargs.values()))
         resource = model.query.get_or_404(resource_pk)
-        if resource.belong_author != g.user['gid']:
+        if resource.belong_author != user['gid'] and not user['role'] == UserTypeEnum.MANAGER:
             raise Forbidden
         return wrapped(*args, **kwargs)
     return wrapper
