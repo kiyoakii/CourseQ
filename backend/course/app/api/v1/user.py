@@ -4,7 +4,7 @@ from flask_jwt_extended import create_access_token
 from app.libs.enums import UserTypeEnum
 from app.libs.error_code import DeleteSuccess, Success
 from app.libs.redprint import Redprint
-from app.libs.token_auth import login_required
+from app.libs.token_auth import login_required, role_required, private
 from app.models.base import db
 from app.models.user import User
 from app.validators.forms import UserForm, UserUpdateForm
@@ -19,19 +19,21 @@ def get_teachers():
 
 
 @api.route('/students', methods=['GET'])
+@role_required(UserTypeEnum.TEACHER)
 def get_students():
     users = User.query.filter_by(_auth=UserTypeEnum.STUDENT.value).all()
     return jsonify(users)
 
 
 @api.route('/<string:gid>', methods=['GET'])
-# @role_required(UserTypeEnum.MANAGER)
+@role_required(UserTypeEnum.MANAGER)
 def super_get_user(gid):
     user = User.query.filter_by(gid=gid).first_or_404()
     return jsonify(user)
 
 
 @api.route('/<string:gid>', methods=['PUT'])
+@private(User)
 def update_user(gid):
     user = User.query.filter_by(gid=gid).first_or_404()
     form = UserUpdateForm().validate_for_api()
@@ -41,7 +43,7 @@ def update_user(gid):
 
 
 @api.route('', methods=['GET'])
-@login_required
+@private(User)
 def get_user():
     gid = g.user['gid']
     user = User.query.filter_by(gid=gid).first_or_404()
@@ -49,7 +51,7 @@ def get_user():
 
 
 @api.route('/<string:gid>', methods=['DELETE'])
-@login_required
+@private(User)
 def delete_user(gid):
     # gid = g.user['gid']
     with db.auto_commit():
@@ -78,6 +80,7 @@ def register():
 
 
 @api.route('/<string:gid>/courses', methods=['GET'])
+@private(User)
 def get_courses(gid):
     user = User.query.filter_by(gid=gid).first_or_404()
     courses = user.courses

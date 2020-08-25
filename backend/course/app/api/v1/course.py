@@ -1,10 +1,11 @@
 from flask import jsonify, request, g
 
 from app.config.secure import ALLOWED_EXTENSIONS
+from app.libs.enums import UserTypeEnum
 from app.libs.error_code import Success, DeleteSuccess, ParameterException
 from app.libs.file import create_file
 from app.libs.redprint import Redprint
-from app.libs.token_auth import login_required
+from app.libs.token_auth import login_required, role_required, enroll_required
 from app.models import Announce, CourseResource, Assignment
 from app.models.base import db
 from app.models.course import Course
@@ -27,9 +28,7 @@ def get_course_list():
 
 
 @api.route('', methods=['POST'])
-# @jwt_required
-# @role_required(UserTypeEnum.MANAGER)
-@login_required
+@role_required(UserTypeEnum.STUDENT)
 def create_course():
     form = CourseCreateForm().validate_for_api()
     with db.auto_commit():
@@ -41,9 +40,8 @@ def create_course():
 
 
 @api.route('/<int:cid>', methods=['GET'])
-# @jwt_required
-# @role_required(UserTypeEnum.TEACHER)
-# @login_required
+@role_required(UserTypeEnum.MANAGER)
+@enroll_required(Course)
 def get_course(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     course.fields.append('series_courses')
@@ -51,7 +49,8 @@ def get_course(cid):
 
 
 @api.route('/<int:cid>', methods=['PUT', 'PATCH'])
-@login_required
+@role_required(UserTypeEnum.TEACHER)
+@enroll_required(Course)
 def update_course(cid):
     # todo: put
     form = CourseUpdateForm().validate_for_api()
@@ -73,7 +72,8 @@ def update_course(cid):
 
 
 @api.route('/<int:cid>', methods=['DELETE'])
-@login_required
+@role_required(UserTypeEnum.TEACHER)
+@enroll_required(Course)
 def delete_course(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     with db.auto_commit():
@@ -82,14 +82,16 @@ def delete_course(cid):
 
 
 @api.route('/<int:cid>/files', methods=['GET'])
-@login_required
+@role_required(UserTypeEnum.STUDENT)
+@enroll_required(Course)
 def get_files_list(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     return jsonify(files=course.resource)
 
 
 @api.route('/<int:cid>/questions', methods=['POST'])
-@login_required
+@role_required(UserTypeEnum.STUDENT)
+@enroll_required(Course)
 def create_question(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     form = QuestionCreateForm().validate_for_api()
@@ -109,14 +111,16 @@ def create_question(cid):
 
 
 @api.route('/<int:cid>/questions', methods=['GET'])
-@login_required
+@role_required(UserTypeEnum.STUDENT)
+@enroll_required(Course)
 def get_question_list(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     return jsonify(course.questions)
 
 
 @api.route('/<int:cid>/schedules', methods=['POST'])
-@login_required
+@role_required(UserTypeEnum.TEACHER)
+@enroll_required(Course)
 def create_schedule(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     form = ScheduleCreateForm().validate_for_api()
@@ -137,14 +141,12 @@ def create_schedule(cid):
 
 
 @api.route('/<int:cid>/schedules', methods=['GET'])
-@login_required
 def list_schedules(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     return jsonify(course.schedules)
 
 
 @api.route('/<int:cid>/announces', methods=['POST'])
-@login_required
 def create_announce(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     form = AnnounceForm().validate_for_api()
@@ -162,7 +164,8 @@ def allowed_file(filename):
 
 
 @api.route('/<int:cid>/resources', methods=['POST'])
-@login_required
+@role_required(UserTypeEnum.TEACHER)
+@enroll_required(Course)
 def upload(cid):
     course = Course.query.get_or_404(cid)
     if 'file' not in request.files:
@@ -183,14 +186,14 @@ def upload(cid):
 
 
 @api.route('/<int:cid>/resources', methods=['GET'])
-@login_required
 def get_resources(cid):
     course = Course.query.get_or_404(cid)
     return jsonify(course.resources)
 
 
 @api.route('/<int:cid>/assignments', methods=['POST'])
-@login_required
+@role_required(UserTypeEnum.TEACHER)
+@enroll_required(Course)
 def create_assignment(cid):
     course = Course.query.get_or_404(cid)
     form = AssignmentCreateForm().validate_for_api()
@@ -207,7 +210,6 @@ def create_assignment(cid):
 
 
 @api.route('/<int:cid>/assignments', methods=['GET'])
-@login_required
 def get_assignment(cid):
     course = Course.query.get_or_404(cid)
     return jsonify(course.assignments)
