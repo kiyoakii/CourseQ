@@ -63,7 +63,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 div.el-collapse, div.el-collapse-item {
   border: none;
 }

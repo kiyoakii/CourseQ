@@ -181,7 +181,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 
 .el-step__icon {
   border: none !important;

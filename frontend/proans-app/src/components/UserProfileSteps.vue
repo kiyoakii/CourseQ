@@ -83,7 +83,7 @@ export default {
 };
 </script>
 
-<style scped>
+<style scoped>
 
 
 .user-profile-steps {
