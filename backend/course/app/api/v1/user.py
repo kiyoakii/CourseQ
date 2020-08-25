@@ -26,7 +26,7 @@ def get_students():
 
 
 @api.route('/<string:gid>', methods=['GET'])
-@role_required(UserTypeEnum.MANAGER)
+@private(User)
 def super_get_user(gid):
     user = User.query.filter_by(gid=gid).first_or_404()
     return jsonify(user)
