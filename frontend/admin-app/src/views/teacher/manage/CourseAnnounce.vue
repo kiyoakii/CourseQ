@@ -138,7 +138,7 @@ export default {
 }
 
 .course-announce {
-  width:880px;
+  width: 100%;
 }
 
 .header {

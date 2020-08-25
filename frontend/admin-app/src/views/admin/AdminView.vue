@@ -30,4 +30,10 @@ export default {
 
 <style scoped>
 
+.el-header {
+  padding: 0 !important;
+  border-bottom: 1px solid #eeeeee;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
 </style>
