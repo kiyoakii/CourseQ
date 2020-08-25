@@ -43,25 +43,25 @@
       :visible.sync="dialogVisible"
       width="720px">
      <el-form :model="form">
-        <el-form-item label="中文名" >
-          <el-input v-model="form.name_zh" autocomplete="off"></el-input>
+        <el-form-item label="中文名" prop="name_zh">
+          <el-input v-model="form.name_zh" autocomplete="off" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="英文名" >
-          <el-input v-model="form.name_en" autocomplete="off"></el-input>
+        <el-form-item label="英文名" prop="name_en">
+          <el-input v-model="form.name_en" autocomplete="off" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="学期" >
-          <el-input v-model="form.semester" autocomplete="off"></el-input>
+        <el-form-item label="学期" prop="semester">
+          <el-input v-model="form.semester" autocomplete="off" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="简介" >
+        <el-form-item label="简介">
           <el-input v-model="form.intro"
           type="textarea"
           :autosize="{ minRows: 4}"
           placeholder="请输入内容"></el-input>
         </el-form-item>
-        <el-form-item label="预修课程" >
+        <el-form-item label="预修课程">
           <el-input v-model="form.preCourse" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="参考教材" >
+        <el-form-item label="参考教材">
           <el-input v-model="form.textbooks" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
@@ -92,6 +92,11 @@ export default {
         textbooks: '',
       },
       dialogVisible: false,
+      rules: {
+        name_zh: { required: true, message: '请输入中文名', trigger: ['change', 'blur'] },
+        name_en: { required: true, message: '请输入英文名', trigger: ['change', 'blur'] },
+        semester: { required: true, message: '请输入学期', trigger: ['change', 'blur'] },
+      },
     };
   },
   methods: {
