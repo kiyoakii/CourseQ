@@ -122,7 +122,7 @@ export default {
         .then((res) => {
           console.log(res);
           this.replyList.push({
-            author_gid: '000000',
+            author_gid: '0000000',
             content: this.form.content,
           });
           this.updateData();
@@ -136,16 +136,19 @@ export default {
         });
     },
     updateData() {
-      this.axios.get(`/api/v1/discussions/${this.com.id}/answer`)
-        .then((res) => {
-          console.log(res);
-          if (res.status !== 200) {
-            console.log(JSON.stringify(res.data));
-            return;
-          }
-          this.replyList = res.data;
-          console.log(this.replyList);
-        });
+      this.axios.get(`/api/v1/discussions/${this.com.id}/answer`, {
+        headers: {
+          Authorization: `Bearer ${this.$store.state.proansToken}`,
+        },
+      }).then((res) => {
+        console.log(res);
+        if (res.status !== 200) {
+          console.log(JSON.stringify(res.data));
+          return;
+        }
+        this.replyList = res.data;
+        console.log(this.replyList);
+      });
     },
   },
   computed: {

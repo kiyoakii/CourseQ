@@ -176,6 +176,7 @@ export default {
   beforeMount() {
     this.stars = this.problem.stars;
     this.starOn = this.problem.liked;
+    this.axios.defaults.headers.common.Authorization = `Bearer ${this.$store.state.proansToken}`;
   },
 };
 </script>

@@ -71,6 +71,7 @@ export default {
             this.token = res.data.access_token;
             if (res.data.registered) {
               this.$store.commit('setProansToken', res.data.access_token);
+              this.$store.dispatch('initProblems');
               this.$store.commit('setGid', res.data.gid);
               window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}`;
               return;
