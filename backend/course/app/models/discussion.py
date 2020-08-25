@@ -23,6 +23,10 @@ class DiscussionTopic(Base):
     def belong_course(self):
         return self.question.course_cid
 
+    @property
+    def belong_author(self):
+        return self.author_gid
+
 
 class DiscussionAnswer(Base):
     id = Column(Integer, primary_key=True)
@@ -40,3 +44,7 @@ class DiscussionAnswer(Base):
     @property
     def belong_course(self):
         return self.topic.question.course_cid
+
+    @property
+    def belong_author(self):
+        return self.author_gid

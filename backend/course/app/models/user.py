@@ -25,6 +25,10 @@ class User(Base):
     school = Column(String(63))
     photos = relationship('Photo')
 
+    @property
+    def belong_author(self):
+        return self.gid
+
     @orm.reconstructor
     def __init__(self):
         super().__init__()
