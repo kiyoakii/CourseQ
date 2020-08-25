@@ -58,7 +58,7 @@
 <script>
 import DataTableSearchBar from '@/components/DataTableSearchBar.vue';
 import DataTable from '@/components/DataTable.vue';
-import { memberTable } from '../../helpers/table';
+import { memberTable } from '@/helpers/table';
 import { instance } from '@/helpers/instances';
 
 export default {
