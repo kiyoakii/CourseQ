@@ -6,7 +6,7 @@
       width="720px">
       <el-row type="flex" justify="center">
         <el-col :span="20">
-          <el-form label-position="left" label-width="140px"
+          <el-form label-position="right" label-width="140px"
             :model="form" :rules="rules" ref="form">
             <el-form-item label="学号">
               <el-input v-model="form.id" :disabled="true"></el-input>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { instance } from '@/helpers/instances';
 
 export default {
   name: 'Profile',
@@ -95,7 +95,11 @@ export default {
       if (this.visible) {
         console.log(this.id);
         this.form.id = this.id;
-        axios.get(`/api/v1/users/${this.id}`).then((res) => {
+        instance.get(`/api/v1/users/${this.id}`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.state.token}`,
+          },
+        }).then((res) => {
           console.log(res);
           if (res.status === 200) {
             this.form.nickname = res.data.nickname;
@@ -116,13 +120,19 @@ export default {
           this.$message.error('请正确填写完表格再提交！');
           return;
         }
-        axios.put(`/api/v1/users/${id}`, {
+        instance.put(`/api/v1/users/${id}`, {
           id: this.form.id,
           name: this.form.name,
           nickname: this.form.nickname,
           email: this.form.email,
           phone: this.form.phone,
           school: this.form.school,
+        }, {
+          headers: {
+            Authorization: `Bearer ${this.$store.state.token}`,
+          },
+        }).then((res) => {
+          console.log(res);
         });
         console.log(id);
         this.$emit('update:dialogVisible', false);
@@ -131,34 +141,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.el-header {
-  /* padding: 0 !important; */
-  border-bottom: 1px solid #eeeeee;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  display: flex;
-  /* align-items:center; */
-  /* justify-content:center; */
-}
-.header {
-  margin: 10px 30px;
-}
-.el-avatar {
-  margin-left: auto;
-  margin-right: 30px;
-  margin-top: 10px
-}
-.photo-change {
-  display: flex;
-  padding: 0 60px;
-}
-.name {
-  flex-direction: column;
-  display:flex;
-  justify-content: center;
-}
-.info {
-  margin: 30px 0;
-}
-</style>
