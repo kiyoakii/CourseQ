@@ -90,28 +90,31 @@ export default {
   },
   methods: {
     deleteRow(row) {
-      const data = {
-        name_zh: this.allInfo.name_zh,
-        name_en: this.allInfo.name_en,
-        intro: this.allInfo.intro,
-        series: this.allInfo.series,
-        pre_course: '',
-        textbooks: this.allInfo.textbooks,
-        semester: this.allInfo.semester,
-        new_teachers_gid: [],
-        new_students_gid: [],
-        new_TAs_gid: [],
-        del_teachers_gid: [],
-        del_students_gid: [],
-        del_TAs_gid: [],
-      };
-      data.del_students_gid.push(row.id);
-      instance.patch(`/api/v1/courses/${this.$route.params.cid}`,
-        data)
-        .then((res) => {
-          console.log(res);
-          this.dialogVisible = false;
-          this.$store.dispatch('initCourses', { tid: this.$route.params.tid });
+      this.$confirm('确认刪除？')
+        .then(() => {
+          const data = {
+            name_zh: this.allInfo.name_zh,
+            name_en: this.allInfo.name_en,
+            intro: this.allInfo.intro,
+            series: this.allInfo.series,
+            pre_course: '',
+            textbooks: this.allInfo.textbooks,
+            semester: this.allInfo.semester,
+            new_teachers_gid: [],
+            new_students_gid: [],
+            new_TAs_gid: [],
+            del_teachers_gid: [],
+            del_students_gid: [],
+            del_TAs_gid: [],
+          };
+          data.del_students_gid.push(row.id);
+          instance.patch(`/api/v1/courses/${this.$route.params.cid}`,
+            data)
+            .then((res) => {
+              console.log(res);
+              this.dialogVisible = false;
+              this.$store.dispatch('initCourses', { tid: this.$route.params.tid });
+            });
         });
     },
     submit() {
