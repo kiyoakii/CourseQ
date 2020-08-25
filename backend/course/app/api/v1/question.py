@@ -4,7 +4,7 @@ from app.libs.enums import UserTypeEnum
 from app.libs.error_code import Success, DeleteSuccess, UpVoteSuccess, CancelUpVoteSuccess, Duplicate, LockForbidden
 from app.libs.lock import question_lock
 from app.libs.redprint import Redprint
-from app.libs.token_auth import login_required, role_required, enroll_required
+from app.libs.token_auth import role_required, enroll_required
 from app.models.answer import Answer
 from app.models.base import db
 from app.models.discussion import DiscussionTopic
@@ -18,7 +18,7 @@ api = Redprint('question')
 
 
 @api.route('/<int:qid>', methods=['PUT'])
-@role_required(UserTypeEnum.TEACHER)
+@role_required(UserTypeEnum.STUDENT)
 @enroll_required(Question)
 def update_question(qid):
     question = Question.query.get_or_404(qid)
