@@ -43,7 +43,7 @@ def enroll_required(model):
         pk = next(iter(kwargs.values()))
         course_cid = model.query.get_or_404(pk).belong_course
         role = Enroll.user_to_role(user['gid'], course_cid)
-        if not role:
+        if not role and not user['role'] == UserTypeEnum.MANAGER:
             raise Forbidden
         return wrapped(*args, **kwargs)
     return wrapper
