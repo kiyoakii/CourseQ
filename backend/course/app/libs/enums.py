@@ -16,3 +16,12 @@ class UserTypeEnum(Enum):
             cls.TA: '助教',
         }
         return key_map[status]
+
+    @classmethod
+    def scope_to_role(cls, scope):
+        key_map = {
+            'StudentScope': cls.STUDENT,
+            'AdminScope': cls.MANAGER,
+            'TeacherScope': cls.TEACHER,
+        }
+        return key_map.get(scope, None)
