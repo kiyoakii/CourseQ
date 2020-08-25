@@ -103,19 +103,19 @@ export default {
   watch: {
     dialogVisible() {
       this.visible = this.dialogVisible;
-    },
-  },
-  mounted() {
-    console.log(this.id);
-    this.form.id = this.id;
-    axios.get(`/api/v1/users/${this.id}`).then((res) => {
-      console.log(res);
-      if (res.status === 200) {
-        this.form.nickname = res.data.nickname;
-        this.form.email = res.data.email;
-        this.form.phone = res.data.phone;
+      if (this.visible) {
+        console.log(this.id);
+        this.form.id = this.id;
+        axios.get(`/api/v1/users/${this.id}`).then((res) => {
+          console.log(res);
+          if (res.status === 200) {
+            this.form.nickname = res.data.nickname;
+            this.form.email = res.data.email;
+            this.form.phone = res.data.phone;
+          }
+        });
       }
-    });
+    },
   },
   methods: {
     handleCancel() {
