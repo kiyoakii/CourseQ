@@ -30,7 +30,7 @@
 
 <script>
 export default {
-  name: 'UserProfileSteps',
+  name: 'UserProfile',
   props: {
     token: {
       type: String,
@@ -83,7 +83,7 @@ export default {
 };
 </script>
 
-<style scped>
+<style scoped>
 
 
 .user-profile {
@@ -109,7 +109,4 @@ export default {
   /* height: 400px; */
 }
 
-.mb-4 {
-  padding-bottom: 50px;
-}
 </style>
