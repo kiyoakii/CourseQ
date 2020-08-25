@@ -21,7 +21,7 @@ class DiscussionTopic(Base):
 
     @property
     def belong_course(self):
-        return self.question.course_cid
+        return self.question.course_id
 
     @property
     def belong_author(self):
@@ -43,7 +43,7 @@ class DiscussionAnswer(Base):
 
     @property
     def belong_course(self):
-        return self.topic.question.course_cid
+        return self.topic.question.course_id
 
     @property
     def belong_author(self):
