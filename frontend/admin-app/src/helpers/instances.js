@@ -42,7 +42,15 @@ instance.interceptors.response.use(
     return response;
   },
   (err) => {
-    errorHandler({ err });
+    if (err.response.status) {
+      switch (err.response.status) {
+        case 403:
+          Message.error('您无权进行此操作!');
+          break;
+        default:
+          errorHandler({ err });
+      }
+    }
     return Promise.reject(err);
   },
 );
