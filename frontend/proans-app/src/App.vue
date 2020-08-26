@@ -92,7 +92,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 * {
   margin: 0;
   padding: 0;
