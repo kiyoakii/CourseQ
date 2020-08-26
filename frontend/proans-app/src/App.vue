@@ -38,6 +38,7 @@ export default {
     return {
       showUserProfileSteps: false,
       token: '',
+      loadingInstance: {},
     };
   },
   methods: {
@@ -52,7 +53,13 @@ export default {
       window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${hashpath}`;
     },
   },
+  created() {
+    this.loadingInstance = this.$loading({
+      fullscreen: true,
+    });
+  },
   beforeMount() {
+    this.loadingInstance.close();
     const currentUrl = window.location.href;
     if (currentUrl.includes('hashparam')) {
       window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${currentUrl.match(/hashparam=([\s\S]+)#\//)[1]}`;
