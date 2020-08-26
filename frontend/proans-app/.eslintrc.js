@@ -20,6 +20,7 @@ module.exports = {
     'no-param-reassign': 'off',
     'import/prefer-default-export': 'off',
     'prefer-destructuring': 'off',
+    'no-console': 'off',
   },
   overrides: [
     {
