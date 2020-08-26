@@ -5,7 +5,8 @@
       <!-- <el-menu-item :index="'/course/' + $route.params.cid + '/calendar'">课程日历</el-menu-item>
       <el-menu-item :index="'/course/' + $route.params.cid + '/resourse'">课程资源</el-menu-item> -->
       <el-menu-item :index="$router.path">
-        <el-link :index="'/proans/course/' + $route.params.cid" target="_blank" :underline="false">
+        <el-link :href="'/proans/#/proans/course/' + $route.params.cid"
+          target="_blank" :underline="false">
           答疑平台
         </el-link>
       </el-menu-item>
@@ -13,7 +14,7 @@
         <template slot="title">过往学期</template>
         <div v-for="(course, i) in allinfo.series_courses" :key="i">
           <el-menu-item :index="$router.path">
-            <el-link :href="'/#/course/' + course.cid + '/home'" :underline="false"
+            <el-link :href="'/course/#/course/' + course.cid + '/home'" :underline="false"
               style="display:block;text-align:center;">
               {{ course.name_zh + course.semester }}
             </el-link>
