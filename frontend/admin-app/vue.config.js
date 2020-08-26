@@ -1,4 +1,6 @@
 module.exports = {
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/admin/' : '/',
   devServer: {
     proxy: {
       '/api': {
@@ -6,9 +8,9 @@ module.exports = {
         changeOrigin: true,
         secure: false,
         pathRewrite: {
-          '^/api': '',
-        },
-      },
-    },
-  },
-};
+          '^/api': ''
+        }
+      }
+    }
+  }
+}
