@@ -65,7 +65,6 @@ export default {
   },
   methods: {
     handleClose(tag) {
-      console.log(tag);
       if (tag === '默认' && this.form.tags.length === 1) {
         this.$message.error('问题至少有一个 tag!');
         return;
@@ -98,7 +97,6 @@ export default {
     },
     onSubmit() {
       if (this.edit) {
-        console.log('oldTags', this.oldTags, 'newTags', this.form.tags);
         instance.put(`/api/v1/questions/${this.$route.params.qid}`,
           {
             title: this.form.title,
@@ -107,7 +105,6 @@ export default {
             old_tags: this.oldTags,
           })
           .then((res) => {
-            console.log(res);
             if (res.status !== 200) {
               console.log(JSON.stringify(res.data));
             }
@@ -141,7 +138,7 @@ export default {
     clearInterval(this.lockTimer);
   },
   mounted() {
-    this.axios
+    this.axios.defaults.headers.common.Authorization = `Bearer ${this.store.state.proansToken}`;
     console.log(this.$route);
     this.form.title = this.$route.params.problem.title;
     this.form.content = this.$route.params.problem.content;
