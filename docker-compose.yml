@@ -1,0 +1,36 @@
+version: "3.2"
+volumes:
+  mysql-data-volume:
+
+services:
+  backend:
+    build: ./backend/
+    links:
+      - mysql
+    environment:
+      DATABASE_NAME: ustc_se
+      MYSQL_USER: root
+      MYSQL_PWD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_HOST: mysql
+
+  mysql:
+    image: mariadb:latest
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max_allowed_packet=325058560
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ustc_se
+      MYSQL_ROOT_HOST: "%"
+    volumes:
+      - mysql-data-volume:/var/lib/mysql
+
+  nginx:
+    build: ./
+    volumes:
+      - ./docker/nginx:/etc/nginx/conf.d
+    ports:
+      - ${DPORT}:80
+    links:
+      - backend
+    environment:
+      NODE_ENV: production
+      TZ: "Asia/Shanghai"
