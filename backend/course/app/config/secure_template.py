@@ -2,10 +2,17 @@
 This is the template for secure.py, please created your own secure.py this way.
 """
 import os
+from os import getenv
 from os.path import join
 
 SQLALCHEMY_DATABASE_URI = \
-    'mysql+pymysql://root:123456@localhost/name'
+    'mysql+pymysql://{0}:{1}@{2}:{3}/{4}'.format(
+        getenv('MYSQL_USER'),
+        getenv('MYSQL_PWD'),
+        getenv('MYSQL_HOST'),
+        getenv('MYSQL_PORT') or '3306',
+        getenv('DATABASE_NAME')
+    )
 
 # SECRET_KEY = 'Lin Huancheng wudi'
 UPLOAD_FOLDER = join(os.path.abspath(os.path.join(os.getcwd())), "static/uploads")
