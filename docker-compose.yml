@@ -1,6 +1,7 @@
 version: "3.2"
 volumes:
   mysql-data-volume:
+  backend-static-volume:
 
 services:
   backend:
@@ -12,6 +13,8 @@ services:
       MYSQL_USER: root
       MYSQL_PWD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_HOST: mysql
+    volumes:
+      - backend-static-volume:/app/course/static
 
   mysql:
     image: mariadb:latest
@@ -27,6 +30,7 @@ services:
     build: ./
     volumes:
       - ./docker/nginx:/etc/nginx/conf.d
+      - backend-static-volume:/usr/share/nginx/backend-static/
     ports:
       - ${DPORT}:80
     links:

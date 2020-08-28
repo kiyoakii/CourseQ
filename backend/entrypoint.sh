@@ -5,6 +5,10 @@ if [ ! -f "course/app/config/secure.py" ]; then
   cp course/app/config/secure_template.py course/app/config/secure.py
 fi
 
+if [ ! -d "course/static/uploads" ]; then
+  mkdir -p course/static/uploads
+fi
+
 /wait.sh -t 120 mysql:3306
 
 cd course && python3 manage.py db upgrade
