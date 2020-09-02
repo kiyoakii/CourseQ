@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import store from '@/store/index';
 
 
 Vue.use(VueRouter);
@@ -9,11 +10,17 @@ const routes = [
     path: '/teacher',
     name: 'TeacherLoginView',
     component: () => import('@/views/LoginView.vue'),
+    meta: {
+      noNeedAuth: true,
+    },
   },
   {
     path: '/admin',
     name: 'AdminLoginView',
     component: () => import('@/views/LoginView.vue'),
+    meta: {
+      noNeedAuth: true,
+    },
   },
   {
     path: '/teacher/:tid',
@@ -108,6 +115,18 @@ const routes = [
 
 const router = new VueRouter({
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const { auth } = store.state;
+  if (auth && to.meta.noNeedAuth !== true) {
+    if (auth !== '教师' || auth !== '管理员') {
+      next({
+        path: '/admin',
+      });
+    }
+  }
+  next();
 });
 
 export default router;

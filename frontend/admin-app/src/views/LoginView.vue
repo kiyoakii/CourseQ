@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span>您无权访问管理系统</span>
+    <span>您无权访问管理系统!</span>
   </div>
 </template>
 
@@ -10,7 +10,8 @@ export default {
   mounted() {
     console.log(this.$store.state.gid);
     if (this.$store.state.gid) {
-      if (this.$route.path.includes('teacher')) {
+      if (this.$route.path.includes('teacher')
+      && this.$store.state.auth === '教师') {
         this.$router.push({
           path: '/teacher/',
           name: 'TeacherView',
@@ -18,7 +19,7 @@ export default {
             tid: this.$store.state.gid,
           },
         });
-      } else {
+      } else if (this.$store.state.auth === '管理员') {
         this.$router.push({
           path: '/admin/',
           name: 'AdminView',
