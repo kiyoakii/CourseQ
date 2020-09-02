@@ -1,4 +1,5 @@
 from flask import jsonify, g
+from flask import request
 from flask_jwt_extended import create_access_token
 
 from app.libs.enums import UserTypeEnum
@@ -85,3 +86,11 @@ def get_courses(gid):
     user = User.query.filter_by(gid=gid).first_or_404()
     courses = user.courses
     return jsonify(courses)
+
+
+@api.route('/<string:gid>/auth', methods=['POST'])
+def update_auth(gid):
+    user = User.query.filter_by(gid=gid).first_or_404()
+    with db.auto_commit():
+        user._auth = request.json['auth']
+    return Success()
