@@ -9,6 +9,21 @@
         </el-card>
       </router-link>
     </div>
+    <div>
+      <el-card class="list-item is-always-shadow active"
+        align="center" shadow="hover">
+          <a :href="`/course/#/course/${$route.params.cid}/home`" target="blank" :underline="false">
+            课程主页
+          </a>
+      </el-card>
+      <el-card class="list-item is-always-shadow active"
+        align="center" shadow="hover">
+          <a :href="`/proans/#/proans/course/${$route.params.cid}`" target="blank"
+            :underline="false">
+            答疑系统
+          </a>
+      </el-card>
+    </div>
   </div>
 </template>
 
@@ -44,7 +59,7 @@ export default {
   },
   methods: {
     testRouter() {
-      console.log(this.$route.name);
+      console.log(this.$route);
     },
   },
 };
@@ -69,5 +84,12 @@ export default {
 .link {
   text-decoration: none;
   color: #303133;
+}
+a {
+  text-decoration: none;
+  color: #303133;
+}
+a :hover :active{
+  color: #409eff;
 }
 </style>
