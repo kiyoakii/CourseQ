@@ -65,7 +65,8 @@ export default {
       window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${currentUrl.match(/hashparam=([\s\S]+)#\//)[1]}`;
       return;
     }
-    const appPath = currentUrl.slice(0, currentUrl.indexOf('#'));
+    // const appPath = currentUrl.slice(0, currentUrl.indexOf('#'));
+    const appPath = currentUrl.match(/http:\/\/[^/]*\//)[0];
     const hashPath = currentUrl.slice(currentUrl.indexOf('#') + 1);
     const serviceUrl = `http://home.ustc.edu.cn/~jarvis/cas/index.html?r=${new Date().getTime()}`;
     if (currentUrl.includes('ticket')) {
@@ -81,7 +82,7 @@ export default {
               this.$store.commit('setProansToken', res.data.access_token);
               this.$store.dispatch('initProblems');
               this.$store.commit('setGid', res.data.gid);
-              window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}`;
+              window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${currentUrl.match(/hashpath=([\s\S]+)#\//)[1]}`;
               return;
             }
             this.showUserProfileSteps = true;
