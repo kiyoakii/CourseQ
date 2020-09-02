@@ -316,7 +316,7 @@ export default {
       } else {
         formData = new FormData();
         formData.append('title', this.form.title);
-        formData.append('ddl', this.form.ddl.toLocaleString('zh-CN'));
+        formData.append('ddl', this.form.ddl.toLocaleString('zh-CN'), { hour12: false });
         const url = `/api/v1/assignments/${this.form.fileID}`;
         instance.patch(url,
           formData,
