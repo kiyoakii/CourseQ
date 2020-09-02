@@ -70,7 +70,7 @@ export default {
       const service = currentUrl.match(/service=([\s\S]+?)&/)[1];
       // const hashpath = currentUrl.match(/hashpath=([\s\S]+)#\//)[1];
       axios.get(`/api/v1/token?id=null&ticket=${ticket}&service=${service}`)
-      // axios.get('/api/v1/token/0000000000') // test
+      // axios.get('/api/v1/token/0000000217') // test
         .then((res) => {
           if (res.status === 200) {
             this.token = res.data.access_token;
@@ -79,12 +79,15 @@ export default {
               this.$store.commit('setGid', res.data.gid);
               this.$store.commit('setAuth', res.data.scope);
               this.loadingInstance.close();
-              if (currentUrl.includes('teacher') && this.$store.state.auth === '老师') {
-                window.location.href = `${appPath}#/teacher/${res.data.gid}`;
+              if (currentUrl.includes('teacher')) {
+                if (this.$store.state.auth === '老师') {
+                  window.location.href = `${appPath}#/teacher/${res.data.gid}`;
+                } else {
+                  window.location.href = `${appPath}#/teacher/`;
+                }
               } else if (this.$store.state.auth === '管理员') {
                 window.location.href = `${appPath}#/admin/${res.data.gid}`;
               } else {
-                this.$message.error('您无权进入！');
                 window.location.href = `${appPath}#/admin/`;
               }
               return;
