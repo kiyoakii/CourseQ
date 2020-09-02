@@ -19,6 +19,7 @@ export default new Vuex.Store({
     courses: [],
     token: '',
     gid: '',
+    auth: '',
   },
   getters: {
     adminAllCourses(state) {

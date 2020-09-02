@@ -6,6 +6,16 @@ Vue.use(VueRouter);
 
 const routes = [
   {
+    path: '/teacher',
+    name: 'TeacherLoginView',
+    component: () => import('@/views/LoginView.vue'),
+  },
+  {
+    path: '/admin',
+    name: 'AdminLoginView',
+    component: () => import('@/views/LoginView.vue'),
+  },
+  {
     path: '/teacher/:tid',
     name: 'TeacherView',
     component: () => import('@/views/teacher/TeacherView.vue'),
