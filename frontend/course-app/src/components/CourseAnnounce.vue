@@ -10,7 +10,7 @@
             发布者：{{ allinfo.announces[0].author }}
           </div>
           <div class="announcement-publish-info">
-            发布时间：{{ allinfo.announces[0].create_time }}
+            发布时间：{{ allinfo.announces[0].create_datetime }}
           </div>
         </div>
         <div class="announcement-content">
@@ -33,7 +33,7 @@
               发布者：{{ item.author }}
             </div>
             <div class="announcement-publish-info">
-              发布时间：{{ item.create_time }}
+              发布时间：{{ item.create_datetime }}
             </div>
           </div>
           <div class="announcement-content">
