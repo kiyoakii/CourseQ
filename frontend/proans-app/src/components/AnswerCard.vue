@@ -15,7 +15,7 @@
           <div v-if="teacherAnswer" class="edit-info">
             <span>{{ teacherAnswer.author.nickname }} 于
               {{ (new Date(teacherAnswer.update_datetime))
-            .toLocaleString('zh-CN', { timeZone: 'UTC'}) }} 修改</span>
+            .toLocaleString('zh-CN', { timeZone: 'UTC', hour12: false}) }} 修改</span>
           </div>
           <div v-else></div>
           <div class="buttons">
@@ -54,7 +54,7 @@
           <div v-if="studentAnswer != null" class="edit-info">
             <span>{{ studentAnswer.author.nickname }} 于
               {{ (new Date(studentAnswer.update_datetime))
-            .toLocaleString('zh-CN', { timeZone: 'UTC'}) }} 修改</span>
+            .toLocaleString('zh-CN', { timeZone: 'UTC', hour12: false}) }} 修改</span>
           </div>
           <div v-else></div>
           <div class="buttons">

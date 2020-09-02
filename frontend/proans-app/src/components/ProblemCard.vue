@@ -21,7 +21,7 @@
         <div class="edit-info">
           <span>{{ problem.author.nickname }} 于
             {{ (new Date(problem.update_datetime))
-            .toLocaleString('zh-CN') }} 修改</span>
+            .toLocaleString('zh-CN', { hour12: false }) }} 修改</span>
         </div>
         <div class="buttons">
           <el-button size="small" type="primary"
