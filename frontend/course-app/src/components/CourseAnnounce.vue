@@ -10,7 +10,8 @@
             发布者：{{ allinfo.announces[0].author }}
           </div>
           <div class="announcement-publish-info">
-            发布时间：{{ allinfo.announces[0].create_datetime }}
+            发布时间：{{ (new Date(allinfo.announces[0].create_datetime))
+              .toLocaleString('zh-CN', { hour12: false }) }}
           </div>
         </div>
         <div class="announcement-content">
@@ -33,7 +34,7 @@
               发布者：{{ item.author }}
             </div>
             <div class="announcement-publish-info">
-              发布时间：{{ item.create_datetime }}
+              发布时间：{{ (new Date(item.create_datetime)).toLocaleString('zh-CN', { hour12: false }) }}
             </div>
           </div>
           <div class="announcement-content">
