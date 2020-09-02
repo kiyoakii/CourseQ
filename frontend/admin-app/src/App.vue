@@ -79,10 +79,13 @@ export default {
               this.$store.commit('setGid', res.data.gid);
               this.$store.commit('setAuth', res.data.scope);
               this.loadingInstance.close();
-              if (currentUrl.includes('teacher')) {
+              if (currentUrl.includes('teacher') && this.$store.state.auth === '老师') {
                 window.location.href = `${appPath}#/teacher/${res.data.gid}`;
-              } else {
+              } else if (this.$store.state.auth === '管理员') {
                 window.location.href = `${appPath}#/admin/${res.data.gid}`;
+              } else {
+                this.$message.error('您无权进入！');
+                window.location.href = `${appPath}#/admin/`;
               }
               return;
             }
