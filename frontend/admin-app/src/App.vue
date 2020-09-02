@@ -40,7 +40,6 @@ export default {
   },
   watch: {
     $route(to, from) {
-      console.log(to);
       if (this.$store.state.gid
       && (to.params.aid || to.params.tid)
       && (to.params.tid !== this.$store.state.gid
@@ -73,12 +72,13 @@ export default {
       axios.get(`/api/v1/token?id=null&ticket=${ticket}&service=${service}`)
       // axios.get('/api/v1/token/0000000000') // test
         .then((res) => {
-          console.log(res);
           if (res.status === 200) {
             this.token = res.data.access_token;
             if (res.data.registered) {
               this.$store.commit('setToken', res.data.access_token);
               this.$store.commit('setGid', res.data.gid);
+              this.$store.commit('setAuth', res.data.scope);
+              this.loadingInstance.close();
               if (currentUrl.includes('teacher')) {
                 window.location.href = `${appPath}#/teacher/${res.data.gid}`;
               } else {

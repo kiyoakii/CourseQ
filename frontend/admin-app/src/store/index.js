@@ -73,6 +73,15 @@ export default new Vuex.Store({
     setToken(state, token) {
       state.token = token;
     },
+    setAuth(state, scope) {
+      if (scope === 'StudentScope') {
+        state.auth = '学生';
+      } else if (scope === 'TeacherScope') {
+        state.auth = '老师';
+      } else if (scope === 'AdminScope') {
+        state.auth = '管理员';
+      }
+    },
     initAllCourses(state, { courses }) {
       state.allCourses.splice(0, state.allCourses.length);
       state.allCourses.push(...courses);
