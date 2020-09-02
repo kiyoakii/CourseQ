@@ -13,7 +13,8 @@ def get_token():
     service = request.args.get("service")
     user = User.verify(ticket, service)
     access_token = create_access_token(identity=user)
-    return jsonify({'access_token': access_token, 'registered': user['scope'] != 'Scope', 'gid': user['gid']})
+    return jsonify({'access_token': access_token, 'registered': user['scope'] != 'Scope', 'gid': user['gid'],
+                    'scope': user['scope']})
 
 
 @api.route('/<string:gid>', methods=['GET'])
@@ -26,4 +27,5 @@ def super_get_token(gid):
         'scope': scope
     }
     access_token = create_access_token(identity=identity)
-    return jsonify({'access_token': access_token, 'registered': identity['scope'] != 'Scope', 'gid': identity['gid']})
+    return jsonify({'access_token': access_token, 'registered': identity['scope'] != 'Scope', 'gid': identity['gid'],
+                    'scope': identity['scope']})
