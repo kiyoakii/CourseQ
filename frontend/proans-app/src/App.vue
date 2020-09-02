@@ -63,6 +63,7 @@ export default {
     const currentUrl = window.location.href;
     if (currentUrl.includes('hashparam')) {
       window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${currentUrl.match(/hashparam=([\s\S]+)#\//)[1]}`;
+      return;
     }
     const appPath = currentUrl.slice(0, currentUrl.indexOf('#'));
     const hashPath = currentUrl.slice(currentUrl.indexOf('#') + 1);
