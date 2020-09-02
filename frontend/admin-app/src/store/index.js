@@ -77,7 +77,7 @@ export default new Vuex.Store({
       if (scope === 'StudentScope') {
         state.auth = '学生';
       } else if (scope === 'TeacherScope') {
-        state.auth = '老师';
+        state.auth = '教师';
       } else if (scope === 'AdminScope') {
         state.auth = '管理员';
       }
