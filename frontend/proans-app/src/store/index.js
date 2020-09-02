@@ -15,6 +15,7 @@ export default new Vuex.Store({
     gid: '',
     clickLike: false, // 点击我的点赞
     proansToken: '',
+    auth: '',
     commentList: [],
   },
   getters: {
@@ -71,6 +72,15 @@ export default new Vuex.Store({
     },
     setClickLike(state, { like }) {
       state.clickLike = like;
+    },
+    setAuth(state, scope) {
+      if (scope === 'StudentScope') {
+        state.auth = '学生';
+      } else if (scope === 'TeacherScope') {
+        state.auth = '老师';
+      } else if (scope === 'AdminScope') {
+        state.auth = '管理员';
+      }
     },
     changeStudentAnswer(state, { content }) {
       const index = state.problems.findIndex((problem) => problem.id === state.qid);
