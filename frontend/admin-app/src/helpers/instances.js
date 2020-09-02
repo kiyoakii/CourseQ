@@ -47,6 +47,11 @@ instance.interceptors.response.use(
         case 403:
           Message.error('您无权进行此操作!');
           break;
+        case 401:
+          if (err.response.data.msg === 'Token expired') {
+            Message.error('登录已失效，请重新登录！');
+          }
+          break;
         default:
           errorHandler({ err });
       }
