@@ -118,9 +118,13 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const { auth } = store.state;
+  const { auth } = store.state.auth;
   if (auth && to.meta.noNeedAuth !== true) {
-    if (auth !== '教师' || auth !== '管理员') {
+    if (auth !== '教师' && to.fullPath.includes('teacher')) {
+      next({
+        path: '/teacher',
+      });
+    } else if (auth !== '管理员' && to.fullPath.includes('admin')) {
       next({
         path: '/admin',
       });
