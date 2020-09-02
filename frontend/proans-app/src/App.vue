@@ -59,7 +59,7 @@ export default {
     });
   },
   beforeMount() {
-    this.loadingInstance.close();
+    // this.loadingInstance.close();
     const currentUrl = window.location.href;
     if (currentUrl.includes('hashparam')) {
       window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${currentUrl.match(/hashparam=([\s\S]+)#\//)[1]}`;
@@ -84,6 +84,7 @@ export default {
               return;
             }
             this.showUserProfileSteps = true;
+            this.loadingInstance.close();
             // window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${hashpath}`;
             // window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}`;
           }
@@ -95,6 +96,7 @@ export default {
       const casUrl = `http://passport.ustc.edu.cn/login?service=${encodeURIComponent(url)}`;
       window.location.href = casUrl;
     }
+    this.loadingInstance.close();
   },
 };
 </script>
