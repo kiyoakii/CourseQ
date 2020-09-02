@@ -38,19 +38,33 @@ export default {
       window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${hashpath}`;
     },
   },
+  watch: {
+    $route(to, from) {
+      console.log(to);
+      if (this.$store.state.gid
+      && (to.params.aid || to.params.tid)
+      && (to.params.tid !== this.$store.state.gid
+      && to.params.aid !== this.$store.state.gid)) {
+        this.$message.error('您无权访问！');
+        this.$router.push(from);
+      }
+    },
+  },
   created() {
     this.loadingInstance = this.$loading({
       fullscreen: true,
     });
   },
   beforeMount() {
-    this.loadingInstance.close();
     const currentUrl = window.location.href;
     if (currentUrl.includes('hashparam')) {
       window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${currentUrl.match(/hashparam=([\s\S]+)#\//)[1]}`;
+      return;
     }
-    const appPath = currentUrl.slice(0, currentUrl.indexOf('#'));
+    // const appPath = currentUrl.slice(0, currentUrl.indexOf('#'));
+    const appPath = currentUrl.match(/http:\/\/[^/]*\//)[0];
     const hashPath = currentUrl.slice(currentUrl.indexOf('#') + 1);
+    console.log('hashPath:', hashPath);
     const serviceUrl = `http://home.ustc.edu.cn/~jarvis/cas/index.html?r=${new Date().getTime()}`;
     if (currentUrl.includes('ticket')) {
       const ticket = currentUrl.match(/ticket=([\s\S]+?)&/)[1];
@@ -65,7 +79,6 @@ export default {
             if (res.data.registered) {
               this.$store.commit('setToken', res.data.access_token);
               this.$store.commit('setGid', res.data.gid);
-              // window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}`;
               if (currentUrl.includes('teacher')) {
                 window.location.href = `${appPath}#/teacher/${res.data.gid}`;
               } else {
@@ -81,6 +94,7 @@ export default {
       const casUrl = `http://passport.ustc.edu.cn/login?service=${encodeURIComponent(url)}`;
       window.location.href = casUrl;
     }
+    this.loadingInstance.close();
   },
 };
 </script>
