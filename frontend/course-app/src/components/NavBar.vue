@@ -49,4 +49,7 @@ export default {
   justify-content: center;
 }
 
+.el-link {
+  font-weight: 400;
+}
 </style>
