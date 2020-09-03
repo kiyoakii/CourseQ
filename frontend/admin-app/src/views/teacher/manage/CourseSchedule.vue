@@ -5,8 +5,7 @@
       <el-table :data="schedules.schedules"
         border
         :header-cell-style="{'text-align':'center'}"
-        :span-method="arraySpanMethod"
-        highlight-current-row>
+        :span-method="arraySpanMethod">
         <el-table-column prop="week" label="教学周"
           width="70"
           align="center"
