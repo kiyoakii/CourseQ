@@ -9,6 +9,9 @@
         <div class="content">
           <el-form :rules="rules" ref="form"
             :model="profile" label-width="60px" label-position="right">
+            <el-form-item label="姓名" prop="name">
+              <el-input v-model="profile.name"></el-input>
+            </el-form-item>
             <el-form-item label="昵称" prop="nickname">
               <el-input v-model="profile.nickname"></el-input>
             </el-form-item>
@@ -46,6 +49,9 @@ export default {
         phone: '',
       },
       rules: {
+        name: [
+          { required: true, message: '请输入姓名', trigger: ['blur'] },
+        ],
         nickname: [
           { required: true, message: '请输入昵称', trigger: ['blur'] },
         ],
