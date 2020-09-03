@@ -102,7 +102,7 @@
               maxlength="20"
               show-word-limit></el-input>
           </el-form-item>
-          <el-form-item label="参考内容" >
+          <el-form-item label="参考内容" prop="reference">
             <el-input v-model="form.reference" autocomplete="off"
               maxlength="20"
               show-word-limit></el-input>
