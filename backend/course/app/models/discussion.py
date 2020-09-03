@@ -13,7 +13,7 @@ class DiscussionTopic(Base):
     stars = Column(Integer, default=0)
     topic_answer = relationship('DiscussionAnswer')
     question = relationship('Question')
-    author = relationship('author')
+    author = relationship('User')
 
     @reconstructor
     def __init__(self, *args, **kwargs):
@@ -36,7 +36,7 @@ class DiscussionAnswer(Base):
     author_gid = Column(String(10), ForeignKey('user.gid'))
     reply_id = Column(Integer, default=0)
     topic = relationship('DiscussionTopic')
-    author = relationship('author')
+    author = relationship('User')
 
     @reconstructor
     def __init__(self, *args, **kwargs):
