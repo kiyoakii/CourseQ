@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from flask import g
 from sqlalchemy import Column, String, Integer, ForeignKey, Text
 from sqlalchemy.orm import relationship, reconstructor, backref
 
@@ -49,7 +50,7 @@ class Question(Base):
 
     @property
     def liked(self):
-        return QuestionUpVote.query.filter_by(question_id=self.id, user_gid='0000000000').count() != 0
+        return QuestionUpVote.query.filter_by(question_id=self.id, user_gid=g.user['gid']).count() != 0
 
     @property
     def belong_course(self):
