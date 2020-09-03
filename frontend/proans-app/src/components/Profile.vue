@@ -102,6 +102,7 @@ export default {
         }).then((res) => {
           console.log(res);
           if (res.status === 200) {
+            this.form.name = res.data.name;
             this.form.nickname = res.data.nickname;
             this.form.email = res.data.email;
             this.form.phone = res.data.phone;
