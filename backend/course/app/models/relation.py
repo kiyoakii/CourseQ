@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, SmallInteger, String, Table
+from sqlalchemy import Column, ForeignKey, Integer, SmallInteger, String, Table, UniqueConstraint
 from sqlalchemy.orm import reconstructor, relationship
 
 from app.libs.enums import UserTypeEnum
@@ -8,15 +8,16 @@ from .user import User
 
 class Enroll(Base):
     id = Column('id', Integer, primary_key=True)
-    user_gid = Column(String(10), ForeignKey('user.gid'))
-    course_cid = Column(Integer, ForeignKey('course.cid'))
+    user_gid = Column(String(10), ForeignKey('user.gid', ondelete="CASCADE"))
+    course_cid = Column(Integer, ForeignKey('course.cid', ondelete="CASCADE"))
     enroll_type = Column('enroll_type', SmallInteger)
     user = relationship('User')
     course = relationship('Course')
+    __table_args__ = (UniqueConstraint('user_gid', 'course_cid', name='_user_course_uc'),
+                      )
 
     @staticmethod
     def add_user(course, teachers_gid, students_gid, TAs_gid, db):
-        # TODO: repeat check
         with db.auto_commit():
             for teacher_gid in teachers_gid:
                 teacher = User.query.filter_by(gid=teacher_gid).first_or_404()
