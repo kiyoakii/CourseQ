@@ -43,12 +43,12 @@ export default {
       }
     },
   },
-  mounted() {
-    setTimeout(() => {
+  watch: {
+    $route() {
       if (this.$route.params.tid !== undefined) {
         this.activeCategory = this.$route.params.tid;
       }
-    }, 2000);
+    },
   },
   computed: {
     categories() {
