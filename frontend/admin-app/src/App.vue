@@ -60,8 +60,8 @@ export default {
       window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${currentUrl.match(/hashparam=([\s\S]+)#\//)[1]}`;
       return;
     }
-    const appPath = currentUrl.slice(0, currentUrl.indexOf('#'));
-    // const appPath = currentUrl.match(/http:\/\/[^/]*\//)[0];
+    // const appPath = currentUrl.slice(0, currentUrl.indexOf('#'));
+    const appPath = currentUrl.match(/http:\/\/[^/]*\//)[0];
     const hashPath = currentUrl.slice(currentUrl.indexOf('#') + 1);
     console.log('hashPath:', hashPath);
     const serviceUrl = `http://home.ustc.edu.cn/~jarvis/cas/index.html?r=${new Date().getTime()}`;
@@ -80,14 +80,14 @@ export default {
               this.$store.commit('setAuth', res.data.scope);
               if (currentUrl.includes('teacher')) {
                 if (this.$store.state.auth === '老师') {
-                  window.location.href = `${appPath}#/teacher/${res.data.gid}`;
+                  window.location.href = `${appPath}admin#/teacher/${res.data.gid}`;
                 } else {
-                  window.location.href = `${appPath}#/teacher/`;
+                  window.location.href = `${appPath}admin#/teacher/`;
                 }
               } else if (this.$store.state.auth === '管理员') {
-                window.location.href = `${appPath}#/admin/${res.data.gid}`;
+                window.location.href = `${appPath}admin#/admin/${res.data.gid}`;
               } else {
-                window.location.href = `${appPath}#/admin/`;
+                window.location.href = `${appPath}admin#/admin/`;
               }
               return;
             }
@@ -95,7 +95,7 @@ export default {
           }
         });
     } else if (!this.$store.state.token) {
-      const url = `${serviceUrl}${encodeURIComponent(`&apppath=${appPath}&hashpath=${hashPath}`)}`;
+      const url = `${serviceUrl}${encodeURIComponent(`&apppath=${appPath}admin/&hashpath=${hashPath}`)}`;
       const casUrl = `http://passport.ustc.edu.cn/login?service=${encodeURIComponent(url)}`;
       window.location.href = casUrl;
     }
