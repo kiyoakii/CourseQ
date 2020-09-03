@@ -7,6 +7,7 @@ from app.libs.error_code import DeleteSuccess, Success
 from app.libs.redprint import Redprint
 from app.libs.token_auth import login_required, role_required, private
 from app.models.base import db
+from app.models.relation import Enroll
 from app.models.user import User
 from app.validators.forms import UserForm, UserUpdateForm
 
@@ -57,6 +58,10 @@ def delete_user(gid):
     # gid = g.user['gid']
     with db.auto_commit():
         user = User.query.filter_by(gid=gid).first_or_404()
+        # todo: use bottom layer join to implement
+        delete_q = Enroll.__table__.delete().where(
+            Enroll.user_gid == gid)
+        db.session.execute(delete_q)
         db.session.delete(user)
     return DeleteSuccess()
 
