@@ -13,11 +13,12 @@ class DiscussionTopic(Base):
     stars = Column(Integer, default=0)
     topic_answer = relationship('DiscussionAnswer')
     question = relationship('Question')
+    author = relationship('author')
 
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields = ['id', 'question_id', 'stars', 'title', 'content', 'author_gid', 'stars']
+        self.fields = ['id', 'question_id', 'stars', 'title', 'content', 'author', 'stars']
 
     @property
     def belong_course(self):
@@ -35,11 +36,12 @@ class DiscussionAnswer(Base):
     author_gid = Column(String(10), ForeignKey('user.gid'))
     reply_id = Column(Integer, default=0)
     topic = relationship('DiscussionTopic')
+    author = relationship('author')
 
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields = ['id', 'topic_id', 'content', 'author_gid', 'reply_id']
+        self.fields = ['id', 'topic_id', 'content', 'author', 'reply_id']
 
     @property
     def belong_course(self):
