@@ -17,6 +17,7 @@ export default new Vuex.Store({
     proansToken: '',
     auth: '',
     commentList: [],
+    courseInfo: {},
   },
   getters: {
     commentList(state) {
@@ -154,6 +155,9 @@ export default new Vuex.Store({
     setProansToken(state, token) {
       state.proansToken = token;
     },
+    getCourseInfo(state, data) {
+      state.courseInfo = data;
+    },
   },
   actions: {
     initProblems(context) {
@@ -208,6 +212,17 @@ export default new Vuex.Store({
           window.location.href = `http://passport.ustc.edu.cn/logout?service=${encodeURIComponent(serviceUrl)}`;
         }
       });
+    },
+    getCourseInfo(context) {
+      axios.get(`/api/v1/courses/${context.state.cid}`)
+        .then((res) => {
+          console.log(res);
+          if (res.status !== 200) {
+            console.log(JSON.stringify(res.data));
+            return;
+          }
+          context.commit('getCourseInfo', res.data);
+        });
     },
   },
   modules: {

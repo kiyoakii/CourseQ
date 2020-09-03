@@ -1,14 +1,47 @@
 <template>
   <div>
-    <el-card>
-       <div class="block">
-        <el-carousel height="300px">
-          <el-carousel-item v-for="item in text" :key="item">
-            <h1 class="small">{{ item }}</h1>
-          </el-carousel-item>
-        </el-carousel>
-      </div>
-    </el-card>
+    <el-row :gutter="20">
+      <el-col :span="12">
+        <el-card class="box-card">
+          <div id="course-info" class="card-content">
+            <div id="course-name">
+              <h1>{{ courseInfo.name_zh }}</h1>
+              <p>{{ courseInfo.name_en }}</p>
+              <p>{{ courseInfo.semester }}</p>
+            </div>
+            <div id="course-intro">
+              <p>{{ courseInfo.intro }}</p>
+            </div>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="12">
+        <el-card class="box-card">
+          <template slot="header">
+            <h1>问题统计</h1>
+          </template>
+          <div class="card-content">
+            <el-row type="flex" justify="center">
+              <span class="text">问题数：{{ problemsNum }}</span>
+            </el-row>
+            <el-row type="flex" justify="center">
+              <span class="text">标签数：{{ tagsNum }}</span>
+            </el-row>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-card>
+        <div class="block">
+          <el-carousel height="300px">
+            <el-carousel-item v-for="item in text" :key="item">
+              <h1 class="small">{{ item }}</h1>
+            </el-carousel-item>
+          </el-carousel>
+        </div>
+      </el-card>
+    </el-row>
   </div>
 </template>
 
@@ -27,6 +60,15 @@ export default {
         '新建问题请点击左侧加号',
       ];
     },
+    problemsNum() {
+      return this.$store.state.problems.length;
+    },
+    tagsNum() {
+      return this.$store.state.tags.length;
+    },
+    courseInfo() {
+      return this.$store.state.courseInfo;
+    },
   },
   beforeMount() {
     this.$store.commit({
@@ -34,6 +76,7 @@ export default {
       id: Number(this.$route.params.cid),
     });
     this.$store.dispatch('initProblems');
+    this.$store.dispatch('getCourseInfo');
   },
 };
 </script>
@@ -61,4 +104,36 @@ export default {
   align-items: center;
 }
 
+#course-info {
+  display: flex;
+  flex-direction: row;
+  height: 200px;
+  align-items: center;
+}
+#course-name {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#course-name > h1 {
+  margin: 0;
+}
+#course-intro {
+  flex: 4;
+  text-align: left;
+}
+
+.box-card {
+  height: 300px;
+}
+
+.text {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.card-content {
+}
 </style>
