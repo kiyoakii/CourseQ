@@ -5,19 +5,19 @@
         <div slot="header" class="clearfix">
           <span class="title">教师/助教回答</span>
         </div>
-        <div v-if="teacherAnswer != null" class="text item">
+        <div v-if="teacherAnswer != null" v-show="!teacherEditorShow" class="text item">
           <render :markdown="teacherAnswer.content"></render>
         </div>
-        <div v-else class="text item">
+        <div v-else v-show="!teacherEditorShow" class="text item">
           暂时没有回答噢
         </div>
         <div class="footer">
-          <div v-if="teacherAnswer" class="edit-info">
+          <div v-if="teacherAnswer" v-show="!teacherEditorShow" class="edit-info">
             <span>{{ teacherAnswer.author.nickname }} 于
               {{ (new Date(teacherAnswer.update_datetime))
             .toLocaleString('zh-CN', { timeZone: 'UTC', hour12: false}) }} 修改</span>
           </div>
-          <div v-else></div>
+          <div v-else v-show="!teacherEditorShow"></div>
           <div class="buttons">
             <div v-show="!teacherEditorShow">
               <el-button type="primary" icon="el-icon-edit" size="small"
@@ -44,19 +44,19 @@
         <div slot="header" class="clearfix">
           <span class="title">学生回答</span>
         </div>
-        <div v-if="studentAnswer" class="text item">
+        <div v-if="studentAnswer" v-show="!studentEditorShow" class="text item">
           <render :markdown="studentAnswer.content"></render>
         </div>
-        <div v-else>
+        <div v-else v-show="!studentEditorShow">
           暂时没有回答噢
         </div>
         <div class="footer">
-          <div v-if="studentAnswer != null" class="edit-info">
+          <div v-if="studentAnswer != null" v-show="!studentEditorShow" class="edit-info">
             <span>{{ studentAnswer.author.nickname }} 于
               {{ (new Date(studentAnswer.update_datetime))
             .toLocaleString('zh-CN', { timeZone: 'UTC', hour12: false}) }} 修改</span>
           </div>
-          <div v-else></div>
+          <div v-else v-show="!studentEditorShow"></div>
           <div class="buttons">
             <div v-show="!studentEditorShow">
               <el-button type="primary" icon="el-icon-edit" size="small"
