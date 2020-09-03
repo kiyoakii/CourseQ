@@ -19,9 +19,13 @@ class SQLAlchemy(_SQLAlchemy):
 db = SQLAlchemy()
 
 
+def now():
+    return int(datetime.now().timestamp())
+
+
 class Base(db.Model):
     __abstract__ = True
-    create_time = Column(Integer, default=int(datetime.now().timestamp()))
+    create_time = Column(Integer, default=now)
 
     def __init__(self, *args, **kwargs):
         super(Base, self).__init__(*args, **kwargs)
