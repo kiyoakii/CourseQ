@@ -29,7 +29,7 @@
               </el-row>
               <el-row>
                 <span class="light-text">
-                  {{ `参考章节：${scope.row.reference}` }}</span>
+                  {{ `参考内容：${scope.row.reference}` }}</span>
               </el-row>
             </template>
           </el-table-column>
@@ -102,7 +102,7 @@
               maxlength="20"
               show-word-limit></el-input>
           </el-form-item>
-          <el-form-item label="参考章节" >
+          <el-form-item label="参考内容" >
             <el-input v-model="form.reference" autocomplete="off"
               maxlength="20"
               show-word-limit></el-input>
@@ -265,6 +265,9 @@ export default {
       rules: {
         topic: [
           { required: true, message: '请输入课程主题', trigger: 'blur' },
+        ],
+        reference: [
+          { required: true, message: '请输入参考内容', trigger: 'blur' },
         ],
         week: [
           { required: true, message: '请输入教学周', trigger: 'blur' },
