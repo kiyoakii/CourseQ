@@ -46,6 +46,8 @@ export default {
     $route() {
       if (this.$route.params.tid !== undefined) {
         this.activeCategory = this.$route.params.tid;
+      } else {
+        this.activeCategory = -1;
       }
     },
   },
