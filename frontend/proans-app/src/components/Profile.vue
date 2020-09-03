@@ -95,7 +95,7 @@ export default {
       if (this.visible) {
         console.log(this.id);
         this.form.id = this.id;
-        instance.get(`/api/v1/users/${this.id}`, {
+        this.axios.get(`/api/v1/users/${this.id}`, {
           headers: {
             Authorization: `Bearer ${this.$store.state.token}`,
           },
@@ -106,6 +106,17 @@ export default {
             this.form.nickname = res.data.nickname;
             this.form.email = res.data.email;
             this.form.phone = res.data.phone;
+          }
+        }).catch((err) => {
+          if (err.response.status === 403
+            && err.response.data.msg === 'Token expired') {
+            this.$message.error('登录已失效，请重新登录！');
+            this.$store.commit('setProansToken', '');
+            const currentUrl = window.location.href;
+            const appname = currentUrl.slice(0, currentUrl.indexOf('#'));
+            const hashparam = currentUrl.slice(currentUrl.indexOf('#') + 1);
+            const serviceUrl = `${appname}?hashparam=${hashparam}`;
+            window.location.href = `http://passport.ustc.edu.cn/logout?service=${encodeURIComponent(serviceUrl)}`;
           }
         });
       }
