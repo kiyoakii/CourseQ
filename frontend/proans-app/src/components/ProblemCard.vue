@@ -101,11 +101,9 @@ export default {
     },
   },
   watch: {
-    $route(newVal, oldVal) {
-      if (JSON.stringify(newVal.params) !== JSON.stringify(oldVal.params)) {
-        this.stars = this.problem.stars;
-        this.starOn = this.problem.liked;
-      }
+    problem() {
+      this.stars = this.problem.stars;
+      this.starOn = this.problem.liked;
     },
   },
   methods: {
@@ -177,8 +175,6 @@ export default {
     },
   },
   beforeMount() {
-    this.stars = this.problem.stars;
-    this.starOn = this.problem.liked;
     this.axios.defaults.headers.common.Authorization = `Bearer ${this.$store.state.proansToken}`;
   },
 };
