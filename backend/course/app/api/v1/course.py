@@ -110,6 +110,7 @@ def create_question(cid):
 
 @api.route('/<int:cid>/questions', methods=['GET'])
 @role_required(UserTypeEnum.STUDENT)
+@enroll_required(Course)
 def get_question_list(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     return jsonify(course.questions)
