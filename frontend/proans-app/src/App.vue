@@ -59,14 +59,13 @@ export default {
     });
   },
   beforeMount() {
-    // this.loadingInstance.close();
     const currentUrl = window.location.href;
     if (currentUrl.includes('hashparam')) {
       window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${currentUrl.match(/hashparam=([\s\S]+)#\//)[1]}`;
       return;
     }
-    const appPath = currentUrl.slice(0, currentUrl.indexOf('#'));
-    // const appPath = currentUrl.match(/http:\/\/[^/]*\//)[0];
+    // const appPath = currentUrl.slice(0, currentUrl.indexOf('#'));
+    const appPath = currentUrl.match(/http:\/\/[^/]*\//)[0];
     const hashPath = currentUrl.slice(currentUrl.indexOf('#') + 1);
     const serviceUrl = `http://home.ustc.edu.cn/~jarvis/cas/index.html?r=${new Date().getTime()}`;
     if (currentUrl.includes('ticket')) {
@@ -82,7 +81,7 @@ export default {
               this.$store.commit('setProansToken', res.data.access_token);
               this.$store.dispatch('initProblems');
               this.$store.commit('setGid', res.data.gid);
-              window.location.href = `${appPath}#${currentUrl.match(/hashpath=([\s\S]+)#\//)[1]}`;
+              window.location.href = `${appPath}proans/#${currentUrl.match(/hashpath=([\s\S]+)#\//)[1]}`;
               return;
             }
             this.showUserProfileSteps = true;
@@ -93,7 +92,7 @@ export default {
           console.log(e);
         });
     } else if (!this.$store.state.proansToken) {
-      const url = `${serviceUrl}${encodeURIComponent(`&apppath=${appPath}&hashpath=${hashPath}`)}`;
+      const url = `${serviceUrl}${encodeURIComponent(`&apppath=${appPath}proans/&hashpath=${hashPath}`)}`;
       const casUrl = `http://passport.ustc.edu.cn/login?service=${encodeURIComponent(url)}`;
       window.location.href = casUrl;
     }
