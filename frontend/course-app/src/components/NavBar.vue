@@ -1,7 +1,9 @@
 <template>
   <div class="nav-bar">
     <el-menu mode="horizontal" router>
-      <el-menu-item :index="'/course/' + $route.params.cid + '/home'">课程主页</el-menu-item>
+      <el-menu-item :index="'/course/' + $route.params.cid + '/home'">
+        <el-link >课程主页</el-link>
+      </el-menu-item>
       <!-- <el-menu-item :index="'/course/' + $route.params.cid + '/calendar'">课程日历</el-menu-item>
       <el-menu-item :index="'/course/' + $route.params.cid + '/resourse'">课程资源</el-menu-item> -->
       <el-menu-item :index="$router.path">
