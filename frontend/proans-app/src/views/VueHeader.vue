@@ -1,6 +1,6 @@
 <template>
   <el-row class="header">
-    <el-col :span="20">
+    <el-col :span="20" class="tags-list">
       <problem-categories></problem-categories>
     </el-col>
     <el-col :span="4">
@@ -81,4 +81,9 @@ export default {
   display: flex;
   align-items: center;
 }
+
+.tags-list {
+  height: 100%;
+}
+
 </style>
