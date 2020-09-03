@@ -86,7 +86,6 @@ export default {
               return;
             }
             this.showUserProfileSteps = true;
-            this.loadingInstance.close();
             // window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${hashpath}`;
             // window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}`;
           }
@@ -98,7 +97,9 @@ export default {
       const casUrl = `http://passport.ustc.edu.cn/login?service=${encodeURIComponent(url)}`;
       window.location.href = casUrl;
     }
-    this.loadingInstance.close();
+    setTimeout(() => {
+      this.loadingInstance.close();
+    }, 1000);
   },
 };
 </script>

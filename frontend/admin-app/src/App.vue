@@ -78,7 +78,6 @@ export default {
               this.$store.commit('setToken', res.data.access_token);
               this.$store.commit('setGid', res.data.gid);
               this.$store.commit('setAuth', res.data.scope);
-              this.loadingInstance.close();
               if (currentUrl.includes('teacher')) {
                 if (this.$store.state.auth === '老师') {
                   window.location.href = `${appPath}#/teacher/${res.data.gid}`;
@@ -100,7 +99,9 @@ export default {
       const casUrl = `http://passport.ustc.edu.cn/login?service=${encodeURIComponent(url)}`;
       window.location.href = casUrl;
     }
-    this.loadingInstance.close();
+    setTimeout(() => {
+      this.loadingInstance.close();
+    }, 1000);
   },
 };
 </script>
