@@ -202,6 +202,7 @@ export default {
 <style scoped>
 .el-tag {
   margin-right: 10px;
+  margin-bottom: 10px;
 }
 .button-new-tag {
   margin-right: 10px;
