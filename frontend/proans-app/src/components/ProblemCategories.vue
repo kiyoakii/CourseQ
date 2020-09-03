@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <el-scrollbar>
+  <div class="el-col">
+    <el-scrollbar style="height: 100%;">
       <el-row class="category-list" type="flex" align="center">
         <el-col v-for="(item, i) in categories" :key="i"
         style="display: block;">
@@ -83,5 +83,17 @@ a {
   color: #409eff;
 }
 
+.el-col {
+  height: 100%;
+}
 
+</style>
+
+<style>
+
+.el-scrollbar .el-scrollbar__wrap {
+  display: flex;
+  align-items: center;
+  overflow-x: hidden;
+}
 </style>
