@@ -1,7 +1,7 @@
 <template>
   <el-row class="header">
     <el-col :span="1">
-      <el-button icon="el-icon-back"
+      <el-button icon="el-icon-s-home"
         @click="handleRet" class="btn-back" circle> </el-button>
     </el-col>
     <el-col :span="19" class="tags-list">
