@@ -30,7 +30,8 @@
                 type="danger"
                 @click="handleDelete(scope.row)">删除</el-button>
             </div>
-            <el-checkbox v-else @change="handleSelect($event, scope.row)"></el-checkbox>
+            <el-checkbox v-else @change="handleSelect($event, scope.row)"
+            :key="scope.row.id"></el-checkbox>
           </template>
         </el-table-column>
       </el-table>
