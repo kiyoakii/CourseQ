@@ -1,11 +1,11 @@
 <template>
   <el-row class="header">
     <el-col :span="20">
-      <problem-categories @click="setLike(false)"></problem-categories>
+      <problem-categories></problem-categories>
     </el-col>
     <el-col :span="4">
       <el-row type="flex" justify="space-around">
-        <el-button @click="setLike(true)">我的点赞</el-button>
+        <el-button @click="myLike()">我的点赞</el-button>
         <el-dropdown placement="bottom" @command="commandHandler" size="medium">
           <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
           <el-dropdown-menu slot="dropdown">
@@ -35,11 +35,13 @@ export default {
     };
   },
   methods: {
-    setLike(like) {
-      this.$store.commit({
-        type: 'setClickLike',
-        like,
-      });
+    myLike() {
+      if (this.$route.name !== 'LikedView') {
+        this.$router.push({
+          path: `/proans/course/${this.$route.params.cid}/tag/like'`,
+          name: 'LikedView',
+        });
+      }
     },
     commandHandler(command) {
       if (command === 'logout') {
