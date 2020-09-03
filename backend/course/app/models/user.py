@@ -13,7 +13,7 @@ from app.models.base import Base, db
 
 class User(Base):
     gid = Column(String(10), primary_key=True)
-    email = Column(String(24), unique=True, nullable=False)
+    email = Column(String(63), unique=True, nullable=False)
     nickname = Column(String(24), unique=True)
     _auth = Column("auth", SmallInteger)
     favorite_question = relationship('Question', backref='user')
