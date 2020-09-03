@@ -54,7 +54,7 @@ export default {
         content: '',
         tags: [],
       },
-      oldTags: [],
+      delTags: [],
       formLabelWidth: '120px',
       inputVisible: false,
       inputValue: '',
@@ -69,7 +69,8 @@ export default {
         this.$message.error('问题至少有一个 tag!');
         return;
       }
-      this.form.tags.splice(this.form.tags.indexOf(tag), 1);
+      this.delTags.push(this.form.tags.splice(this.form.tags.indexOf(tag), 1)[0]);
+      console.log(this.delTags);
     },
     showInput() {
       this.inputVisible = true;
@@ -108,7 +109,7 @@ export default {
             title: this.form.title,
             content: this.form.content,
             new_tags: this.form.tags,
-            old_tags: this.oldTags,
+            del_tags: this.delTags,
           })
           .then((res) => {
             if (res.status !== 200) {
@@ -149,7 +150,7 @@ export default {
     this.form.title = this.$route.params.problem.title;
     this.form.content = this.$route.params.problem.content;
     this.$route.params.problem.tags.forEach((t) => this.form.tags.push(t.name));
-    this.$route.params.problem.tags.forEach((t) => this.oldTags.push(t.name));
+    // this.$route.params.problem.tags.forEach((t) => this.oldTags.push(t.name));
     this.edit = this.$route.params.edit;
     if (this.edit) {
       this.lockTimer = setInterval(() => {
