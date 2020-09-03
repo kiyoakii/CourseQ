@@ -1,7 +1,7 @@
-from flask import request
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import reconstructor
 
+from app.config.secure import HOST
 from app.models.base import Base
 
 
@@ -19,7 +19,7 @@ class CourseResource(Base):
 
     @property
     def url(self):
-        return request.url_root + 'static/uploads/' + self.file
+        return HOST + 'static/uploads/' + self.file
 
     @property
     def belong_course(self):
@@ -39,7 +39,7 @@ class Photo(Base):
 
     @property
     def url(self):
-        return request.url_root + 'static/uploads/' + self.file
+        return HOST + 'static/uploads/' + self.file
 
     @property
     def belong_author(self):
