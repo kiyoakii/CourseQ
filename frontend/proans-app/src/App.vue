@@ -82,7 +82,7 @@ export default {
               this.$store.commit('setProansToken', res.data.access_token);
               this.$store.dispatch('initProblems');
               this.$store.commit('setGid', res.data.gid);
-              window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${currentUrl.match(/hashpath=([\s\S]+)#\//)[1]}`;
+              window.location.href = `${appPath}#${currentUrl.match(/hashpath=([\s\S]+)#\//)[1]}`;
               return;
             }
             this.showUserProfileSteps = true;
