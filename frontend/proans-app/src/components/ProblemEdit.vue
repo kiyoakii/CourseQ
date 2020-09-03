@@ -190,8 +190,8 @@ export default {
 </script>
 
 <style scoped>
-.el-tag + .el-tag {
-  margin-left: 10px;
+.el-tag {
+  margin-right: 10px;
 }
 .button-new-tag {
   margin-right: 10px;
