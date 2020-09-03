@@ -1,6 +1,10 @@
 <template>
   <el-row class="header">
-    <el-col :span="20" class="tags-list">
+    <el-col :span="1">
+      <el-button icon="el-icon-back"
+        @click="handleRet" class="btn-back" circle> </el-button>
+    </el-col>
+    <el-col :span="18" class="tags-list">
       <problem-categories></problem-categories>
     </el-col>
     <el-col :span="4">
@@ -41,6 +45,11 @@ export default {
           path: `/proans/course/${this.$route.params.cid}/tag/0`,
         });
       }
+    },
+    handleRet() {
+      this.$router.push({
+        path: `/proans/course/${this.$route.params.cid}`,
+      });
     },
     commandHandler(command) {
       if (command === 'logout') {
@@ -86,4 +95,7 @@ export default {
   height: 100%;
 }
 
+.btn-back {
+  margin-left: 10px;
+}
 </style>
