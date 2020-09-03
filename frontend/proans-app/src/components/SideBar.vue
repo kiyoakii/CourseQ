@@ -23,7 +23,7 @@ export default {
   },
   computed: {
     problems() {
-      if (this.$route.path.name === 'LikedView') {
+      if (this.$route.params.tid === '0') {
         return this.$store.getters.problemsByLike;
       }
       if (this.searchInfo !== '') {
