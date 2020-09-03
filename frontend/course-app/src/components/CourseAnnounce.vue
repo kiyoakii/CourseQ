@@ -106,7 +106,6 @@ export default {
 .announcements-panel-active {
   margin: 0;
   width: 100%;
-  height: 20em;
   transition: height .8s;
 }
 
