@@ -86,52 +86,62 @@ export default {
       this.inputValue = '';
     },
     closeEditor() {
-      this.$router.push({
-        name: 'ProblemView',
-        params: {
-          cid: this.$route.params.cid,
-          tid: this.$route.params.tid,
-          qid: this.$route.params.qid,
-        },
+      this.axios({
+        method: 'POST',
+        url: `/api/v1/questions/${this.$route.params.qid}/unlock`,
+      }).then(() => {
+        this.$router.push({
+          name: 'ProblemView',
+          params: {
+            cid: this.$route.params.cid,
+            tid: this.$route.params.tid,
+            qid: this.$route.params.qid,
+          },
+        });
       });
     },
     onSubmit() {
-      if (this.edit) {
-        instance.put(`/api/v1/questions/${this.$route.params.qid}`,
-          {
+      this.axios({
+        method: 'POST',
+        url: `/api/v1/questions/${this.$route.params.qid}/unlock`,
+      }).then(() => {
+        if (this.edit) {
+          instance.put(`/api/v1/questions/${this.$route.params.qid}`,
+            {
+              title: this.form.title,
+              content: this.form.content,
+              new_tags: this.form.tags,
+              old_tags: this.oldTags,
+            })
+            .then((res) => {
+              if (res.status !== 200) {
+                console.log(JSON.stringify(res.data));
+              }
+              this.$store.commit('updateProblem', this.$route.params.problem);
+              this.closeEditor();
+            });
+        } else {
+          console.log(this.form);
+          instance.post(`/api/v1/courses/${this.$route.params.cid}/questions`, {
             title: this.form.title,
             content: this.form.content,
-            new_tags: this.form.tags,
-            old_tags: this.oldTags,
-          })
-          .then((res) => {
+            tags: this.form.tags.length === 0 ? ['默认'] : this.form.tags,
+          }).then((res) => {
+            console.log(res);
             if (res.status !== 200) {
               console.log(JSON.stringify(res.data));
             }
-            this.$store.commit('updateProblem', this.$route.params.problem);
-            this.closeEditor();
+            this.$store.dispatch('initProblems');
+            this.$router.push({
+              name: 'CategoryView',
+              params: {
+                cid: this.$route.params.cid,
+                tid: this.$route.params.tid,
+              },
+            });
           });
-      } else {
-        console.log(this.form);
-        instance.post(`/api/v1/courses/${this.$route.params.cid}/questions`, {
-          title: this.form.title,
-          content: this.form.content,
-          tags: this.form.tags.length === 0 ? ['默认'] : this.form.tags,
-        }).then((res) => {
-          console.log(res);
-          if (res.status !== 200) {
-            console.log(JSON.stringify(res.data));
-          }
-          this.$store.dispatch('initProblems');
-          this.$router.push({
-            name: 'CategoryView',
-            params: {
-              cid: this.$route.params.cid,
-              tid: this.$route.params.tid,
-            },
-          });
-        });
-      }
+        }
+      });
     },
   },
   beforeDestory() {
