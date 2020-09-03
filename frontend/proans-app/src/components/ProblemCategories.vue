@@ -1,9 +1,8 @@
 <template>
   <div>
-    <!-- This is ProblemCategories component. -->
     <el-scrollbar>
-      <ul class="category-list">
-        <li v-for="(item, i) in categories" :key="i"
+      <el-row class="category-list" type="flex" align="center">
+        <el-col v-for="(item, i) in categories" :key="i"
         style="display: block;">
           <el-button :icon="String(activeCategory) === String(item.id) ?
           'el-icon-folder-opened':'el-icon-folder'"
@@ -12,10 +11,10 @@
           @click="chooseCategory(item.id)">
             {{ item.name }}
           </el-button>
-        </li>
-        <li v-if="categories.length === 0">
-        </li>
-      </ul>
+        </el-col>
+        <el-col v-if="categories.length === 0">
+        </el-col>
+      </el-row>
     </el-scrollbar>
   </div>
 </template>
@@ -70,6 +69,7 @@ a {
 
 .category-list {
   display: flex;
+  align-items: center;
 }
 
 .category-item {
