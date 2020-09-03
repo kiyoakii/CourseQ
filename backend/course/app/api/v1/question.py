@@ -24,6 +24,7 @@ def update_question(qid):
     question = Question.query.get_or_404(qid)
     form = QuestionUpdateForm().validate_for_api()
     with db.auto_commit():
+        print(form.new_tags.data)
         for new_tag_name in form.new_tags.data:
             tag = Tag.get_or_create_tag(new_tag_name)
             question.tags.append(tag)
@@ -175,7 +176,9 @@ def lock_question(qid):
 @role_required(UserTypeEnum.STUDENT)
 @enroll_required(Question)
 def unlock_question(qid):
-    if question_lock.user(qid) != g.user['gid']:
+    if not question_lock.user(qid):
+        return Success()
+    elif question_lock.user(qid) != g.user['gid']:
         return LockForbidden()
     question_lock.unlock(qid)
     return Success()
