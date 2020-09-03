@@ -5,7 +5,7 @@ from app.libs.enums import UserTypeEnum
 from app.libs.error_code import Success, DeleteSuccess, ParameterException
 from app.libs.file import create_file
 from app.libs.redprint import Redprint
-from app.libs.token_auth import login_required, role_required, enroll_required
+from app.libs.token_auth import role_required, enroll_required
 from app.models import Announce, CourseResource, Assignment
 from app.models.base import db
 from app.models.course import Course
@@ -152,6 +152,7 @@ def create_announce(cid):
     with db.auto_commit():
         announce = Announce()
         form.populate_obj(announce)
+        announce.author_gid = g.user['gid']
         announce.course = course
         db.session.add(announce)
     return Success()
