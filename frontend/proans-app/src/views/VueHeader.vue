@@ -36,10 +36,9 @@ export default {
   },
   methods: {
     myLike() {
-      if (this.$route.name !== 'LikedView') {
+      if (this.$route.params.tid !== '0') {
         this.$router.push({
-          path: `/proans/course/${this.$route.params.cid}/tag/like'`,
-          name: 'LikedView',
+          path: `/proans/course/${this.$route.params.cid}/tag/0`,
         });
       }
     },
