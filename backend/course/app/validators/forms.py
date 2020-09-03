@@ -13,7 +13,7 @@ class UserForm(Form):
     nickname = StringField(validators=[DataRequired(),
                                        length(min=4, max=22)])
 
-    name = StringField(validators=[length(max=24)])
+    name = StringField(validators=[length(max=24), DataRequired()])
     phone = StringField(validators=[length(max=24)])
     school = StringField(validators=[length(max=63)])
 
