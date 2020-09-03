@@ -50,6 +50,12 @@ instance.interceptors.response.use(
         case 401:
           if (err.response.data.msg === 'Token expired') {
             Message.error('登录已失效，请重新登录！');
+            store.commit('setToken', '');
+            const currentUrl = window.location.href;
+            const appname = currentUrl.slice(0, currentUrl.indexOf('#'));
+            const hashparam = currentUrl.slice(currentUrl.indexOf('#') + 1);
+            const serviceUrl = `${appname}?hashparam=${hashparam}`;
+            window.location.href = `http://passport.ustc.edu.cn/logout?service=${encodeURIComponent(serviceUrl)}`;
           }
           break;
         default:
