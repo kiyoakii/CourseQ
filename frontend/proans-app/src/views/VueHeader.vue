@@ -4,7 +4,7 @@
       <el-button icon="el-icon-back"
         @click="handleRet" class="btn-back" circle> </el-button>
     </el-col>
-    <el-col :span="18" class="tags-list">
+    <el-col :span="19" class="tags-list">
       <problem-categories></problem-categories>
     </el-col>
     <el-col :span="4">
