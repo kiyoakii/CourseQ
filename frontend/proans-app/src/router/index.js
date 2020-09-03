@@ -15,6 +15,11 @@ const routes = [
     component: () => import('@/views/GuideView.vue'),
   },
   {
+    path: '/proans/course/:cid/tag/like',
+    name: 'LikedView',
+    component: () => import('@/views/GuideView.vue'),
+  },
+  {
     path: '/proans/course/:cid/tag/:tid/question/:qid',
     name: 'ProblemView',
     component: () => import('@/views/ProblemView.vue'),

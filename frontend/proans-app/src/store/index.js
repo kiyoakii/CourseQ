@@ -4,6 +4,7 @@ import axios from 'axios';
 import VuexPersistence from 'vuex-persist';
 
 Vue.use(Vuex);
+const { Message } = require('element-ui');
 
 export default new Vuex.Store({
   state: {
@@ -13,7 +14,6 @@ export default new Vuex.Store({
     qid: 0,
     cid: 0,
     gid: '',
-    clickLike: false, // 点击我的点赞
     proansToken: '',
     auth: '',
     commentList: [],
@@ -69,9 +69,6 @@ export default new Vuex.Store({
   mutations: {
     setGid(state, gid) {
       state.gid = gid;
-    },
-    setClickLike(state, { like }) {
-      state.clickLike = like;
     },
     setAuth(state, scope) {
       if (scope === 'StudentScope') {
@@ -160,13 +157,13 @@ export default new Vuex.Store({
   },
   actions: {
     initProblems(context) {
-      console.log('initProblem', context.state.proansToken);
       axios.get(`/api/v1/courses/${context.state.cid}/questions`, {
         headers: {
           Authorization: `Bearer ${context.state.proansToken}`,
         },
       }).then((res) => {
         if (res.status === 200) {
+          console.log(res);
           context.commit('initProblems', res.data);
         }
       });
@@ -199,6 +196,17 @@ export default new Vuex.Store({
           type: 'setCommentList',
           list: res.data,
         });
+      }).catch((err) => {
+        if (err.response.status === 401
+          && err.response.data.msg === 'Token expired') {
+          Message.error('登录已失效，请重新登录！');
+          context.commit('setProansToken', '');
+          const currentUrl = window.location.href;
+          const appname = currentUrl.slice(0, currentUrl.indexOf('#'));
+          const hashparam = currentUrl.slice(currentUrl.indexOf('#') + 1);
+          const serviceUrl = `${appname}?hashparam=${hashparam}`;
+          window.location.href = `http://passport.ustc.edu.cn/logout?service=${encodeURIComponent(serviceUrl)}`;
+        }
       });
     },
   },
