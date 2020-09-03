@@ -62,7 +62,7 @@
               <el-button type="primary" icon="el-icon-edit" size="small"
                 @click="studentEditorShow = true;
                 sAnswer = studentAnswer !== null ?studentAnswer.content:''"
-                :disabled="disableInteract || !isStudent"
+                :disabled="disableInteract"
                 plain>编辑</el-button>
             </div>
           </div>
