@@ -18,7 +18,7 @@ SQLALCHEMY_DATABASE_URI = \
 UPLOAD_FOLDER = join(os.path.abspath(os.path.join(os.getcwd())), "static/uploads")
 ALLOWED_EXTENSIONS = ['*']
 MAX_CONTENT_LENGTH = 1000 * 1024 * 1024  # 1000mb
-
+HOST = 'http://localhost/'
 JWT_SECRET_KEY = 'Lin Huancheng zuishuai'
 
 LOCK_TIMEOUT = 20
