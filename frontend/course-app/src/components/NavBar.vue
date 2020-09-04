@@ -43,6 +43,7 @@ export default {
 }
 
 .el-submenu {
+  margin-top: 1px;
   padding-right: 2em;
 }
 
