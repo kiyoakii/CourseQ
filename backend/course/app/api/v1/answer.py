@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, g
 
 from app.libs.enums import UserTypeEnum
 from app.libs.error_code import Success, DeleteSuccess
@@ -20,7 +20,7 @@ def update_answer(aid):
     form = AnswerForm().validate_for_api()
     with db.auto_commit():
         if form.content.data != answer.content:
-            if form.is_teacher.data:
+            if g.user['scope'] == 'TeacherScope':
                 history = History.create_from_teacher_answer(answer)
             else:
                 history = History.create_from_student_answer(answer)

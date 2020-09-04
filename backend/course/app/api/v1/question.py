@@ -76,7 +76,7 @@ def create_answer(qid):
             author_gid=g.user['gid'],
             # author_gid=g.user['gid']
         )
-        if form.is_teacher.data:
+        if g.user['scope'] == 'TeacherScope':
             if not question.teacher_aid:
                 question.teacher_answer = answer
                 # todo: history
