@@ -9,6 +9,8 @@ if [ ! -d "course/static/uploads" ]; then
   mkdir -p course/static/uploads
 fi
 
+chmod +x course/static
+
 /wait.sh -t 120 mysql:3306
 
 cd course && python3 manage.py db upgrade
