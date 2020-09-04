@@ -173,7 +173,6 @@ export default new Vuex.Store({
       }).catch((err) => {
         switch (err.response.status) {
           case 403:
-            console.log('无权登录！');
             router.push({
               name: 'UnAuthView',
             });

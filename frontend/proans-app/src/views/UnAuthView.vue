@@ -24,7 +24,6 @@
 export default {
   name: 'UnAuthView',
   mounted() {
-    alert(this.$route.path);
     this.axios.get(`/api/v1/courses/${this.$route.params.cid}/questions`, {
       headers: {
         Authorization: `Bearer ${this.$store.state.proansToken}`,
