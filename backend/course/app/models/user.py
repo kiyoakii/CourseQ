@@ -20,6 +20,9 @@ class User(Base):
     courses = relationship('Course',
                            secondary='join(Enroll, Course, Enroll.course_cid == Course.cid)',
                            primaryjoin='and_(User.gid == Enroll.user_gid)')
+    teaching_courses = relationship('Course',
+                                    secondary='join(Enroll, Course, Enroll.course_cid == Course.cid)',
+                                    primaryjoin='and_(User.gid == Enroll.user_gid, Enroll.enroll_type >= 2)')
     name = Column(String(24))
     phone = Column(String(24))
     school = Column(String(63))

@@ -93,6 +93,14 @@ def get_courses(gid):
     return jsonify(courses)
 
 
+@api.route('/<string:gid>/teaching_courses', methods=['GET'])
+@private(User)
+def get_teaching_courses(gid):
+    user = User.query.filter_by(gid=gid).first_or_404()
+    courses = user.teaching_courses
+    return jsonify(courses)
+
+
 @api.route('/<string:gid>/auth', methods=['POST'])
 def update_auth(gid):
     user = User.query.filter_by(gid=gid).first_or_404()
