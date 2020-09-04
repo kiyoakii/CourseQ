@@ -43,6 +43,7 @@ export default {
     problems() {
       if (this.$route.params.tid
       && !this.$route.params.qid) {
+        this.selectedProblem = this.problems[0].id;
         this.$router.push({
           name: 'ProblemView',
           params: {
@@ -51,6 +52,8 @@ export default {
             qid: this.problems[0].id,
           },
         }).catch(() => {});
+      } else if (this.$route.params.tid === '0' || this.$route.name === 'IntroView') {
+        this.selectedProblem = -1;
       }
     },
   },
