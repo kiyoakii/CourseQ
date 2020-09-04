@@ -48,7 +48,7 @@ export default {
   computed: {
     systemName() {
       if (this.$route.path.includes('teacher')) {
-        return '教师';
+        return '教师/助教';
       }
       return '管理员';
     },
