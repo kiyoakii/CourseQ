@@ -51,6 +51,7 @@ export default {
       console.log(data);
       this.$store.commit('setGid', data.gid);
       this.$store.commit('setProansToken', data.access_token);
+      this.$store.commit('setAuth', data.scope);
       const currentUrl = window.location.href;
       const hashpath = currentUrl.match(/hashpath=([\s\S]+)#\//)[1];
       window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${hashpath}`;
@@ -77,10 +78,11 @@ export default {
     const hashPath = currentUrl.slice(currentUrl.indexOf('#') + 1);
     const serviceUrl = `http://home.ustc.edu.cn/~jarvis/cas/index.html?r=${new Date().getTime()}`;
     if (currentUrl.includes('ticket')) {
-      const ticket = currentUrl.match(/ticket=([\s\S]+?)&/)[1];
-      const service = currentUrl.match(/service=([\s\S]+?)&/)[1];
+      // const ticket = currentUrl.match(/ticket=([\s\S]+?)&/)[1];
+      // const service = currentUrl.match(/service=([\s\S]+?)&/)[1];
       // const hashpath = currentUrl.match(/hashpath=([\s\S]+)#\//)[1];
-      axios.get(`/api/v1/token?id=null&ticket=${ticket}&service=${service}`)
+      // axios.get(`/api/v1/token?id=null&ticket=${ticket}&service=${service}`)
+      axios.get('/api/v1/token/0000000217') // test
         .then((res) => {
           if (res.status === 200) {
             console.log('token res.data: ', res.data);
@@ -89,6 +91,7 @@ export default {
               this.$store.commit('setProansToken', res.data.access_token);
               this.$store.dispatch('initProblems');
               this.$store.commit('setGid', res.data.gid);
+              this.$store.commit('setAuth', res.data.scope);
               window.location.href = `${appPath}proans/#${currentUrl.match(/hashpath=([\s\S]+)#\//)[1]}`;
               return;
             }
