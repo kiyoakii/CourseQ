@@ -1,12 +1,15 @@
 <template>
   <div id="app">
-    <el-container v-show="showUserProfileSteps" style="height: 100vh;">
+    <el-container v-if="showUnAuthView" style="height: 100vh;">
+      <router-view></router-view>
+    </el-container>
+    <el-container v-if="showUserProfileSteps" style="height: 100vh;">
       <user-profile-steps
         :token='token'
         @submit="change">
       </user-profile-steps>
     </el-container>
-    <el-container v-show="!showUserProfileSteps">
+    <el-container v-if="!showUserProfileSteps && !showUnAuthView">
       <el-header>
         <vue-header></vue-header>
       </el-header>
@@ -51,6 +54,11 @@ export default {
       const currentUrl = window.location.href;
       const hashpath = currentUrl.match(/hashpath=([\s\S]+)#\//)[1];
       window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${hashpath}`;
+    },
+  },
+  computed: {
+    showUnAuthView() {
+      return this.$route.name === 'UnAuthView';
     },
   },
   created() {

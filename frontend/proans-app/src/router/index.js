@@ -5,6 +5,11 @@ Vue.use(VueRouter);
 
 const routes = [
   {
+    path: '/proans/course/:cid/unAuth',
+    name: 'UnAuthView',
+    component: () => import('@/views/UnAuthView.vue'),
+  },
+  {
     path: '/proans/course/:cid',
     name: 'IntroView',
     component: () => import('@/views/GuideView.vue'),
