@@ -12,6 +12,7 @@ const routes = [
   {
     path: '/proans/course/:cid',
     name: 'IntroView',
+    redirect: '/proans/course/:cid/tag/all',
     component: () => import('@/views/GuideView.vue'),
   },
   {
