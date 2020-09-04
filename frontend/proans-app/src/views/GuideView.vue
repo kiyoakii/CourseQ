@@ -133,7 +133,9 @@ export default {
   font-size: 24px;
   font-weight: 500;
 }
-
+.el-row {
+  margin-bottom: 20px;
+}
 .card-content {
 }
 </style>
