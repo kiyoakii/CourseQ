@@ -41,7 +41,8 @@ export default {
   },
   watch: {
     problems() {
-      if (this.$route.params.tid) {
+      if (this.$route.params.tid
+      && !this.$route.params.qid) {
         this.$router.push({
           name: 'ProblemView',
           params: {
