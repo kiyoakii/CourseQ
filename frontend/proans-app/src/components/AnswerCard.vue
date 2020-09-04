@@ -62,7 +62,7 @@
             <div v-show="!studentEditorShow">
               <el-button type="primary" icon="el-icon-edit" size="small"
                 @click="handleStudentClick"
-                :disabled="disableInteract"
+                :disabled="disableInteract || !isStudent"
                 plain>编辑</el-button>
             </div>
           </div>
