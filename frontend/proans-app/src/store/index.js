@@ -200,6 +200,7 @@ export default new Vuex.Store({
           Authorization: `Bearer ${context.state.proansToken}`,
         },
       }).then((res) => {
+        console.log(res);
         if (res.status !== 200) {
           console.log(JSON.stringify(res.data));
           return;
