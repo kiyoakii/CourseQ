@@ -39,6 +39,20 @@ export default {
       selectedProblem: -1,
     };
   },
+  watch: {
+    problems() {
+      if (this.$route.params.tid) {
+        this.$router.push({
+          name: 'ProblemView',
+          params: {
+            cid: this.$route.params.cid,
+            tid: this.$route.params.tid,
+            qid: this.problems[0].id,
+          },
+        }).catch(() => {});
+      }
+    },
+  },
   methods: {
     load() {
       this.count += 2;
