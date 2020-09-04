@@ -102,10 +102,10 @@ export default {
   cursor: pointer;
 }
 .box-card:hover {
-  background: rgba(250, 250, 250, .8);
+  background-color: #ecf5ff;
 }
 .active {
-  background: rgba(250, 250, 250, .8);
+  background-color: #ecf5ff;
 }
 .text {
   font-size: 12px;
