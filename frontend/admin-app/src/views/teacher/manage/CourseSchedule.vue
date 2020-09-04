@@ -639,3 +639,9 @@ export default {
   margin-top: 20px;
 }
 </style>>
+
+<style>
+.hover-row>td {
+  background-color: #FFF !important;
+}
+</style>
