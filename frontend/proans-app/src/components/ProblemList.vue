@@ -13,7 +13,7 @@
           </div>
         </el-card>
       </li>
-      <li @click="handleAdd">
+      <li @click="handleAdd" v-if="this.$route.params.tid !== '0'">
         <el-card class="box-card center" shadow="hover" style="font-size: 30px; color: #409EFF;">
           <i class="el-icon-circle-plus-outline"></i>
         </el-card>
