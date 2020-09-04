@@ -96,6 +96,6 @@ export default {
 }
 
 .btn-back {
-  margin-left: 10px;
+  margin-left: 25px;
 }
 </style>
