@@ -41,9 +41,9 @@
                     <span>{{ res.description }}</span>
                   </el-row>
                   <el-row>
-                    <el-link type="primary" :href="res.url">
+                    <a type="primary" :href="res.url" :download="res.filename">
                       {{ thumbnailFilename(res.filename) }}
-                    </el-link>
+                    </a>
                   </el-row>
               </el-row>
             </template>
@@ -57,8 +57,9 @@
                     <span>{{ ass.title === '无' ? '' : ass.title }}</span>
                   </el-row>
                   <el-row>
-                    <el-link type="primary" :href="ass.url">
-                      {{ thumbnailFilename(ass.filename) }}</el-link>
+                    <a type="primary" :href="ass.url" :download="ass.filename">
+                      {{ thumbnailFilename(ass.filename) }}
+                    </a>
                   </el-row>
                   <el-row class="light-text">
                     <span>ddl:{{ ass.ddl }}</span>
