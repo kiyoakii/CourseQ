@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import jsonify, g
 
 from app.libs.enums import UserTypeEnum
@@ -40,6 +42,7 @@ def update_question(qid):
                 history = History.create_from_question(question)
                 form.populate_obj(question)
                 db.session.add(history)
+            question.update_time = int(datetime.now().timestamp())
     return Success()
 
 
