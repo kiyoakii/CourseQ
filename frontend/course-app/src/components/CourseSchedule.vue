@@ -162,4 +162,11 @@ export default {
 #title {
   margin-top: 20px;
 }
-</style>>
+
+</style>
+
+<style>
+.hover-row>td {
+  background-color: #FFF !important;
+}
+</style>
