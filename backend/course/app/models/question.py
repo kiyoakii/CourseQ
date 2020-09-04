@@ -34,11 +34,10 @@ class Question(Base):
         super().__init__(*args, **kwargs)
         self.fields = ['id', 'title', 'tags', 'content', 'student_answer', 'teacher_answer', 'history', 'stars',
                        'update_datetime', 'create_datetime', 'author', 'liked']
-        self.update_time = self.create_time
 
     @property
     def update_datetime(self):
-        if self.create_time:
+        if self.update_time:
             return datetime.fromtimestamp(self.update_time)
         else:
             return None
