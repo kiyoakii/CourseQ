@@ -87,11 +87,7 @@ export default {
       this.inputValue = '';
     },
     closeEditor() {
-      this.axios({
-        method: 'POST',
-        url: `/api/v1/questions/${this.$route.params.qid}/unlock`,
-      }).then(() => {
-        clearInterval(this.lockTimer);
+      if (this.edit === false) {
         this.$router.push({
           name: 'ProblemView',
           params: {
@@ -100,7 +96,22 @@ export default {
             qid: this.$route.params.qid,
           },
         });
-      });
+      } else {
+        this.axios({
+          method: 'POST',
+          url: `/api/v1/questions/${this.$route.params.qid}/unlock`,
+        }).then(() => {
+          clearInterval(this.lockTimer);
+          this.$router.push({
+            name: 'ProblemView',
+            params: {
+              cid: this.$route.params.cid,
+              tid: this.$route.params.tid,
+              qid: this.$route.params.qid,
+            },
+          });
+        });
+      }
     },
     onSubmit() {
       if (this.edit) {
