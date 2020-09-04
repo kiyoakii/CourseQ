@@ -26,3 +26,6 @@ backend/course/.flaskenv
 backend/course/static
 # test
 test.http
+
+.DS_Store
+*/.DS_Store
