@@ -1,7 +1,13 @@
 <template>
   <el-row>
-    <div class="comment-header">
-      <div class="comment-title">{{ com.title }}</div>
+    <div class="comment-title">{{ com.title }}</div>
+    <div class="comment-body">
+      <render :markdown="com.content"/>
+    </div>
+    <div class="comment-footer">
+      <div class="edit-info">
+        <span>{{ com.author.nickname }} 发起的讨论</span>
+      </div>
       <div class="buttons">
         <el-button type="primary" size="small"
           :disabled="disableInteract"
@@ -13,9 +19,6 @@
           :disabled="disableInteract"
           @click="handleDelete" icon="el-icon-delete" plain>删除</el-button>
       </div>
-    </div>
-    <div class="comment-body">
-      <render :markdown="com.content"/>
     </div>
     <el-row class="editor" v-show="isEditorShow">
       <el-input v-model="form.title"
@@ -167,9 +170,9 @@ export default {
   margin-bottom: 15px;
 }
 
-.comment-header {
+.comment-footer {
   height: 30px;
-  margin-bottom: 10px;
+  margin: 10px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -177,7 +180,15 @@ export default {
 
 .comment-title {
   line-height: 30px;
-  font-size: 16px;
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.edit-info {
+  margin-top: 20px;
+  font-size: 12px;
+  color: #606266;
 }
 
 .editor {
