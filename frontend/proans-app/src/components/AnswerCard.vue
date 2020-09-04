@@ -22,8 +22,7 @@
           <div class="buttons">
             <div v-show="!teacherEditorShow">
               <el-button type="primary" icon="el-icon-edit" size="small"
-                @click="teacherEditorShow = true;
-                tAnswer = teacherAnswer !== null ? teacherAnswer.content:''"
+                @click="handleTeacherClick"
                 :disabled="disableInteract || !isTeacher"
                 plain>编辑</el-button>
             </div>
@@ -33,7 +32,7 @@
           <editor v-model="tAnswer"></editor>
           <div class="buttons">
             <el-button type="primary" icon="el-icon-close" size="small"
-              @click="teacherEditorShow = false" plain>取消</el-button>
+              @click="closeTeacherEdit" plain>取消</el-button>
             <el-button type="primary" icon="el-icon-position" size="small"
               @click="handleTeacherEdit" plain>确认</el-button>
           </div>
@@ -62,8 +61,7 @@
           <div class="buttons">
             <div v-show="!studentEditorShow">
               <el-button type="primary" icon="el-icon-edit" size="small"
-                @click="studentEditorShow = true;
-                sAnswer = studentAnswer !== null ?studentAnswer.content:''"
+                @click="handleStudentClick"
                 :disabled="disableInteract"
                 plain>编辑</el-button>
             </div>
@@ -73,7 +71,7 @@
           <editor v-model="sAnswer"></editor>
           <div class="buttons">
             <el-button type="primary" icon="el-icon-close" size="small"
-              @click="studentEditorShow = false" plain>取消</el-button>
+              @click="closeStudentEdit" plain>取消</el-button>
             <el-button type="primary" icon="el-icon-position" size="small"
               @click="handleStudentEdit" plain>确认</el-button>
           </div>
@@ -125,39 +123,83 @@ export default {
     },
   },
   methods: {
+    handleTeacherClick() {
+      this.axios({
+        method: 'POST',
+        url: `/api/v1/questions/${this.$route.params.qid}/lock`,
+      }).then(() => {
+        this.teacherEditorShow = true;
+        this.tAnswer = this.teacherAnswer !== null ? this.teacherAnswer.content : '';
+      });
+    },
+    handleStudentClick() {
+      this.axios({
+        method: 'POST',
+        url: `/api/v1/questions/${this.$route.params.qid}/lock`,
+      }).then(() => {
+        this.studentEditorShow = true;
+        this.sAnswer = this.studentAnswer !== null ? this.studentAnswer.content : '';
+      });
+    },
     handleTeacherEdit() {
-      if (this.teacherAnswer !== null) {
-        instance.put(`/api/v1/answers/${this.teacherAnswer.id}`,
-          { content: this.tAnswer })
-          .then(() => {
-            this.teacherEditorShow = false;
-            this.$emit('updateProblem', this.problemId);
-          });
-      } else {
-        instance.post(`/api/v1/questions/${this.problemId}/answers`,
-          { content: this.tAnswer, is_teacher: true })
-          .then(() => {
-            this.teacherEditorShow = false;
-            this.$emit('updateProblem', this.problemId);
-          });
-      }
+      this.axios({
+        method: 'POST',
+        url: `/api/v1/questions/${this.$route.params.qid}/unlock`,
+      }).then(() => {
+        if (this.teacherAnswer !== null) {
+          instance.put(`/api/v1/answers/${this.teacherAnswer.id}`,
+            { content: this.tAnswer })
+            .then(() => {
+              this.teacherEditorShow = false;
+              this.$emit('updateProblem', this.problemId);
+            });
+        } else {
+          instance.post(`/api/v1/questions/${this.problemId}/answers`,
+            { content: this.tAnswer, is_teacher: true })
+            .then(() => {
+              this.teacherEditorShow = false;
+              this.$emit('updateProblem', this.problemId);
+            });
+        }
+      });
     },
     handleStudentEdit() {
-      if (this.studentAnswer !== null) {
-        instance.put(`/api/v1/answers/${this.studentAnswer.id}`,
-          { content: this.sAnswer })
-          .then(() => {
-            this.studentEditorShow = false;
-            this.$emit('updateProblem', this.problemId);
-          });
-      } else {
-        instance.post(`/api/v1/questions/${this.problemId}/answers`,
-          { content: this.sAnswer, is_teacher: false })
-          .then(() => {
-            this.studentEditorShow = false;
-            this.$emit('updateProblem', this.problemId);
-          });
-      }
+      this.axios({
+        method: 'POST',
+        url: `/api/v1/questions/${this.$route.params.qid}/unlock`,
+      }).then(() => {
+        if (this.studentAnswer !== null) {
+          instance.put(`/api/v1/answers/${this.studentAnswer.id}`,
+            { content: this.sAnswer })
+            .then(() => {
+              this.studentEditorShow = false;
+              this.$emit('updateProblem', this.problemId);
+            });
+        } else {
+          instance.post(`/api/v1/questions/${this.problemId}/answers`,
+            { content: this.sAnswer, is_teacher: false })
+            .then(() => {
+              this.studentEditorShow = false;
+              this.$emit('updateProblem', this.problemId);
+            });
+        }
+      });
+    },
+    closeTeacherEdit() {
+      this.axios({
+        method: 'POST',
+        url: `/api/v1/questions/${this.$route.params.qid}/unlock`,
+      }).then(() => {
+        this.teacherEditorShow = false;
+      });
+    },
+    closeStudentEdit() {
+      this.axios({
+        method: 'POST',
+        url: `/api/v1/questions/${this.$route.params.qid}/unlock`,
+      }).then(() => {
+        this.studentEditorShow = false;
+      });
     },
   },
 };
