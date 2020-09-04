@@ -13,7 +13,7 @@ api = Redprint('answer')
 
 
 @api.route('/<int:aid>', methods=['PUT'])
-@role_required(UserTypeEnum.TEACHER)
+@role_required(UserTypeEnum.STUDENT)
 @enroll_required(Answer)
 def update_answer(aid):
     answer = Answer.query.get_or_404(aid)
