@@ -37,13 +37,16 @@ export default {
     return {
       count: 0,
       selectedProblem: -1,
+      curTag: '',
     };
   },
   watch: {
     problems() {
       if (this.$route.params.tid
-      && !this.$route.params.qid) {
+      && !this.$route.params.qid
+      && this.$route.params.tid !== this.curTag) {
         this.selectedProblem = this.problems[0].id;
+        this.curTag = this.$route.params.tid;
         this.$router.push({
           name: 'ProblemView',
           params: {
