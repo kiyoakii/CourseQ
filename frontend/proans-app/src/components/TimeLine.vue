@@ -80,7 +80,6 @@ export default {
       }
       const res = [];
       const history = [...problem.history];
-      console.log(history);
       for (let i = 0; i < history.length; i += 1) {
         if (history[i].question) {
           res.push({
@@ -101,7 +100,6 @@ export default {
     },
     timelineList() {
       const history = this.problemHistory || [];
-      console.log('timelineList:', history);
       return history.reverse();
     },
   },
