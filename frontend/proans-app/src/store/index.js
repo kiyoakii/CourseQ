@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
 import VuexPersistence from 'vuex-persist';
+import router from '../router';
 
 Vue.use(Vuex);
 const { Message } = require('element-ui');
@@ -168,6 +169,17 @@ export default new Vuex.Store({
       }).then((res) => {
         if (res.status === 200) {
           context.commit('initProblems', res.data);
+        }
+      }).catch((err) => {
+        switch (err.response.status) {
+          case 403:
+            console.log('无权登录！');
+            router.push({
+              name: 'UnAuthView',
+            });
+            break;
+          default:
+            console.log(err.response);
         }
       });
     },
