@@ -116,7 +116,9 @@ export default {
 .text {
   font-size: 12px;
 }
-
+.el-card {
+  height: 120px;
+}
 .link {
   text-decoration: none;
   color: #303133;
