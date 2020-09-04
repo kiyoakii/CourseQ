@@ -2,7 +2,8 @@
   <el-row class="card-reply">
     <render :markdown="reply.content" style="display: inline-box"/>
     <el-divider content-position="right">
-      <span class="reply-title">{{ reply.author.nickname || reply.author.gid }} 回复</span>
+      <span class="reply-title">{{ reply.author?
+        (reply.author.nickname || reply.author.gid) : '' }} 回复</span>
     </el-divider>
   </el-row>
 </template>
@@ -18,6 +19,19 @@ export default {
   props: {
     reply: {
       type: Object,
+      default() {
+        return {
+          author: {
+            type: Object,
+            default() {
+              return {
+                nickname: '',
+                gid: '',
+              };
+            },
+          },
+        };
+      },
     },
   },
   data() {
