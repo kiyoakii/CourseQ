@@ -9,9 +9,6 @@
               <p>{{ courseInfo.name_en }}</p>
               <p>{{ courseInfo.semester }}</p>
             </div>
-            <div id="course-intro">
-              <p>{{ courseInfo.intro }}</p>
-            </div>
           </div>
         </el-card>
       </el-col>
@@ -104,25 +101,16 @@ export default {
   align-items: center;
 }
 
-#course-info {
-  display: flex;
-  flex-direction: row;
-  height: 200px;
-  align-items: center;
-}
 #course-name {
-  flex: 2;
   display: flex;
   flex-direction: column;
+  height: 250px;
   justify-content: center;
   align-items: center;
 }
 #course-name > h1 {
-  margin: 0;
-}
-#course-intro {
-  flex: 4;
-  text-align: left;
+  margin-bottom: 10px;
+  font-size: 30px;
 }
 
 .box-card {
