@@ -55,6 +55,10 @@ export default {
             qid: this.problems[0].id,
           },
         }).catch(() => {});
+        this.$store.commit({
+          type: 'setQid',
+          id: Number(this.problems[0].id),
+        });
       } else if (this.$route.params.tid === '0' || this.$route.name === 'IntroView') {
         this.selectedProblem = -1;
       }
