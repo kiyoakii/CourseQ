@@ -2,7 +2,7 @@ from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import reconstructor, relationship
 from datetime import datetime
 from app.models.base import Base
-from flask import request
+from flask import g
 
 
 class Answer(Base):
@@ -23,7 +23,7 @@ class Answer(Base):
 
     @property
     def belong_course(self):
-        if request.user['scope'] == 'TeacherScope':
+        if g.user['scope'] == 'TeacherScope':
             return self.question_from_teacher.belong_course
         else:
             return self.question_From_student.belong_course
