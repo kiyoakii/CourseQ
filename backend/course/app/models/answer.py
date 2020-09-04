@@ -24,9 +24,12 @@ class Answer(Base):
     @property
     def belong_course(self):
         if g.user['scope'] == 'TeacherScope':
-            return self.question_from_teacher.belong_course
+            question = self.question_from_teacher
         else:
-            return self.question_From_student.belong_course
+            question = self.question_from_student
+        if question:
+            return question.belong_course
+        return None
 
     @property
     def belong_author(self):
