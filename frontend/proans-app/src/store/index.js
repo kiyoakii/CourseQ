@@ -167,7 +167,6 @@ export default new Vuex.Store({
         },
       }).then((res) => {
         if (res.status === 200) {
-          console.log(res);
           context.commit('initProblems', res.data);
         }
       });
@@ -179,7 +178,6 @@ export default new Vuex.Store({
           Authorization: `Bearer ${context.state.proansToken}`,
         },
       }).then((res) => {
-        console.log(333, res);
         if (res.status === 200) {
           context.commit('updateProblem', res.data);
         }
@@ -191,7 +189,6 @@ export default new Vuex.Store({
           Authorization: `Bearer ${context.state.proansToken}`,
         },
       }).then((res) => {
-        console.log(res);
         if (res.status !== 200) {
           console.log(JSON.stringify(res.data));
           return;
@@ -216,7 +213,6 @@ export default new Vuex.Store({
     getCourseInfo(context) {
       axios.get(`/api/v1/courses/${context.state.cid}`)
         .then((res) => {
-          console.log(res);
           if (res.status !== 200) {
             console.log(JSON.stringify(res.data));
             return;
