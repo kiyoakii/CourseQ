@@ -96,6 +96,5 @@ a {
 .el-scrollbar .el-scrollbar__wrap {
   display: flex;
   align-items: center;
-  overflow-x: hidden;
 }
 </style>
