@@ -5,21 +5,20 @@
         @click="getProblem(problem.id)" >
         <el-card class="box-card card-h" shadow="hover"
         :class="selectedProblem === problem.id ? 'is-always-shadow active': ''">
-          <div slot="header" class="clearfix">
-            <span>{{ problem.title }}</span>
-          </div>
           <div class="text item">
+            <h2>{{ problem.title }}</h2>
             <render :markdown="problem.content | formatDesc"></render>
           </div>
         </el-card>
       </li>
-      <li v-if="problems.length === 0">
-        <el-card class="box-card center card-h" shadow="hover" style="font-size: 24px;">
+      <!-- <li v-if="problems.length === 0">
+        <el-card class="box-card center card-h" shadow="hover">
           <span> 暂时没有问题噢 </span>
         </el-card>
-      </li>
+      </li> -->
       <li @click="handleAdd" v-if="$route.params.tid !== '0'">
-        <el-card class="box-card center" shadow="hover" style="font-size: 30px; color: #409EFF;">
+        <el-card class="box-card center" shadow="hover" style="font-size: 24px; color: #409EFF;"
+          :class="selectedProblem === -2 ? 'is-always-shadow active': ''">
           <i class="el-icon-circle-plus-outline"></i>
         </el-card>
       </li>
@@ -94,6 +93,7 @@ export default {
       }).catch(() => {});
     },
     handleAdd() {
+      this.selectedProblem = -2;
       this.$router.push({
         name: 'AddProblemView',
         params: {
@@ -128,14 +128,16 @@ export default {
   background-color: #ecf5ff;
 }
 .active {
-  background-color: #ecf5ff;
+  /* background-color: #ecf5ff; */
+  background: #ecf5ff;
+  border-color: #b3d8ff;
 }
 .text {
   font-size: 12px;
 }
-.card-h {
+/* .card-h {
   height: 120px;
-}
+} */
 .link {
   text-decoration: none;
   color: #303133;
