@@ -1,7 +1,6 @@
 import wrapt
 from flask import g
 from flask_jwt_extended import JWTManager, get_jwt_identity, verify_jwt_in_request
-
 from app.libs.enums import UserTypeEnum
 from app.libs.error_code import Forbidden, TokenExpired, TokenInvalid, TokenMissing
 from app.models.relation import Enroll
