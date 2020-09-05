@@ -24,26 +24,29 @@ export default {
   name: 'LoginView',
   mounted() {
     console.log(this.$store.state.gid);
-    if (this.$store.state.gid) {
-      if (this.$route.path.includes('teacher')
-      && this.$store.state.auth === '教师') {
-        this.$router.push({
-          path: '/teacher',
-          name: 'TeacherView',
-          params: {
-            tid: this.$store.state.gid,
-          },
-        });
-      } else if (this.$store.state.auth === '管理员') {
-        this.$router.push({
-          path: '/admin',
-          name: 'AdminView',
-          params: {
-            aid: this.$store.state.gid,
-          },
-        });
-      }
-    }
+    this.$store.dispatch('initCourses', { tid: this.$store.state.gid })
+      .then(() => {
+        if (this.$store.state.gid) {
+          if (this.$route.path.includes('teacher')
+          && this.$store.state.courses.length !== 0) {
+            this.$router.push({
+              path: '/teacher',
+              name: 'TeacherView',
+              params: {
+                tid: this.$store.state.gid,
+              },
+            });
+          } else if (this.$store.state.auth === '管理员') {
+            this.$router.push({
+              path: '/admin',
+              name: 'AdminView',
+              params: {
+                aid: this.$store.state.gid,
+              },
+            });
+          }
+        }
+      });
   },
   computed: {
     systemName() {
