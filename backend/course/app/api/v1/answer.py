@@ -26,6 +26,7 @@ def update_answer(aid):
                 history = History.create_from_student_answer(answer)
             form.populate_obj(answer)
             db.session.add(history)
+        answer.author_gid = g.user['gid']
     return Success()
 
 

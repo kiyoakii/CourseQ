@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import jsonify, request, g
 
 from app.config.secure import ALLOWED_EXTENSIONS
@@ -98,7 +100,8 @@ def create_question(cid):
             title=form.title.data,
             content=form.content.data,
             course_id=course.cid,
-            author_gid=g.user['gid']
+            author_gid=g.user['gid'],
+            update_datetime=int(datetime.now().timestamp())
         )
         history = History(root_question=question)
         for tag_name in form.tags.data:
