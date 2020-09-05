@@ -220,7 +220,7 @@ export default {
 .timeline .el-scrollbar__wrap {
   display: flex;
   align-items: center;
-  padding-bottom: 15px;
+  overflow: hidden;
 }
 </style>
 
