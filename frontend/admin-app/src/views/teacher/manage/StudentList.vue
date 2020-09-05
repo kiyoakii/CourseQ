@@ -8,7 +8,8 @@
         </data-table-search-bar>
       </div>
       <div class="flex-item">
-        <el-button type="primary" @click="create">添加学生</el-button>
+        <el-button type="primary" @click="create"
+        v-if="$store.state.auth === '教师'">添加学生</el-button>
       </div>
     </div>
     <el-dialog
@@ -86,7 +87,9 @@ export default {
     },
   },
   beforeCreate() {
-    this.$store.dispatch('initAllStudents');
+    if (this.$store.state.auth === '教师') {
+      this.$store.dispatch('initAllStudents');
+    }
   },
   methods: {
     deleteRow(row) {
