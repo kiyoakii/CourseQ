@@ -17,6 +17,8 @@ class UserForm(Form):
     phone = StringField(validators=[length(max=24)])
     school = StringField(validators=[length(max=63)])
 
+    redirect_path = StringField(validators=[length(max=256)])
+
     def validate_email(self, value):
         """ Used for validation before changing email"""
         if User.query.filter_by(email=value.data).first():
