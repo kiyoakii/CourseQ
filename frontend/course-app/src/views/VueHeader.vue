@@ -1,15 +1,13 @@
 <template>
-  <el-row>
-    <el-col :span="8">
+  <el-row class="header" type="flex" justify="space-between">
+    <el-col :xs="12" :sm="12" :md="8" :lg="8" :xl="8" class="course-info">
       <div class="logo">
         <!-- In Vue tmplate, import a image is tricky， we use webpack require syntax here -->
         <div class="logo-img"
         :style="{ backgroundImage: 'url(' + require('@/assets/logo.png') + ')' }">
-        </div>
-        {{allinfo.name_zh}} - {{allinfo.semester}}
-      </div>
+        </div>{{allinfo.name_zh}} - {{allinfo.semester}}</div>
     </el-col>
-    <el-col :span="16">
+    <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
       <nav-bar :allinfo="allinfo"></nav-bar>
     </el-col>
   </el-row>
@@ -30,6 +28,13 @@ export default {
 </script>
 
 <style scoped>
+.header {
+  padding: 0 40px;
+}
+.course-info {
+  display: flex;
+  justify-items: flex-start;
+}
 .logo {
   line-height: 60px;
   height: 60px;
