@@ -2,20 +2,20 @@
   <div class="course-announcement">
     <!-- This is CourseAnnounce view. -->
     <el-scrollbar>
-      <div v-if="allinfo.announces && allinfo.announces.length > 0"
+      <div v-if="announces && announces.length > 0"
         shadow="always" class="announcement-card">
         <div class="announcement-info">
-          <h3 class="announcement-title">{{ allinfo.announces[0].title }}</h3>
+          <h3 class="announcement-title">{{ announces[0].title }}</h3>
           <div class="announcement-publish-info">
-            发布者：{{ allinfo.announces[0].author }}
+            发布者：{{ announces[0].author.name }}
           </div>
           <div class="announcement-publish-info">
-            发布时间：{{ (new Date(allinfo.announces[0].create_datetime))
+            发布时间：{{ (new Date(announces[0].create_datetime))
               .toLocaleString('zh-CN', { hour12: false }) }}
           </div>
         </div>
         <div class="announcement-content">
-          {{ allinfo.announces[0].content }}
+          {{ announces[0].content }}
         </div>
       </div>
       <div v-else>
@@ -23,15 +23,15 @@
         暂时还没有公告哦～
         </el-card>
       </div>
-      <div v-if="allinfo.announces && allinfo.announces.length > 1"
+      <div v-if="announces && announces.length > 1"
         v-bind:class="{'announcements-panel-active': this.isActive,
         'announcements-panel-close': !this.isActive}">
-        <div v-show="isActive" v-for="item in allinfo.announces.slice(1)" :key="item.title"
+        <div v-show="isActive" v-for="item in announces.slice(1)" :key="item.title"
           shadow="always" class="announcement-card">
           <div slot="header" class="announcement-info">
             <h3 class="announcement-title">{{ item.title }}</h3>
             <div class="announcement-publish-info">
-              发布者：{{ item.author }}
+              发布者：{{ item.author.name }}
             </div>
             <div class="announcement-publish-info">
               发布时间：{{ (new Date(item.create_datetime)).toLocaleString('zh-CN', { hour12: false }) }}
@@ -43,7 +43,7 @@
         </div>
       </div>
     </el-scrollbar>
-    <el-button v-if="allinfo.announces && allinfo.announces.length > 1"
+    <el-button v-if="announces && announces.length > 1"
       @click="onClick" class="btn-more">
       <i :class="isActive ? 'el-icon-caret-top' : 'el-icon-caret-bottom'"></i>
       <span>{{ btnMassage }}</span>
@@ -72,6 +72,26 @@ export default {
         this.isActive = false;
         this.btnMassage = 'More';
       }
+    },
+  },
+  computed: {
+    announces() {
+      const announces = [];
+      if (this.allinfo.announces !== undefined) {
+        this.allinfo.announces.forEach(announce => {
+          announces.push(announce);
+        });
+      }
+      announces.sort((a, b) => {
+        if (a.create_datetime > b.create_datetime) {
+          return -1;
+        }
+        if (a.create_datetime < b.create_datetime) {
+          return 1;
+        }
+        return 0;
+      });
+      return announces;
     },
   },
 };
@@ -133,9 +153,9 @@ export default {
 .announcement-card {
   margin: 2em 1em 0 1em;
   height: auto;
-  border: 0;
   display: flex;
   flex-direction: row;
+  border-bottom: 1px solid #EBEEF5;
 }
 
 .announcement-title {
