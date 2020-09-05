@@ -1,6 +1,7 @@
 from flask import jsonify, g
 from flask import request
 from flask_jwt_extended import create_access_token
+from flask import redirect
 
 from app.libs.enums import UserTypeEnum
 from app.libs.error_code import DeleteSuccess, Success
@@ -10,6 +11,7 @@ from app.models.base import db
 from app.models.relation import Enroll
 from app.models.user import User
 from app.validators.forms import UserForm, UserUpdateForm
+from app.libs.email import verify_email_auth_token
 
 api = Redprint('user')
 
@@ -73,7 +75,8 @@ def register():
     user = User.register(form.nickname.data,
                          form.email.data,
                          g.user['gid'],
-                         g.user['uid'])
+                         g.user['uid'],
+                         form.redirect_path.data)
     scope = User.assign_scope(user)
     identity = {
         'scope': scope,
@@ -107,3 +110,13 @@ def update_auth(gid):
     with db.auto_commit():
         user._auth = request.json['auth']
     return Success()
+
+
+@api.route('/email_auth/<token>', methods=['GET'])
+def email_authenticate(token):
+    gid = verify_email_auth_token(token)
+    if gid:
+        with db.auto_commit():
+            user = User.query.filter_by(gid=gid).first_or_404()
+            # Update user.auth or set another attribute to mark user's email is valid
+        return redirect(request.args['redirect_path'])
