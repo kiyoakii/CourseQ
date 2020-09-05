@@ -12,9 +12,10 @@
       <teacher-nav-bar></teacher-nav-bar>
     </el-col>
     <el-col :span="2">
-      <div class="center">
+      <div class="center" >
         <el-dropdown placement="bottom" @command="commandHandler" size="medium">
-          <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+          <el-avatar class="profile-photo"
+            src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="profile">个人资料</el-dropdown-item>
             <el-dropdown-item command="logout">登出</el-dropdown-item>
@@ -92,5 +93,9 @@ export default {
   width: 40px;
   background-size: contain;
   background-repeat: no-repeat;
+}
+
+.profile-photo {
+  cursor: pointer;
 }
 </style>
