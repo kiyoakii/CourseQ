@@ -20,7 +20,7 @@
       <div class="footer">
         <div class="edit-info">
           <span>{{ problem.author.nickname }} 于
-            {{ (new Date(problem.update_datetime))
+            {{ (new Date(problem.update_datetime || problem.create_datetime))
             .toLocaleString('zh-CN', { hour12: false }) }} 修改</span>
         </div>
         <div class="buttons">
