@@ -37,7 +37,15 @@ export default {
       versionId: -1,
     };
   },
+  watch: {
+    qid() {
+      this.versionId = -1;
+    },
+  },
   computed: {
+    qid() {
+      return this.$store.state.qid;
+    },
     problem() {
       const problem = this.$store.getters.problem(this.$store.state.qid);
       if (this.versionId === -1) {
