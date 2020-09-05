@@ -52,10 +52,10 @@ export default {
       this.$store.commit('setGid', data.gid);
       this.$store.commit('setProansToken', data.access_token);
       this.$store.commit('setAuth', data.scope);
-      const currentUrl = window.location.href;
-      const appPath = currentUrl.match(/http:\/\/[^/]*\//)[0];
-      const hashpath = currentUrl.match(/hashpath=([\s\S]+)/)[1];
-      window.location.href = `${appPath}${hashpath}`;
+      // const currentUrl = window.location.href;
+      // const appPath = currentUrl.match(/http:\/\/[^/]*\//)[0];
+      // const hashPath = currentUrl.match(/proans\/course\/[\d]+/)[0];
+      // window.location.href = `${appPath}${hashPath}`;
     },
   },
   computed: {
@@ -71,10 +71,6 @@ export default {
   beforeMount() {
     const currentUrl = decodeURIComponent(window.location.href);
     const appPath = currentUrl.match(/http:\/\/[^/]*\//)[0];
-    if (currentUrl.includes('hashparam')) {
-      window.location.href = `${appPath}${currentUrl.match(/hashparam=([\s\S]+)/)[1]}`;
-      return;
-    }
     // const hashPath = currentUrl.slice(currentUrl.indexOf('#') + 1);
     const serviceUrl = `http://home.ustc.edu.cn/~jarvis/cas/index.html?r=${new Date().getTime()}`;
     if (currentUrl.includes('ticket')) {
@@ -107,7 +103,7 @@ export default {
     } else if (!this.$store.state.proansToken) {
       console.log(currentUrl);
       const hashPath = currentUrl.match(/proans\/course\/[\d]+/)[0];
-      const url = `${serviceUrl}${encodeURIComponent(`&apppath=${appPath}&hashpath=${hashPath}`)}`;
+      const url = `${serviceUrl}${encodeURIComponent(`&apppath=${appPath}${hashPath}`)}`;
       const casUrl = `http://passport.ustc.edu.cn/login?service=${encodeURIComponent(url)}`;
       window.location.href = casUrl;
     }

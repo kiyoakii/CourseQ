@@ -3,7 +3,13 @@
     <!-- This is TeacherCourseList component. -->
     <el-row :gutter="40">
       <el-col :span="8" v-for="(item, i) in courses" :key="i">
-        <router-link :to=" `/teacher/${$route.params.tid}/course/${item.name}/semesters`">
+        <router-link :to="{
+          name: 'TeacherSemesterList',
+          params: {
+            tid: $route.params.tid,
+            cname: item.name,
+          },
+          }">
           <el-button type="primary" plain>
               {{ item.name }}
           </el-button>

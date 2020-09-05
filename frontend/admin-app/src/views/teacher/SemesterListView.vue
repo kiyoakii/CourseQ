@@ -23,10 +23,20 @@ export default {
   },
   methods: {
     toManage(item) {
+      document.title = `${this.$route.params.cname}-${item.semester}`;
       this.$router.push({
-        path: `/teacher/${this.$route.params.tid}/course/${this.$route.params.cname}/semester/${item.semester}/manage/${item.cid}`,
+        name: 'TeacherCourseManage',
+        params: {
+          tid: this.$route.params.tid,
+          cname: this.$route.params.cname,
+          sname: item.semester,
+          cid: item.cid,
+        },
       });
     },
+  },
+  mounted() {
+    document.title = this.$route.params.cname;
   },
 };
 </script>
