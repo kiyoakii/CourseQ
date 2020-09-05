@@ -14,7 +14,7 @@ const routes = [
   },
   {
     path: '/:cid',
-    redirect: '/course/:cid/home',
+    redirect: '/:cid/home',
   },
   {
     path: '/:cid/resourse',

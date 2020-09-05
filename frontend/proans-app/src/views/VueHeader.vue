@@ -76,8 +76,9 @@ export default {
           this.$store.commit('setProansToken', '');
           // window.location.reload();
           const currentUrl = window.location.href;
-          const appname = currentUrl.slice(0, currentUrl.indexOf('#'));
+          // const appname = currentUrl.slice(0, currentUrl.indexOf('#'));
           // const hashparam = currentUrl.slice(currentUrl.indexOf('#') + 1);
+          const appname = currentUrl.match(/http:\/\/[^/]*\//)[0];
           const hashparam = `proans/course/${this.$route.params.cid}`;
           const serviceUrl = `${appname}?hashparam=${hashparam}`;
           window.location.href = `http://passport.ustc.edu.cn/logout?service=${encodeURIComponent(serviceUrl)}`;
