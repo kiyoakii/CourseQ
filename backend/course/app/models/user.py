@@ -9,6 +9,8 @@ from sqlalchemy.orm import relationship
 from app.libs.enums import UserTypeEnum
 from app.libs.error_code import AuthFailed
 from app.models.base import Base, db
+from app.libs.email import generate_email_auth_token, verify_email_auth_token
+from app.libs.email import send_email
 
 
 class User(Base):
@@ -73,7 +75,7 @@ class User(Base):
         return scope
 
     @staticmethod
-    def register(nickname, email, gid, uid):
+    def register(nickname, email, gid, uid, redirect_path=None):
         """
         This function is used when user login with ustc-CAS for the first time.
         :param gid: general ID for students and staffs of USTC
@@ -85,6 +87,9 @@ class User(Base):
             user.gid = gid
             user.nickname = nickname
             # email authentication
+            email_auth_token = generate_email_auth_token(gid=gid, expiration=600)
+            send_email(email, 'Email Authentication', 'email_auth.html', \
+                       token=email_auth_token, nickname=nickname, redirect_path=redirect_path)
             user.email = email
             user.uid = uid
             if len(uid) != 10:
