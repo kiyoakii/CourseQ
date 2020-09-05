@@ -35,7 +35,7 @@ export default {
       console.log(data);
       const currentUrl = window.location.href;
       const appPath = currentUrl.match(/http:\/\/[^/]*\//)[0];
-      const hashpath = currentUrl.match(/hashpath=([\s\S]+)#\//)[1];
+      const hashpath = currentUrl.match(/hashpath=([\s\S]+)/)[1];
       this.$store.commit('setToken', data.access_token);
       this.$store.commit('setGid', data.gid);
       this.$store.commit('setAuth', data.scope);
