@@ -7,7 +7,7 @@
         :class="selectedProblem === problem.id ? 'is-always-shadow active': ''">
           <div class="text item">
             <h2>{{ problem.title }}</h2>
-            <render :markdown="problem.content | formatDesc"></render>
+            <render :markdown="problem.content" :transfer="true"></render>
           </div>
         </el-card>
       </li>
@@ -107,13 +107,6 @@ export default {
           },
         },
       }).catch(() => {});
-    },
-  },
-  filters: {
-    formatDesc(value) {
-      const reg = new RegExp('.*!\\[.*]\\(.*\\)');
-      value = value.replace(reg, '「图片」');
-      return value.length <= 50 ? value : `${value.slice(0, 50)}...`;
     },
   },
 };
