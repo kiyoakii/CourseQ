@@ -5,39 +5,41 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/proans/course/:cid/unAuth',
+    path: '/course/:cid/unAuth',
     name: 'UnAuthView',
     component: () => import('@/views/UnAuthView.vue'),
   },
   {
-    path: '/proans/course/:cid',
+    path: '/course/:cid',
     name: 'IntroView',
-    redirect: '/proans/course/:cid/tag/all',
+    redirect: '/course/:cid/tag/all',
     component: () => import('@/views/GuideView.vue'),
   },
   {
-    path: '/proans/course/:cid/tag/:tid',
+    path: '/course/:cid/tag/:tid',
     name: 'CategoryView',
     component: () => import('@/views/GuideView.vue'),
   },
   {
-    path: '/proans/course/:cid/tag/:tid/question/:qid',
+    path: '/course/:cid/tag/:tid/question/:qid',
     name: 'ProblemView',
     component: () => import('@/views/ProblemView.vue'),
   },
   {
-    path: '/proans/course/:cid/tag/:tid/question/:qid/editProblem',
+    path: '/course/:cid/tag/:tid/question/:qid/editProblem',
     name: 'EditProblemView',
     component: () => import('@/components/ProblemEdit.vue'),
   },
   {
-    path: '/proans/course/:cid/tag/:tid/addProblem',
+    path: '/course/:cid/tag/:tid/addProblem',
     name: 'AddProblemView',
     component: () => import('@/components/ProblemEdit.vue'),
   },
 ];
 
 const router = new VueRouter({
+  mode: 'history',
+  base: 'proans',
   routes,
 });
 
