@@ -1,0 +1,6 @@
+<h1>Hello {{ nickname }}</h1>
+<p>
+    Please click
+    <a href="{{ url_for('v1.user+email_authenticate', token=token, _external=True) }}?redirect_path={{redirect_path}}">here</a>
+    to authenticate your email address.
+</p>
