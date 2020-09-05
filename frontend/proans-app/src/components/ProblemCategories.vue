@@ -1,5 +1,5 @@
 <template>
-  <div class="el-col">
+  <div class="el-col category">
     <el-scrollbar style="height: 100%;">
       <el-row class="category-list" type="flex" align="center">
         <el-col v-for="(item, i) in categories" :key="i"
@@ -93,8 +93,10 @@ a {
 
 <style>
 
-.el-scrollbar .el-scrollbar__wrap {
+.category .el-scrollbar .el-scrollbar__wrap {
   display: flex;
   align-items: center;
+  margin-top: 10px;
+  padding-bottom: 15px;
 }
 </style>
