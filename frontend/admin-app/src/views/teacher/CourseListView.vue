@@ -27,9 +27,6 @@ export default {
       return this.$store.getters.teacherCourses;
     },
   },
-  beforeMount() {
-    this.$store.dispatch('initCourses', { tid: this.$route.params.tid });
-  },
 };
 </script>
 

@@ -23,9 +23,9 @@ export default {
   name: 'LoginView',
   mounted() {
     console.log(this.$store.state.gid);
-    this.$store.dispatch('initCourses', { tid: this.$store.state.gid })
-      .then(() => {
-        if (this.$store.state.gid) {
+    if (this.$store.state.gid) {
+      this.$store.dispatch('initCourses', { tid: this.$store.state.gid })
+        .then(() => {
           if (this.$route.path.includes('teacher')
           && this.$store.state.courses.length !== 0) {
             this.$router.push({
@@ -42,8 +42,8 @@ export default {
               },
             });
           }
-        }
-      });
+        });
+    }
   },
   computed: {
     systemName() {
