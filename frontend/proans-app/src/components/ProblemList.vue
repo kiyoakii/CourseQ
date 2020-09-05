@@ -3,7 +3,7 @@
     <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
       <li v-for="(problem, index) in problems" :key="index " class="infinite-list-item"
         @click="getProblem(problem.id)" >
-        <el-card class="box-card" shadow="hover"
+        <el-card class="box-card card-h" shadow="hover"
         :class="selectedProblem === problem.id ? 'is-always-shadow active': ''">
           <div slot="header" class="clearfix">
             <span>{{ problem.title }}</span>
@@ -14,7 +14,7 @@
         </el-card>
       </li>
       <li v-if="problems.length === 0">
-        <el-card class="box-card center" shadow="hover" style="font-size: 24px;">
+        <el-card class="box-card center card-h" shadow="hover" style="font-size: 24px;">
           <span> 暂时没有问题噢 </span>
         </el-card>
       </li>
@@ -133,7 +133,7 @@ export default {
 .text {
   font-size: 12px;
 }
-.el-card {
+.card-h {
   height: 120px;
 }
 .link {
