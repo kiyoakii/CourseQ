@@ -32,10 +32,12 @@ export default {
       const { data } = options;
       console.log(data);
       const currentUrl = window.location.href;
+      const appPath = currentUrl.match(/http:\/\/[^/]*\//)[0];
       const hashpath = currentUrl.match(/hashpath=([\s\S]+)#\//)[1];
       this.$store.commit('setToken', data.access_token);
       this.$store.commit('setGid', data.gid);
-      window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${hashpath}`;
+      this.$store.commit('setAuth', data.scope);
+      window.location.href = `${appPath}${hashpath}`;
     },
   },
   watch: {
