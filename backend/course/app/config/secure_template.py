@@ -25,3 +25,14 @@ LOCK_TIMEOUT = 20
 
 # Uncomment this line when testing with pytest
 # DEBUG = False
+
+# email authentication
+MAIL_SERVER="mail.ustc.edu.cn"
+MAIL_PORT = 465
+# Change the following 2 lines to a common email account
+# to send authentication emails
+MAIL_USERNAME = 'email-address'
+MAIL_PASSWORD = 'password'
+MAIL_USE_TLS = False
+MAIL_USE_SSL = True
+MAIL_PREFIX="[USTC-SE]"
