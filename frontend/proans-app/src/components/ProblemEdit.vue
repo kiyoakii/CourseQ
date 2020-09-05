@@ -14,6 +14,16 @@
           @close="handleClose(tag)">
           {{ tag }}
         </el-tag>
+        <el-dropdown @command="handleCommand">
+          <el-button class="button-new-tag" size="small">
+            选择标签<i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item v-for="(item, i) in categories" :key="i" :command="item.name">
+              {{ item.name }}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
         <el-input
           class="input-new-tag"
           v-if="inputVisible"
@@ -25,7 +35,7 @@
         >
         </el-input>
         <el-button v-else class="button-new-tag" size="small"
-        @click="showInput">+ New Tag</el-button>
+        @click="showInput">新增标签</el-button>
         <editor class="mavon-editor" v-model="form.content"></editor>
       </div>
       <div style="display: flex; justify-content: flex-end;">
@@ -65,7 +75,7 @@ export default {
   },
   methods: {
     handleClose(tag) {
-      if (tag === '默认' && this.form.tags.length === 1) {
+      if (this.form.tags.length === 1) {
         this.$message.error('问题至少有一个 tag!');
         return;
       }
@@ -85,6 +95,9 @@ export default {
       }
       this.inputVisible = false;
       this.inputValue = '';
+    },
+    handleCommand(tag) {
+      this.form.tags.push(tag);
     },
     closeEditor() {
       if (this.edit === false) {
@@ -203,6 +216,11 @@ export default {
         });
       }, 1000 * 15);
     }
+  },
+  computed: {
+    categories() {
+      return this.$store.getters.allTags;
+    },
   },
 };
 </script>
