@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import store from '@/store/index';
+import store from '@/store';
 
 
 Vue.use(VueRouter);
@@ -118,13 +118,15 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const { auth } = store.state.auth;
+  const { auth } = store.state;
   if (auth && to.meta.noNeedAuth !== true) {
     if (auth !== '管理员' && to.fullPath.includes('admin')) {
       next({
         path: '/admin',
       });
-    } else if (to.fullPath.includes('teacher')) {
+    } else if (auth !== '教师' && auth !== '助教'
+    && to.fullPath.includes('teacher')) {
+      console.log(auth);
       next({
         path: '/teacher',
       });
