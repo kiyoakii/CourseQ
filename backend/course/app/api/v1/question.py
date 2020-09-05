@@ -42,6 +42,7 @@ def update_question(qid):
                 history = History.create_from_question(question)
                 form.populate_obj(question)
                 db.session.add(history)
+            question.author_gid = g.user['gid']
             question.update_time = int(datetime.now().timestamp())
     return Success()
 

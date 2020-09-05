@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import jsonify, request, g
 
 from app.config.secure import ALLOWED_EXTENSIONS
@@ -98,7 +100,8 @@ def create_question(cid):
             title=form.title.data,
             content=form.content.data,
             course_id=course.cid,
-            author_gid=g.user['gid']
+            author_gid=g.user['gid'],
+            update_datetime=int(datetime.now().timestamp())
         )
         history = History(root_question=question)
         for tag_name in form.tags.data:
@@ -117,8 +120,7 @@ def get_question_list(cid):
 
 
 @api.route('/<int:cid>/schedules', methods=['POST'])
-@role_required(UserTypeEnum.TEACHER)
-@enroll_required(Course)
+@enroll_required(Course, UserTypeEnum.TA)
 def create_schedule(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     form = ScheduleCreateForm().validate_for_api()
@@ -145,8 +147,7 @@ def list_schedules(cid):
 
 
 @api.route('/<int:cid>/announces', methods=['POST'])
-@role_required(UserTypeEnum.TA)
-@enroll_required(Course)
+@enroll_required(Course, UserTypeEnum.TA)
 def create_announce(cid):
     course = Course.query.filter_by(cid=cid).first_or_404()
     form = AnnounceForm().validate_for_api()
@@ -165,8 +166,7 @@ def allowed_file(filename):
 
 
 @api.route('/<int:cid>/resources', methods=['POST'])
-@role_required(UserTypeEnum.TA)
-@enroll_required(Course)
+@enroll_required(Course, UserTypeEnum.TA)
 def upload(cid):
     course = Course.query.get_or_404(cid)
     if 'file' not in request.files:
@@ -193,8 +193,7 @@ def get_resources(cid):
 
 
 @api.route('/<int:cid>/assignments', methods=['POST'])
-@role_required(UserTypeEnum.TA)
-@enroll_required(Course)
+@enroll_required(Course, UserTypeEnum.TA)
 def create_assignment(cid):
     course = Course.query.get_or_404(cid)
     form = AssignmentCreateForm().validate_for_api()

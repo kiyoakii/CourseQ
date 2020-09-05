@@ -19,8 +19,7 @@ def get_resource(fid):
 
 
 @api.route('/<int:fid>', methods=['PATCH'])
-@role_required(UserTypeEnum.TEACHER)
-@enroll_required(CourseResource)
+@enroll_required(CourseResource, UserTypeEnum.TA)
 def update_resource(fid):
     resource = CourseResource.query.get_or_404(fid)
     form = ResourceForm().validate_for_api()
@@ -35,8 +34,7 @@ def update_resource(fid):
 
 
 @api.route('/<int:fid>', methods=['DELETE'])
-@role_required(UserTypeEnum.TEACHER)
-@enroll_required(CourseResource)
+@enroll_required(CourseResource, UserTypeEnum.TA)
 def delete_resource(fid):
     resource = CourseResource.query.get_or_404(fid)
     with db.auto_commit():

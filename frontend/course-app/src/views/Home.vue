@@ -30,5 +30,6 @@ export default {
 <style scoped>
 #info > * {
   margin-bottom: 30px;
+  margin-top: 10px;
 }
 </style>
