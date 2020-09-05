@@ -78,7 +78,7 @@ export default {
     announces() {
       const announces = [];
       if (this.allinfo.announces !== undefined) {
-        this.allinfo.announces.forEach(announce => {
+        this.allinfo.announces.forEach((announce) => {
           announces.push(announce);
         });
       }
