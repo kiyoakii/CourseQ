@@ -7,7 +7,7 @@
       <el-menu-item><a :href="forumLink" target="_blank">答疑平台</a>
       </el-menu-item>
       <el-submenu index="older" router>
-        <template slot="title">过往学期</template>
+        <span slot="title">过往学期</span>
         <el-menu-item :index="$router.path"
           v-for="(course, i) in allinfo.series_courses" :key="i">
           <el-link :href="'/course/' + course.cid + '/home'"
@@ -41,17 +41,17 @@ export default {
   justify-content: flex-end;
 }
 
-.el-menu-item {
-  line-height: 55px !important;
+el-item > .el-menu-item {
+  /* line-height: 55px !important; */
 }
 
 .el-submenu {
-  padding-right: 2em;
+  /* padding-right: 2em; */
 }
 
 .el-submenu .el-menu-item {
-  display: flex;
-  justify-content: center;
+  /* display: flex;
+  justify-content: center; */
 }
 
 a {
