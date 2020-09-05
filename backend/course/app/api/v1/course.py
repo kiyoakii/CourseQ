@@ -101,7 +101,7 @@ def create_question(cid):
             content=form.content.data,
             course_id=course.cid,
             author_gid=g.user['gid'],
-            update_datetime=int(datetime.now().timestamp())
+            update_time=int(datetime.now().timestamp())
         )
         history = History(root_question=question)
         for tag_name in form.tags.data:
