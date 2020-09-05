@@ -53,8 +53,9 @@ export default {
       this.$store.commit('setProansToken', data.access_token);
       this.$store.commit('setAuth', data.scope);
       const currentUrl = window.location.href;
+      const appPath = currentUrl.match(/http:\/\/[^/]*\//)[0];
       const hashpath = currentUrl.match(/hashpath=([\s\S]+)#\//)[1];
-      window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${hashpath}`;
+      window.location.href = `${appPath}${hashpath}`;
     },
   },
   computed: {
@@ -93,7 +94,7 @@ export default {
               this.$store.commit('setGid', res.data.gid);
               this.$store.commit('setAuth', res.data.scope);
               this.$store.dispatch('setAuth', res.data.gid);
-              window.location.href = `${appPath}proans/#${currentUrl.match(/hashpath=([\s\S]+)#\//)[1]}`;
+              window.location.href = `${appPath}proans/course/${res.data.gid}`;
               return;
             }
             this.showUserProfileSteps = true;
