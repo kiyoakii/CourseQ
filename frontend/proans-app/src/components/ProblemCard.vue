@@ -31,7 +31,7 @@
           >编辑</el-button>
           <el-button slot="reference" size="small" type="danger"
             icon="el-icon-delete" plain
-            :disabled="disableInteract || !isAuthor"
+            :disabled="disableInteract || !isAuthorOrTeacher"
             @click="handleDelete"
             >删除</el-button>
         </div>
@@ -96,8 +96,9 @@ export default {
     disableInteract() {
       return !this.problem.history;
     },
-    isAuthor() {
-      return this.problem.author.gid === this.$store.state.gid;
+    isAuthorOrTeacher() {
+      return this.problem.author.gid === this.$store.state.gid
+        || this.$store.state.auth !== '学生';
     },
   },
   watch: {
