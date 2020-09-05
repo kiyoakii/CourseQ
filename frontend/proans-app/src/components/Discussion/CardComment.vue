@@ -206,4 +206,11 @@ export default {
 .el-button {
   margin-left: 5px;
 }
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 </style>
