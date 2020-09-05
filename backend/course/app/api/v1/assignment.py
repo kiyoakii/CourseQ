@@ -21,8 +21,7 @@ def get_assignment(aid):
 
 
 @api.route('/<int:aid>', methods=['PATCH'])
-@role_required(UserTypeEnum.TEACHER)
-@enroll_required(Assignment)
+@enroll_required(Assignment, UserTypeEnum.TA)
 def update_assignment(aid):
     assignment = Assignment.query.get_or_404(aid)
     form = AssignmentUpdateForm().validate_for_api()
@@ -43,8 +42,7 @@ def update_assignment(aid):
 
 
 @api.route('/<int:aid>', methods=['DELETE'])
-@role_required(UserTypeEnum.TEACHER)
-@enroll_required(Assignment)
+@enroll_required(Assignment, UserTypeEnum.TA)
 def delete_assignment(aid):
     assignment = Assignment.query.get_or_404(aid)
     with db.auto_commit():
