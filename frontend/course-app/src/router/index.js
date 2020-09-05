@@ -11,7 +11,10 @@ const routes = [
     path: '/course/:cid/home',
     name: 'Home',
     component: Home,
-    alias: '/course/:cid',
+  },
+  {
+    path: '/course/:cid',
+    redirect: '/course/:cid/home',
   },
   {
     path: '/course/:cid/resourse',
