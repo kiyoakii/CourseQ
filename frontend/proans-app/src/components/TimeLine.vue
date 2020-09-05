@@ -94,7 +94,7 @@ export default {
         id: problem.id,
         title: problem.title,
         content: problem.content,
-        date: problem.update_datetime,
+        date: problem.create_datetime,
       });
       return res;
     },
