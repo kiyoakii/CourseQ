@@ -11,7 +11,7 @@
         <el-menu-item :index="$router.path"
           v-for="(course, i) in allinfo.series_courses" :key="i">
           <el-link :href="'/course/' + course.cid + '/home'"
-            style="display:block;text-align:center;">
+            style="display:block;text-align:center;" :underline="false">
             {{ course.name_zh + course.semester }}
           </el-link>
         </el-menu-item>
