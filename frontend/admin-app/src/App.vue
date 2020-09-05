@@ -114,8 +114,8 @@ export default {
               return;
             }
             this.showUserProfile = true;
-            this.redirect_path = this.$store.state.auth === '管理员' ?
-              `/admin/admin/${res.data.gid}` : `/admin/teacher/${res.data.gid}`;
+            this.redirect_path = this.$store.state.auth === '管理员'
+              ? `/admin/admin/${res.data.gid}` : `/admin/teacher/${res.data.gid}`;
           }
         });
     } else if (!this.$store.state.token) {
