@@ -58,6 +58,7 @@ export default {
       return this.$store.state.tags.length;
     },
     courseInfo() {
+      document.title = this.$store.state.courseInfo.name_zh;
       return this.$store.state.courseInfo;
     },
   },

@@ -48,6 +48,7 @@ export default {
             return;
           }
           this.allinfo = res.data;
+          document.title = `${this.allinfo.name_zh}-${this.allinfo.semester}`;
         });
     },
   },

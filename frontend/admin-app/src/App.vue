@@ -33,13 +33,13 @@ export default {
       this.showUserProfile = options.showUserProfile || false;
       const { data } = options;
       console.log(data);
-      const currentUrl = window.location.href;
-      const appPath = currentUrl.match(/http:\/\/[^/]*\//)[0];
-      const hashpath = currentUrl.match(/hashpath=([\s\S]+)/)[1];
+      // const currentUrl = window.location.href;
+      // const appPath = currentUrl.match(/http:\/\/[^/]*\//)[0];
+      // const hashPath = currentUrl.match(/teacher/)[0];
       this.$store.commit('setToken', data.access_token);
       this.$store.commit('setGid', data.gid);
       this.$store.commit('setAuth', data.scope);
-      window.location.href = `${appPath}${hashpath}`;
+      // window.location.href = `${appPath}${hashpath}`;
     },
   },
   watch: {
@@ -60,10 +60,6 @@ export default {
   },
   beforeMount() {
     const currentUrl = window.location.href;
-    if (currentUrl.includes('hashparam')) {
-      window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${currentUrl.match(/hashparam=([\s\S]+)/)[1]}`;
-      return;
-    }
     // const appPath = currentUrl.slice(0, currentUrl.indexOf('#'));
     console.log(currentUrl);
     const appPath = currentUrl.match(/http:\/\/[^/]*\//)[0];
@@ -102,7 +98,7 @@ export default {
                 this.$router.push({
                   name: 'AdminView',
                   params: {
-                    tid: res.data.gid,
+                    aid: res.data.gid,
                   },
                 });
               } else {
@@ -119,8 +115,8 @@ export default {
           }
         });
     } else if (!this.$store.state.token) {
-      const user = this.$route.path.includes('teacher') ? 'teacher/' : 'admin/';
-      const url = `${serviceUrl}${encodeURIComponent(`&apppath=${appPath}&hashpath=${user}`)}`;
+      const user = window.location.href.includes('teacher') ? 'admin/teacher/' : 'admin/admin/';
+      const url = `${serviceUrl}${encodeURIComponent(`&apppath=${appPath}${user}`)}`;
       const casUrl = `http://passport.ustc.edu.cn/login?service=${encodeURIComponent(url)}`;
       window.location.href = casUrl;
     }

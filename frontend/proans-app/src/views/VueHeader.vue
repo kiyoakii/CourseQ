@@ -80,7 +80,7 @@ export default {
           // const hashparam = currentUrl.slice(currentUrl.indexOf('#') + 1);
           const appname = currentUrl.match(/http:\/\/[^/]*\//)[0];
           const hashparam = `proans/course/${this.$route.params.cid}`;
-          const serviceUrl = `${appname}?hashparam=${hashparam}`;
+          const serviceUrl = `${appname}${hashparam}`;
           window.location.href = `http://passport.ustc.edu.cn/logout?service=${encodeURIComponent(serviceUrl)}`;
           // window.location.href = `http://passport.ustc.edu.cn/logout?service=${encodeURIComponent(serviceUrl)}`;
         }).catch(() => {
