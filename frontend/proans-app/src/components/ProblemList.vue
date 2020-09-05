@@ -49,6 +49,10 @@ export default {
   },
   watch: {
     problems() {
+      if (this.$route.params.tid === 'all') {
+        this.selectedProblem = -1;
+        this.curTag = 'all';
+      }
       if ((this.$route.params.tid !== this.curTag
       || this.searchInfo !== this.curInfo)
       && this.problems.length !== 0) {
