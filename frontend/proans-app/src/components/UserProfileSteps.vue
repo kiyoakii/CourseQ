@@ -93,10 +93,10 @@ export default {
       }).then((res) => {
         if (res.status === 200) {
           this.dialogVisible = true;
-          // this.$emit('submit', {
-          //   showUserProfileSteps: false,
-          //   data: res.data,
-          // });
+          this.$emit('submit', {
+            showUserProfileSteps: true,
+            data: res.data,
+          });
         }
       });
     },

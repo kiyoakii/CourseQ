@@ -3,6 +3,7 @@
     <el-container v-show="showUserProfile" style="height: 100vh;">
       <user-profile
         :token='token'
+        :redirect_path='redirect_path'
         @submit="change">
       </user-profile>
     </el-container>
@@ -23,6 +24,7 @@ export default {
     return {
       showUserProfile: false,
       token: '',
+      redirect_path: '',
       loadingInstance: {},
     };
   },
@@ -112,6 +114,8 @@ export default {
               return;
             }
             this.showUserProfile = true;
+            this.redirect_path = this.$store.state.auth === '管理员' ?
+              `/admin/admin/${res.data.gid}` : `/admin/teacher/${res.data.gid}`;
           }
         });
     } else if (!this.$store.state.token) {
