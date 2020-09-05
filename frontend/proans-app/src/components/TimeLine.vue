@@ -216,6 +216,10 @@ export default {
   color: #409EFF !important;
   border-color: #409EFF !important;
 }
+
+.timeline .el-scrollbar__wrap {
+  overflow-x: hidden;
+}
 </style>
 
 <style scoped>
@@ -259,7 +263,6 @@ export default {
 
 .timeline {
   user-select: none;
-  padding-top: 0px;
   margin-bottom: 20px !important;
 }
 
