@@ -2,7 +2,8 @@
   <el-row class="header">
     <el-col :span="1">
       <el-button icon="el-icon-s-home"
-        @click="handleRet" class="btn-back" circle> </el-button>
+        @click="handleRet" class="btn-back" circle
+        :class="(activeHome) ? 'folder-opened' : 'folder-closed'"> </el-button>
     </el-col>
     <el-col :span="19" class="tags-list">
       <problem-categories></problem-categories>
@@ -81,6 +82,11 @@ export default {
       }
     },
   },
+  computed: {
+    activeHome() {
+      return this.$route.params.tid === 'all';
+    },
+  },
 };
 </script>
 
@@ -97,5 +103,10 @@ export default {
 
 .btn-back {
   margin-left: 25px;
+}
+
+.folder-opened  {
+  background-color: #ecf5ff;
+  color: #409eff;
 }
 </style>
