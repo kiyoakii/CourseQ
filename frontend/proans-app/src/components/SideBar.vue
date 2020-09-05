@@ -23,14 +23,14 @@ export default {
   },
   computed: {
     problems() {
+      if (this.searchInfo !== '') {
+        return this.$store.getters.problemsBySearch(this.searchInfo, this.$route.params.tid);
+      }
       if (this.$route.params.tid === '0') {
         return this.$store.getters.problemsByLike;
       }
       if (this.$route.params.tid === 'all') {
         return this.$store.state.problems;
-      }
-      if (this.searchInfo !== '') {
-        return this.$store.getters.problemsBySearch(this.searchInfo);
       }
       return this.$store.getters.problemsByTag(this.$route.params.tid);
     },
