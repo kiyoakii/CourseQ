@@ -28,6 +28,16 @@
         </div>
       </el-card>
     </el-row>
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="30%"
+      >
+      <span>激活链接已经发送到你的邮箱，请注意及时查收和激活。</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -43,6 +53,7 @@ export default {
   data() {
     return {
       currentStep: 1,
+      dialogVisible: false,
       profile: {
         nickname: '',
         email: '',
@@ -72,16 +83,20 @@ export default {
       this.axios({
         method: 'post',
         url: '/api/v1/users/register',
-        data: this.profile,
+        data: {
+          ...this.profile,
+          redirect_path: `/proans/course/${this.$store.state.cid}`,
+        },
         headers: {
           Authorization: `Bearer ${this.token}`,
         },
       }).then((res) => {
         if (res.status === 200) {
-          this.$emit('submit', {
-            showUserProfileSteps: false,
-            data: res.data,
-          });
+          this.dialogVisible = true;
+          // this.$emit('submit', {
+          //   showUserProfileSteps: false,
+          //   data: res.data,
+          // });
         }
       });
     },
