@@ -8,27 +8,29 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/course/:cid/home',
+    path: '/:cid/home',
     name: 'Home',
     component: Home,
   },
   {
-    path: '/course/:cid',
+    path: '/:cid',
     redirect: '/course/:cid/home',
   },
   {
-    path: '/course/:cid/resourse',
+    path: '/:cid/resourse',
     name: 'CourseRes',
     component: CourseRes,
   },
   {
-    path: '/course/:cid/calendar',
+    path: '/:cid/calendar',
     name: 'CourseCalendar',
     component: CourseCalendar,
   },
 ];
 
 const router = new VueRouter({
+  mode: 'history',
+  base: 'course',  
   routes,
 });
 
