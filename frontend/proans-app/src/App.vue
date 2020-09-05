@@ -69,19 +69,19 @@ export default {
     });
   },
   beforeMount() {
-    const currentUrl = window.location.href;
+    const currentUrl = decodeURIComponent(window.location.href);
+    const appPath = currentUrl.match(/http:\/\/[^/]*\//)[0];
     if (currentUrl.includes('hashparam')) {
-      window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${currentUrl.match(/hashparam=([\s\S]+)#\//)[1]}`;
+      window.location.href = `${appPath}${currentUrl.match(/hashparam=([\s\S]+)/)[1]}`;
       return;
     }
-    // const appPath = currentUrl.slice(0, currentUrl.indexOf('#'));
-    const appPath = currentUrl.match(/http:\/\/[^/]*\//)[0];
-    const hashPath = currentUrl.slice(currentUrl.indexOf('#') + 1);
+    // const hashPath = currentUrl.slice(currentUrl.indexOf('#') + 1);
     const serviceUrl = `http://home.ustc.edu.cn/~jarvis/cas/index.html?r=${new Date().getTime()}`;
     if (currentUrl.includes('ticket')) {
       const ticket = currentUrl.match(/ticket=([\s\S]+?)&/)[1];
       const service = currentUrl.match(/service=([\s\S]+?)&/)[1];
-      // const hashpath = currentUrl.match(/hashpath=([\s\S]+)#\//)[1];
+      const hashPath = currentUrl.match(/proans\/course\/[\d]+/)[0];
+      // const hashpath = currentUrl.match(/hashpath=([\s\S]+)/)[1];
       axios.get(`/api/v1/token?id=null&ticket=${ticket}&service=${service}`)
       // axios.get('/api/v1/token/0000000217') // test
         .then((res) => {
@@ -94,7 +94,7 @@ export default {
               this.$store.commit('setGid', res.data.gid);
               this.$store.commit('setAuth', res.data.scope);
               this.$store.dispatch('setAuth', res.data.gid);
-              window.location.href = `${appPath}proans/course/${res.data.gid}`;
+              window.location.href = `${appPath}${hashPath}`;
               return;
             }
             this.showUserProfileSteps = true;
@@ -105,7 +105,9 @@ export default {
           console.log(e);
         });
     } else if (!this.$store.state.proansToken) {
-      const url = `${serviceUrl}${encodeURIComponent(`&apppath=${appPath}proans/&hashpath=${hashPath}`)}`;
+      console.log(currentUrl);
+      const hashPath = currentUrl.match(/proans\/course\/[\d]+/)[0];
+      const url = `${serviceUrl}${encodeURIComponent(`&apppath=${appPath}&hashpath=${hashPath}`)}`;
       const casUrl = `http://passport.ustc.edu.cn/login?service=${encodeURIComponent(url)}`;
       window.location.href = casUrl;
     }
