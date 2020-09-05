@@ -165,7 +165,9 @@ export default {
       }
     },
   },
-  beforeDestory() {
+  beforeRouteUpdate(to, from, next) {
+    console.log(to, from, next);
+    next();
     clearInterval(this.lockTimer);
   },
   mounted() {
