@@ -57,13 +57,13 @@ export default {
   beforeMount() {
     const currentUrl = window.location.href;
     if (currentUrl.includes('hashparam')) {
-      window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${currentUrl.match(/hashparam=([\s\S]+)#\//)[1]}`;
+      window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${currentUrl.match(/hashparam=([\s\S]+)/)[1]}`;
       return;
     }
     // const appPath = currentUrl.slice(0, currentUrl.indexOf('#'));
+    console.log(currentUrl);
     const appPath = currentUrl.match(/http:\/\/[^/]*\//)[0];
-    const hashPath = currentUrl.slice(currentUrl.indexOf('#') + 1);
-    console.log('hashPath:', hashPath);
+    // const hashPath = currentUrl.match(/hashpath=([\s\S]+)/)[1];
     const serviceUrl = `http://home.ustc.edu.cn/~jarvis/cas/index.html?r=${new Date().getTime()}`;
     if (currentUrl.includes('ticket')) {
       const ticket = currentUrl.match(/ticket=([\s\S]+?)&/)[1];
@@ -80,14 +80,32 @@ export default {
               this.$store.commit('setAuth', res.data.scope);
               if (currentUrl.includes('teacher')) {
                 if (this.$store.state.auth === '老师') {
-                  window.location.href = `${appPath}admin#/teacher/${res.data.gid}`;
+                  // window.location.href = `${appPath}teacher/${res.data.gid}`;
+                  this.$router.push({
+                    name: 'TeacherView',
+                    params: {
+                      tid: res.data.gid,
+                    },
+                  });
                 } else {
-                  window.location.href = `${appPath}admin#/teacher/`;
+                  // window.location.href = `${appPath}teacher/`;
+                  this.$router.push({
+                    name: 'TeacherLoginView',
+                  });
                 }
               } else if (this.$store.state.auth === '管理员') {
-                window.location.href = `${appPath}admin#/admin/${res.data.gid}`;
+                // window.location.href = `${appPath}admin/${res.data.gid}`;
+                this.$router.push({
+                  name: 'AdminView',
+                  params: {
+                    tid: res.data.gid,
+                  },
+                });
               } else {
-                window.location.href = `${appPath}admin#/admin/`;
+                // window.location.href = `${appPath}admin/`;
+                this.$router.push({
+                  name: 'AdminLoginView',
+                });
               }
               return;
             }
@@ -95,7 +113,8 @@ export default {
           }
         });
     } else if (!this.$store.state.token) {
-      const url = `${serviceUrl}${encodeURIComponent(`&apppath=${appPath}admin/&hashpath=${hashPath}`)}`;
+      const user = this.$route.path.includes('teacher') ? 'teacher/' : 'admin/';
+      const url = `${serviceUrl}${encodeURIComponent(`&apppath=${appPath}&hashpath=${user}`)}`;
       const casUrl = `http://passport.ustc.edu.cn/login?service=${encodeURIComponent(url)}`;
       window.location.href = casUrl;
     }

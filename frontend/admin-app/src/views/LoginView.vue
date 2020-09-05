@@ -30,7 +30,6 @@ export default {
           if (this.$route.path.includes('teacher')
           && this.$store.state.courses.length !== 0) {
             this.$router.push({
-              path: '/teacher',
               name: 'TeacherView',
               params: {
                 tid: this.$store.state.gid,
@@ -38,7 +37,6 @@ export default {
             });
           } else if (this.$store.state.auth === '管理员') {
             this.$router.push({
-              path: '/admin',
               name: 'AdminView',
               params: {
                 aid: this.$store.state.gid,
@@ -50,6 +48,7 @@ export default {
   },
   computed: {
     systemName() {
+      console.log(this.$route);
       if (this.$route.path.includes('teacher')) {
         return '教师/助教';
       }
@@ -69,9 +68,10 @@ export default {
         });
         this.$store.commit('setToken', '');
         const currentUrl = window.location.href;
-        const appname = currentUrl.slice(0, currentUrl.indexOf('#'));
+        // const appname = currentUrl.slice(0, currentUrl.indexOf('#'));
         // const hashparam = currentUrl.match(/\/teacher\/\d*\//g);
-        const hashparam = 'teacher/';
+        const appname = currentUrl.match(/http:\/\/[^/]*\//)[0];
+        const hashparam = 'admin/teacher';
         const serviceUrl = `${appname}?hashparam=${hashparam}`;
         window.location.href = `http://passport.ustc.edu.cn/logout?service=${encodeURIComponent(serviceUrl)}`;
       }).catch(() => {
