@@ -1,14 +1,15 @@
 <template>
   <el-row>
-    <el-col :span="4">
+    <el-col :span="8">
       <div class="logo">
         <!-- In Vue tmplate, import a image is tricky， we use webpack require syntax here -->
         <div class="logo-img"
         :style="{ backgroundImage: 'url(' + require('@/assets/logo.png') + ')' }">
         </div>
+        {{allinfo.name_zh}} - {{allinfo.semester}}
       </div>
     </el-col>
-    <el-col :span="20">
+    <el-col :span="16">
       <nav-bar :allinfo="allinfo"></nav-bar>
     </el-col>
   </el-row>
@@ -37,6 +38,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-weight: 400;
+  font-size: 14px;
+  color: gray;
 }
 .logo-img {
   height: 40px;
