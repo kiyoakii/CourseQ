@@ -13,7 +13,7 @@
             <div v-for="(teacher, i) in allinfo.teachers" :key="i">
               <el-row style="height:18px;">
                 <div class="grid-content bg-purple-light">
-                  <p>{{ teacher.name }}</p>
+                  <p>{{ teacher.name || teacher.nickname }}</p>
                 </div>
               </el-row>
             </div>
@@ -47,7 +47,7 @@
             <div v-for="(item, i) in allinfo.assistants" :key="i">
               <el-row style="height:18px;">
                 <div class="grid-content bg-purple-light">
-                  <p>{{ item.name }}</p>
+                  <p>{{ item.name || item.nickname }}</p>
                 </div>
               </el-row>
             </div>

@@ -7,7 +7,7 @@
         <div class="announcement-info">
           <h3 class="announcement-title">{{ announces[0].title }}</h3>
           <div class="announcement-publish-info">
-            发布者：{{ announces[0].author.name }}
+            发布者：{{ announces[0].author.name || announces[0].author.nickname }}
           </div>
           <div class="announcement-publish-info">
             发布时间：{{ (new Date(announces[0].create_datetime))
@@ -31,7 +31,7 @@
           <div slot="header" class="announcement-info">
             <h3 class="announcement-title">{{ item.title }}</h3>
             <div class="announcement-publish-info">
-              发布者：{{ item.author.name }}
+              发布者：{{ item.author.name || announces[0].author.nickname }}
             </div>
             <div class="announcement-publish-info">
               发布时间：{{ (new Date(item.create_datetime)).toLocaleString('zh-CN', { hour12: false }) }}
