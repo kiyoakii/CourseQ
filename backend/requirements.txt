@@ -11,6 +11,7 @@ Flask-HTTPAuth==3.3.0
 Flask-JWT-Extended==3.24.1
 Flask-Script==2.0.6
 Flask-SQLAlchemy==2.4.1
+Flask-Mail==0.9.1
 idna==2.9
 itsdangerous==1.1.0
 Jinja2==2.11.2
