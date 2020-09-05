@@ -3,7 +3,8 @@
     <h2 id="title">课程简介</h2>
     <div class="btn-header">
       <el-button type="primary"
-      @click="handleEdit">编辑简介</el-button>
+      @click="handleEdit"
+      v-if="$store.state.auth === '教师'">编辑简介</el-button>
     </div>
     <el-card class="box-card" shadow="none">
       <div slot="header" class="clearfix">
