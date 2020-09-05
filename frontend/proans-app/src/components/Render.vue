@@ -40,18 +40,18 @@ export default {
       value = value.replace(regDisorder, '$1');
       const regOrder = new RegExp('^[\\s]*[0-9]+\\.(.*)', 'gm');
       value = value.replace(regOrder, '$1');
-      console.log(value);
+      // console.log(value);
       return value;
     },
   },
   computed: {
     rawHtml() {
       let returnResult;
-      console.log(this.transfer);
+      // console.log(this.transfer);
       if (this.transfer) {
         const value = this.nodeFilter(this.markdown);
         const renderResult = mavonEditor.getMarkdownIt().render(value);
-        console.log(renderResult);
+        // console.log(renderResult);
         const regTable = new RegExp('\\<table.*?\\>[\\s\\S]*?\\<\\/table\\>');
         returnResult = renderResult.replace(regTable, '「表格」');
       } else {
