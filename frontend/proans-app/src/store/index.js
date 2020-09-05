@@ -49,15 +49,31 @@ export default new Vuex.Store({
         return problems;
       };
     },
-    problemsBySearch(state) {
-      return (searchInfo) => {
+    problemsBySearch(state, getters) {
+      return (searchInfo, searchTag) => {
         const problems = [];
-        state.problems.forEach((p) => {
-          if (p.title.search(searchInfo) !== -1
-          || p.content.search(searchInfo) !== -1) {
-            problems.push(p);
-          }
-        });
+        if (searchTag === 'all') {
+          state.problems.forEach((p) => {
+            if (p.title.search(searchInfo) !== -1
+            || p.content.search(searchInfo) !== -1) {
+              problems.push(p);
+            }
+          });
+        } else if (searchTag === '0') {
+          getters.problemsByLike.forEach((p) => {
+            if (p.title.search(searchInfo) !== -1
+            || p.content.search(searchInfo) !== -1) {
+              problems.push(p);
+            }
+          });
+        } else {
+          getters.problemsByTag(searchTag).forEach((p) => {
+            if (p.title.search(searchInfo) !== -1
+            || p.content.search(searchInfo) !== -1) {
+              problems.push(p);
+            }
+          });
+        }
         return problems;
       };
     },
