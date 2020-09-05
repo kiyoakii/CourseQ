@@ -27,12 +27,12 @@ LOCK_TIMEOUT = 20
 # DEBUG = False
 
 # email authentication
-MAIL_SERVER="mail.ustc.edu.cn"
+MAIL_SERVER="smtp.163.com"
 MAIL_PORT = 465
 # Change the following 2 lines to a common email account
 # to send authentication emails
-MAIL_USERNAME = 'email-address'
-MAIL_PASSWORD = 'password'
+MAIL_USERNAME = 'ustc_se_sender@163.com'
+MAIL_PASSWORD = 'ASRBXEKXRUNWBKZF'
 MAIL_USE_TLS = False
 MAIL_USE_SSL = True
 MAIL_PREFIX="[USTC-SE]"
