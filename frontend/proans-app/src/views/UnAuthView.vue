@@ -1,7 +1,6 @@
 <template>
   <div class="user-profile">
-    <el-row type="flex" justify="center" align="middle" class="h-100"
-      :style="{ backgroundImage: 'url(' + require('@/assets/imgs/login-bg.jpg') + ')' }">
+    <el-row type="flex" justify="center" align="middle" class="h-100">
       <el-card class="box-card form-card">
         <div slot="header" class="clearfix">
           <span>提示</span>
@@ -73,7 +72,7 @@ export default {
   width: 100%;
   height: 100vh;
   background-position: center;
-  background-repeat: no-repeat;
+  background-color:rgb(241, 250, 254);
   background-size: cover;
 }
 
