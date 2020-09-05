@@ -8,6 +8,7 @@ mail = Mail()
 
 
 def send_async_email(app, msg):
+    mail.init_app(app)
     with app.app_context():
         try:
             mail.send(msg)
@@ -18,7 +19,7 @@ def send_async_email(app, msg):
 def send_email(to, subject, template, **kwargs):
     app = current_app._get_current_object()
     msg = Message(app.config['MAIL_PREFIX'] + ' ' + subject,
-                  sender=app.config['MAIL_SENDER'], recipients=[to])
+                  sender=app.config['MAIL_USERNAME'], recipients=[to])
     msg.html = render_template(template, **kwargs)
     thr = Thread(target=send_async_email, args=[app, msg])
     thr.start()
