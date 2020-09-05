@@ -11,9 +11,9 @@ COPY ./frontend/course-app /app/course-app
 COPY ./frontend/admin-app /app/admin-app
 COPY ./frontend/proans-app /app/proans-app
 
-RUN cd /app/course-app && yarn install
-RUN cd /app/admin-app && yarn install
-RUN cd /app/proans-app && yarn install
+RUN cd /app/course-app && yarn install --registry=https://registry.npm.taobao.org/
+RUN cd /app/admin-app && yarn install --registry=https://registry.npm.taobao.org/
+RUN cd /app/proans-app && yarn install --registry=https://registry.npm.taobao.org/
 
 RUN cd /app/course-app && yarn run build
 RUN cd /app/admin-app && yarn run build
