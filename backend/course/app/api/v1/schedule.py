@@ -20,7 +20,7 @@ def get_schedule(sid):
 
 @api.route('/<int:sid>', methods=['PUT'])
 @role_required(UserTypeEnum.TEACHER)
-@enroll_required(Schedule)
+@enroll_required(Schedule, UserTypeEnum.TA)
 def update_schedule(sid):
     schedule = Schedule.query.get_or_404(sid)
     form = ScheduleUpdateForm().validate_for_api()
@@ -34,8 +34,7 @@ def update_schedule(sid):
 
 
 @api.route('/<int:sid>', methods=['DELETE'])
-@role_required(UserTypeEnum.TEACHER)
-@enroll_required(Schedule)
+@enroll_required(Schedule, UserTypeEnum.TA)
 def delete_schedule(sid):
     schedule = Schedule.query.get_or_404(sid)
     with db.auto_commit():

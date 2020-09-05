@@ -10,8 +10,7 @@ api = Redprint('announce')
 
 
 @api.route('/<int:pk>', methods=['DELETE'])
-@role_required(UserTypeEnum.TEACHER)
-@enroll_required(Announce)
+@enroll_required(Announce, UserTypeEnum.TA)
 def delete_announce(pk):
     announce = Announce.query.get_or_404(pk)
     with db.auto_commit():
@@ -20,8 +19,7 @@ def delete_announce(pk):
 
 
 @api.route('/<int:pk>', methods=['PUT'])
-@role_required(UserTypeEnum.TEACHER)
-@enroll_required(Announce)
+@enroll_required(Announce, UserTypeEnum.TA)
 def update_announce(pk):
     announce = Announce.query.get_or_404(pk)
     form = AnnounceForm().validate_for_api()

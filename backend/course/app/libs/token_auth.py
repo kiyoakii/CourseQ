@@ -13,8 +13,8 @@ jwt = JWTManager()
 def login_required(wrapped, *args, **kwargs):
     verify_jwt_in_request()
     user = get_jwt_identity()
-#     # if not is_in_scope(user['scope'], request.endpoint):
-#     #     raise Forbidden
+    #     # if not is_in_scope(user['scope'], request.endpoint):
+    #     #     raise Forbidden
     return wrapped()
 
 
@@ -32,7 +32,7 @@ def role_required(required_role):
     return wrapper1
 
 
-def enroll_required(model):
+def enroll_required(model, required_role=None):
     @wrapt.decorator
     def wrapper(wrapped, instance, args, kwargs):
         verify_jwt_in_request()
@@ -42,7 +42,11 @@ def enroll_required(model):
         role = Enroll.user_to_role(user['gid'], course_cid)
         if not role and not user['role'] == UserTypeEnum.MANAGER:
             raise Forbidden
+        if required_role:
+            if role.value < required_role.value:
+                raise Forbidden
         return wrapped(*args, **kwargs)
+
     return wrapper
 
 
@@ -56,6 +60,7 @@ def private(model):
         if resource.belong_author != user['gid'] and not user['role'] == UserTypeEnum.MANAGER:
             raise Forbidden
         return wrapped(*args, **kwargs)
+
     return wrapper
 
 
