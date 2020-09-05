@@ -125,10 +125,6 @@ export default {
       return this.$store.state.auth === '学生';
     },
   },
-  beforeRouteUpdate(to, from, next) {
-    console.log(to, from, next);
-    next();
-  },
   methods: {
     startTimer() {
       if (this.lockTimer) {
@@ -172,6 +168,7 @@ export default {
           }
         });
       }, 1000 * 15);
+      this.$store.state.lockTimer = this.lockTimer;
     },
     handleTeacherClick() {
       this.axios({
@@ -180,8 +177,8 @@ export default {
       }).then(() => {
         this.teacherEditorShow = true;
         this.tAnswer = this.teacherAnswer !== null ? this.teacherAnswer.content : '';
+        this.startTimer();
       });
-      this.startTimer();
     },
     handleStudentClick() {
       this.axios({
@@ -190,14 +187,16 @@ export default {
       }).then(() => {
         this.studentEditorShow = true;
         this.sAnswer = this.studentAnswer !== null ? this.studentAnswer.content : '';
+        this.startTimer();
       });
-      this.startTimer();
     },
     handleTeacherEdit() {
+      window.clearInterval(this.lockTimer);
       this.axios({
         method: 'POST',
         url: `/api/v1/questions/${this.$route.params.qid}/unlock`,
       }).then(() => {
+        window.clearInterval(this.lockTimer);
         if (this.teacherAnswer !== null) {
           instance.put(`/api/v1/answers/${this.teacherAnswer.id}`,
             { content: this.tAnswer })
@@ -220,6 +219,7 @@ export default {
         method: 'POST',
         url: `/api/v1/questions/${this.$route.params.qid}/unlock`,
       }).then(() => {
+        window.clearInterval(this.lockTimer);
         if (this.studentAnswer !== null) {
           instance.put(`/api/v1/answers/${this.studentAnswer.id}`,
             { content: this.sAnswer })
@@ -243,6 +243,7 @@ export default {
         url: `/api/v1/questions/${this.$route.params.qid}/unlock`,
       }).then(() => {
         this.teacherEditorShow = false;
+        window.clearInterval(this.lockTimer);
       });
     },
     closeStudentEdit() {
@@ -251,6 +252,7 @@ export default {
         url: `/api/v1/questions/${this.$route.params.qid}/unlock`,
       }).then(() => {
         this.studentEditorShow = false;
+        window.clearInterval(this.lockTimer);
       });
     },
   },

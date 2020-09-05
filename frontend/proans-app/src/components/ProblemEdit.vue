@@ -171,6 +171,10 @@ export default {
     clearInterval(this.lockTimer);
   },
   mounted() {
+    if (this.$store.state.lockTimer) {
+      window.clearInterval(this.$store.state.lockTimer);
+      this.$store.state.lockTimer = 0;
+    }
     this.axios.defaults.headers.common.Authorization = `Bearer ${this.$store.state.proansToken}`;
     console.log(this.$route);
     this.form.title = this.$route.params.problem.title;

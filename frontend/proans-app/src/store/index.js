@@ -19,6 +19,7 @@ export default new Vuex.Store({
     auth: '',
     commentList: [],
     courseInfo: {},
+    lockTimer: 0,
   },
   getters: {
     commentList(state) {
