@@ -14,17 +14,6 @@
       </el-col>
       <el-col :span="12">
         <el-card class="box-card">
-          <!-- <template slot="header">
-            <h1>问题统计</h1>
-          </template>
-          <div class="card-content">
-            <el-row type="flex" justify="center">
-              <span class="text">问题数：{{ problemsNum }}</span>
-            </el-row>
-            <el-row type="flex" justify="center">
-              <span class="text">标签数：{{ tagsNum }}</span>
-            </el-row>
-          </div> -->
           <div id="course-name">
             <h1>问题统计</h1>
             <p>问题数：{{ problemsNum }}</p>
