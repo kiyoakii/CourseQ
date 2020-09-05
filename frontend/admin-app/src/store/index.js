@@ -97,6 +97,10 @@ export default new Vuex.Store({
     initCourses(state, { courses }) {
       state.courses.splice(0, state.courses.length);
       state.courses.push(...courses);
+      if (state.auth === '学生'
+      && state.courses.length !== 0) {
+        state.auth = '助教';
+      }
     },
   },
   actions: {
@@ -140,7 +144,7 @@ export default new Vuex.Store({
       });
     },
     initCourses(context, { tid }) {
-      axios.get(`/api/v1/users/${tid}/courses`, {
+      axios.get(`/api/v1/users/${tid}/teaching_courses`, {
         headers: {
           Authorization: `Bearer ${context.state.token}`,
         },
