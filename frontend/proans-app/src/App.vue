@@ -92,6 +92,7 @@ export default {
               this.$store.dispatch('initProblems');
               this.$store.commit('setGid', res.data.gid);
               this.$store.commit('setAuth', res.data.scope);
+              this.$store.dispatch('setAuth', res.data.gid);
               window.location.href = `${appPath}proans/#${currentUrl.match(/hashpath=([\s\S]+)#\//)[1]}`;
               return;
             }
