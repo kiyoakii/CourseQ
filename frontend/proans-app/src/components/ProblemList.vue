@@ -13,9 +13,14 @@
           </div>
         </el-card>
       </li>
-      <li @click="handleAdd" v-if="this.$route.params.tid !== '0'">
+      <li @click="handleAdd" v-if="$route.params.tid !== '0'">
         <el-card class="box-card center" shadow="hover" style="font-size: 30px; color: #409EFF;">
           <i class="el-icon-circle-plus-outline"></i>
+        </el-card>
+      </li>
+      <li v-if="problems.length === 0">
+        <el-card class="box-card center" shadow="hover" style="font-size: 24px;">
+          <span> 暂时没有问题噢 </span>
         </el-card>
       </li>
     </ul>
@@ -44,7 +49,8 @@ export default {
     problems() {
       if (this.$route.params.tid
       && !this.$route.params.qid
-      && this.$route.params.tid !== this.curTag) {
+      && this.$route.params.tid !== this.curTag
+      && this.problems.length !== 0) {
         this.selectedProblem = this.problems[0].id;
         this.curTag = this.$route.params.tid;
         this.$router.push({
@@ -131,6 +137,7 @@ export default {
 .center {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .add-img {
   width: 40px;
