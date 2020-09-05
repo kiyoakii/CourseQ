@@ -54,7 +54,7 @@ export default {
       this.$store.commit('setAuth', data.scope);
       const currentUrl = window.location.href;
       const appPath = currentUrl.match(/http:\/\/[^/]*\//)[0];
-      const hashpath = currentUrl.match(/hashpath=([\s\S]+)#\//)[1];
+      const hashpath = currentUrl.match(/hashpath=([\s\S]+)/)[1];
       window.location.href = `${appPath}${hashpath}`;
     },
   },
