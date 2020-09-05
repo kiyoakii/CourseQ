@@ -2,7 +2,7 @@
   <div>
     <search v-model="searchInfo"
     style="margin-bottom: 20px;"></search>
-    <problem-list :problems="problems"></problem-list>
+    <problem-list :problems="problems" :searchInfo="searchInfo"></problem-list>
   </div>
 </template>
 

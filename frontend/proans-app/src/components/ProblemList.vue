@@ -13,14 +13,14 @@
           </div>
         </el-card>
       </li>
-      <li @click="handleAdd" v-if="$route.params.tid !== '0'">
-        <el-card class="box-card center" shadow="hover" style="font-size: 30px; color: #409EFF;">
-          <i class="el-icon-circle-plus-outline"></i>
-        </el-card>
-      </li>
       <li v-if="problems.length === 0">
         <el-card class="box-card center" shadow="hover" style="font-size: 24px;">
           <span> 暂时没有问题噢 </span>
+        </el-card>
+      </li>
+      <li @click="handleAdd" v-if="$route.params.tid !== '0'">
+        <el-card class="box-card center" shadow="hover" style="font-size: 30px; color: #409EFF;">
+          <i class="el-icon-circle-plus-outline"></i>
         </el-card>
       </li>
     </ul>
@@ -37,21 +37,23 @@ export default {
   },
   props: {
     problems: Array,
+    searchInfo: String,
   },
   data() {
     return {
       count: 0,
       selectedProblem: -1,
       curTag: '',
+      curInfo: '',
     };
   },
   watch: {
     problems() {
-      if (this.$route.params.tid
-      && !this.$route.params.qid
-      && this.$route.params.tid !== this.curTag
+      if ((this.$route.params.tid !== this.curTag
+      || this.searchInfo !== this.curInfo)
       && this.problems.length !== 0) {
         this.selectedProblem = this.problems[0].id;
+        this.curInfo = this.searchInfo;
         this.curTag = this.$route.params.tid;
         this.$router.push({
           name: 'ProblemView',
