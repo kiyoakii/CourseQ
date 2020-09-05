@@ -49,7 +49,8 @@ export default {
   },
   watch: {
     problems() {
-      if (this.$route.params.tid === 'all') {
+      if (this.$route.params.tid === 'all'
+      && this.$route.params.qid === undefined) {
         this.selectedProblem = -1;
         this.curTag = 'all';
       }
