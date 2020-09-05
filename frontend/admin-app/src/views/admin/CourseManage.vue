@@ -112,6 +112,9 @@ export default {
         name_en: [
           { required: true, message: '请输入课程名称（英）', trigger: ['change', 'blur'] },
         ],
+        intro: [
+          { required: true, message: '请输入课程简介', trigger: ['change', 'blur'] },
+        ],
         textbooks: [
           { required: true, message: '请输入教科书名称', trigger: ['change', 'blur'] },
         ],
