@@ -21,5 +21,10 @@ export default {
 </script>
 
 <style scoped>
-
+.markdown-body {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
 </style>
