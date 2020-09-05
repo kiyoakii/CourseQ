@@ -260,8 +260,8 @@ export default {
 
 .timeline {
   user-select: none;
-  padding-top: 7px;
-  margin-bottom: 10px !important;
+  padding-top: 0px;
+  margin-bottom: 20px !important;
 }
 
 .version {
