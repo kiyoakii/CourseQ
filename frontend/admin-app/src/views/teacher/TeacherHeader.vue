@@ -55,8 +55,9 @@ export default {
           });
           this.$store.commit('setToken', '');
           const currentUrl = window.location.href;
-          const appname = currentUrl.slice(0, currentUrl.indexOf('#'));
+          // const appname = currentUrl.slice(0, currentUrl.indexOf('#'));
           // const hashparam = currentUrl.match(/\/teacher\/\d*\//g);
+          const appname = currentUrl.match(/http:\/\/[^/]*\//)[0];
           const hashparam = 'teacher/';
           const serviceUrl = `${appname}?hashparam=${hashparam}`;
           window.location.href = `http://passport.ustc.edu.cn/logout?service=${encodeURIComponent(serviceUrl)}`;
