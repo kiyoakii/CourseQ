@@ -43,14 +43,24 @@ export default {
     myLike() {
       if (this.$route.params.tid !== '0') {
         this.$router.push({
-          path: `/proans/course/${this.$route.params.cid}/tag/0`,
+          name: 'CategoryView',
+          params: {
+            cid: this.$route.params.cid,
+            tid: '0',
+          },
         });
       }
     },
     handleRet() {
-      this.$router.push({
-        path: `/proans/course/${this.$route.params.cid}`,
-      });
+      if (this.$route.params.tid !== 'all') {
+        this.$router.push({
+          name: 'IntroView',
+          params: {
+            cid: this.$route.params.cid,
+            tid: 'all',
+          },
+        });
+      }
     },
     commandHandler(command) {
       if (command === 'logout') {
