@@ -35,6 +35,12 @@ export default {
       return this.$store.getters.problemsByTag(this.$route.params.tid);
     },
   },
+  beforeRouterEnter(from, to, next) {
+    if (from.params.tid !== to.params.tid) {
+      this.searchInfo = '';
+    }
+    next();
+  },
 };
 </script>
 
