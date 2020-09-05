@@ -97,5 +97,6 @@ a {
   display: flex;
   align-items: center;
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 </style>
