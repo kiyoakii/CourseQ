@@ -23,7 +23,7 @@
             <div v-show="!teacherEditorShow">
               <el-button type="primary" icon="el-icon-edit" size="small"
                 @click="handleTeacherClick"
-                :disabled="disableInteract || !isTeacher"
+                :disabled="disableInteract || !isTeacherOrAssistant"
                 plain>编辑</el-button>
             </div>
           </div>
@@ -115,8 +115,9 @@ export default {
     };
   },
   computed: {
-    isTeacher() {
-      return this.$store.state.auth === '教师';
+    isTeacherOrAssistant() {
+      return this.$store.state.auth === '教师'
+        || this.$store.state.auth === '助教';
     },
     isStudent() {
       return this.$store.state.auth === '学生';

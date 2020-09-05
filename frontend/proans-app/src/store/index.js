@@ -79,6 +79,8 @@ export default new Vuex.Store({
         state.auth = '教师';
       } else if (scope === 'AdminScope') {
         state.auth = '管理员';
+      } else if (scope === 'assistantScope') {
+        state.auth = '助教';
       }
     },
     changeStudentAnswer(state, { content }) {
@@ -231,6 +233,20 @@ export default new Vuex.Store({
           }
           context.commit('getCourseInfo', res.data);
         });
+    },
+    setAuth(context, { tid }) {
+      axios.get(`/api/v1/users/${tid}/teaching_courses`, {
+        headers: {
+          Authorization: `Bearer ${context.state.token}`,
+        },
+      }).then((res) => {
+        console.log('courses get: ', res);
+        const courses = res.data;
+        if (context.state.auth === '学生'
+        && courses.length !== 0) {
+          context.commit('setAuth', 'assistantScope');
+        }
+      });
     },
   },
   modules: {
