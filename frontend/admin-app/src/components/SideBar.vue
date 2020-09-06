@@ -12,13 +12,13 @@
     <div>
       <el-card class="list-item"
         align="center" shadow="hover">
-          <a :href="`/course/#/course/${$route.params.cid}/home`" target="blank" :underline="false">
+          <a :href="`/course/${$route.params.cid}/home`" target="blank" :underline="false">
             课程主页
           </a>
       </el-card>
       <el-card class="list-item"
         align="center" shadow="hover">
-          <a :href="`/proans/#/proans/course/${$route.params.cid}`" target="blank"
+          <a :href="`/proans/course/${$route.params.cid}`" target="blank"
             :underline="false">
             答疑系统
           </a>
