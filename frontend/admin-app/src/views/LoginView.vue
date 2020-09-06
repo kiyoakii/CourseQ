@@ -21,38 +21,64 @@
 <script>
 export default {
   name: 'LoginView',
-  mounted() {
-    console.log(this.$store.state.gid);
-    if (this.$store.state.gid) {
-      this.$store.dispatch('initCourses', { tid: this.$store.state.gid })
-        .then(() => {
-          if (this.$route.path.includes('teacher')
-          && this.$store.state.courses.length !== 0) {
-            this.$router.push({
-              name: 'TeacherView',
-              params: {
-                tid: this.$store.state.gid,
-              },
-            });
-          } else if (this.$store.state.auth === '管理员') {
-            this.$router.push({
-              name: 'AdminView',
-              params: {
-                aid: this.$store.state.gid,
-              },
-            });
-          }
-        });
-    }
-  },
   computed: {
+    auth() {
+      return this.$store.state.auth;
+    },
     systemName() {
-      console.log(this.$route);
       if (this.$route.path.includes('teacher')) {
         return '教师/助教';
       }
       return '管理员';
     },
+    token() {
+      return this.$store.state.token;
+    },
+  },
+  watch: {
+    token() {
+      if (this.token !== '') {
+        this.$store.dispatch('initCourses', { tid: this.$store.state.gid });
+      }
+    },
+    auth() {
+      if (this.$route.path.includes('teacher')
+        && this.$store.state.courses.length !== 0) {
+        this.$router.push({
+          name: 'TeacherView',
+          params: {
+            tid: this.$store.state.gid,
+          },
+        });
+      } else if (this.$store.state.auth === '管理员') {
+        this.$router.push({
+          name: 'AdminView',
+          params: {
+            aid: this.$store.state.gid,
+          },
+        });
+      }
+    },
+  },
+  mounted() {
+    if (this.$store.state.gid && this.$store.state.token) {
+      if (this.$route.path.includes('teacher')
+        && this.$store.state.courses.length !== 0) {
+        this.$router.push({
+          name: 'TeacherView',
+          params: {
+            tid: this.$store.state.gid,
+          },
+        });
+      } else if (this.$store.state.auth === '管理员') {
+        this.$router.push({
+          name: 'AdminView',
+          params: {
+            aid: this.$store.state.gid,
+          },
+        });
+      }
+    }
   },
   methods: {
     onLogout() {
@@ -70,7 +96,7 @@ export default {
         // const appname = currentUrl.slice(0, currentUrl.indexOf('#'));
         // const hashparam = currentUrl.match(/\/teacher\/\d*\//g);
         const appname = currentUrl.match(/http:\/\/[^/]*\//)[0];
-        const serviceUrl = `${appname}admin/teacher`;
+        const serviceUrl = this.$route.path.includes('teacher') ? `${appname}admin/teacher` : `${appname}admin/admin`;
         window.location.href = `http://passport.ustc.edu.cn/logout?service=${encodeURIComponent(serviceUrl)}`;
       }).catch(() => {
         this.$message({
