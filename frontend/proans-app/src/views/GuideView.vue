@@ -58,7 +58,7 @@ export default {
       return this.$store.state.tags.length;
     },
     courseInfo() {
-      document.title = this.$store.state.courseInfo.name_zh;
+      document.title = `${this.$store.state.courseInfo.name_zh}-${this.$store.state.courseInfo.semester}-答疑平台`;
       return this.$store.state.courseInfo;
     },
   },
