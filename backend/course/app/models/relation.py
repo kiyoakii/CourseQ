@@ -13,6 +13,8 @@ class Enroll(Base):
     enroll_type = Column('enroll_type', SmallInteger)
     user = relationship('User')
     course = relationship('Course')
+    __table_args__ = (UniqueConstraint('user_gid', 'course_cid', name='_user_course_uc'),
+                      )
 
     @staticmethod
     def add_user(course, teachers_gid, students_gid, TAs_gid, db):
