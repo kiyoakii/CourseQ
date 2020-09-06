@@ -4,7 +4,7 @@
     <el-scrollbar>
       <div v-if="announces && announces.length > 0"
         shadow="always" class="announcement-card">
-        <el-row :gutter="20">
+        <el-row :gutter="20" style="width: 100%">
           <el-col :span="6">
             <div class="announcement-info">
               <h3 class="announcement-title">{{ announces[0].title }}</h3>
