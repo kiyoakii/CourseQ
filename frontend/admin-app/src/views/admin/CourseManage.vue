@@ -151,7 +151,7 @@ export default {
   },
   mounted() {
     const curYear = (new Date()).getFullYear();
-    for (let i = 0; i < 3; i += 1) {
+    for (let i = 1; i < 6; i += 1) {
       this.semesters.push(`${curYear + i}年春季`);
       this.semesters.push(`${curYear + i}年夏季`);
       this.semesters.push(`${curYear + i}年秋季`);
