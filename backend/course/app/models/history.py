@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, ForeignKey, String, Text
+from sqlalchemy import Column, Integer, ForeignKey, String, Text, SmallInteger
 from sqlalchemy.orm import reconstructor, relationship
 
 from app.models.base import Base
@@ -16,6 +16,7 @@ class History(Base):
     question = relationship('HistoryQuestion', foreign_keys=qid)
     teacher_answer = relationship('HistoryAnswer', foreign_keys=teacher_aid)
     student_answer = relationship('HistoryAnswer', foreign_keys=student_aid)
+    _type = Column(SmallInteger, default=0)
 
     @staticmethod
     def create_from_question(history_question):
@@ -25,6 +26,7 @@ class History(Base):
         history.question = HistoryQuestion.copy_from(history_question)
         history.teacher_answer = lastHistory.teacher_answer if lastHistory else None
         history.student_answer = lastHistory.student_answer if lastHistory else None
+        history._type = 0
         return history
 
     #
@@ -41,6 +43,7 @@ class History(Base):
         if not create_answer:
             history.student_answer = HistoryAnswer.copy_from(history_answer)
         history.teacher_answer = lastHistory.teacher_answer
+        history._type = 2
         return history
 
     @staticmethod
@@ -56,12 +59,17 @@ class History(Base):
         history.student_answer = lastHistory.student_answer
         if not create_answer:
             history.teacher_answer = HistoryAnswer.copy_from(history_answer)
+        history._type = 1
         return history
+
+    @property
+    def type(self):
+        return self._type
 
     @reconstructor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields = ['id', 'question', 'teacher_answer', 'student_answer', 'modify_time']
+        self.fields = ['id', 'question', 'teacher_answer', 'student_answer', 'modify_time', 'type']
         self.update_time = self.create_time
 
     @property
