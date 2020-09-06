@@ -80,6 +80,8 @@ export default new Vuex.Store({
         state.auth = '教师';
       } else if (scope === 'AdminScope') {
         state.auth = '管理员';
+      } else {
+        state.auth = '';
       }
     },
     initAllCourses(state, { courses }) {
