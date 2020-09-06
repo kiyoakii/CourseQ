@@ -42,7 +42,10 @@
               <el-input v-model="form.intro"></el-input>
             </el-form-item>
             <el-form-item label="学期" prop="semester">
-              <el-input v-model="form.semester"></el-input>
+              <el-select v-model="form.semester" placeholder="请选择学期">
+                <el-option v-for="s in semesters" :key="s"
+                  :label="s" :value="s"></el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="系列" prop="series">
               <el-input v-model="form.series"></el-input>
@@ -90,6 +93,7 @@ export default {
   },
   data() {
     return {
+      semesters: [],
       searchText: '',
       originalTeachersGid: [],
       courseTable,
@@ -141,6 +145,14 @@ export default {
   beforeCreate() {
     this.$store.dispatch('initAllCourses');
     this.$store.dispatch('initAllTeachers');
+  },
+  mounted() {
+    const curYear = (new Date()).getFullYear();
+    for (let i = 0; i < 3; i += 1) {
+      this.semesters.push(`${curYear + i}年春季`);
+      this.semesters.push(`${curYear + i}年夏季`);
+      this.semesters.push(`${curYear + i}年秋季`);
+    }
   },
   methods: {
     diff(oldArray, newArray) {
