@@ -1,6 +1,7 @@
 from urllib.parse import urlencode
 from urllib.request import urlopen
 from xml.etree import ElementTree
+from urllib.parse import quote
 
 from flask import current_app
 from sqlalchemy import Column, String, SmallInteger, orm
@@ -89,7 +90,7 @@ class User(Base):
             # email authentication
             email_auth_token = generate_email_auth_token(gid=gid, expiration=600)
             send_email(email, 'Email Authentication', 'email_auth.html', \
-                       token=email_auth_token, host=current_app.config['HOST'], nickname=nickname, redirect_path=redirect_path)
+                       token=email_auth_token, host=current_app.config['HOST'], nickname=nickname, redirect_path=quote(redirect_path))
             user.email = email
             user.uid = uid
             if len(uid) != 10:
