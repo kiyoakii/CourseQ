@@ -27,8 +27,10 @@
                         问题标题：{{ version.title.slice(0, 20) }}
                       </el-col>
                       <el-col :span="24">
-                        问题内容：
-                        <render :markdown="version.content" :transfer="true"></render>
+                        修改内容：
+                        <span v-if="version.type === 0"> 问题</span>
+                        <span v-if="version.type === 1"> 教师/助教回答</span>
+                        <span v-if="version.type === 2"> 学生回答</span>
                       </el-col>
                       <el-col :span="24">
                         修改时间：{{ version.date.split('T').join(' ') }}
@@ -48,13 +50,8 @@
 </template>
 
 <script>
-import Render from '@/components/Render.vue';
-
 export default {
   name: 'TimeLine',
-  components: {
-    Render,
-  },
   props: {
     problemId: {
       type: Number,
