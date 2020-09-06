@@ -19,7 +19,6 @@ def get_schedule(sid):
 
 
 @api.route('/<int:sid>', methods=['PUT'])
-@role_required(UserTypeEnum.TEACHER)
 @enroll_required(Schedule, UserTypeEnum.TA)
 def update_schedule(sid):
     schedule = Schedule.query.get_or_404(sid)
