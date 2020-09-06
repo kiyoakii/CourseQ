@@ -111,7 +111,7 @@ export default {
             }
             this.showUserProfile = true;
             this.redirect_path = this.$store.state.auth === '管理员'
-              ? `/admin/admin/${res.data.gid}` : `/admin/teacher/${res.data.gid}`;
+              ? `http://42.120.20.54/admin/admin/${res.data.gid}` : `http://42.120.20.54/admin/teacher/${res.data.gid}`;
           }
         });
     } else if (!this.$store.state.token) {
