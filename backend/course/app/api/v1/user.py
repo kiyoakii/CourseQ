@@ -120,4 +120,4 @@ def email_authenticate(token):
         with db.auto_commit():
             user = User.query.filter_by(gid=gid).first_or_404()
             # Update user.auth or set another attribute to mark user's email is valid
-        return redirect(location=unquote(request.args['redirect_path']))
+    return redirect(location=unquote(request.args['redirect_path']))
