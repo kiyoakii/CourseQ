@@ -173,11 +173,11 @@ export default {
       this.axios({
         method: 'POST',
         url: `/api/v1/questions/${this.$route.params.qid}/lock`,
-      }).then(() => {
+      }).then((res) => {
         if (res.status === 403) {
           this.$message.info('对不起，该问题已被其他用户编辑，请等待.');
           return;
-        }        
+        }
         this.teacherEditorShow = true;
         this.tAnswer = this.teacherAnswer !== null ? this.teacherAnswer.content : '';
         this.startTimer();
@@ -187,7 +187,7 @@ export default {
       this.axios({
         method: 'POST',
         url: `/api/v1/questions/${this.$route.params.qid}/lock`,
-      }).then(() => {
+      }).then((res) => {
         if (res.status === 403) {
           this.$message.info('对不起，该问题已被其他用户编辑，请等待.');
           return;
