@@ -46,17 +46,27 @@ export default {
       curInfo: '',
     };
   },
+  computed: {
+    qid() {
+      console.log(this.$route.params.qid);
+      return this.$route.params.qid;
+    },
+  },
   watch: {
+    qid() {
+      if (this.qid !== undefined) {
+        this.selectedProblem = Number(this.qid);
+      }
+    },
     problems() {
       if (this.$route.params.tid === 'all'
       && this.$route.params.qid === undefined) {
-        this.selectedProblem = -1;
         this.curTag = 'all';
       }
-      if ((this.$route.params.tid !== this.curTag
-      || this.searchInfo !== this.curInfo)
+      if (this.$route.params.qid === undefined
+      && (this.$route.params.tid !== this.curTag
+        || this.searchInfo !== this.curInfo)
       && this.problems.length !== 0) {
-        this.selectedProblem = this.problems[0].id;
         this.curInfo = this.searchInfo;
         this.curTag = this.$route.params.tid;
         this.$router.push({
