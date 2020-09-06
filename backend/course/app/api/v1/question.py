@@ -170,6 +170,8 @@ def get_vote_num(qid):
 @role_required(UserTypeEnum.STUDENT)
 @enroll_required(Question)
 def lock_question(qid):
+    print(qid)
+    print(g.user['gid'])
     if not question_lock.user(qid) or question_lock.user(qid) == g.user['gid']:
         question_lock.lock(qid, g.user['gid'])
         return Success()
