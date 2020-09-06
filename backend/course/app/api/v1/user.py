@@ -2,6 +2,7 @@ from flask import jsonify, g
 from flask import request
 from flask_jwt_extended import create_access_token
 from flask import redirect
+from urllib.parse import unquote
 
 from app.libs.enums import UserTypeEnum
 from app.libs.error_code import DeleteSuccess, Success
@@ -119,4 +120,4 @@ def email_authenticate(token):
         with db.auto_commit():
             user = User.query.filter_by(gid=gid).first_or_404()
             # Update user.auth or set another attribute to mark user's email is valid
-        return redirect(request.args['redirect_path'])
+        return redirect(location=unquote(request.args['redirect_path']))
