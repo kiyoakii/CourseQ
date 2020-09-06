@@ -97,7 +97,7 @@ export default {
         id: problem.id,
         title: problem.title,
         content: problem.content,
-        date: problem.create_datetime,
+        date: problem.update_datetime || problem.create_datetime,
       });
       return res;
     },
