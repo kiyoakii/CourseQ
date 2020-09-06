@@ -303,7 +303,7 @@ export default {
       };
     },
     innerSubmit() {
-      let formData = new FormData();
+      const formData = new FormData();
       if (this.isRes) {
         formData.append('description', this.form.description);
         const url = `/api/v1/resources/${this.form.fileID}`;
@@ -317,9 +317,8 @@ export default {
             this.$store.dispatch('initCourses', { tid: this.$route.params.tid });
           });
       } else {
-        formData = new FormData();
         formData.append('title', this.form.title);
-        formData.append('ddl', this.form.ddl.toLocaleString('zh-CN'), { hour12: false });
+        formData.append('ddl', this.form.ddl.toLocaleString('zh-CN', { hour12: false }));
         const url = `/api/v1/assignments/${this.form.fileID}`;
         instance.patch(url,
           formData,
