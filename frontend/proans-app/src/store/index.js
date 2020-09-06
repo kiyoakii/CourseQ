@@ -251,7 +251,8 @@ export default new Vuex.Store({
           context.commit('getCourseInfo', res.data);
         });
     },
-    setAuth(context, { tid }) {
+    setAuth(context, tid) {
+      console.log(context.state.token);
       axios.get(`/api/v1/users/${tid}/teaching_courses`, {
         headers: {
           Authorization: `Bearer ${context.state.token}`,
