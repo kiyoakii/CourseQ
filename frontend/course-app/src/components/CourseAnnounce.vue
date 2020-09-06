@@ -4,19 +4,25 @@
     <el-scrollbar>
       <div v-if="announces && announces.length > 0"
         shadow="always" class="announcement-card">
-        <div class="announcement-info">
-          <h3 class="announcement-title">{{ announces[0].title }}</h3>
-          <div class="announcement-publish-info">
-            发布者：{{ announces[0].author.name || announces[0].author.nickname }}
-          </div>
-          <div class="announcement-publish-info">
-            发布时间：{{ (new Date(announces[0].create_datetime))
-              .toLocaleString('zh-CN', { hour12: false }) }}
-          </div>
-        </div>
-        <div class="announcement-content">
-          {{ announces[0].content }}
-        </div>
+        <el-row :gutter="20">
+          <el-col :span="6">
+            <div class="announcement-info">
+              <h3 class="announcement-title">{{ announces[0].title }}</h3>
+              <div class="announcement-publish-info">
+                发布者：{{ announces[0].author.name || announces[0].author.nickname }}
+              </div>
+              <div class="announcement-publish-info">
+                发布时间：{{ (new Date(announces[0].create_datetime))
+                  .toLocaleString('zh-CN', { hour12: false }) }}
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="18">
+            <div class="announcement-content">
+              {{ announces[0].content }}
+            </div>
+          </el-col>
+        </el-row>
       </div>
       <div v-else>
         <el-card class="box-card" shadow="hover">
@@ -29,18 +35,25 @@
         :style="(isActive) ? 'height:' + (announces.length - 1) * 93 + 'px' : ''">
         <div v-show="isActive" v-for="item in announces.slice(1)" :key="item.title"
           shadow="always" class="announcement-card">
-          <div slot="header" class="announcement-info">
-            <h3 class="announcement-title">{{ item.title }}</h3>
-            <div class="announcement-publish-info">
-              发布者：{{ item.author.name || announces[0].author.nickname }}
-            </div>
-            <div class="announcement-publish-info">
-              发布时间：{{ (new Date(item.create_datetime)).toLocaleString('zh-CN', { hour12: false }) }}
-            </div>
-          </div>
-          <div class="announcement-content">
-            {{ item.content }}
-          </div>
+          <el-row :gutter="20" style="width: 100%">
+            <el-col :span="6">
+              <div class="announcement-info">
+                <h3 class="announcement-title">{{ item.title }}</h3>
+                <div class="announcement-publish-info">
+                  发布者：{{ item.author.name || announces[0].author.nickname }}
+                </div>
+                <div class="announcement-publish-info">
+                  发布时间：{{ (new Date(item.create_datetime))
+                    .toLocaleString('zh-CN', { hour12: false }) }}
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="18">
+              <div class="announcement-content">
+                {{ item.content }}
+              </div>
+            </el-col>
+          </el-row>
         </div>
       </div>
     </el-scrollbar>
@@ -172,7 +185,8 @@ export default {
 .announcement-content {
   display: flex;
   font-size: 1em;
-  margin:0 1em;
+  margin: 0 1em;
+  padding-bottom: 2em;
 }
 
 </style>
