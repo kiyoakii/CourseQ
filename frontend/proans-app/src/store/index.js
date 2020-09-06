@@ -252,10 +252,10 @@ export default new Vuex.Store({
         });
     },
     setAuth(context, tid) {
-      console.log(context.state.token);
+      console.log(context.state.proansToken);
       axios.get(`/api/v1/users/${tid}/teaching_courses`, {
         headers: {
-          Authorization: `Bearer ${context.state.token}`,
+          Authorization: `Bearer ${context.state.proansToken}`,
         },
       }).then((res) => {
         console.log('courses get: ', res);
