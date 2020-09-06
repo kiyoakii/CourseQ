@@ -119,6 +119,9 @@ export default {
         intro: [
           { required: true, message: '请输入课程简介', trigger: ['change', 'blur'] },
         ],
+        pre_course: [
+          { required: true, message: '请输入预修课程', trigger: ['change', 'blur'] },
+        ],
         textbooks: [
           { required: true, message: '请输入教科书名称', trigger: ['change', 'blur'] },
         ],
