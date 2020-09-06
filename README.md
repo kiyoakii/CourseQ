@@ -1,4 +1,4 @@
-# USTC-SE-2020
+# Course Page and Forum
 This repository contains project built for Software Engineering course of USTC in Spring, 2020
 
 ## Installation
