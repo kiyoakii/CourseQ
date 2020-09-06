@@ -89,7 +89,7 @@ export default {
         url: '/api/v1/users/register',
         data: {
           ...this.profile,
-          redirect_path: encodeURIComponent(this.redirect_path),
+          redirect_path: this.redirect_path,
         },
         headers: {
           Authorization: `Bearer ${this.token}`,

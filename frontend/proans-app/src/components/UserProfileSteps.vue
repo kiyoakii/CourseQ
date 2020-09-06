@@ -85,7 +85,7 @@ export default {
         url: '/api/v1/users/register',
         data: {
           ...this.profile,
-          redirect_path: encodeURIComponent(`http://42.120.20.54/proans/course/${this.$store.state.cid}`),
+          redirect_path: `http://42.120.20.54/proans/course/${this.$store.state.cid}`,
         },
         headers: {
           Authorization: `Bearer ${this.token}`,
