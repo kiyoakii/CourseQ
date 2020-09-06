@@ -53,13 +53,13 @@
         <el-form-item label="学期" prop="semester">
           <el-input v-model="form.semester" autocomplete="off" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="简介">
+        <el-form-item label="简介" prop="intro">
           <el-input v-model="form.intro"
           type="textarea"
           :autosize="{ minRows: 4}"
           placeholder="请输入内容"></el-input>
         </el-form-item>
-        <el-form-item label="预修课程">
+        <el-form-item label="预修课程" prop="preCourse">
           <el-input v-model="form.preCourse" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="参考教材">
@@ -96,7 +96,8 @@ export default {
       rules: {
         name_zh: { required: true, message: '请输入中文名', trigger: ['change', 'blur'] },
         name_en: { required: true, message: '请输入英文名', trigger: ['change', 'blur'] },
-        semester: { required: true, message: '请输入学期', trigger: ['change', 'blur'] },
+        intro: { required: true, message: '请输入课程简介', trigger: ['change', 'blur'] },
+        preCourse: { required: true, message: '请输入预修课程', trigger: ['change', 'blur'] },
       },
     };
   },
