@@ -24,8 +24,9 @@
         </el-card>
       </div>
       <div v-if="announces && announces.length > 1"
-        v-bind:class="{'announcements-panel-active': this.isActive,
-        'announcements-panel-close': !this.isActive}">
+        :class="{'announcements-panel-active': this.isActive,
+        'announcements-panel-close': !this.isActive}"
+        :style="(isActive) ? 'height:' + (announces.length - 1) * 93 + 'px' : ''">
         <div v-show="isActive" v-for="item in announces.slice(1)" :key="item.title"
           shadow="always" class="announcement-card">
           <div slot="header" class="announcement-info">
