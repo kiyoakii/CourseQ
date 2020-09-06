@@ -123,14 +123,14 @@ router.beforeEach((to, from, next) => {
   const { auth } = store.state;
   console.log(auth, 'from:', from.fullPath, 'to:', to.fullPath);
   if (auth && to.meta.noNeedAuth !== true) {
-    if (auth !== '管理员' && to.fullPath.includes('admin')) {
+    if (auth !== '管理员' && to.fullPath.includes('admin/')) {
       next({
         name: 'AdminLoginView',
       });
       return;
     }
     if (auth !== '教师' && auth !== '助教'
-      && to.fullPath.includes('teacher')) {
+      && to.fullPath.includes('teacher/')) {
       console.log(auth);
       next({
         name: 'TeacherLoginView',
