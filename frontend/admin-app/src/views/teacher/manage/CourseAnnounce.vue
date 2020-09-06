@@ -83,7 +83,7 @@ export default {
       const url = id === ''
         ? `/api/v1/courses/${this.$route.params.cid}/announces` : `/api/v1/announces/${id}`;
       const method = id === '' ? 'post' : 'put';
-      this.axios({
+      instance({
         url,
         method,
         data: {
