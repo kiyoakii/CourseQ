@@ -28,13 +28,13 @@ def send_email(to, subject, template, **kwargs):
 
 def generate_email_auth_token(gid, expiration=7200):
     """generate token"""
-    s = Serializer(current_app.config['SECRET_KEY'],
+    s = Serializer(current_app.config['EMAIL_AUTH_SECRET_KEY'],
                    expires_in=expiration)
     return s.dumps(dict(gid=gid))
 
 
 def verify_email_auth_token(token):
-    s = Serializer(current_app.config['SECRET_KEY'])
+    s = Serializer(current_app.config['EMAIL_AUTH_SECRET_KEY'])
     try:
         data = s.loads(token)
     except:
