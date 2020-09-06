@@ -225,6 +225,8 @@ export default {
 
 .timeline .el-scrollbar__wrap {
   overflow-x: hidden;
+  display: flex;
+  align-items: center;
 }
 </style>
 
