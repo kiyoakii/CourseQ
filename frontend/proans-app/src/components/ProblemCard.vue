@@ -200,9 +200,9 @@ export default {
   margin-right: 10px;
 }
 .footer {
-  padding-top: 20px;
+  padding-top: 10px;
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
   align-items: flex-end;
 }
 .stars {

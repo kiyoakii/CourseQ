@@ -19,6 +19,7 @@
               {{ (new Date(teacherAnswer.update_datetime))
             .toLocaleString('zh-CN', { timeZone: 'UTC', hour12: false}) }} 修改</span>
           </div>
+          <div></div>
           <div class="buttons">
             <div v-show="!teacherEditorShow">
               <el-button type="primary" icon="el-icon-edit" size="small"
@@ -58,6 +59,7 @@
               {{ (new Date(studentAnswer.update_datetime))
             .toLocaleString('zh-CN', { timeZone: 'UTC', hour12: false}) }} 修改</span>
           </div>
+          <div></div>
           <div class="buttons">
             <div v-show="!studentEditorShow">
               <el-button type="primary" icon="el-icon-edit" size="small"
@@ -267,9 +269,9 @@ export default {
   font-size: 18px;
 }
 .footer {
-  padding-top: 20px;
+  padding-top: 10px;
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
   align-items: flex-end;
 }
 .edit-info {
@@ -282,7 +284,6 @@ export default {
 .buttons {
   display: flex;
   justify-content: flex-end;
-  margin-top: 10px;
 }
 
 </style>
