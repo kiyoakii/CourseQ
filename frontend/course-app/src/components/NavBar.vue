@@ -41,19 +41,6 @@ export default {
   justify-content: flex-end;
 }
 
-el-item > .el-menu-item {
-  /* line-height: 55px !important; */
-}
-
-.el-submenu {
-  /* padding-right: 2em; */
-}
-
-.el-submenu .el-menu-item {
-  /* display: flex;
-  justify-content: center; */
-}
-
 a {
   text-decoration: none;
 }
