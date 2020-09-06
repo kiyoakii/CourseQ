@@ -165,18 +165,12 @@ export default {
       }
     },
   },
-  beforeRouteUpdate(to, from, next) {
-    console.log(to, from, next);
-    next();
-    clearInterval(this.lockTimer);
-  },
   mounted() {
     if (this.$store.state.lockTimer) {
       window.clearInterval(this.$store.state.lockTimer);
       this.$store.state.lockTimer = 0;
     }
     this.axios.defaults.headers.common.Authorization = `Bearer ${this.$store.state.proansToken}`;
-    console.log(this.$route);
     this.form.title = this.$route.params.problem.title;
     this.form.content = this.$route.params.problem.content;
     this.$route.params.problem.tags.forEach((t) => this.form.tags.push(t.name));
@@ -221,6 +215,7 @@ export default {
           }
         });
       }, 1000 * 15);
+      this.$store.state.lockTimer = this.lockTimer;
     }
   },
   computed: {

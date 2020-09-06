@@ -177,6 +177,10 @@ export default {
   },
   beforeMount() {
     this.axios.defaults.headers.common.Authorization = `Bearer ${this.$store.state.proansToken}`;
+    if (this.$store.state.lockTimer) {
+      window.clearInterval(this.$store.state.lockTimer);
+      this.$store.state.lockTimer = 0;
+    }
   },
 };
 </script>
