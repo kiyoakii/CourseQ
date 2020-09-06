@@ -76,7 +76,7 @@ export default {
     if (currentUrl.includes('ticket')) {
       const ticket = currentUrl.match(/ticket=([\s\S]+?)&/)[1];
       const service = currentUrl.match(/service=([\s\S]+?)&/)[1];
-      const hashPath = currentUrl.match(/proans\/course\/[\d]+/)[0];
+      // const hashPath = currentUrl.match(/proans\/course\/[\d]+/)[0];
       // const hashpath = currentUrl.match(/hashpath=([\s\S]+)/)[1];
       axios.get(`/api/v1/token?id=null&ticket=${ticket}&service=${service}`)
       // axios.get('/api/v1/token/0000000217') // test
@@ -90,12 +90,10 @@ export default {
               this.$store.commit('setGid', res.data.gid);
               this.$store.commit('setAuth', res.data.scope);
               this.$store.dispatch('setAuth', res.data.gid);
-              window.location.href = `${appPath}${hashPath}`;
+              this.$router.push({ query: {} });
               return;
             }
             this.showUserProfileSteps = true;
-            // window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}#${hashpath}`;
-            // window.location.href = `${currentUrl.slice(0, currentUrl.indexOf('?'))}`;
           }
         }).catch((e) => {
           console.log(e);
