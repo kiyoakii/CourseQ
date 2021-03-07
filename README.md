@@ -1,5 +1,4 @@
 # Course Page and Forum
-Project built for Software Engineering course of USTC in Spring, 2020
 
 ## Installation
 
