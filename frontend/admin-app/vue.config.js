@@ -4,7 +4,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: 'http://42.120.20.54:80',
+        target: process.env.API_ENDPOINT,
         changeOrigin: true,
         secure: false,
       }

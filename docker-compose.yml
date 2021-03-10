@@ -38,3 +38,4 @@ services:
     environment:
       NODE_ENV: production
       TZ: "Asia/Shanghai"
+      API_ENDPOINT: "http://127.0.0.1:80"
