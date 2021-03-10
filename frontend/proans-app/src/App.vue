@@ -70,7 +70,7 @@ export default {
   },
   beforeMount() {
     const currentUrl = decodeURIComponent(window.location.href);
-    const appPath = currentUrl.match(/http:\/\/[^/]*\//)[0];
+    const appPath = currentUrl.match(/https?:\/\/[^/]*\//)[0];
     // const hashPath = currentUrl.slice(currentUrl.indexOf('#') + 1);
     const serviceUrl = `http://home.ustc.edu.cn/~jarvis/cas/index.html?r=${new Date().getTime()}`;
     if (currentUrl.includes('ticket')) {

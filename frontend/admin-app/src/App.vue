@@ -62,7 +62,7 @@ export default {
     const currentUrl = window.location.href;
     // const appPath = currentUrl.slice(0, currentUrl.indexOf('#'));
     console.log(currentUrl);
-    const appPath = currentUrl.match(/http:\/\/[^/]*\//)[0];
+    const appPath = currentUrl.match(/https?:\/\/[^/]*\//)[0];
     // const hashPath = currentUrl.match(/hashpath=([\s\S]+)/)[1];
     const serviceUrl = `http://home.ustc.edu.cn/~jarvis/cas/index.html?r=${new Date().getTime()}`;
     if (currentUrl.includes('ticket')) {
