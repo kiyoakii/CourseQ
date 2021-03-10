@@ -5,7 +5,7 @@ RUN echo \
     deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster-backports main contrib non-free \
     > /etc/apt/sources.list && \
     apt update && \
-    apt install -y python3-dev libmariadb-dev-compat libmariadb-dev&& \
+    apt install -y python3 libmariadb-dev-compat libmariadb-dev&& \
     wget -O /wait.sh https://cdn.jsdelivr.net/gh/vishnubob/wait-for-it@master/wait-for-it.sh && \
     chmod +x /wait.sh
 RUN mkdir /app
